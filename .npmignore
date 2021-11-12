@@ -1,0 +1,11 @@
+.vscode/
+
+.editorconfig
+.eslintignore
+.eslintrc.js
+.huskyrc.js
+.lintstagedrc.js
+.prettierignore
+.prettierrc.json
+.tsbuildinfo
+tsconfig.json
