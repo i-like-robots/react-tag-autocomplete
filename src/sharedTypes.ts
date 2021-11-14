@@ -2,12 +2,14 @@ export type ClassNames = {
   root: string
   rootActive: string
   selected: string
+  selectedItem: string
   selectedTag: string
   selectedTagName: string
   search: string
   searchWrapper: string
   searchInput: string
   suggestions: string
+  suggestionsItem: string
   suggestionActive: string
   suggestionDisabled: string
   suggestionPrefix: string

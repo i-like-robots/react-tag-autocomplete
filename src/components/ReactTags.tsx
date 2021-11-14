@@ -1,19 +1,20 @@
 import React, { useRef } from 'react'
 import { useActive, useListBox, useListManager, useOptions } from '../hooks'
-import { Input, ListBox, Option, Tag } from '.'
-
+import { Input, ListBox, Option, TagList } from '.'
 import type { ClassNames, SelectedTag, SuggestedTag } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
   root: 'react-tags',
   rootActive: 'is-active',
   selected: 'react-tags__selected',
+  selectedItem: 'react-tags__selected-item',
   selectedTag: 'react-tags__selected-tag',
   selectedTagName: 'react-tags__selected-tag-name',
   search: 'react-tags__search',
   searchWrapper: 'react-tags__search-wrapper',
   searchInput: 'react-tags__search-input',
   suggestions: 'react-tags__suggestions',
+  suggestionsItem: 'react-tags__suggestions-item',
   suggestionActive: 'is-active',
   suggestionDisabled: 'is-disabled',
   suggestionPrefix: 'react-tags__suggestion-prefix',
@@ -30,6 +31,7 @@ export type ReactTagsProps = {
   // invalid?: boolean
   // newTagText?: string
   // noSuggestionsText?: string
+  tagListTitleText?: string
   onAddition: (tag: SuggestedTag) => void
   onDelete: (index: number) => void
   // onValidate: (query: string) => boolean
@@ -50,11 +52,12 @@ export function ReactTags({
   // invalid = false,
   // newTagText = 'Add',
   // noSuggestionsText = 'No matches found',
+  tagListTitleText = 'Selected tags',
   onAddition,
   onDelete,
   // onValidate,
-  placeholderText = 'Enter tag name',
-  removeButtonText = 'Remove tag',
+  placeholderText = 'Add a tag',
+  removeButtonText = 'Remove %label% from the list',
   suggestions = [],
   tags = [],
 }: ReactTagsProps): JSX.Element {
@@ -83,18 +86,13 @@ export function ReactTags({
 
   return (
     <div className={classes.join(' ')} {...containerProps}>
-      <div className={classNames.selected} aria-relevant="additions removals" aria-live="polite">
-        {tags.map((tag, index) => (
-          <Tag
-            classNames={classNames}
-            index={index}
-            // TODO
-            onDelete={() => onDelete(index)}
-            removeButtonText={removeButtonText}
-            {...tag}
-          />
-        ))}
-      </div>
+      <TagList
+        classNames={classNames}
+        onDelete={onDelete}
+        removeButtonText={removeButtonText}
+        tags={tags}
+        tagListTitleText={tagListTitleText}
+      />
       <div className={classNames.search}>
         <Input
           allowResize={allowResize}

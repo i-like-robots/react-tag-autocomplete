@@ -20,7 +20,7 @@ export function Option({
   optionProps,
 }: OptionProps): JSX.Element {
   const optionRef = useRef<HTMLDivElement>()
-  const classes = []
+  const classes = [classNames.suggestionsItem]
 
   isDisabled && classes.push(classNames.suggestionDisabled)
   isSelected && classes.push(classNames.suggestionActive)
