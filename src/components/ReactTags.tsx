@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useActive, useListBox, useListManager, useOptions } from '../hooks'
+import { useActive, useKeepFocus, useListBox, useListManager, useOptions } from '../hooks'
 import { Input, ListBox, Option, TagList } from '.'
 import type { ClassNames, SelectedTag, SuggestedTag } from '../sharedTypes'
 
@@ -64,6 +64,8 @@ export function ReactTags({
   const containerRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
 
+  useKeepFocus({ containerRef, tags })
+
   const listManager = useListManager({
     results: [],
     suggestions,
@@ -78,6 +80,7 @@ export function ReactTags({
     id,
     onAddition,
   })
+
   const options = useOptions(listManager, { id, onAddition })
 
   const classes = [classNames.root]

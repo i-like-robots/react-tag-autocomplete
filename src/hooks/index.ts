@@ -1,5 +1,6 @@
 export * from './useActive'
 export * from './useInputWidth'
+export * from './useKeepFocus'
 export * from './useListBox'
 export * from './useListManager'
 export * from './useOptions'

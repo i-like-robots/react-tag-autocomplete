@@ -1,6 +1,5 @@
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { Tag } from '.'
-import { usePreviousValue } from '../hooks/usePreviousValue'
 import { ClassNames, SelectedTag } from '../sharedTypes'
 
 export type TagListProps = {
@@ -34,7 +33,7 @@ export function TagList({
         ))}
       </ul>
       {/* TODO */}
-      <div aria-live="polite" aria-relevant="additions removals" hidden role="log"></div>
+      <div aria-live="polite" hidden role="status"></div>
     </>
   )
 }

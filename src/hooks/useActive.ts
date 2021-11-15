@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react'
-import type { FocusEvent, HTMLAttributes, MouseEvent } from 'react'
+import React, { useCallback, useState } from 'react'
+import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 export type UseActiveProps = {
   containerRef: React.MutableRefObject<HTMLDivElement>
@@ -8,7 +8,7 @@ export type UseActiveProps = {
 
 export type UseActiveState = {
   isActive: boolean
-  containerProps: HTMLAttributes<HTMLElement>
+  containerProps: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 }
 
 export function useActive({ containerRef, inputRef }: UseActiveProps): UseActiveState {
@@ -16,23 +16,17 @@ export function useActive({ containerRef, inputRef }: UseActiveProps): UseActive
 
   const onFocus = useCallback(() => setIsActive(true), [])
 
-  const onBlur = useCallback(
-    (e: FocusEvent) => {
-      if (!e.currentTarget || !containerRef.current?.contains(e.currentTarget)) {
-        setIsActive(false)
-      }
-    },
-    [containerRef]
-  )
+  const onBlur = useCallback(() => {
+    if (!containerRef.current?.contains(document.activeElement)) {
+      setIsActive(false)
+    }
+  }, [containerRef])
 
-  const onClick = useCallback(
-    (e: MouseEvent) => {
-      if (document.activeElement !== e.target) {
-        inputRef.current?.focus()
-      }
-    },
-    [inputRef]
-  )
+  const onClick = useCallback(() => {
+    if (document.activeElement === containerRef.current) {
+      inputRef.current?.focus()
+    }
+  }, [containerRef, inputRef])
 
   return {
     isActive,
@@ -40,6 +34,8 @@ export function useActive({ containerRef, inputRef }: UseActiveProps): UseActive
       onClick,
       onBlur,
       onFocus,
+      ref: containerRef,
+      tabIndex: -1,
     },
   }
 }
