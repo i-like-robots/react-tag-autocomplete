@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import { KeyNames } from '../constants'
 import { isCaretAtEnd, isCaretAtStart } from '../lib/cursor'
-import { findSuggestionExact } from '../lib/textMatchers'
+
 import type React from 'react'
-import type { SuggestedTag } from '../sharedTypes'
 import type { UseListManagerState } from './'
 
 export type UseListBoxProps = {
+  createNewTag: () => boolean
   id: string
-  onAddition: (tag: SuggestedTag) => void
+  selectMatchingTag: () => boolean
+  selectTag: () => boolean
 }
 
 export type UseListBoxState = {
@@ -20,7 +21,7 @@ export type UseListBoxState = {
 
 export function useListBox(
   manager: UseListManagerState,
-  { id, onAddition }: UseListBoxProps
+  { createNewTag, id, selectMatchingTag, selectTag }: UseListBoxProps
 ): UseListBoxState {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -44,23 +45,9 @@ export function useListBox(
   const onEnterKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       e.preventDefault()
-
-      if (manager.selectedTag) {
-        manager.clearAll()
-        onAddition(manager.selectedTag)
-      } else if (manager.results.length) {
-        const match = findSuggestionExact(manager.value, manager.results)
-
-        if (match) {
-          manager.clearAll()
-          onAddition(match)
-        }
-      }
-
-      // TODO
-      // if (allowNew) {}
+      selectTag() || selectMatchingTag() || createNewTag()
     },
-    [manager, onAddition]
+    [createNewTag, selectMatchingTag, selectTag]
   )
 
   const onDownArrowKey = useCallback(

@@ -21,6 +21,10 @@ export type SelectedTag = {
 }
 
 export type SuggestedTag = {
-  value: string | number
+  value: string | number | null
   label: string
+  // disabled?: boolean
+  skipFilter?: boolean
+  // getLabel?: () => string
+  // getValue?: () => string | number | null
 }

@@ -51,8 +51,8 @@ function CustomTags () {
     setTags([...tags, newTag])
   }, [tags])
 
-  const onValidate = useCallback((newTag) => {
-    return /^[a-z]{3,12}$/i.test(newTag.name)
+  const onValidate = useCallback((value) => {
+    return /^[a-z]{3,12}$/i.test(value)
   }, [])
 
   return (
@@ -60,7 +60,6 @@ function CustomTags () {
       <p>Enter new tags meeting the requirements below:</p>
       <ReactTags
         allowNew
-        newTagText='Create new tag:'
         tags={tags}
         suggestions={[]}
         onDelete={onDelete}

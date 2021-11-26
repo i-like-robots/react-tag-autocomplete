@@ -1,5 +1,13 @@
 import React, { useRef } from 'react'
-import { useActive, useKeepFocus, useListBox, useListManager, useOptions } from '../hooks'
+import {
+  useActive,
+  useKeepFocus,
+  useListBox,
+  useListManager,
+  useOptions,
+  useSuggestions,
+  useTagActions,
+} from '../hooks'
 import { Input, ListBox, Option, TagList } from '.'
 import type { ClassNames, SelectedTag, SuggestedTag } from '../sharedTypes'
 
@@ -22,19 +30,19 @@ const DefaultClassNames: ClassNames = {
 
 export type ReactTagsProps = {
   // allowBackspace?: boolean
-  // allowNew?: boolean
+  allowNew?: boolean
   allowResize?: boolean
   ariaLabelText?: string
   classNames?: ClassNames
   // disabled?: boolean
   id?: string
   // invalid?: boolean
-  // newTagText?: string
+  newTagText?: string
   // noSuggestionsText?: string
   tagListTitleText?: string
   onAddition: (tag: SuggestedTag) => void
   onDelete: (index: number) => void
-  // onValidate: (query: string) => boolean
+  onValidate: (value: string) => boolean
   placeholderText?: string
   removeButtonText?: string
   suggestions: SuggestedTag[]
@@ -43,19 +51,19 @@ export type ReactTagsProps = {
 
 export function ReactTags({
   // allowBackspace = true,
-  // allowNew = false,
+  allowNew = false,
   allowResize = true,
   ariaLabelText = 'Test label',
   classNames = DefaultClassNames,
   // disabled = false,
   id = 'react-tags',
   // invalid = false,
-  // newTagText = 'Add',
+  newTagText = 'Add %value%',
   // noSuggestionsText = 'No matches found',
   tagListTitleText = 'Selected tags',
   onAddition,
   onDelete,
-  // onValidate,
+  onValidate,
   placeholderText = 'Add a tag',
   removeButtonText = 'Remove %label% from the list',
   suggestions = [],
@@ -68,7 +76,7 @@ export function ReactTags({
 
   const listManager = useListManager({
     results: [],
-    suggestions,
+    suggestions: useSuggestions({ allowNew, newTagText, suggestions }),
     selectedIndex: -1,
     selectedTag: null,
     value: '',
@@ -76,9 +84,17 @@ export function ReactTags({
 
   const { containerProps, isActive } = useActive({ containerRef, inputRef })
 
-  const { inputProps, isExpanded, listBoxProps } = useListBox(listManager, {
-    id,
+  const { createNewTag, selectMatchingTag, selectTag } = useTagActions(listManager, {
+    allowNew,
     onAddition,
+    onValidate,
+  })
+
+  const { inputProps, isExpanded, listBoxProps } = useListBox(listManager, {
+    createNewTag,
+    id,
+    selectMatchingTag,
+    selectTag,
   })
 
   const options = useOptions(listManager, { id, onAddition })
@@ -107,9 +123,15 @@ export function ReactTags({
         />
         {isExpanded ? (
           <ListBox classNames={classNames} listBoxProps={listBoxProps}>
-            {options.map((option) => (
-              <Option classNames={classNames} key={option.value} {...option} />
-            ))}
+            {options.map((option) => {
+              if (allowNew && option.label === newTagText) {
+                // TODO: move all option transforms into useOptions hook
+                const label = newTagText.replace('%value%', listManager.value)
+                return <Option classNames={classNames} key={label} {...option} label={label} />
+              } else {
+                return <Option classNames={classNames} key={option.label} {...option} />
+              }
+            })}
           </ListBox>
         ) : null}
       </div>

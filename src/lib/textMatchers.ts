@@ -27,7 +27,7 @@ export function matchSuggestionsPartial(
   suggestions: SuggestedTag[]
 ): SuggestedTag[] {
   const matcher = matchPartial(query)
-  return suggestions.filter((item) => matcher(item.label))
+  return suggestions.filter((item) => item.skipFilter || matcher(item.label))
 }
 
 export function findSuggestionIndex(value: string | number, suggestions: SuggestedTag[]): number {

@@ -1,10 +1,10 @@
 import React from 'react'
-import type { HTMLAttributes } from 'react'
+import type { HTMLAttributes, ReactNode } from 'react'
 import type { ClassNames } from '../sharedTypes'
 
 export type ListBoxProps = {
   classNames: ClassNames
-  children: JSX.Element[]
+  children: ReactNode[]
   listBoxProps: HTMLAttributes<HTMLElement>
 }
 
