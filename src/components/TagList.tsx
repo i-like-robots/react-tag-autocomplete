@@ -1,12 +1,12 @@
 import React from 'react'
 import { Tag } from '.'
-import { ClassNames, SelectedTag } from '../sharedTypes'
+import { ClassNames, TagSelected } from '../sharedTypes'
 
 export type TagListProps = {
   classNames: ClassNames
   onDelete: (index: number) => void
   removeButtonText: string
-  tags: SelectedTag[]
+  tags: TagSelected[]
   tagListTitleText: string
 }
 

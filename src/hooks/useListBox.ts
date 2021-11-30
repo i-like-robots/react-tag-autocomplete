@@ -6,9 +6,7 @@ import type React from 'react'
 import type { UseListManagerState } from './'
 
 export type UseListBoxProps = {
-  createNewTag: () => boolean
   id: string
-  selectMatchingTag: () => boolean
   selectTag: () => boolean
 }
 
@@ -21,7 +19,7 @@ export type UseListBoxState = {
 
 export function useListBox(
   manager: UseListManagerState,
-  { createNewTag, id, selectMatchingTag, selectTag }: UseListBoxProps
+  { id, selectTag }: UseListBoxProps
 ): UseListBoxState {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -45,9 +43,9 @@ export function useListBox(
   const onEnterKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       e.preventDefault()
-      selectTag() || selectMatchingTag() || createNewTag()
+      selectTag()
     },
-    [createNewTag, selectMatchingTag, selectTag]
+    [selectTag]
   )
 
   const onDownArrowKey = useCallback(

@@ -8,7 +8,7 @@ export type ListBoxProps = {
   listBoxProps: HTMLAttributes<HTMLElement>
 }
 
-export function ListBox({ classNames, listBoxProps, children }: ListBoxProps): JSX.Element {
+export function ListBox({ children, classNames, listBoxProps }: ListBoxProps): JSX.Element {
   return (
     <div className={classNames.suggestions} {...listBoxProps}>
       {children}

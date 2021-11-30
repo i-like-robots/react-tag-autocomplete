@@ -5,11 +5,11 @@ import {
   useListBox,
   useListManager,
   useOptions,
+  useSelectTag,
   useSuggestions,
-  useTagActions,
 } from '../hooks'
 import { Input, ListBox, Option, TagList } from '.'
-import type { ClassNames, SelectedTag, SuggestedTag } from '../sharedTypes'
+import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
   root: 'react-tags',
@@ -40,13 +40,13 @@ export type ReactTagsProps = {
   newTagText?: string
   // noSuggestionsText?: string
   tagListTitleText?: string
-  onAddition: (tag: SuggestedTag) => void
+  onAddition: (tag: TagSelected) => void
   onDelete: (index: number) => void
-  onValidate: (value: string) => boolean
+  // onValidate: (value: string) => boolean
   placeholderText?: string
   removeButtonText?: string
-  suggestions: SuggestedTag[]
-  tags: SelectedTag[]
+  suggestions: TagSuggestion[]
+  tags: TagSelected[]
 }
 
 export function ReactTags({
@@ -63,7 +63,7 @@ export function ReactTags({
   tagListTitleText = 'Selected tags',
   onAddition,
   onDelete,
-  onValidate,
+  // onValidate,
   placeholderText = 'Add a tag',
   removeButtonText = 'Remove %label% from the list',
   suggestions = [],
@@ -84,20 +84,17 @@ export function ReactTags({
 
   const { containerProps, isActive } = useActive({ containerRef, inputRef })
 
-  const { createNewTag, selectMatchingTag, selectTag } = useTagActions(listManager, {
+  const selectTag = useSelectTag(listManager, {
     allowNew,
     onAddition,
-    onValidate,
   })
 
   const { inputProps, isExpanded, listBoxProps } = useListBox(listManager, {
-    createNewTag,
     id,
-    selectMatchingTag,
     selectTag,
   })
 
-  const options = useOptions(listManager, { id, onAddition })
+  const options = useOptions(listManager, { id, selectTag })
 
   const classes = [classNames.root]
 
@@ -123,15 +120,9 @@ export function ReactTags({
         />
         {isExpanded ? (
           <ListBox classNames={classNames} listBoxProps={listBoxProps}>
-            {options.map((option) => {
-              if (allowNew && option.label === newTagText) {
-                // TODO: move all option transforms into useOptions hook
-                const label = newTagText.replace('%value%', listManager.value)
-                return <Option classNames={classNames} key={label} {...option} label={label} />
-              } else {
-                return <Option classNames={classNames} key={option.label} {...option} />
-              }
-            })}
+            {options.map((option) => (
+              <Option classNames={classNames} key={option.label} {...option} />
+            ))}
           </ListBox>
         ) : null}
       </div>

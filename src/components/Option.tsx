@@ -1,35 +1,32 @@
 import React, { useLayoutEffect, useRef } from 'react'
 import type { HTMLAttributes } from 'react'
-import type { ClassNames } from '../sharedTypes'
+import type { ClassNames, TagOption } from '../sharedTypes'
 
-export type OptionProps = {
+export type OptionProps = TagOption & {
   classNames: ClassNames
-  index: number
-  isDisabled: boolean
-  isSelected: boolean
-  label: string
-  value: string | number
   optionProps: HTMLAttributes<HTMLElement>
 }
 
 export function Option({
   classNames,
-  isDisabled,
-  isSelected,
+  disabled,
+  // focused,
   label,
   optionProps,
+  selected,
 }: OptionProps): JSX.Element {
   const optionRef = useRef<HTMLDivElement>()
   const classes = [classNames.suggestionsItem]
 
-  isDisabled && classes.push(classNames.suggestionDisabled)
-  isSelected && classes.push(classNames.suggestionActive)
+  disabled && classes.push(classNames.suggestionDisabled)
+  // focused && classes.push(classNames.suggestionFocused)
+  selected && classes.push(classNames.suggestionActive)
 
   useLayoutEffect(() => {
-    if (isSelected) {
+    if (selected) {
       optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
     }
-  }, [isSelected])
+  }, [selected])
 
   return (
     <div className={classes.join(' ')} ref={optionRef} {...optionProps}>

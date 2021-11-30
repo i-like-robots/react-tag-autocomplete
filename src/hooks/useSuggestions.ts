@@ -1,24 +1,25 @@
 import { useMemo } from 'react'
-import type { SuggestedTag } from '../sharedTypes'
+import type { TagSuggestion } from '../sharedTypes'
 
 export type UseSuggestionsProps = {
   allowNew: boolean
   newTagText?: string
-  suggestions: SuggestedTag[]
+  suggestions: TagSuggestion[]
 }
 
 export function useSuggestions({
   allowNew,
   newTagText,
   suggestions,
-}: UseSuggestionsProps): SuggestedTag[] {
+}: UseSuggestionsProps): TagSuggestion[] {
   return useMemo(() => {
-    const newTagOption: SuggestedTag = {
-      value: null,
-      label: newTagText,
+    const newTagOption: TagSuggestion = {
+      label: '',
       skipFilter: true,
+      transformLabel: (args) => newTagText.replace('%value%', args.inputValue),
+      value: null,
     }
 
-    return allowNew ? [newTagOption].concat(suggestions) : suggestions
+    return allowNew ? [].concat(newTagOption, suggestions) : suggestions
   }, [allowNew, newTagText, suggestions])
 }

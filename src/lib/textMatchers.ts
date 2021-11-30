@@ -1,4 +1,4 @@
-import type { SuggestedTag } from '../sharedTypes'
+import type { TagSuggestion } from '../sharedTypes'
 
 function escapeForRegExp(string: string): string {
   return string.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&')
@@ -24,20 +24,20 @@ export function matchExact(query: string): (value: string) => boolean {
 
 export function matchSuggestionsPartial(
   query: string,
-  suggestions: SuggestedTag[]
-): SuggestedTag[] {
+  suggestions: TagSuggestion[]
+): TagSuggestion[] {
   const matcher = matchPartial(query)
   return suggestions.filter((item) => item.skipFilter || matcher(item.label))
 }
 
-export function findSuggestionIndex(value: string | number, suggestions: SuggestedTag[]): number {
+export function findSuggestionIndex(value: string | number, suggestions: TagSuggestion[]): number {
   return suggestions.findIndex((item) => item.value === value)
 }
 
 export function findSuggestionExact(
   query: string,
-  suggestions: SuggestedTag[]
-): SuggestedTag | null {
+  suggestions: TagSuggestion[]
+): TagSuggestion | null {
   const matcher = matchExact(query)
   return suggestions.find((item) => matcher(item.label)) || null
 }

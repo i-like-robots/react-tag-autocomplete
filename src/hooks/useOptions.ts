@@ -1,45 +1,49 @@
 import type { HTMLAttributes } from 'react'
-import type { SuggestedTag } from '../sharedTypes'
+import type { TagOption, TagSelected } from '../sharedTypes'
 import type { UseListManagerState } from './useListManager'
 
 export type UseOptionsProps = {
   id: string
-  onAddition: (tag: SuggestedTag) => void
+  selectTag: (tag: TagSelected) => boolean
 }
 
-export type UseOptionsState = Array<
-  SuggestedTag & {
-    index: number
-    isDisabled: boolean
-    isSelected: boolean
-    optionProps: HTMLAttributes<HTMLElement>
-  }
->
+export type UseOptionsState = Array<{ optionProps: HTMLAttributes<HTMLElement> } & TagOption>
 
 export function useOptions(
   manager: UseListManagerState,
-  { id, onAddition }: UseOptionsProps
+  { id, selectTag }: UseOptionsProps
 ): UseOptionsState {
   return manager.results.map((result, index) => {
-    const isDisabled = false
-    const isSelected = index === manager.selectedIndex
+    const disabled = result.disabled ?? false
+    const focused = index === manager.selectedIndex
+    const selected = index === manager.selectedIndex
+    // const selected = result.selected ?? false
+
+    const args = { disabled, focused, index, inputValue: manager.value, selected }
+    const label = result.transformLabel?.(args) || result.label
+    const value = result.transformValue?.(args) || result.value
 
     const optionProps: HTMLAttributes<HTMLElement> = {
-      'aria-disabled': false,
+      'aria-disabled': disabled,
       'aria-posinset': index + 1,
-      'aria-selected': isSelected ? 'true' : 'false',
+      'aria-selected': selected,
       'aria-setsize': manager.results.length,
       id: `${id}-listbox-${index}`,
       role: 'option',
-      onClick: () => onAddition(result),
+      // TODO
+      onMouseDown() {
+        selectTag(result)
+      },
     }
 
     return {
       index,
-      isDisabled,
-      isSelected,
+      disabled,
+      focused,
+      selected,
+      label,
       optionProps,
-      ...result,
+      value,
     }
   })
 }

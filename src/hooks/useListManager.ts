@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useReducer } from 'react'
 import { listReducer, ListReducerActions } from '../reducers/listReducer'
 import type { ListReducerState } from '../reducers/listReducer'
-import type { SuggestedTag } from '../sharedTypes'
+import type { TagSuggestion } from '../sharedTypes'
 
 export type UseListManagerActions = {
   clearAll(): void
   clearSelectedIndex(): void
   selectedIndexNext(): void
   selectedIndexPrev(): void
-  updateSuggestions(suggestions: SuggestedTag[]): void
+  updateSuggestions(suggestions: TagSuggestion[]): void
   updateValue(value: string): void
 }
 
@@ -17,6 +17,7 @@ export type UseListManagerState = ListReducerState & UseListManagerActions
 export function useListManager(initialState: ListReducerState): UseListManagerState {
   const [state, dispatch] = useReducer(listReducer, initialState)
 
+  // TODO: use a ref
   const actions: UseListManagerActions = useMemo(() => {
     return {
       clearAll() {
@@ -31,7 +32,7 @@ export function useListManager(initialState: ListReducerState): UseListManagerSt
       selectedIndexPrev() {
         dispatch({ type: ListReducerActions.SelectedIndexPrev })
       },
-      updateSuggestions(suggestions: SuggestedTag[]) {
+      updateSuggestions(suggestions: TagSuggestion[]) {
         dispatch({ type: ListReducerActions.UpdateSuggestions, payload: suggestions })
       },
       updateValue(value: string) {

@@ -1,5 +1,5 @@
 import { findSuggestionIndex, matchSuggestionsPartial } from '../lib/textMatchers'
-import type { SuggestedTag } from '../sharedTypes'
+import type { TagSuggestion } from '../sharedTypes'
 
 function loop(next: number, size: number): number {
   const max = size - 1
@@ -29,14 +29,14 @@ type ListReducerAction =
   | { type: ListReducerActions.ClearSelectedIndex }
   | { type: ListReducerActions.SelectedIndexNext }
   | { type: ListReducerActions.SelectedIndexPrev }
-  | { type: ListReducerActions.UpdateSuggestions; payload: SuggestedTag[] }
+  | { type: ListReducerActions.UpdateSuggestions; payload: TagSuggestion[] }
   | { type: ListReducerActions.UpdateValue; payload: string }
 
 export type ListReducerState = {
   selectedIndex: number
-  selectedTag: SuggestedTag | null
-  suggestions: SuggestedTag[]
-  results: SuggestedTag[]
+  selectedTag: TagSuggestion | null
+  suggestions: TagSuggestion[]
+  results: TagSuggestion[]
   value: string
 }
 

@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
 import { usePrevious } from './usePrevious'
-import type { SelectedTag } from '../sharedTypes'
 
 export type UseKeepFocusProps = {
   containerRef: React.MutableRefObject<HTMLDivElement>
-  tags: SelectedTag[]
+  tags: Array<unknown>
 }
 
 export function useKeepFocus({ containerRef, tags }: UseKeepFocusProps): void {

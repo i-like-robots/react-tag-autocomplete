@@ -15,16 +15,32 @@ export type ClassNames = {
   suggestionPrefix: string
 }
 
-export type SelectedTag = {
-  value: string | number
+export type Tag = {
   label: string
+  value: string | number | null
 }
 
-export type SuggestedTag = {
-  value: string | number | null
-  label: string
-  // disabled?: boolean
-  skipFilter?: boolean
-  // getLabel?: () => string
-  // getValue?: () => string | number | null
+export type TagMetaProps = {
+  disabled: boolean
+  selected: boolean
+  skipFilter: boolean
 }
+
+export type TagInternalProps = {
+  focused: boolean
+  index: number
+}
+
+export type TagTransformArgs = { inputValue: string } & Omit<TagMetaProps, 'skipFilter'> &
+  TagInternalProps
+
+export type TagTransforms = {
+  transformLabel: (args: TagTransformArgs) => Tag['label']
+  transformValue: (args: TagTransformArgs) => Tag['value']
+}
+
+export type TagSuggestion = Tag & Partial<TagMetaProps> & Partial<TagTransforms>
+
+export type TagOption = Tag & Omit<TagMetaProps, 'skipFilter'> & TagInternalProps
+
+export type TagSelected = Tag

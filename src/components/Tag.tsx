@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react'
-import type { ClassNames, SelectedTag } from '../sharedTypes'
+import type { ClassNames, TagSelected } from '../sharedTypes'
 
-export type TagProps = SelectedTag & {
+export type TagProps = TagSelected & {
   classNames: ClassNames
   index: number
   // TODO
-  onDelete: (value: SelectedTag['value']) => void
+  onDelete: (value: TagSelected['value']) => void
   removeButtonText: string
 }
 
