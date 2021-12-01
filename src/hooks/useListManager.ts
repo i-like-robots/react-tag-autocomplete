@@ -8,6 +8,7 @@ export type UseListManagerActions = {
   clearSelectedIndex(): void
   selectedIndexNext(): void
   selectedIndexPrev(): void
+  setSelectedIndex(index: number): void
   updateSuggestions(suggestions: TagSuggestion[]): void
   updateValue(value: string): void
 }
@@ -31,6 +32,9 @@ export function useListManager(initialState: ListReducerState): UseListManagerSt
       },
       selectedIndexPrev() {
         dispatch({ type: ListReducerActions.SelectedIndexPrev })
+      },
+      setSelectedIndex(index: number) {
+        dispatch({ type: ListReducerActions.SetSelectedIndex, payload: index })
       },
       updateSuggestions(suggestions: TagSuggestion[]) {
         dispatch({ type: ListReducerActions.UpdateSuggestions, payload: suggestions })

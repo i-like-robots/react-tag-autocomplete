@@ -1,13 +1,13 @@
-import type { HTMLAttributes } from 'react'
-import type { TagOption, TagSelected } from '../sharedTypes'
+import React from 'react'
+import type { TagOption } from '../sharedTypes'
 import type { UseListManagerState } from './useListManager'
 
 export type UseOptionsProps = {
   id: string
-  selectTag: (tag: TagSelected) => boolean
+  selectTag: (index?: number) => boolean
 }
 
-export type UseOptionsState = Array<{ optionProps: HTMLAttributes<HTMLElement> } & TagOption>
+export type UseOptionsState = Array<{ optionProps: React.HTMLAttributes<HTMLElement> } & TagOption>
 
 export function useOptions(
   manager: UseListManagerState,
@@ -23,16 +23,19 @@ export function useOptions(
     const label = result.transformLabel?.(args) || result.label
     const value = result.transformValue?.(args) || result.value
 
-    const optionProps: HTMLAttributes<HTMLElement> = {
+    const optionProps: React.HTMLAttributes<HTMLElement> = {
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
       'aria-selected': selected,
       'aria-setsize': manager.results.length,
       id: `${id}-listbox-${index}`,
       role: 'option',
-      // TODO
+      tabIndex: -1,
       onMouseDown() {
-        selectTag(result)
+        manager.setSelectedIndex(index)
+      },
+      onClick() {
+        selectTag(index)
       },
     }
 

@@ -3,23 +3,27 @@ import { KeyNames } from '../constants'
 import { isCaretAtEnd, isCaretAtStart } from '../lib/cursor'
 
 import type React from 'react'
-import type { UseListManagerState } from './'
+import type { UseListManagerState } from '.'
 
 export type UseListBoxProps = {
+  comboBoxRef: React.MutableRefObject<HTMLDivElement>
   id: string
+  inputRef: React.MutableRefObject<HTMLInputElement>
+  listBoxRef: React.MutableRefObject<HTMLDivElement>
   selectTag: () => boolean
 }
 
 export type UseListBoxState = {
-  inputProps: React.InputHTMLAttributes<HTMLInputElement>
+  comboBoxProps: React.ComponentPropsWithRef<'div'>
+  inputProps: React.ComponentPropsWithRef<'input'>
   isExpanded: boolean
   isFocused: boolean
-  listBoxProps: React.HTMLAttributes<HTMLElement>
+  listBoxProps: React.ComponentPropsWithRef<'div'>
 }
 
-export function useListBox(
+export function useComboBox(
   manager: UseListManagerState,
-  { id, selectTag }: UseListBoxProps
+  { comboBoxRef, id, inputRef, listBoxRef, selectTag }: UseListBoxProps
 ): UseListBoxState {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -28,10 +32,15 @@ export function useListBox(
 
   useEffect(() => setIsExpanded(canExpand), [canExpand])
 
-  const onBlur = useCallback(() => {
-    manager.clearSelectedIndex()
-    setIsFocused(false)
-  }, [manager])
+  const onBlur = useCallback(
+    (e: React.FocusEvent) => {
+      if (!comboBoxRef.current?.contains(e.relatedTarget)) {
+        manager.clearSelectedIndex()
+        setIsFocused(false)
+      }
+    },
+    [comboBoxRef, manager]
+  )
 
   const onFocus = useCallback(() => setIsFocused(true), [])
 
@@ -100,6 +109,12 @@ export function useListBox(
     [onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
   )
 
+  const comboBoxProps: UseListBoxState['comboBoxProps'] = {
+    onBlur,
+    onFocus,
+    ref: comboBoxRef,
+  }
+
   const inputProps: UseListBoxState['inputProps'] = {
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded ? `${id}-listbox-${manager.selectedIndex}` : '',
@@ -107,10 +122,9 @@ export function useListBox(
     'aria-expanded': isExpanded ? 'true' : 'false',
     autoComplete: 'false',
     id: `${id}-input`,
-    onBlur,
     onChange,
-    onFocus,
     onKeyDown,
+    ref: inputRef,
     role: 'combobox',
     type: 'text',
     value: manager.value,
@@ -119,9 +133,11 @@ export function useListBox(
   const listBoxProps: UseListBoxState['listBoxProps'] = {
     id: `${id}-listbox`,
     role: 'listbox',
+    ref: listBoxRef,
   }
 
   return {
+    comboBoxProps,
     inputProps,
     isExpanded,
     isFocused,

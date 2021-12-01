@@ -8,7 +8,7 @@ export type UseSelectTagProps = {
   onAddition: (tag: TagSelected) => void
 }
 
-export type UseSelectTagState = () => boolean
+export type UseSelectTagState = (index?: number) => boolean
 
 export function useSelectTag(
   manager: UseListManagerState,
@@ -24,23 +24,29 @@ export function useSelectTag(
     [manager, onAddition]
   )
 
-  return useCallback(() => {
-    if (allowNew && manager.selectedIndex === 0) {
-      return addTag({ label: manager.value, value: null })
-    }
+  return useCallback(
+    (index?: number) => {
+      const tag = typeof index === 'number' ? manager.results[index] : manager.selectedTag
 
-    if (manager.selectedTag) {
-      return addTag({ label: manager.selectedTag.label, value: manager.selectedTag.value })
-    }
-
-    if (manager.results.length) {
-      const match = findSuggestionExact(manager.value, manager.results)
-
-      if (match) {
-        return addTag({ label: match.label, value: match.value })
+      // TODO: better detection
+      if (allowNew && tag.value === null) {
+        return addTag({ label: manager.value, value: null })
       }
-    }
 
-    return false
-  }, [addTag, allowNew, manager])
+      if (tag) {
+        return addTag({ label: tag.label, value: tag.value })
+      }
+
+      if (manager.results.length) {
+        const match = findSuggestionExact(manager.value, manager.results)
+
+        if (match) {
+          return addTag({ label: match.label, value: match.value })
+        }
+      }
+
+      return false
+    },
+    [addTag, allowNew, manager]
+  )
 }

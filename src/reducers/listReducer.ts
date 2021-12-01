@@ -20,6 +20,7 @@ export enum ListReducerActions {
   ClearSelectedIndex,
   SelectedIndexNext,
   SelectedIndexPrev,
+  SetSelectedIndex,
   UpdateSuggestions,
   UpdateValue,
 }
@@ -29,6 +30,7 @@ type ListReducerAction =
   | { type: ListReducerActions.ClearSelectedIndex }
   | { type: ListReducerActions.SelectedIndexNext }
   | { type: ListReducerActions.SelectedIndexPrev }
+  | { type: ListReducerActions.SetSelectedIndex; payload: number }
   | { type: ListReducerActions.UpdateSuggestions; payload: TagSuggestion[] }
   | { type: ListReducerActions.UpdateValue; payload: string }
 
@@ -71,6 +73,16 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
 
   if (action.type === ListReducerActions.SelectedIndexPrev) {
     const selectedIndex = loop(state.selectedIndex - 1, state.results.length)
+
+    return {
+      ...state,
+      selectedIndex,
+      selectedTag: state.results[selectedIndex],
+    }
+  }
+
+  if (action.type === ListReducerActions.SetSelectedIndex) {
+    const selectedIndex = loop(action.payload, state.results.length)
 
     return {
       ...state,

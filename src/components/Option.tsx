@@ -1,10 +1,9 @@
 import React, { useLayoutEffect, useRef } from 'react'
-import type { HTMLAttributes } from 'react'
 import type { ClassNames, TagOption } from '../sharedTypes'
 
 export type OptionProps = TagOption & {
   classNames: ClassNames
-  optionProps: HTMLAttributes<HTMLElement>
+  optionProps: React.ComponentPropsWithRef<'div'>
 }
 
 export function Option({

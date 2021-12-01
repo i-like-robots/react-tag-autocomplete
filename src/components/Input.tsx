@@ -1,9 +1,8 @@
 import React, { useRef } from 'react'
 import { useInputWidth } from '../hooks/useInputWidth'
-import type { CSSProperties, InputHTMLAttributes } from 'react'
 import type { ClassNames } from '../sharedTypes'
 
-const SizerStyles: CSSProperties = {
+const SizerStyles: React.CSSProperties = {
   position: 'absolute',
   width: 0,
   height: 0,
@@ -16,7 +15,7 @@ export type InputProps = {
   allowResize?: boolean
   ariaLabelText: string
   classNames: ClassNames
-  inputProps: InputHTMLAttributes<HTMLInputElement>
+  inputProps: React.ComponentPropsWithRef<'input'>
   inputRef: React.MutableRefObject<HTMLInputElement>
   placeholderText: string
 }

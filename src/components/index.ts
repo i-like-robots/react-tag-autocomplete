@@ -1,3 +1,4 @@
+export * from './ComboBox'
 export * from './Input'
 export * from './ListBox'
 export * from './Option'

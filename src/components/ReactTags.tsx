@@ -2,13 +2,13 @@ import React, { useRef } from 'react'
 import {
   useActive,
   useKeepFocus,
-  useListBox,
+  useComboBox,
   useListManager,
   useOptions,
   useSelectTag,
   useSuggestions,
 } from '../hooks'
-import { Input, ListBox, Option, TagList } from '.'
+import { ComboBox, Input, ListBox, Option, TagList } from '.'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -69,8 +69,11 @@ export function ReactTags({
   suggestions = [],
   tags = [],
 }: ReactTagsProps): JSX.Element {
+  // TODO: move refs into context
   const containerRef = useRef<HTMLDivElement>()
+  const comboBoxRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
+  const listBoxRef = useRef<HTMLDivElement>()
 
   useKeepFocus({ containerRef, tags })
 
@@ -89,8 +92,11 @@ export function ReactTags({
     onAddition,
   })
 
-  const { inputProps, isExpanded, listBoxProps } = useListBox(listManager, {
+  const { comboBoxProps, inputProps, isExpanded, listBoxProps } = useComboBox(listManager, {
+    comboBoxRef,
     id,
+    inputRef,
+    listBoxRef,
     selectTag,
   })
 
@@ -109,7 +115,7 @@ export function ReactTags({
         tags={tags}
         tagListTitleText={tagListTitleText}
       />
-      <div className={classNames.search}>
+      <ComboBox classNames={classNames} comboBoxProps={comboBoxProps}>
         <Input
           allowResize={allowResize}
           ariaLabelText={ariaLabelText}
@@ -125,7 +131,7 @@ export function ReactTags({
             ))}
           </ListBox>
         ) : null}
-      </div>
+      </ComboBox>
     </div>
   )
 }

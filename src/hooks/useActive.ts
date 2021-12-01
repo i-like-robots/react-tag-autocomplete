@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react'
-import type { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 export type UseActiveProps = {
   containerRef: React.MutableRefObject<HTMLDivElement>
@@ -8,7 +7,7 @@ export type UseActiveProps = {
 
 export type UseActiveState = {
   isActive: boolean
-  containerProps: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+  containerProps: React.ComponentPropsWithRef<'div'>
 }
 
 export function useActive({ containerRef, inputRef }: UseActiveProps): UseActiveState {
