@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import {
-  useActive,
   useKeepFocus,
   useComboBox,
   useListManager,
@@ -8,7 +7,8 @@ import {
   useSelectTag,
   useSuggestions,
 } from '../hooks'
-import { ComboBox, Input, ListBox, Option, TagList } from '.'
+import { ComboBox, Input, ListBox, Option, Root, TagList } from '.'
+import { InternalRefs } from '../contexts/'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -70,8 +70,8 @@ export function ReactTags({
   tags = [],
 }: ReactTagsProps): JSX.Element {
   // TODO: move refs into context
-  const containerRef = useRef<HTMLDivElement>()
   const comboBoxRef = useRef<HTMLDivElement>()
+  const containerRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
   const listBoxRef = useRef<HTMLDivElement>()
 
@@ -84,8 +84,6 @@ export function ReactTags({
     selectedTag: null,
     value: '',
   })
-
-  const { containerProps, isActive } = useActive({ containerRef, inputRef })
 
   const selectTag = useSelectTag(listManager, {
     allowNew,
@@ -102,36 +100,34 @@ export function ReactTags({
 
   const options = useOptions(listManager, { id, selectTag })
 
-  const classes = [classNames.root]
-
-  if (isActive) classes.push(classNames.rootActive)
-
   return (
-    <div className={classes.join(' ')} {...containerProps}>
-      <TagList
-        classNames={classNames}
-        onDelete={onDelete}
-        removeButtonText={removeButtonText}
-        tags={tags}
-        tagListTitleText={tagListTitleText}
-      />
-      <ComboBox classNames={classNames} comboBoxProps={comboBoxProps}>
-        <Input
-          allowResize={allowResize}
-          ariaLabelText={ariaLabelText}
+    <InternalRefs.Provider value={{ rootRef: containerRef, comboBoxRef, listBoxRef, inputRef }}>
+      <Root classNames={classNames}>
+        <TagList
           classNames={classNames}
-          inputProps={inputProps}
-          inputRef={inputRef}
-          placeholderText={placeholderText}
+          onDelete={onDelete}
+          removeButtonText={removeButtonText}
+          tags={tags}
+          tagListTitleText={tagListTitleText}
         />
-        {isExpanded ? (
-          <ListBox classNames={classNames} listBoxProps={listBoxProps}>
-            {options.map((option) => (
-              <Option classNames={classNames} key={option.label} {...option} />
-            ))}
-          </ListBox>
-        ) : null}
-      </ComboBox>
-    </div>
+        <ComboBox classNames={classNames} comboBoxProps={comboBoxProps}>
+          <Input
+            allowResize={allowResize}
+            ariaLabelText={ariaLabelText}
+            classNames={classNames}
+            inputProps={inputProps}
+            inputRef={inputRef}
+            placeholderText={placeholderText}
+          />
+          {isExpanded ? (
+            <ListBox classNames={classNames} listBoxProps={listBoxProps}>
+              {options.map((option) => (
+                <Option classNames={classNames} key={option.label} {...option} />
+              ))}
+            </ListBox>
+          ) : null}
+        </ComboBox>
+      </Root>
+    </InternalRefs.Provider>
   )
 }
