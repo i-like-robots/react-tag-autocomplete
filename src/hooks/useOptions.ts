@@ -13,13 +13,15 @@ export function useOptions(
   manager: UseListManagerState,
   { id, selectTag }: UseOptionsProps
 ): UseOptionsState {
-  return manager.results.map((result, index) => {
+  const { results, selectedIndex, value: inputValue } = manager.state
+
+  return results.map((result, index) => {
     const disabled = result.disabled ?? false
-    const focused = index === manager.selectedIndex
-    const selected = index === manager.selectedIndex
+    const focused = index === selectedIndex
+    const selected = index === selectedIndex
     // const selected = result.selected ?? false
 
-    const args = { disabled, focused, index, inputValue: manager.value, selected }
+    const args = { disabled, focused, index, inputValue, selected }
     const label = result.transformLabel?.(args) || result.label
     const value = result.transformValue?.(args) || result.value
 
@@ -27,7 +29,7 @@ export function useOptions(
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
       'aria-selected': selected,
-      'aria-setsize': manager.results.length,
+      'aria-setsize': results.length,
       id: `${id}-listbox-${index}`,
       role: 'option',
       tabIndex: -1,

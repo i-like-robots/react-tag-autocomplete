@@ -28,7 +28,9 @@ export function useComboBox(
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
-  const canExpand = isFocused && manager.value.length > 0 && manager.results.length > 0
+  const { results, selectedIndex, value } = manager.state
+
+  const canExpand = isFocused && value.length > 0 && results.length > 0
 
   useEffect(() => setIsExpanded(canExpand), [canExpand])
 
@@ -117,7 +119,7 @@ export function useComboBox(
 
   const inputProps: UseListBoxState['inputProps'] = {
     'aria-autocomplete': 'list',
-    'aria-activedescendant': isExpanded ? `${id}-listbox-${manager.selectedIndex}` : '',
+    'aria-activedescendant': isExpanded ? `${id}-listbox-${selectedIndex}` : '',
     'aria-owns': isExpanded ? `${id}-listbox` : '',
     'aria-expanded': isExpanded ? 'true' : 'false',
     autoComplete: 'false',
@@ -127,7 +129,7 @@ export function useComboBox(
     ref: inputRef,
     role: 'combobox',
     type: 'text',
-    value: manager.value,
+    value,
   }
 
   const listBoxProps: UseListBoxState['listBoxProps'] = {
