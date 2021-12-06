@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef } from 'react'
-import { listReducer, ListReducerActions } from '../reducers/listReducer'
-import type { ListReducerState } from '../reducers/listReducer'
+import { listManagerReducer, ListManagerActions } from '../reducers'
+import type { ListManagerState } from '../reducers'
 import type { TagSuggestion } from '../sharedTypes'
 
 export type UseListManagerAPI = {
@@ -13,34 +13,34 @@ export type UseListManagerAPI = {
   updateValue(value: string): void
 }
 
-export type UseListManagerState = UseListManagerAPI & { state: ListReducerState }
+export type UseListManagerState = UseListManagerAPI & { state: ListManagerState }
 
-export function useListManager(initialState: ListReducerState): UseListManagerState {
+export function useListManager(initialState: ListManagerState): UseListManagerState {
   const api = useRef<UseListManagerState>()
-  const [state, dispatch] = useReducer(listReducer, initialState)
+  const [state, dispatch] = useReducer(listManagerReducer, initialState)
 
   api.current ??= {
     state: null,
     clearAll() {
-      dispatch({ type: ListReducerActions.ClearAll })
+      dispatch({ type: ListManagerActions.ClearAll })
     },
     clearSelectedIndex() {
-      dispatch({ type: ListReducerActions.ClearSelectedIndex })
+      dispatch({ type: ListManagerActions.ClearSelectedIndex })
     },
     selectedIndexNext() {
-      dispatch({ type: ListReducerActions.SelectedIndexNext })
+      dispatch({ type: ListManagerActions.SelectedIndexNext })
     },
     selectedIndexPrev() {
-      dispatch({ type: ListReducerActions.SelectedIndexPrev })
+      dispatch({ type: ListManagerActions.SelectedIndexPrev })
     },
     setSelectedIndex(index: number) {
-      dispatch({ type: ListReducerActions.SetSelectedIndex, payload: index })
+      dispatch({ type: ListManagerActions.SetSelectedIndex, payload: index })
     },
     updateSuggestions(suggestions: TagSuggestion[]) {
-      dispatch({ type: ListReducerActions.UpdateSuggestions, payload: suggestions })
+      dispatch({ type: ListManagerActions.UpdateSuggestions, payload: suggestions })
     },
     updateValue(value: string) {
-      dispatch({ type: ListReducerActions.UpdateValue, payload: value })
+      dispatch({ type: ListManagerActions.UpdateValue, payload: value })
     },
   }
 

@@ -15,7 +15,7 @@ function loop(next: number, size: number): number {
   return next
 }
 
-export enum ListReducerActions {
+export enum ListManagerActions {
   ClearAll,
   ClearSelectedIndex,
   SelectedIndexNext,
@@ -25,16 +25,16 @@ export enum ListReducerActions {
   UpdateValue,
 }
 
-type ListReducerAction =
-  | { type: ListReducerActions.ClearAll }
-  | { type: ListReducerActions.ClearSelectedIndex }
-  | { type: ListReducerActions.SelectedIndexNext }
-  | { type: ListReducerActions.SelectedIndexPrev }
-  | { type: ListReducerActions.SetSelectedIndex; payload: number }
-  | { type: ListReducerActions.UpdateSuggestions; payload: TagSuggestion[] }
-  | { type: ListReducerActions.UpdateValue; payload: string }
+type ListManagerAction =
+  | { type: ListManagerActions.ClearAll }
+  | { type: ListManagerActions.ClearSelectedIndex }
+  | { type: ListManagerActions.SelectedIndexNext }
+  | { type: ListManagerActions.SelectedIndexPrev }
+  | { type: ListManagerActions.SetSelectedIndex; payload: number }
+  | { type: ListManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
+  | { type: ListManagerActions.UpdateValue; payload: string }
 
-export type ListReducerState = {
+export type ListManagerState = {
   selectedIndex: number
   selectedTag: TagSuggestion | null
   suggestions: TagSuggestion[]
@@ -42,8 +42,11 @@ export type ListReducerState = {
   value: string
 }
 
-export function listReducer(state: ListReducerState, action: ListReducerAction): ListReducerState {
-  if (action.type === ListReducerActions.ClearAll) {
+export function listManagerReducer(
+  state: ListManagerState,
+  action: ListManagerAction
+): ListManagerState {
+  if (action.type === ListManagerActions.ClearAll) {
     return {
       ...state,
       results: [],
@@ -53,7 +56,7 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
     }
   }
 
-  if (action.type === ListReducerActions.ClearSelectedIndex) {
+  if (action.type === ListManagerActions.ClearSelectedIndex) {
     return {
       ...state,
       selectedIndex: -1,
@@ -61,7 +64,7 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
     }
   }
 
-  if (action.type === ListReducerActions.SelectedIndexNext) {
+  if (action.type === ListManagerActions.SelectedIndexNext) {
     const selectedIndex = loop(state.selectedIndex + 1, state.results.length)
 
     return {
@@ -71,7 +74,7 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
     }
   }
 
-  if (action.type === ListReducerActions.SelectedIndexPrev) {
+  if (action.type === ListManagerActions.SelectedIndexPrev) {
     const selectedIndex = loop(state.selectedIndex - 1, state.results.length)
 
     return {
@@ -81,7 +84,7 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
     }
   }
 
-  if (action.type === ListReducerActions.SetSelectedIndex) {
+  if (action.type === ListManagerActions.SetSelectedIndex) {
     const selectedIndex = loop(action.payload, state.results.length)
 
     return {
@@ -91,7 +94,7 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
     }
   }
 
-  if (action.type === ListReducerActions.UpdateSuggestions) {
+  if (action.type === ListManagerActions.UpdateSuggestions) {
     const results = matchSuggestionsPartial(state.value, action.payload)
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
@@ -106,7 +109,7 @@ export function listReducer(state: ListReducerState, action: ListReducerAction):
     }
   }
 
-  if (action.type === ListReducerActions.UpdateValue) {
+  if (action.type === ListManagerActions.UpdateValue) {
     const results = matchSuggestionsPartial(action.payload, state.suggestions)
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
