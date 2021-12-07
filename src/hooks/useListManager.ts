@@ -48,7 +48,7 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
 
   useEffect(
     () => api.current.updateSuggestions(initialState.suggestions),
-    [api, initialState.suggestions]
+    [api, initialState.allowNew, initialState.newTagText, initialState.suggestions]
   )
 
   return api.current

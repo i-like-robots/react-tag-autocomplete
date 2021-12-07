@@ -15,6 +15,15 @@ function loop(next: number, size: number): number {
   return next
 }
 
+function createNewTag(newTagText: string): TagSuggestion {
+  return {
+    label: '',
+    skipFilter: true,
+    transformLabel: (args) => newTagText.replace('%value%', args.inputValue),
+    value: null,
+  }
+}
+
 export enum ListManagerActions {
   ClearAll,
   ClearSelectedIndex,
@@ -35,6 +44,8 @@ type ListManagerAction =
   | { type: ListManagerActions.UpdateValue; payload: string }
 
 export type ListManagerState = {
+  allowNew: boolean
+  newTagText: string
   selectedIndex: number
   selectedTag: TagSuggestion | null
   suggestions: TagSuggestion[]
@@ -96,6 +107,9 @@ export function listManagerReducer(
 
   if (action.type === ListManagerActions.UpdateSuggestions) {
     const results = matchSuggestionsPartial(state.value, action.payload)
+
+    if (state.allowNew) results.unshift(createNewTag(state.newTagText))
+
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
       : -1
@@ -111,6 +125,9 @@ export function listManagerReducer(
 
   if (action.type === ListManagerActions.UpdateValue) {
     const results = matchSuggestionsPartial(action.payload, state.suggestions)
+
+    if (state.allowNew) results.unshift(createNewTag(state.newTagText))
+
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
       : -1

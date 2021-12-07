@@ -5,7 +5,6 @@ import {
   useListManager,
   useOptions,
   useSelectTag,
-  useSuggestions,
 } from '../hooks'
 import { ComboBox, Input, ListBox, Option, Root, TagList } from '.'
 import { InternalRefs } from '../contexts/'
@@ -78,8 +77,10 @@ export function ReactTags({
   useKeepFocus({ containerRef, tags })
 
   const listManager = useListManager({
+    allowNew,
+    newTagText,
     results: [],
-    suggestions: useSuggestions({ allowNew, newTagText, suggestions }),
+    suggestions,
     selectedIndex: -1,
     selectedTag: null,
     value: '',
