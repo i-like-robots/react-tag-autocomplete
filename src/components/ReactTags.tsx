@@ -1,12 +1,6 @@
 import React, { useRef } from 'react'
-import {
-  useKeepFocus,
-  useComboBox,
-  useListManager,
-  useOptions,
-  useSelectTag,
-} from '../hooks'
-import { ComboBox, Input, ListBox, Option, Root, TagList } from '.'
+import { useKeepFocus, useComboBox, useListManager, useOptions, useSelectTag } from '../hooks'
+import { ComboBox, Input, ListBox, Option, Root, Tag, TagList } from '.'
 import { InternalRefs } from '../contexts/'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
@@ -104,13 +98,17 @@ export function ReactTags({
   return (
     <InternalRefs.Provider value={{ rootRef: containerRef, comboBoxRef, listBoxRef, inputRef }}>
       <Root classNames={classNames}>
-        <TagList
-          classNames={classNames}
-          onDelete={onDelete}
-          removeButtonText={removeButtonText}
-          tags={tags}
-          tagListTitleText={tagListTitleText}
-        />
+        <TagList classNames={classNames} onDelete={onDelete} tagListTitleText={tagListTitleText}>
+          {tags.map((tag, index) => (
+            <Tag
+              classNames={classNames}
+              key={`${tag.value}-${tag.label}`}
+              onDelete={() => onDelete(index)}
+              removeButtonText={removeButtonText}
+              {...tag}
+            />
+          ))}
+        </TagList>
         <ComboBox classNames={classNames} comboBoxProps={comboBoxProps}>
           <Input
             allowResize={allowResize}
@@ -123,7 +121,11 @@ export function ReactTags({
           {isExpanded ? (
             <ListBox classNames={classNames} listBoxProps={listBoxProps}>
               {options.map((option) => (
-                <Option classNames={classNames} key={option.label} {...option} />
+                <Option
+                  classNames={classNames}
+                  key={`${option.value}-${option.label}`}
+                  {...option}
+                />
               ))}
             </ListBox>
           ) : null}
