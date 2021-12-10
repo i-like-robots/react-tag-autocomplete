@@ -1,31 +1,21 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import type { ClassNames, TagSelected } from '../sharedTypes'
 
 export type TagProps = TagSelected & {
   classNames: ClassNames
-  // TODO
-  onDelete: (value: TagSelected['value']) => void
+  onClick: () => void
   removeButtonText: string
 }
 
-export function Tag({
-  classNames,
-  label,
-  onDelete,
-  removeButtonText,
-  value,
-}: TagProps): JSX.Element {
-  const ariaLabel = useMemo(
-    () => removeButtonText.replace('%label%', label),
-    [label, removeButtonText]
-  )
+export function Tag({ classNames, label, onClick, removeButtonText }: TagProps): JSX.Element {
+  const ariaLabel = removeButtonText.replace('%label%', label)
 
   return (
     <button
       type="button"
       className={classNames.selectedTag}
       aria-label={ariaLabel}
-      onClick={() => onDelete(value)}
+      onClick={onClick}
     >
       <span className={classNames.selectedTagName}>{label}</span>
     </button>

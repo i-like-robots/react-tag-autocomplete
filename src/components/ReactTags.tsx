@@ -98,17 +98,19 @@ export function ReactTags({
   return (
     <InternalRefs.Provider value={{ rootRef: containerRef, comboBoxRef, listBoxRef, inputRef }}>
       <Root classNames={classNames}>
-        <TagList classNames={classNames} onDelete={onDelete} tagListTitleText={tagListTitleText}>
-          {tags.map((tag, index) => (
+        <TagList
+          classNames={classNames}
+          tags={tags}
+          tagListTitleText={tagListTitleText}
+          renderTag={(tag, index) => (
             <Tag
               classNames={classNames}
-              key={`${tag.value}-${tag.label}`}
-              onDelete={() => onDelete(index)}
+              onClick={() => onDelete(index)}
               removeButtonText={removeButtonText}
               {...tag}
             />
-          ))}
-        </TagList>
+          )}
+        />
         <ComboBox classNames={classNames} comboBoxProps={comboBoxProps}>
           <Input
             allowResize={allowResize}

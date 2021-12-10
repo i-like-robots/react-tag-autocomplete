@@ -1,33 +1,27 @@
 import React from 'react'
-import type { ClassNames } from '../sharedTypes'
+import type { ClassNames, TagSelected } from '../sharedTypes'
 
-export type TagListProps = React.PropsWithChildren<{
+export type TagListProps = {
   classNames: ClassNames
-  onDelete: (index: number) => void
+  renderTag: (tag: TagSelected, index: number) => JSX.Element
+  tags: TagSelected[]
   tagListTitleText: string
-}>
+}
 
 export function TagList({
-  children = [],
   classNames,
+  renderTag,
+  tags,
   tagListTitleText,
 }: TagListProps): JSX.Element {
   return (
     <>
       <ul className={classNames.selected} aria-label={tagListTitleText}>
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return (
-              <li
-                className={classNames.selectedItem}
-                key={`${child.props.value}-${child.props.label}`}
-                role="listitem"
-              >
-                {child}
-              </li>
-            )
-          }
-        })}
+        {tags.map((tag, index) => (
+          <li className={classNames.selectedItem} key={`${tag.value}-${tag.label}`} role="listitem">
+            {renderTag(tag, index)}
+          </li>
+        ))}
       </ul>
       {/* TODO */}
       <div aria-live="polite" hidden role="status"></div>

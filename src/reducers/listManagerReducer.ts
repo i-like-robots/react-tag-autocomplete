@@ -108,7 +108,7 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateSuggestions) {
     const results = matchSuggestionsPartial(state.value, action.payload)
 
-    if (state.allowNew) results.unshift(createNewTag(state.newTagText))
+    if (state.allowNew) results.push(createNewTag(state.newTagText))
 
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
@@ -126,7 +126,7 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateValue) {
     const results = matchSuggestionsPartial(action.payload, state.suggestions)
 
-    if (state.allowNew) results.unshift(createNewTag(state.newTagText))
+    if (state.allowNew) results.push(createNewTag(state.newTagText))
 
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
