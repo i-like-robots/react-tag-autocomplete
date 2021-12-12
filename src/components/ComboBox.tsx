@@ -1,17 +1,16 @@
 import React from 'react'
-import type { ReactNode } from 'react'
+import { ComboBoxContext } from '../contexts'
+import { useComboBox } from '../hooks'
 import type { ClassNames } from '../sharedTypes'
 
-export type ComboBoxProps = {
-  children: ReactNode[]
-  classNames: ClassNames
-  comboBoxProps: React.ComponentPropsWithRef<'div'>
-}
+export type ComboBoxProps = React.PropsWithChildren<{ classNames: ClassNames }>
 
-export function ComboBox({ children, classNames, comboBoxProps }: ComboBoxProps): JSX.Element {
+export function ComboBox({ children, classNames }: ComboBoxProps): JSX.Element {
+  const { comboBoxProps, ...comboBoxState } = useComboBox()
+
   return (
     <div className={classNames.search} {...comboBoxProps}>
-      {children}
+      <ComboBoxContext.Provider value={comboBoxState}>{children}</ComboBoxContext.Provider>
     </div>
   )
 }

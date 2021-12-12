@@ -1,9 +1,13 @@
 import React from 'react'
+import type { UseListManagerState } from '../hooks'
 
 export type InternalRefsContext = {
+  id: string
   inputRef: React.MutableRefObject<HTMLInputElement>
   comboBoxRef: React.MutableRefObject<HTMLDivElement>
   listBoxRef: React.MutableRefObject<HTMLDivElement>
+  listManager: UseListManagerState
+  onSelect: (index?: number) => boolean
   rootRef: React.MutableRefObject<HTMLDivElement>
 }
 

@@ -31,7 +31,7 @@ export function useSelectTag(
       const tag = typeof index === 'number' ? results[index] : selectedTag
 
       // TODO: better detection
-      if (allowNew && tag.value === null) {
+      if (allowNew && tag?.value === null) {
         return addTag({ label: value, value: null })
       }
 

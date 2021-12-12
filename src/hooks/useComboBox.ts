@@ -1,148 +1,55 @@
-import { useCallback, useEffect, useState } from 'react'
-import { KeyNames } from '../constants'
-import { isCaretAtEnd, isCaretAtStart } from '../lib/cursor'
-
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { InternalRefs } from '../contexts'
 import type React from 'react'
-import type { UseListManagerState } from '.'
 
-export type UseListBoxProps = {
-  comboBoxRef: React.MutableRefObject<HTMLDivElement>
-  id: string
-  inputRef: React.MutableRefObject<HTMLInputElement>
-  listBoxRef: React.MutableRefObject<HTMLDivElement>
-  selectTag: () => boolean
-}
-
-export type UseListBoxState = {
+export type UseComboBoxState = {
+  collapse: () => void
   comboBoxProps: React.ComponentPropsWithRef<'div'>
-  inputProps: React.ComponentPropsWithRef<'input'>
+  expand: () => void
   isExpanded: boolean
   isFocused: boolean
-  listBoxProps: React.ComponentPropsWithRef<'div'>
 }
 
-export function useComboBox(
-  manager: UseListManagerState,
-  { comboBoxRef, id, inputRef, listBoxRef, selectTag }: UseListBoxProps
-): UseListBoxState {
+export function useComboBox(): UseComboBoxState {
+  const { comboBoxRef, id, listManager } = useContext(InternalRefs)
+
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
-  const { results, selectedIndex, value } = manager.state
-
-  const canExpand = isFocused && value.length > 0 && results.length > 0
+  const canExpand = Boolean(
+    isFocused && listManager.state.value.length && listManager.state.results.length
+  )
 
   useEffect(() => setIsExpanded(canExpand), [canExpand])
 
+  const expand = useCallback(() => canExpand && setIsExpanded(true), [canExpand])
+
+  const collapse = useCallback(() => isExpanded && setIsExpanded(false), [isExpanded])
+
   const onBlur = useCallback(
     (e: React.FocusEvent) => {
-      if (!comboBoxRef.current?.contains(e.relatedTarget)) {
-        manager.clearSelectedIndex()
+      if (comboBoxRef.current?.contains(e.relatedTarget) === false) {
+        listManager.clearSelectedIndex()
         setIsFocused(false)
       }
     },
-    [comboBoxRef, manager]
+    [comboBoxRef, listManager]
   )
 
   const onFocus = useCallback(() => setIsFocused(true), [])
 
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => manager.updateValue(e.currentTarget.value),
-    [manager]
-  )
-
-  const onEnterKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      e.preventDefault()
-      selectTag()
-    },
-    [selectTag]
-  )
-
-  const onDownArrowKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (isExpanded) {
-        e.preventDefault()
-        manager.selectedIndexNext()
-      } else if (canExpand && isCaretAtEnd(e.currentTarget)) {
-        setIsExpanded(true)
-      }
-    },
-    [canExpand, isExpanded, manager]
-  )
-
-  const onUpArrowKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (isExpanded) {
-        e.preventDefault()
-        manager.selectedIndexPrev()
-      } else if (canExpand && isCaretAtStart(e.currentTarget)) {
-        setIsExpanded(true)
-      }
-    },
-    [canExpand, isExpanded, manager]
-  )
-
-  const onEscapeKey = useCallback(() => {
-    if (isExpanded) {
-      manager.clearSelectedIndex()
-      setIsExpanded(false)
-    }
-  }, [isExpanded, manager])
-
-  const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === KeyNames.UpArrow) {
-        return onUpArrowKey(e)
-      }
-
-      if (e.key === KeyNames.DownArrow) {
-        return onDownArrowKey(e)
-      }
-
-      if (e.key === KeyNames.Enter) {
-        return onEnterKey(e)
-      }
-
-      if (e.key === KeyNames.Escape) {
-        return onEscapeKey()
-      }
-    },
-    [onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
-  )
-
-  const comboBoxProps: UseListBoxState['comboBoxProps'] = {
+  const comboBoxProps: UseComboBoxState['comboBoxProps'] = {
+    id: `${id}-combobox`,
     onBlur,
     onFocus,
     ref: comboBoxRef,
   }
 
-  const inputProps: UseListBoxState['inputProps'] = {
-    'aria-autocomplete': 'list',
-    'aria-activedescendant': isExpanded ? `${id}-listbox-${selectedIndex}` : '',
-    'aria-owns': isExpanded ? `${id}-listbox` : '',
-    'aria-expanded': isExpanded ? 'true' : 'false',
-    autoComplete: 'false',
-    id: `${id}-input`,
-    onChange,
-    onKeyDown,
-    ref: inputRef,
-    role: 'combobox',
-    type: 'text',
-    value,
-  }
-
-  const listBoxProps: UseListBoxState['listBoxProps'] = {
-    id: `${id}-listbox`,
-    role: 'listbox',
-    ref: listBoxRef,
-  }
-
   return {
+    collapse,
     comboBoxProps,
-    inputProps,
+    expand,
     isExpanded,
     isFocused,
-    listBoxProps,
   }
 }

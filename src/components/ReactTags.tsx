@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useKeepFocus, useComboBox, useListManager, useOptions, useSelectTag } from '../hooks'
+import { useKeepFocus, useListManager, useOptions, useSelectTag } from '../hooks'
 import { ComboBox, Input, ListBox, Option, Root, Tag, TagList } from '.'
 import { InternalRefs } from '../contexts/'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
@@ -85,18 +85,20 @@ export function ReactTags({
     onAddition,
   })
 
-  const { comboBoxProps, inputProps, isExpanded, listBoxProps } = useComboBox(listManager, {
-    comboBoxRef,
-    id,
-    inputRef,
-    listBoxRef,
-    selectTag,
-  })
-
   const options = useOptions(listManager, { id, selectTag })
 
   return (
-    <InternalRefs.Provider value={{ rootRef: containerRef, comboBoxRef, listBoxRef, inputRef }}>
+    <InternalRefs.Provider
+      value={{
+        rootRef: containerRef,
+        comboBoxRef,
+        id,
+        listBoxRef,
+        listManager,
+        inputRef,
+        onSelect: selectTag,
+      }}
+    >
       <Root classNames={classNames}>
         <TagList
           classNames={classNames}
@@ -111,26 +113,18 @@ export function ReactTags({
             />
           )}
         />
-        <ComboBox classNames={classNames} comboBoxProps={comboBoxProps}>
+        <ComboBox classNames={classNames}>
           <Input
             allowResize={allowResize}
             ariaLabelText={ariaLabelText}
             classNames={classNames}
-            inputProps={inputProps}
-            inputRef={inputRef}
             placeholderText={placeholderText}
           />
-          {isExpanded ? (
-            <ListBox classNames={classNames} listBoxProps={listBoxProps}>
-              {options.map((option) => (
-                <Option
-                  classNames={classNames}
-                  key={`${option.value}-${option.label}`}
-                  {...option}
-                />
-              ))}
-            </ListBox>
-          ) : null}
+          <ListBox classNames={classNames}>
+            {options.map((option) => (
+              <Option classNames={classNames} key={`${option.value}-${option.label}`} {...option} />
+            ))}
+          </ListBox>
         </ComboBox>
       </Root>
     </InternalRefs.Provider>

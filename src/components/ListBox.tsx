@@ -1,19 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ComboBoxContext } from '../contexts'
+import { useListBox } from '../hooks'
 import type { ClassNames } from '../sharedTypes'
 
-export type ListBoxProps = React.PropsWithChildren<{
-  classNames: ClassNames
-  listBoxProps: React.ComponentPropsWithRef<'div'>
-}>
+export type ListBoxProps = React.PropsWithChildren<{ classNames: ClassNames }>
 
-export function ListBox({ children, classNames, listBoxProps }: ListBoxProps): JSX.Element {
-  return (
+export function ListBox({ children, classNames }: ListBoxProps): JSX.Element {
+  const { isExpanded } = useContext(ComboBoxContext)
+  const listBoxProps = useListBox()
+
+  return isExpanded ? (
     <div className={classNames.suggestions} {...listBoxProps}>
-      {React.Children.map(children, (child) => {
-        if (React.isValidElement(child)) {
-          return child
-        }
-      })}
+      {children}
     </div>
-  )
+  ) : null
 }
