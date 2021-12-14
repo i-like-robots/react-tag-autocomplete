@@ -30,13 +30,16 @@ export function useSelectTag(
     (index?: number) => {
       const tag = typeof index === 'number' ? results[index] : selectedTag
 
-      // TODO: better detection
-      if (allowNew && tag?.value === null) {
-        return addTag({ label: value, value: null })
-      }
-
       if (tag) {
-        return addTag({ label: tag.label, value: tag.value })
+        if (allowNew && index === 0 && tag.value === null) {
+          return addTag({ label: value, value: null })
+        }
+
+        if (!tag.disabled && !tag.selected) {
+          return addTag({ label: tag.label, value: tag.value })
+        }
+
+        return false
       }
 
       if (results.length) {
