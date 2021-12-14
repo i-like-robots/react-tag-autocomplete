@@ -23,24 +23,15 @@ export type Tag = {
 export type TagMetaProps = {
   disabled: boolean
   selected: boolean
-  skipFilter: boolean
 }
 
 export type TagInternalProps = {
-  focused: boolean
+  active: boolean
   index: number
 }
 
-export type TagTransformArgs = { inputValue: string } & Omit<TagMetaProps, 'skipFilter'> &
-  TagInternalProps
+export type TagSuggestion = Tag & Partial<TagMetaProps>
 
-export type TagTransforms = {
-  transformLabel: (args: TagTransformArgs) => Tag['label']
-  transformValue: (args: TagTransformArgs) => Tag['value']
-}
-
-export type TagSuggestion = Tag & Partial<TagMetaProps> & Partial<TagTransforms>
-
-export type TagOption = Tag & Omit<TagMetaProps, 'skipFilter'> & TagInternalProps
+export type TagOption = Tag & TagMetaProps & TagInternalProps
 
 export type TagSelected = Tag

@@ -9,9 +9,11 @@ export function ListBox({ children, classNames }: ListBoxProps): JSX.Element {
   const { isExpanded } = useContext(ComboBoxContext)
   const listBoxProps = useListBox()
 
-  return isExpanded ? (
+  if (!isExpanded) return null
+
+  return (
     <div className={classNames.suggestions} {...listBoxProps}>
       {children}
     </div>
-  ) : null
+  )
 }

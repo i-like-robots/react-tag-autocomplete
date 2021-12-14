@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
-import { useKeepFocus, useListManager, useOptions, useSelectTag } from '../hooks'
+import { InternalRefs } from '../contexts'
+import { useKeepFocus, useListManager, useSelectTag } from '../hooks'
 import { ComboBox, Input, ListBox, Option, Root, Tag, TagList } from '.'
-import { InternalRefs } from '../contexts/'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -85,8 +85,6 @@ export function ReactTags({
     onAddition,
   })
 
-  const options = useOptions(listManager, { id, selectTag })
-
   return (
     <InternalRefs.Provider
       value={{
@@ -121,8 +119,12 @@ export function ReactTags({
             placeholderText={placeholderText}
           />
           <ListBox classNames={classNames}>
-            {options.map((option) => (
-              <Option classNames={classNames} key={`${option.value}-${option.label}`} {...option} />
+            {listManager.state.results.map((tag) => (
+              <Option
+                key={`${tag.value}-${tag.label}`}
+                classNames={classNames}
+                tag={tag}
+              />
             ))}
           </ListBox>
         </ComboBox>

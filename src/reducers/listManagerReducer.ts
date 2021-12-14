@@ -1,29 +1,6 @@
 import { findSuggestionIndex, matchSuggestionsPartial } from '../lib/textMatchers'
 import type { TagSuggestion } from '../sharedTypes'
 
-function loop(next: number, size: number): number {
-  const max = size - 1
-
-  if (next > max) {
-    return -1
-  }
-
-  if (next < -1) {
-    return max
-  }
-
-  return next
-}
-
-function createNewTag(newTagText: string): TagSuggestion {
-  return {
-    label: '',
-    skipFilter: true,
-    transformLabel: (args) => newTagText.replace('%value%', args.inputValue),
-    value: null,
-  }
-}
-
 export enum ListManagerActions {
   ClearAll,
   ClearSelectedIndex,
@@ -51,6 +28,27 @@ export type ListManagerState = {
   suggestions: TagSuggestion[]
   results: TagSuggestion[]
   value: string
+}
+
+function loop(next: number, size: number): number {
+  const max = size - 1
+
+  if (next > max) {
+    return -1
+  }
+
+  if (next < -1) {
+    return max
+  }
+
+  return next
+}
+
+function createNewTag({ newTagText, value }: ListManagerState): TagSuggestion {
+  return {
+    label: newTagText.replace('%value%', value),
+    value: null,
+  }
 }
 
 export function listManagerReducer(
@@ -108,7 +106,7 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateSuggestions) {
     const results = matchSuggestionsPartial(state.value, action.payload)
 
-    if (state.allowNew) results.push(createNewTag(state.newTagText))
+    if (state.allowNew) results.push(createNewTag(state))
 
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
@@ -126,7 +124,7 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateValue) {
     const results = matchSuggestionsPartial(action.payload, state.suggestions)
 
-    if (state.allowNew) results.push(createNewTag(state.newTagText))
+    if (state.allowNew) results.push(createNewTag(state))
 
     const selectedIndex = state.selectedTag
       ? findSuggestionIndex(state.selectedTag.value, results)
