@@ -12,6 +12,7 @@ export type ClassNames = {
   suggestionsItem: string
   suggestionActive: string
   suggestionDisabled: string
+  suggestionSelected: string
   suggestionPrefix: string
 }
 

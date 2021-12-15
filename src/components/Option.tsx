@@ -1,5 +1,5 @@
 import React from 'react'
-import { useOption } from '../hooks/useOption'
+import { useOption } from '../hooks'
 import type { ClassNames, TagSuggestion } from '../sharedTypes'
 
 export type OptionProps = {
@@ -8,13 +8,13 @@ export type OptionProps = {
 }
 
 export function Option({ classNames, tag }: OptionProps): JSX.Element {
-  const { active, disabled, optionProps } = useOption(tag)
+  const { active, disabled, optionProps, selected } = useOption(tag)
 
   const classes = [classNames.suggestionsItem]
 
   disabled && classes.push(classNames.suggestionDisabled)
   active && classes.push(classNames.suggestionActive)
-  // selected && classes.push(classNames.suggestionSelected)
+  selected && classes.push(classNames.suggestionSelected)
 
   return (
     <div className={classes.join(' ')} {...optionProps}>

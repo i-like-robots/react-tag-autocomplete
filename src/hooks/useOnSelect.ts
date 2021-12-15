@@ -1,19 +1,14 @@
 import { useCallback } from 'react'
 import { findSuggestionExact } from '../lib/textMatchers'
 import type { UseListManagerState } from '.'
-import type { TagSelected } from '../sharedTypes'
+import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
-export type UseSelectTagProps = {
-  allowNew: boolean
-  onAddition: (tag: TagSelected) => void
-}
+export type UseOnSelectState = (tag?: TagSuggestion) => boolean
 
-export type UseSelectTagState = (index?: number) => boolean
-
-export function useSelectTag(
+export function useOnSelect(
   manager: UseListManagerState,
-  { allowNew, onAddition }: UseSelectTagProps
-): UseSelectTagState {
+  onAddition: (tag: TagSelected) => void
+): UseOnSelectState {
   const { results, selectedTag, value } = manager.state
 
   const addTag = useCallback(
@@ -27,16 +22,15 @@ export function useSelectTag(
   )
 
   return useCallback(
-    (index?: number) => {
-      const tag = typeof index === 'number' ? results[index] : selectedTag
-
-      if (tag) {
-        if (allowNew && index === 0 && tag.value === null) {
+    () => {
+      if (selectedTag) {
+        // TODO: proper detection
+        if (selectedTag.value === null) {
           return addTag({ label: value, value: null })
         }
 
-        if (!tag.disabled && !tag.selected) {
-          return addTag({ label: tag.label, value: tag.value })
+        if (!selectedTag.disabled && !selectedTag.selected) {
+          return addTag({ label: selectedTag.label, value: selectedTag.value })
         }
 
         return false
@@ -52,6 +46,6 @@ export function useSelectTag(
 
       return false
     },
-    [addTag, allowNew, results, selectedTag, value]
+    [addTag, results, selectedTag, value]
   )
 }

@@ -14,9 +14,7 @@ export function useOption(tag: TagSuggestion): UseOptionState {
   const disabled = tag.disabled ?? false
   const selected = tag.selected ?? false
 
-  const onClick = useCallback(() => {
-    onSelect(index)
-  }, [index, onSelect])
+  const onClick = useCallback(() => onSelect(), [onSelect])
 
   const onMouseDown = useCallback(() => {
     selectedIndex !== index && listManager.setSelectedIndex(index)

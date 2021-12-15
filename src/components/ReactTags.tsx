@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { InternalRefs } from '../contexts'
-import { useKeepFocus, useListManager, useSelectTag } from '../hooks'
+import { useKeepFocus, useListManager, useOnSelect } from '../hooks'
 import { ComboBox, Input, ListBox, Option, Root, Tag, TagList } from '.'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
@@ -18,6 +18,7 @@ const DefaultClassNames: ClassNames = {
   suggestionsItem: 'react-tags__suggestions-item',
   suggestionActive: 'is-active',
   suggestionDisabled: 'is-disabled',
+  suggestionSelected: 'is-selected',
   suggestionPrefix: 'react-tags__suggestion-prefix',
 }
 
@@ -80,10 +81,7 @@ export function ReactTags({
     value: '',
   })
 
-  const selectTag = useSelectTag(listManager, {
-    allowNew,
-    onAddition,
-  })
+  const onSelect = useOnSelect(listManager, onAddition)
 
   return (
     <InternalRefs.Provider
@@ -94,7 +92,7 @@ export function ReactTags({
         listBoxRef,
         listManager,
         inputRef,
-        onSelect: selectTag,
+        onSelect,
       }}
     >
       <Root classNames={classNames}>
