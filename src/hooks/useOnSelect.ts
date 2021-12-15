@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { CreateNewOptionValue } from '../constants'
 import { findSuggestionExact } from '../lib/textMatchers'
 import type { UseListManagerState } from '.'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
@@ -23,8 +24,7 @@ export function useOnSelect(
 
   return useCallback(() => {
     if (selectedTag) {
-      // TODO: proper detection
-      if (selectedTag.value === null) {
+      if (selectedTag.value === CreateNewOptionValue) {
         return addTag({ label: value, value: null })
       }
 

@@ -18,7 +18,7 @@ export type ClassNames = {
 
 export type Tag = {
   label: string
-  value: string | number | null
+  value: string | number | symbol | null
 }
 
 export type TagMetaProps = {

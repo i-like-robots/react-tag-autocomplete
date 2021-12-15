@@ -8,3 +8,5 @@ export const KeyNames = {
   DownArrow: 'ArrowDown',
   DownArrowCompat: 'Down',
 }
+
+export const CreateNewOptionValue = Symbol('Create new tag')

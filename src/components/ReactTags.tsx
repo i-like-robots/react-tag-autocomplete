@@ -118,7 +118,7 @@ export function ReactTags({
           />
           <ListBox classNames={classNames}>
             {listManager.state.results.map((tag) => (
-              <Option key={`${tag.value}-${tag.label}`} classNames={classNames} tag={tag} />
+              <Option key={tag.label} classNames={classNames} tag={tag} />
             ))}
           </ListBox>
         </ComboBox>

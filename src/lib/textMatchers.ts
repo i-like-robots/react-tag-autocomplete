@@ -30,8 +30,11 @@ export function matchSuggestionsPartial(
   return suggestions.filter((item) => matcher(item.label))
 }
 
-export function findSuggestionIndex(value: string | number, suggestions: TagSuggestion[]): number {
-  return suggestions.findIndex((item) => item.value === value)
+export function findSuggestionIndex(
+  value: TagSuggestion['value'],
+  suggestions: TagSuggestion[]
+): number {
+  return value ? suggestions.findIndex((item) => item.value === value) : -1
 }
 
 export function findSuggestionExact(
