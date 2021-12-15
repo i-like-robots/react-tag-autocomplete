@@ -7,12 +7,16 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-  ],
+  extends: [],
   overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      extends: [
+        'eslint:recommended',
+        'plugin:react-hooks/recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+    },
     {
       files: ['**/*.spec.ts', '**/*.test.ts'],
       plugins: ['jest'],
