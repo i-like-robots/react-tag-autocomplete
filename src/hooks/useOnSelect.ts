@@ -21,31 +21,28 @@ export function useOnSelect(
     [manager, onAddition]
   )
 
-  return useCallback(
-    () => {
-      if (selectedTag) {
-        // TODO: proper detection
-        if (selectedTag.value === null) {
-          return addTag({ label: value, value: null })
-        }
-
-        if (!selectedTag.disabled && !selectedTag.selected) {
-          return addTag({ label: selectedTag.label, value: selectedTag.value })
-        }
-
-        return false
+  return useCallback(() => {
+    if (selectedTag) {
+      // TODO: proper detection
+      if (selectedTag.value === null) {
+        return addTag({ label: value, value: null })
       }
 
-      if (results.length) {
-        const match = findSuggestionExact(value, results)
-
-        if (match) {
-          return addTag({ label: match.label, value: match.value })
-        }
+      if (!selectedTag.disabled && !selectedTag.selected) {
+        return addTag({ label: selectedTag.label, value: selectedTag.value })
       }
 
       return false
-    },
-    [addTag, results, selectedTag, value]
-  )
+    }
+
+    if (results.length) {
+      const match = findSuggestionExact(value, results)
+
+      if (match) {
+        return addTag({ label: match.label, value: match.value })
+      }
+    }
+
+    return false
+  }, [addTag, results, selectedTag, value])
 }

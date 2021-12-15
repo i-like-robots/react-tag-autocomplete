@@ -7,16 +7,22 @@ import { countrySuggestions } from './countries'
  * Demo 1 - Country selector
  */
 
-function CountrySelector () {
+function CountrySelector() {
   const [tags, setTags] = useState([])
 
-  const onDelete = useCallback((tagIndex) => {
-    setTags(tags.filter((_, i) => i !== tagIndex))
-  }, [tags])
+  const onDelete = useCallback(
+    (tagIndex) => {
+      setTags(tags.filter((_, i) => i !== tagIndex))
+    },
+    [tags]
+  )
 
-  const onAddition = useCallback((newTag) => {
-    setTags([...tags, newTag])
-  }, [tags])
+  const onAddition = useCallback(
+    (newTag) => {
+      setTags([...tags, newTag])
+    },
+    [tags]
+  )
 
   return (
     <>
@@ -24,12 +30,16 @@ function CountrySelector () {
       <ReactTags
         tags={tags}
         suggestions={countrySuggestions}
-        noSuggestionsText='No matching countries'
+        noSuggestionsText="No matching countries"
         onDelete={onDelete}
         onAddition={onAddition}
       />
-      <p><b>Output:</b></p>
-      <pre><code>{JSON.stringify(tags, null, 2)}</code></pre>
+      <p>
+        <b>Output:</b>
+      </p>
+      <pre>
+        <code>{JSON.stringify(tags, null, 2)}</code>
+      </pre>
     </>
   )
 }
@@ -40,16 +50,22 @@ ReactDOM.render(<CountrySelector />, document.getElementById('demo-1'))
  * Demo 2 - Custom tags
  */
 
-function CustomTags () {
+function CustomTags() {
   const [tags, setTags] = useState([])
 
-  const onDelete = useCallback((tagIndex) => {
-    setTags(tags.filter((_, i) => i !== tagIndex))
-  }, [tags])
+  const onDelete = useCallback(
+    (tagIndex) => {
+      setTags(tags.filter((_, i) => i !== tagIndex))
+    },
+    [tags]
+  )
 
-  const onAddition = useCallback((newTag) => {
-    setTags([...tags, newTag])
-  }, [tags])
+  const onAddition = useCallback(
+    (newTag) => {
+      setTags([...tags, newTag])
+    },
+    [tags]
+  )
 
   const onValidate = useCallback((value) => {
     return /^[a-z]{3,12}$/i.test(value)
@@ -67,10 +83,16 @@ function CustomTags () {
         onValidate={onValidate}
       />
       <p style={{ margin: '0.25rem 0', color: 'gray' }}>
-        <small><em>Tags must be 3–12 characters in length and only contain the letters A-Z</em></small>
+        <small>
+          <em>Tags must be 3–12 characters in length and only contain the letters A-Z</em>
+        </small>
       </p>
-      <p><b>Output:</b></p>
-      <pre><code>{JSON.stringify(tags, null, 2)}</code></pre>
+      <p>
+        <b>Output:</b>
+      </p>
+      <pre>
+        <code>{JSON.stringify(tags, null, 2)}</code>
+      </pre>
     </>
   )
 }
