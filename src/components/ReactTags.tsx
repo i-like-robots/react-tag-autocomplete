@@ -34,7 +34,7 @@ export type ReactTagsProps = {
   newTagText?: string
   // noSuggestionsText?: string
   tagListTitleText?: string
-  onAddition: (tag: TagSelected) => void
+  onAddition: (tag: TagSelected) => boolean
   onDelete: (index: number) => void
   // onValidate: (value: string) => boolean
   placeholderText?: string

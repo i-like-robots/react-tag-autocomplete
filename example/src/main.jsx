@@ -20,6 +20,7 @@ function CountrySelector() {
   const onAddition = useCallback(
     (newTag) => {
       setTags([...tags, newTag])
+      return true
     },
     [tags]
   )
@@ -62,14 +63,15 @@ function CustomTags() {
 
   const onAddition = useCallback(
     (newTag) => {
-      setTags([...tags, newTag])
+      if (/^[a-z]{3,12}$/i.test(newTag.label)) {
+        setTags([...tags, newTag])
+        return true
+      }
+
+      return false
     },
     [tags]
   )
-
-  const onValidate = useCallback((value) => {
-    return /^[a-z]{3,12}$/i.test(value)
-  }, [])
 
   return (
     <>
@@ -80,7 +82,6 @@ function CustomTags() {
         suggestions={[]}
         onDelete={onDelete}
         onAddition={onAddition}
-        onValidate={onValidate}
       />
       <p style={{ margin: '0.25rem 0', color: 'gray' }}>
         <small>

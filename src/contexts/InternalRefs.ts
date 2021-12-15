@@ -7,7 +7,7 @@ export type InternalRefsContext = {
   comboBoxRef: React.MutableRefObject<HTMLDivElement>
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   listManager: UseListManagerState
-  onSelect: () => boolean
+  onSelect: () => void
   rootRef: React.MutableRefObject<HTMLDivElement>
 }
 
