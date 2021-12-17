@@ -1,35 +1,33 @@
 import { findSuggestionIndex, matchSuggestionsPartial } from '../lib/textMatchers'
 import { CreateNewOptionValue } from '../constants'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
-import { tagToKey } from '../lib'
 
 export enum ListManagerActions {
+  ActiveIndexNext,
+  ActiveIndexPrev,
+  ActiveIndexSet,
   ClearAll,
   ClearSelectedIndex,
-  SelectedIndexNext,
-  SelectedIndexPrev,
-  SetSelectedIndex,
   UpdateSelected,
   UpdateSuggestions,
   UpdateValue,
 }
 
 type ListManagerAction =
+  | { type: ListManagerActions.ActiveIndexNext }
+  | { type: ListManagerActions.ActiveIndexPrev }
+  | { type: ListManagerActions.ActiveIndexSet; payload: number }
   | { type: ListManagerActions.ClearAll }
   | { type: ListManagerActions.ClearSelectedIndex }
-  | { type: ListManagerActions.SelectedIndexNext }
-  | { type: ListManagerActions.SelectedIndexPrev }
-  | { type: ListManagerActions.SetSelectedIndex; payload: number }
   | { type: ListManagerActions.UpdateSelected; payload: TagSelected[] }
   | { type: ListManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
   | { type: ListManagerActions.UpdateValue; payload: string }
 
 export type ListManagerState = {
+  activeIndex: number
+  activeTag: TagSuggestion | null
   allowNew: boolean
   newTagText: string
-  // TODO: rename "Active"
-  selectedIndex: number
-  selectedTag: TagSuggestion | null
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   results: TagSuggestion[]
@@ -64,9 +62,9 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.ClearAll) {
     return {
       ...state,
+      activeIndex: -1,
+      activeTag: null,
       results: [],
-      selectedIndex: -1,
-      selectedTag: null,
       value: '',
     }
   }
@@ -74,38 +72,38 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.ClearSelectedIndex) {
     return {
       ...state,
-      selectedIndex: -1,
-      selectedTag: null,
+      activeIndex: -1,
+      activeTag: null,
     }
   }
 
-  if (action.type === ListManagerActions.SelectedIndexNext) {
-    const selectedIndex = loop(state.selectedIndex + 1, state.results.length)
+  if (action.type === ListManagerActions.ActiveIndexNext) {
+    const selectedIndex = loop(state.activeIndex + 1, state.results.length)
 
     return {
       ...state,
-      selectedIndex,
-      selectedTag: state.results[selectedIndex],
+      activeIndex: selectedIndex,
+      activeTag: state.results[selectedIndex],
     }
   }
 
-  if (action.type === ListManagerActions.SelectedIndexPrev) {
-    const selectedIndex = loop(state.selectedIndex - 1, state.results.length)
+  if (action.type === ListManagerActions.ActiveIndexPrev) {
+    const selectedIndex = loop(state.activeIndex - 1, state.results.length)
 
     return {
       ...state,
-      selectedIndex,
-      selectedTag: state.results[selectedIndex],
+      activeIndex: selectedIndex,
+      activeTag: state.results[selectedIndex],
     }
   }
 
-  if (action.type === ListManagerActions.SetSelectedIndex) {
+  if (action.type === ListManagerActions.ActiveIndexSet) {
     const selectedIndex = loop(action.payload, state.results.length)
 
     return {
       ...state,
-      selectedIndex,
-      selectedTag: state.results[selectedIndex],
+      activeIndex: selectedIndex,
+      activeTag: state.results[selectedIndex],
     }
   }
 
@@ -118,15 +116,13 @@ export function listManagerReducer(
 
     if (state.allowNew) results.push(createNewTag(state.newTagText, state.value))
 
-    const selectedIndex = state.selectedTag
-      ? findSuggestionIndex(state.selectedTag.value, results)
-      : -1
+    const selectedIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
 
     return {
       ...state,
+      activeIndex: selectedIndex,
+      activeTag: results[selectedIndex] || null,
       results,
-      selectedIndex,
-      selectedTag: results[selectedIndex] || null,
       suggestions: action.payload,
     }
   }
@@ -136,15 +132,13 @@ export function listManagerReducer(
 
     if (state.allowNew) results.push(createNewTag(state.newTagText, action.payload))
 
-    const selectedIndex = state.selectedTag
-      ? findSuggestionIndex(state.selectedTag.value, results)
-      : -1
+    const selectedIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
 
     return {
       ...state,
+      activeIndex: selectedIndex,
+      activeTag: results[selectedIndex] || null,
       results,
-      selectedIndex,
-      selectedTag: results[selectedIndex] || null,
       value: action.payload,
     }
   }

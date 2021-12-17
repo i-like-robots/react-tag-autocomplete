@@ -6,9 +6,9 @@ import type { TagSelected, TagSuggestion } from '../sharedTypes'
 export type UseListManagerAPI = {
   clearAll(): void
   clearSelectedIndex(): void
-  selectedIndexNext(): void
-  selectedIndexPrev(): void
-  setSelectedIndex(index: number): void
+  activeIndexNext(): void
+  activeIndexPrev(): void
+  setActiveIndex(index: number): void
   updateSelected(tags: TagSelected[]): void
   updateSuggestions(suggestions: TagSuggestion[]): void
   updateValue(value: string): void
@@ -22,20 +22,20 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
 
   api.current ??= {
     state: null,
+    activeIndexNext() {
+      dispatch({ type: ListManagerActions.ActiveIndexNext })
+    },
+    activeIndexPrev() {
+      dispatch({ type: ListManagerActions.ActiveIndexPrev })
+    },
     clearAll() {
       dispatch({ type: ListManagerActions.ClearAll })
     },
     clearSelectedIndex() {
       dispatch({ type: ListManagerActions.ClearSelectedIndex })
     },
-    selectedIndexNext() {
-      dispatch({ type: ListManagerActions.SelectedIndexNext })
-    },
-    selectedIndexPrev() {
-      dispatch({ type: ListManagerActions.SelectedIndexPrev })
-    },
-    setSelectedIndex(index: number) {
-      dispatch({ type: ListManagerActions.SetSelectedIndex, payload: index })
+    setActiveIndex(index: number) {
+      dispatch({ type: ListManagerActions.ActiveIndexSet, payload: index })
     },
     updateSelected(selected: TagSelected[]) {
       dispatch({ type: ListManagerActions.UpdateSelected, payload: selected })
@@ -50,10 +50,7 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
 
   api.current.state = state
 
-  useEffect(
-    () => api.current.updateSelected(initialState.selected),
-    [api, initialState.selected]
-  )
+  useEffect(() => api.current.updateSelected(initialState.selected), [api, initialState.selected])
 
   useEffect(
     () => api.current.updateSuggestions(initialState.suggestions),

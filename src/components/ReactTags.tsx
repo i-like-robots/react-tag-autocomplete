@@ -61,7 +61,6 @@ export function ReactTags({
   suggestions = [],
   tags = [],
 }: ReactTagsProps): JSX.Element {
-  // TODO: move refs into context
   const comboBoxRef = useRef<HTMLDivElement>()
   const containerRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
@@ -70,13 +69,13 @@ export function ReactTags({
   useKeepFocus({ containerRef, tags })
 
   const listManager = useListManager({
+    activeIndex: -1,
+    activeTag: null,
     allowNew,
     newTagText,
     results: [],
     selected: tags,
     suggestions,
-    selectedIndex: -1,
-    selectedTag: null,
     value: '',
   })
 

@@ -9,7 +9,7 @@ export type UseInputState = React.ComponentPropsWithRef<'input'>
 export function useInput(): UseInputState {
   const { id, inputRef, listManager, onSelect } = useContext(InternalRefs)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
-  const { selectedIndex, value } = listManager.state
+  const { activeIndex, value } = listManager.state
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => listManager.updateValue(e.currentTarget.value),
@@ -28,7 +28,7 @@ export function useInput(): UseInputState {
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isExpanded) {
         e.preventDefault()
-        listManager.selectedIndexNext()
+        listManager.activeIndexNext()
       } else if (isCaretAtEnd(e.currentTarget)) {
         expand()
       }
@@ -40,7 +40,7 @@ export function useInput(): UseInputState {
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isExpanded) {
         e.preventDefault()
-        listManager.selectedIndexPrev()
+        listManager.activeIndexPrev()
       } else if (isCaretAtStart(e.currentTarget)) {
         expand()
       }
@@ -78,7 +78,7 @@ export function useInput(): UseInputState {
 
   return {
     'aria-autocomplete': 'list',
-    'aria-activedescendant': isExpanded ? `${id}-listbox-${selectedIndex}` : '',
+    'aria-activedescendant': isExpanded ? `${id}-listbox-${activeIndex}` : '',
     'aria-owns': isExpanded ? `${id}-listbox` : '',
     'aria-expanded': isExpanded ? 'true' : 'false',
     autoComplete: 'false',

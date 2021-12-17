@@ -10,7 +10,7 @@ export function useOnSelect(
   manager: UseListManagerState,
   onAddition: (tag: TagSelected) => boolean
 ): UseOnSelectState {
-  const { results, selected, selectedTag, value } = manager.state
+  const { results, selected, activeTag, value } = manager.state
 
   const addTag = useCallback(
     (tag: TagSelected) => onAddition(tag) && manager.clearAll(),
@@ -18,16 +18,16 @@ export function useOnSelect(
   )
 
   return useCallback(() => {
-    if (selectedTag?.value === CreateNewOptionValue) {
+    if (activeTag?.value === CreateNewOptionValue) {
       return addTag({ label: value, value: null })
     }
 
     if (
-      selectedTag &&
-      selectedTag?.disabled !== true &&
-      !selected.some((selected) => selectedTag.value === selected.value)
+      activeTag &&
+      activeTag?.disabled !== true &&
+      !selected.some((selected) => activeTag.value === selected.value)
     ) {
-      return addTag({ label: selectedTag.label, value: selectedTag.value })
+      return addTag({ label: activeTag.label, value: activeTag.value })
     }
 
     if (value && results.length) {
@@ -37,5 +37,5 @@ export function useOnSelect(
         addTag({ label: match.label, value: match.value })
       }
     }
-  }, [addTag, results, selected, selectedTag, value])
+  }, [addTag, results, selected, activeTag, value])
 }

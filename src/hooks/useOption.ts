@@ -7,10 +7,10 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 export function useOption(tag: TagSuggestion): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
   const { id, listManager, onSelect } = useContext(InternalRefs)
-  const { results, selected: selectedTags, selectedIndex } = listManager.state
+  const { results, selected: selectedTags, activeIndex } = listManager.state
 
   const index = results.indexOf(tag)
-  const active = index === selectedIndex
+  const active = index === activeIndex
   const disabled = tag.disabled ?? false
   // TODO: optimise
   const selected = selectedTags.some((selected) => tag.value === selected.value)
@@ -18,8 +18,8 @@ export function useOption(tag: TagSuggestion): UseOptionState {
   const onClick = useCallback(() => onSelect(), [onSelect])
 
   const onMouseDown = useCallback(() => {
-    selectedIndex !== index && listManager.setSelectedIndex(index)
-  }, [index, listManager, selectedIndex])
+    activeIndex !== index && listManager.setActiveIndex(index)
+  }, [index, listManager, activeIndex])
 
   useLayoutEffect(() => {
     active && optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
