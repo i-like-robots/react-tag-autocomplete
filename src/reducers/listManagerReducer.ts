@@ -1,6 +1,7 @@
 import { findSuggestionIndex, matchSuggestionsPartial } from '../lib/textMatchers'
 import { CreateNewOptionValue } from '../constants'
-import type { TagSuggestion } from '../sharedTypes'
+import type { TagSelected, TagSuggestion } from '../sharedTypes'
+import { tagToKey } from '../lib'
 
 export enum ListManagerActions {
   ClearAll,
@@ -8,6 +9,7 @@ export enum ListManagerActions {
   SelectedIndexNext,
   SelectedIndexPrev,
   SetSelectedIndex,
+  UpdateSelected,
   UpdateSuggestions,
   UpdateValue,
 }
@@ -18,14 +20,17 @@ type ListManagerAction =
   | { type: ListManagerActions.SelectedIndexNext }
   | { type: ListManagerActions.SelectedIndexPrev }
   | { type: ListManagerActions.SetSelectedIndex; payload: number }
+  | { type: ListManagerActions.UpdateSelected; payload: TagSelected[] }
   | { type: ListManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
   | { type: ListManagerActions.UpdateValue; payload: string }
 
 export type ListManagerState = {
   allowNew: boolean
   newTagText: string
+  // TODO: rename "Active"
   selectedIndex: number
   selectedTag: TagSuggestion | null
+  selected: TagSelected[]
   suggestions: TagSuggestion[]
   results: TagSuggestion[]
   value: string
@@ -102,6 +107,10 @@ export function listManagerReducer(
       selectedIndex,
       selectedTag: state.results[selectedIndex],
     }
+  }
+
+  if (action.type === ListManagerActions.UpdateSelected) {
+    return { ...state, selected: action.payload }
   }
 
   if (action.type === ListManagerActions.UpdateSuggestions) {

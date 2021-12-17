@@ -129,7 +129,11 @@
   background: #b7cfe0;
 }
 
-.react-tags__suggestions-item.is-disabled {
-  opacity: 0.5;
-  cursor: auto;
+.react-tags__suggestions-item[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.react-tags__suggestions-item[aria-selected="true"]::after {
+  content: ' ✓'
 }

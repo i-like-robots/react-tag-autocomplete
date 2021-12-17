@@ -10,7 +10,7 @@ export function useOnSelect(
   manager: UseListManagerState,
   onAddition: (tag: TagSelected) => boolean
 ): UseOnSelectState {
-  const { results, selectedTag, value } = manager.state
+  const { results, selected, selectedTag, value } = manager.state
 
   const addTag = useCallback(
     (tag: TagSelected) => onAddition(tag) && manager.clearAll(),
@@ -22,7 +22,11 @@ export function useOnSelect(
       return addTag({ label: value, value: null })
     }
 
-    if (selectedTag && selectedTag?.disabled !== true) {
+    if (
+      selectedTag &&
+      selectedTag?.disabled !== true &&
+      !selected.some((selected) => selectedTag.value === selected.value)
+    ) {
       return addTag({ label: selectedTag.label, value: selectedTag.value })
     }
 
@@ -33,5 +37,5 @@ export function useOnSelect(
         addTag({ label: match.label, value: match.value })
       }
     }
-  }, [addTag, results, selectedTag, value])
+  }, [addTag, results, selected, selectedTag, value])
 }

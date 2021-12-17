@@ -18,9 +18,6 @@ const DefaultClassNames: ClassNames = {
   suggestions: 'react-tags__suggestions',
   suggestionsItem: 'react-tags__suggestions-item',
   suggestionActive: 'is-active',
-  suggestionDisabled: 'is-disabled',
-  suggestionSelected: 'is-selected',
-  suggestionPrefix: 'react-tags__suggestion-prefix',
 }
 
 export type ReactTagsProps = {
@@ -76,6 +73,7 @@ export function ReactTags({
     allowNew,
     newTagText,
     results: [],
+    selected: tags,
     suggestions,
     selectedIndex: -1,
     selectedTag: null,

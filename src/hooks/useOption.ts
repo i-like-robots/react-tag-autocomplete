@@ -7,12 +7,13 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 export function useOption(tag: TagSuggestion): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
   const { id, listManager, onSelect } = useContext(InternalRefs)
-  const { results, selectedIndex } = listManager.state
+  const { results, selected: selectedTags, selectedIndex } = listManager.state
 
   const index = results.indexOf(tag)
   const active = index === selectedIndex
   const disabled = tag.disabled ?? false
-  const selected = tag.selected ?? false
+  // TODO: optimise
+  const selected = selectedTags.some((selected) => tag.value === selected.value)
 
   const onClick = useCallback(() => onSelect(), [onSelect])
 
@@ -33,7 +34,7 @@ export function useOption(tag: TagSuggestion): UseOptionState {
     optionProps: {
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
-      'aria-selected': selected,
+      'aria-selected': disabled ? null : selected,
       'aria-setsize': results.length,
       id: `${id}-listbox-${index}`,
       onClick,

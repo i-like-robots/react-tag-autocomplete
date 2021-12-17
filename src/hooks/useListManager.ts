@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useRef } from 'react'
 import { listManagerReducer, ListManagerActions } from '../reducers'
 import type { ListManagerState } from '../reducers'
-import type { TagSuggestion } from '../sharedTypes'
+import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
 export type UseListManagerAPI = {
   clearAll(): void
@@ -9,6 +9,7 @@ export type UseListManagerAPI = {
   selectedIndexNext(): void
   selectedIndexPrev(): void
   setSelectedIndex(index: number): void
+  updateSelected(tags: TagSelected[]): void
   updateSuggestions(suggestions: TagSuggestion[]): void
   updateValue(value: string): void
 }
@@ -36,6 +37,9 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
     setSelectedIndex(index: number) {
       dispatch({ type: ListManagerActions.SetSelectedIndex, payload: index })
     },
+    updateSelected(selected: TagSelected[]) {
+      dispatch({ type: ListManagerActions.UpdateSelected, payload: selected })
+    },
     updateSuggestions(suggestions: TagSuggestion[]) {
       dispatch({ type: ListManagerActions.UpdateSuggestions, payload: suggestions })
     },
@@ -45,6 +49,11 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
   }
 
   api.current.state = state
+
+  useEffect(
+    () => api.current.updateSelected(initialState.selected),
+    [api, initialState.selected]
+  )
 
   useEffect(
     () => api.current.updateSuggestions(initialState.suggestions),
