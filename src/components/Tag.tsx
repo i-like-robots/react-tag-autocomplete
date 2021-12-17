@@ -1,14 +1,15 @@
 import React from 'react'
 import type { ClassNames, TagSelected } from '../sharedTypes'
 
-export type TagProps = TagSelected & {
+export type TagProps = {
   classNames: ClassNames
   onClick: () => void
   removeButtonText: string
+  tag: TagSelected
 }
 
-export function Tag({ classNames, label, onClick, removeButtonText }: TagProps): JSX.Element {
-  const ariaLabel = removeButtonText.replace('%label%', label)
+export function Tag({ classNames, onClick, removeButtonText, tag }: TagProps): JSX.Element {
+  const ariaLabel = removeButtonText.replace('%label%', tag.label)
 
   return (
     <button
@@ -17,7 +18,7 @@ export function Tag({ classNames, label, onClick, removeButtonText }: TagProps):
       aria-label={ariaLabel}
       onClick={onClick}
     >
-      <span className={classNames.selectedTagName}>{label}</span>
+      <span className={classNames.selectedTagName}>{tag.label}</span>
     </button>
   )
 }

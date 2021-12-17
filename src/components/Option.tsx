@@ -12,8 +12,8 @@ export function Option({ classNames, tag }: OptionProps): JSX.Element {
 
   const classes = [classNames.suggestionsItem]
 
-  disabled && classes.push(classNames.suggestionDisabled)
   active && classes.push(classNames.suggestionActive)
+  disabled && classes.push(classNames.suggestionDisabled)
   selected && classes.push(classNames.suggestionSelected)
 
   return (

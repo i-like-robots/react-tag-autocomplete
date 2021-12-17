@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { tagToKey } from '../lib'
 import { InternalRefs } from '../contexts'
 import { useKeepFocus, useListManager, useOnSelect } from '../hooks'
 import { ComboBox, Input, ListBox, Option, Root, Tag, TagList } from '.'
@@ -96,19 +97,17 @@ export function ReactTags({
       }}
     >
       <Root classNames={classNames}>
-        <TagList
-          classNames={classNames}
-          tags={tags}
-          tagListTitleText={tagListTitleText}
-          renderTag={(tag, index) => (
+        <TagList classNames={classNames} tagListTitleText={tagListTitleText}>
+          {tags.map((tag, index) => (
             <Tag
+              key={tagToKey(tag)}
               classNames={classNames}
               onClick={() => onDelete(index)}
               removeButtonText={removeButtonText}
-              {...tag}
+              tag={tag}
             />
-          )}
-        />
+          ))}
+        </TagList>
         <ComboBox classNames={classNames}>
           <Input
             allowResize={allowResize}
@@ -118,7 +117,7 @@ export function ReactTags({
           />
           <ListBox classNames={classNames}>
             {listManager.state.results.map((tag) => (
-              <Option key={tag.label} classNames={classNames} tag={tag} />
+              <Option key={tagToKey(tag)} classNames={classNames} tag={tag} />
             ))}
           </ListBox>
         </ComboBox>

@@ -1,25 +1,20 @@
 import React from 'react'
-import type { ClassNames, TagSelected } from '../sharedTypes'
+import type { TagProps } from './'
+import type { ClassNames } from '../sharedTypes'
 
 export type TagListProps = {
+  children: React.ReactElement<TagProps>[]
   classNames: ClassNames
-  renderTag: (tag: TagSelected, index: number) => JSX.Element
-  tags: TagSelected[]
   tagListTitleText: string
 }
 
-export function TagList({
-  classNames,
-  renderTag,
-  tags,
-  tagListTitleText,
-}: TagListProps): JSX.Element {
+export function TagList({ children, classNames, tagListTitleText }: TagListProps): JSX.Element {
   return (
     <>
       <ul className={classNames.selected} aria-label={tagListTitleText}>
-        {tags.map((tag, index) => (
-          <li className={classNames.selectedItem} key={`${tag.value}-${tag.label}`} role="listitem">
-            {renderTag(tag, index)}
+        {children.map((child) => (
+          <li className={classNames.selectedItem} key={child.key} role="listitem">
+            {child}
           </li>
         ))}
       </ul>
