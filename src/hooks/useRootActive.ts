@@ -11,7 +11,7 @@ export type UseRootActiveState = {
 export function useRootActive(): UseRootActiveState {
   const [isActive, setIsActive] = useState<boolean>(false)
 
-  const { inputRef, rootRef } = useContext(InternalRefs)
+  const { id, inputRef, rootRef } = useContext(InternalRefs)
 
   const onFocus = useCallback(() => setIsActive(true), [])
 
@@ -31,6 +31,7 @@ export function useRootActive(): UseRootActiveState {
   return {
     isActive,
     rootProps: {
+      'aria-describedby': `${id}-label`,
       onBlur,
       onClick,
       onFocus,

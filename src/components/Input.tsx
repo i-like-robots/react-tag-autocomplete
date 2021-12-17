@@ -5,14 +5,12 @@ import type { ClassNames } from '../sharedTypes'
 
 export type InputProps = {
   allowResize?: boolean
-  ariaLabelText: string
   classNames: ClassNames
   placeholderText: string
 }
 
 export function Input({
   allowResize = true,
-  ariaLabelText,
   classNames,
   placeholderText,
 }: InputProps): JSX.Element {
@@ -28,7 +26,6 @@ export function Input({
   return (
     <div className={classNames.searchWrapper}>
       <input
-        aria-label={ariaLabelText}
         className={classNames.searchInput}
         placeholder={placeholderText}
         style={{ width }}

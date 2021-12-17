@@ -29,6 +29,7 @@ function CountrySelector() {
     <>
       <p>Select the countries you have visited below:</p>
       <ReactTags
+        ariaLabelText="Select countries"
         tags={tags}
         suggestions={countrySuggestions}
         noSuggestionsText="No matching countries"
@@ -78,6 +79,7 @@ function CustomTags() {
       <p>Enter new tags meeting the requirements below:</p>
       <ReactTags
         allowNew
+        ariaLabelText="Enter new tags"
         tags={tags}
         suggestions={[]}
         onDelete={onDelete}

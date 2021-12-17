@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { tagToKey } from '../lib'
 import { InternalRefs } from '../contexts'
 import { useKeepFocus, useListManager, useOnSelect } from '../hooks'
-import { ComboBox, Input, ListBox, Option, Root, Tag, TagList } from '.'
+import { ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -45,7 +45,7 @@ export function ReactTags({
   // allowBackspace = true,
   allowNew = false,
   allowResize = true,
-  ariaLabelText = 'Test label',
+  ariaLabelText = 'Select tags',
   classNames = DefaultClassNames,
   // disabled = false,
   id = 'react-tags',
@@ -94,7 +94,8 @@ export function ReactTags({
         onSelect,
       }}
     >
-      <Root classNames={classNames}>
+      <Root ariaLabelText={ariaLabelText} classNames={classNames}>
+        <Label ariaLabelText={ariaLabelText} />
         <TagList classNames={classNames} tagListTitleText={tagListTitleText}>
           {tags.map((tag, index) => (
             <Tag
@@ -109,7 +110,6 @@ export function ReactTags({
         <ComboBox classNames={classNames}>
           <Input
             allowResize={allowResize}
-            ariaLabelText={ariaLabelText}
             classNames={classNames}
             placeholderText={placeholderText}
           />

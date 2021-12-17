@@ -79,8 +79,9 @@ export function useInput(): UseInputState {
   return {
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded ? `${id}-listbox-${activeIndex}` : '',
-    'aria-owns': isExpanded ? `${id}-listbox` : '',
-    'aria-expanded': isExpanded ? 'true' : 'false',
+    'aria-labelledby': `${id}-label`,
+    'aria-expanded': isExpanded,
+    'aria-owns': isExpanded ? `${id}-listbox` : null,
     autoComplete: 'false',
     id: `${id}-input`,
     onChange,

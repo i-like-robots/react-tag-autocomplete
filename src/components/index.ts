@@ -1,5 +1,6 @@
 export * from './ComboBox'
 export * from './Input'
+export * from './Label'
 export * from './ListBox'
 export * from './Option'
 export * from './Root'
