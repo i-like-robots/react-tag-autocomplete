@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { CreateNewOptionValue } from '../constants'
-import { findSuggestionExact } from '../lib/textMatchers'
+import { findSuggestionExact, tagToKey } from '../lib'
 import type { UseListManagerState } from '.'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
@@ -10,7 +10,7 @@ export function useOnSelect(
   manager: UseListManagerState,
   onAddition: (tag: TagSelected) => boolean
 ): UseOnSelectState {
-  const { results, selected, activeTag, value } = manager.state
+  const { activeTag, results, selectedKeys, value } = manager.state
 
   const addTag = useCallback(
     (tag: TagSelected) => onAddition(tag) && manager.clearAll(),
@@ -25,7 +25,7 @@ export function useOnSelect(
     if (
       activeTag &&
       activeTag?.disabled !== true &&
-      !selected.some((selected) => activeTag.value === selected.value)
+      selectedKeys.has(tagToKey(activeTag)) !== true
     ) {
       return addTag({ label: activeTag.label, value: activeTag.value })
     }
@@ -37,5 +37,5 @@ export function useOnSelect(
         addTag({ label: match.label, value: match.value })
       }
     }
-  }, [addTag, results, selected, activeTag, value])
+  }, [activeTag, addTag, results, selectedKeys, value])
 }

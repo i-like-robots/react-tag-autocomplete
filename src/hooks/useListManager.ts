@@ -1,4 +1,5 @@
 import { useEffect, useReducer, useRef } from 'react'
+import { tagsToKeys } from '../lib'
 import { listManagerReducer, ListManagerActions } from '../reducers'
 import type { ListManagerState } from '../reducers'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
@@ -16,9 +17,14 @@ export type UseListManagerAPI = {
 
 export type UseListManagerState = UseListManagerAPI & { state: ListManagerState }
 
+function getInitialState(initialState: ListManagerState) {
+  const selectedKeys = new Set(tagsToKeys(initialState.selectedTags))
+  return { ...initialState, selectedKeys }
+}
+
 export function useListManager(initialState: ListManagerState): UseListManagerState {
   const api = useRef<UseListManagerState>()
-  const [state, dispatch] = useReducer(listManagerReducer, initialState)
+  const [state, dispatch] = useReducer(listManagerReducer, initialState, getInitialState)
 
   api.current ??= {
     state: null,
@@ -50,7 +56,10 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
 
   api.current.state = state
 
-  useEffect(() => api.current.updateSelected(initialState.selected), [api, initialState.selected])
+  useEffect(
+    () => api.current.updateSelected(initialState.selectedTags),
+    [api, initialState.selectedTags]
+  )
 
   useEffect(
     () => api.current.updateSuggestions(initialState.suggestions),

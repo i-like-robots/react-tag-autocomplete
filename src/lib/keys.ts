@@ -4,6 +4,6 @@ export function tagToKey(tag: Tag): string {
   return `${String(tag.value)}-${tag.label}`
 }
 
-export function tagsToKey(tags: Tag[]): string[] {
+export function tagsToKeys(tags: Tag[]): string[] {
   return tags.map(tagToKey)
 }

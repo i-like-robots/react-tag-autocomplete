@@ -74,7 +74,8 @@ export function ReactTags({
     allowNew,
     newTagText,
     results: [],
-    selected: tags,
+    selectedKeys: null,
+    selectedTags: tags,
     suggestions,
     value: '',
   })
