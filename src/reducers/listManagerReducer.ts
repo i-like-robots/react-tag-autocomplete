@@ -66,7 +66,7 @@ export function listManagerReducer(
       ...state,
       activeIndex: -1,
       activeTag: null,
-      results: [],
+      results: [...state.suggestions],
       value: '',
     }
   }
