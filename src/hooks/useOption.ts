@@ -23,7 +23,7 @@ export function useOption(tag: TagSuggestion): UseOptionState {
 
   useLayoutEffect(() => {
     active && optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
-  }, [active])
+  }, [active, results.length])
 
   return {
     ...tag,
