@@ -1,14 +1,15 @@
 import React from 'react'
-import { useRootActive } from '../hooks'
+import { useManageFocus, useRootActive } from '../hooks'
 import type { ClassNames } from '../sharedTypes'
 
 export type RootProps = {
-  ariaLabelText: string
   children: React.ReactNode[]
   classNames: ClassNames
 }
 
 export function Root({ children, classNames }: RootProps): JSX.Element {
+  useManageFocus()
+
   const { isActive, rootProps } = useRootActive()
 
   const classes = [classNames.root]

@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { InternalRefs } from '../contexts'
 import type React from 'react'
-import type { CSSProperties } from 'react'
 
 const SizerStyles: React.CSSProperties = {
   position: 'absolute',
@@ -12,7 +11,7 @@ const SizerStyles: React.CSSProperties = {
   whiteSpace: 'pre',
 }
 
-const STYLE_PROPS: Array<keyof CSSProperties> = [
+const StyleProps: Array<keyof React.CSSProperties> = [
   'fontFamily',
   'fontSize',
   'fontStyle',
@@ -21,7 +20,7 @@ const STYLE_PROPS: Array<keyof CSSProperties> = [
   'textTransform',
 ]
 
-export type UseInputWidthProps = {
+export type UseInputWidthArgs = {
   allowResize: boolean
   value: string
 }
@@ -34,7 +33,7 @@ export type UseInputWidthState = {
 export function useInputWidth({
   allowResize = true,
   value,
-}: UseInputWidthProps): UseInputWidthState {
+}: UseInputWidthArgs): UseInputWidthState {
   const { inputRef } = useContext(InternalRefs)
 
   const sizerRef = useRef<HTMLDivElement>()
@@ -53,7 +52,7 @@ export function useInputWidth({
   useEffect(() => {
     const inputStyle = window.getComputedStyle(inputRef.current)
 
-    STYLE_PROPS.forEach((prop) => {
+    StyleProps.forEach((prop) => {
       sizerRef.current.style[prop] = inputStyle[prop]
     })
 
