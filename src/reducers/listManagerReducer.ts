@@ -7,8 +7,8 @@ export enum ListManagerActions {
   ActiveIndexNext,
   ActiveIndexPrev,
   ActiveIndexSet,
-  ClearAll,
-  ClearSelectedIndex,
+  ClearActiveIndex,
+  ClearValue,
   UpdateSelected,
   UpdateSuggestions,
   UpdateValue,
@@ -18,8 +18,8 @@ type ListManagerAction =
   | { type: ListManagerActions.ActiveIndexNext }
   | { type: ListManagerActions.ActiveIndexPrev }
   | { type: ListManagerActions.ActiveIndexSet; payload: number }
-  | { type: ListManagerActions.ClearAll }
-  | { type: ListManagerActions.ClearSelectedIndex }
+  | { type: ListManagerActions.ClearActiveIndex }
+  | { type: ListManagerActions.ClearValue }
   | { type: ListManagerActions.UpdateSelected; payload: TagSelected[] }
   | { type: ListManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
   | { type: ListManagerActions.UpdateValue; payload: string }
@@ -61,7 +61,7 @@ export function listManagerReducer(
   state: ListManagerState,
   action: ListManagerAction
 ): ListManagerState {
-  if (action.type === ListManagerActions.ClearAll) {
+  if (action.type === ListManagerActions.ClearValue) {
     return {
       ...state,
       activeIndex: -1,
@@ -71,7 +71,7 @@ export function listManagerReducer(
     }
   }
 
-  if (action.type === ListManagerActions.ClearSelectedIndex) {
+  if (action.type === ListManagerActions.ClearActiveIndex) {
     return {
       ...state,
       activeIndex: -1,

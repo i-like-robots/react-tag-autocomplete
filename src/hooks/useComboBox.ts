@@ -29,7 +29,7 @@ export function useComboBox(): UseComboBoxState {
   const onBlur = useCallback(
     (e: React.FocusEvent) => {
       if (comboBoxRef.current?.contains(e.relatedTarget) === false) {
-        listManager.clearSelectedIndex()
+        listManager.clearActiveIndex()
         setIsFocused(false)
       }
     },

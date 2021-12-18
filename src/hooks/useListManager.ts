@@ -5,8 +5,8 @@ import type { ListManagerState } from '../reducers'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
 export type UseListManagerAPI = {
-  clearAll(): void
-  clearSelectedIndex(): void
+  clearActiveIndex(): void
+  clearValue(): void
   activeIndexNext(): void
   activeIndexPrev(): void
   setActiveIndex(index: number): void
@@ -34,11 +34,11 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
     activeIndexPrev() {
       dispatch({ type: ListManagerActions.ActiveIndexPrev })
     },
-    clearAll() {
-      dispatch({ type: ListManagerActions.ClearAll })
+    clearActiveIndex() {
+      dispatch({ type: ListManagerActions.ClearActiveIndex })
     },
-    clearSelectedIndex() {
-      dispatch({ type: ListManagerActions.ClearSelectedIndex })
+    clearValue() {
+      dispatch({ type: ListManagerActions.ClearValue })
     },
     setActiveIndex(index: number) {
       dispatch({ type: ListManagerActions.ActiveIndexSet, payload: index })

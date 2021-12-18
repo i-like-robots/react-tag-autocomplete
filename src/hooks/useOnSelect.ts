@@ -13,7 +13,7 @@ export function useOnSelect(
   const { activeTag, results, selectedKeys, value } = manager.state
 
   const addTag = useCallback(
-    (tag: TagSelected) => onAddition(tag) && manager.clearAll(),
+    (tag: TagSelected) => onAddition(tag) && manager.clearValue(),
     [manager, onAddition]
   )
 

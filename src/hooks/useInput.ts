@@ -50,7 +50,7 @@ export function useInput(): UseInputState {
 
   const onEscapeKey = useCallback(() => {
     if (isExpanded) {
-      listManager.clearSelectedIndex()
+      listManager.clearActiveIndex()
       collapse()
     }
   }, [collapse, isExpanded, listManager])
