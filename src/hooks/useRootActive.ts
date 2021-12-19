@@ -1,8 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react'
 import { InternalRefs } from '../contexts'
 
-// export type UseRootActiveProps = {}
-
 export type UseRootActiveState = {
   isActive: boolean
   rootProps: React.ComponentPropsWithRef<'div'>

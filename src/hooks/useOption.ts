@@ -7,7 +7,7 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(tag: TagSuggestion): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
-  const { id, listManager, onSelect } = useContext(InternalRefs)
+  const { id, inputRef, listManager, onSelect } = useContext(InternalRefs)
   const { results, selectedKeys, activeIndex } = listManager.state
 
   const index = results.indexOf(tag)
@@ -15,7 +15,10 @@ export function useOption(tag: TagSuggestion): UseOptionState {
   const disabled = tag.disabled ?? false
   const selected = selectedKeys.has(tagToKey(tag))
 
-  const onClick = useCallback(() => onSelect(), [onSelect])
+  const onClick = useCallback(() => {
+    onSelect()
+    inputRef.current?.focus()
+  }, [inputRef, onSelect])
 
   const onMouseDown = useCallback(() => {
     activeIndex !== index && listManager.setActiveIndex(index)
@@ -41,7 +44,6 @@ export function useOption(tag: TagSuggestion): UseOptionState {
       onMouseDown,
       ref: optionRef,
       role: 'option',
-      tabIndex: -1,
     },
   }
 }
