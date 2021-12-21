@@ -9,6 +9,7 @@ import { countrySuggestions } from './countries'
 
 function CountrySelector() {
   const [tags, setTags] = useState([])
+  const [isDisabled, setIsDisabled] = useState(false)
 
   const onDelete = useCallback(
     (tagIndex) => {
@@ -30,12 +31,16 @@ function CountrySelector() {
       <p>Select the countries you have visited below:</p>
       <ReactTags
         ariaLabelText="Select countries"
+        isDisabled={isDisabled}
         tags={tags}
         suggestions={countrySuggestions}
         noSuggestionsText="No matching countries"
         onDelete={onDelete}
         onAddition={onAddition}
       />
+      <label>
+        <input type="checkbox" onChange={() => setIsDisabled(!isDisabled)} /> Disabled
+      </label>
       <p>
         <b>Output:</b>
       </p>

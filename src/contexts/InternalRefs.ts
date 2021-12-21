@@ -2,9 +2,10 @@ import React from 'react'
 import type { UseListManagerState } from '../hooks'
 
 export type InternalRefsContext = {
+  comboBoxRef: React.MutableRefObject<HTMLDivElement>
   id: string
   inputRef: React.MutableRefObject<HTMLInputElement>
-  comboBoxRef: React.MutableRefObject<HTMLDivElement>
+  isDisabled: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   listManager: UseListManagerState
   onSelect: () => void

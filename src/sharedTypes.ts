@@ -1,6 +1,7 @@
 export type ClassNames = {
   root: string
   rootActive: string
+  rootDisabled: string
   selected: string
   selectedItem: string
   selectedTag: string

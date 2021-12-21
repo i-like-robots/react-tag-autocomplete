@@ -11,12 +11,12 @@ export type UseComboBoxState = {
 }
 
 export function useComboBox(): UseComboBoxState {
-  const { comboBoxRef, id, listManager } = useContext(InternalRefs)
+  const { comboBoxRef, id, isDisabled, listManager } = useContext(InternalRefs)
 
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
-  const canExpand = Boolean(isFocused && listManager.state.results.length)
+  const canExpand = Boolean(!isDisabled && isFocused && listManager.state.results.length)
 
   useEffect(() => setIsExpanded(canExpand), [canExpand])
 

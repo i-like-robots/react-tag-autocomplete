@@ -44,6 +44,7 @@ export function useOption(tag: TagSuggestion): UseOptionState {
       onMouseDown,
       ref: optionRef,
       role: 'option',
+      tabIndex: -1,
     },
   }
 }

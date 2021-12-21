@@ -12,10 +12,16 @@
   cursor: text;
 }
 
-.react-tags:focus,
 .react-tags.is-active {
   border-color: #666666;
   box-shadow: 0 0 0 2px rgba(58, 182, 255, 0.2)
+}
+
+.react-tags.is-disabled {
+  opacity: 0.75;
+  background-color: #eee;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .react-tags__selected {
@@ -84,6 +90,7 @@
   padding: 0;
   border: 0;
   outline: none;
+  background: none;
 
   /* match the font styles */
   font-size: inherit;

@@ -7,13 +7,15 @@ import type React from 'react'
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput(): UseInputState {
-  const { id, inputRef, listManager, onSelect } = useContext(InternalRefs)
+  const { id, inputRef, isDisabled, listManager, onSelect } = useContext(InternalRefs)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
   const { activeIndex, value } = listManager.state
 
   const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => listManager.updateValue(e.currentTarget.value),
-    [listManager]
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!isDisabled) listManager.updateValue(e.currentTarget.value)
+    },
+    [isDisabled, listManager]
   )
 
   const onEnterKey = useCallback(
@@ -79,6 +81,7 @@ export function useInput(): UseInputState {
   return {
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded ? `${id}-listbox-${activeIndex}` : '',
+    'aria-disabled': isDisabled,
     'aria-labelledby': `${id}-label`,
     'aria-expanded': isExpanded,
     'aria-owns': isExpanded ? `${id}-listbox` : null,

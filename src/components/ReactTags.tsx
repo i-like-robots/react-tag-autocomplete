@@ -8,6 +8,7 @@ import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 const DefaultClassNames: ClassNames = {
   root: 'react-tags',
   rootActive: 'is-active',
+  rootDisabled: 'is-disabled',
   selected: 'react-tags__selected',
   selectedItem: 'react-tags__selected-item',
   selectedTag: 'react-tags__selected-tag',
@@ -26,8 +27,8 @@ export type ReactTagsProps = {
   allowResize?: boolean
   ariaLabelText?: string
   classNames?: ClassNames
-  // disabled?: boolean
   id?: string
+  isDisabled?: boolean
   // invalid?: boolean
   newTagText?: string
   // noSuggestionsText?: string
@@ -47,8 +48,8 @@ export function ReactTags({
   allowResize = true,
   ariaLabelText = 'Select tags',
   classNames = DefaultClassNames,
-  // disabled = false,
   id = 'react-tags',
+  isDisabled = false,
   // invalid = false,
   newTagText = 'Add %value%',
   // noSuggestionsText = 'No matches found',
@@ -62,9 +63,9 @@ export function ReactTags({
   tags = [],
 }: ReactTagsProps): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>()
-  const containerRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
   const listBoxRef = useRef<HTMLDivElement>()
+  const rootRef = useRef<HTMLDivElement>()
 
   const listManager = useListManager({
     activeIndex: -1,
@@ -78,18 +79,19 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect(listManager, onAddition)
+  const onSelect = useOnSelect(listManager, isDisabled, onAddition)
 
   return (
     <InternalRefs.Provider
       value={{
-        rootRef: containerRef,
         comboBoxRef,
         id,
+        inputRef,
+        isDisabled,
         listBoxRef,
         listManager,
-        inputRef,
         onSelect,
+        rootRef,
       }}
     >
       <Root classNames={classNames}>
