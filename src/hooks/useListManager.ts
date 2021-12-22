@@ -18,7 +18,7 @@ export type UseListManagerAPI = {
 export type UseListManagerState = UseListManagerAPI & { state: ListManagerState }
 
 function getInitialState(initialState: ListManagerState) {
-  const selectedKeys = new Set(tagsToKeys(initialState.selectedTags))
+  const selectedKeys = tagsToKeys(initialState.selectedTags)
   return { ...initialState, selectedKeys }
 }
 

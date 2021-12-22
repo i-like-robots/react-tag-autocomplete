@@ -34,7 +34,7 @@ export type ReactTagsProps = {
   // noSuggestionsText?: string
   tagListTitleText?: string
   onAddition: (tag: TagSelected) => boolean
-  onDelete: (index: number) => void
+  onDelete: (index: number) => boolean
   // onValidate: (value: string) => boolean
   placeholderText?: string
   removeButtonText?: string
@@ -79,7 +79,7 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect(listManager, isDisabled, onAddition)
+  const onSelect = useOnSelect(listManager, isDisabled, onAddition, onDelete)
 
   return (
     <InternalRefs.Provider

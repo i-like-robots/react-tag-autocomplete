@@ -13,7 +13,7 @@ export function useOption(tag: TagSuggestion): UseOptionState {
   const index = results.indexOf(tag)
   const active = index === activeIndex
   const disabled = tag.disabled ?? false
-  const selected = selectedKeys.has(tagToKey(tag))
+  const selected = selectedKeys.includes(tagToKey(tag))
 
   const onClick = useCallback(() => {
     onSelect()

@@ -2,22 +2,29 @@ import { useCallback } from 'react'
 import { CreateNewOptionValue } from '../constants'
 import { findSuggestionExact, tagToKey } from '../lib'
 import type { UseListManagerState } from '.'
-import type { Tag, TagSelected, TagSuggestion } from '../sharedTypes'
+import type { Tag, TagSelected } from '../sharedTypes'
 
-export type UseOnSelectState = (tag?: TagSuggestion) => void
+export type UseOnSelectState = () => void
 
 export function useOnSelect(
   manager: UseListManagerState,
   isDisabled: boolean,
-  onAddition: (tag: TagSelected) => boolean
+  onAddition: (tag: TagSelected) => boolean,
+  onDelete: (index: number) => boolean
 ): UseOnSelectState {
   const { activeTag, results, selectedKeys, value } = manager.state
 
-  const addTag = useCallback(
+  const selectTag = useCallback(
     (tag: TagSelected) => {
-      if (onAddition(tag)) manager.clearValue()
+      const index = selectedKeys.indexOf(tagToKey(tag))
+
+      if (index > -1) {
+        onDelete(index) && manager.clearValue()
+      } else {
+        onAddition(tag) && manager.clearValue()
+      }
     },
-    [manager, onAddition]
+    [manager, onAddition, onDelete, selectedKeys]
   )
 
   const getNewTag = useCallback((): Tag => {
@@ -27,16 +34,12 @@ export function useOnSelect(
   }, [activeTag, value])
 
   const getActiveTag = useCallback((): Tag => {
-    if (
-      activeTag &&
-      activeTag?.disabled !== true &&
-      selectedKeys.has(tagToKey(activeTag)) !== true
-    ) {
+    if (activeTag && activeTag?.disabled !== true) {
       return { label: activeTag.label, value: activeTag.value }
     }
-  }, [activeTag, selectedKeys])
+  }, [activeTag])
 
-  const getExactTag = useCallback(() => {
+  const getExactTag = useCallback((): Tag => {
     if (value && results.length) {
       const match = findSuggestionExact(value, results)
 
@@ -50,12 +53,12 @@ export function useOnSelect(
     if (isDisabled) return
 
     const newTag = getNewTag()
-    if (newTag) return addTag(newTag)
+    if (newTag) return selectTag(newTag)
 
     const activeTag = getActiveTag()
-    if (activeTag) return addTag(activeTag)
+    if (activeTag) return selectTag(activeTag)
 
     const exactTag = getExactTag()
-    if (exactTag) return addTag(exactTag)
-  }, [addTag, getActiveTag, getExactTag, getNewTag, isDisabled])
+    if (exactTag) return selectTag(exactTag)
+  }, [selectTag, getActiveTag, getExactTag, getNewTag, isDisabled])
 }

@@ -14,6 +14,7 @@ function CountrySelector() {
   const onDelete = useCallback(
     (tagIndex) => {
       setTags(tags.filter((_, i) => i !== tagIndex))
+      return true
     },
     [tags]
   )
@@ -63,6 +64,7 @@ function CustomTags() {
   const onDelete = useCallback(
     (tagIndex) => {
       setTags(tags.filter((_, i) => i !== tagIndex))
+      return true
     },
     [tags]
   )

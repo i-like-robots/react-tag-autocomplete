@@ -30,7 +30,7 @@ export type ListManagerState = {
   allowNew: boolean
   newTagText: string
   selectedTags: TagSelected[]
-  selectedKeys: Set<string>
+  selectedKeys: string[]
   suggestions: TagSuggestion[]
   results: TagSuggestion[]
   value: string
@@ -110,7 +110,7 @@ export function listManagerReducer(
   }
 
   if (action.type === ListManagerActions.UpdateSelected) {
-    const selectedKeys = new Set(tagsToKeys(action.payload))
+    const selectedKeys = tagsToKeys(action.payload)
     return { ...state, selectedKeys, selectedTags: action.payload }
   }
 
