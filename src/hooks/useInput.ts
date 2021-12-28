@@ -80,7 +80,7 @@ export function useInput(): UseInputState {
 
   return {
     'aria-autocomplete': 'list',
-    'aria-activedescendant': isExpanded ? `${id}-listbox-${activeIndex}` : '',
+    'aria-activedescendant': isExpanded && activeIndex > -1 ? `${id}-listbox-${activeIndex}` : '',
     'aria-disabled': isDisabled,
     'aria-labelledby': `${id}-label`,
     'aria-expanded': isExpanded,
