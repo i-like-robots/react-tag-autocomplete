@@ -21,4 +21,12 @@ export default {
       },
     },
   },
+  test: {
+    environment: 'jsdom',
+    global: true,
+    // HACK: <https://github.com/testing-library/user-event/issues/813>
+    deps: {
+      inline: ['@testing-library/user-event'],
+    },
+  },
 }
