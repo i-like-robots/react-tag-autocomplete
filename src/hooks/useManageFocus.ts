@@ -8,11 +8,12 @@ export function useManageFocus(): void {
   const currentLength = listManager.state.selectedTags.length
   const prevLength = usePrevious<number>(currentLength)
   const wasTagRemoved = currentLength < prevLength
-  const wasFocusInside = wasTagRemoved && rootRef.current?.contains(document.activeElement)
+
+  const currentFocusInside = rootRef.current?.contains(document.activeElement)
+  const prevFocusInside = usePrevious<boolean>(currentFocusInside)
+  const wasFocusLost = prevFocusInside && !currentFocusInside
 
   useEffect(() => {
-    if (wasFocusInside && !rootRef.current?.contains(document.activeElement)) {
-      rootRef.current?.focus()
-    }
-  }, [rootRef, wasFocusInside])
+    if (wasTagRemoved && wasFocusLost) rootRef.current?.focus()
+  }, [rootRef, wasFocusLost, wasTagRemoved])
 }
