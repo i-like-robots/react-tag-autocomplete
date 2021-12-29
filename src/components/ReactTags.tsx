@@ -9,6 +9,7 @@ const DefaultClassNames: ClassNames = {
   root: 'react-tags',
   rootActive: 'is-active',
   rootDisabled: 'is-disabled',
+  hiddenLabel: 'react-tags__label',
   selected: 'react-tags__selected',
   selectedItem: 'react-tags__selected-item',
   selectedTag: 'react-tags__selected-tag',
@@ -97,7 +98,7 @@ export function ReactTags({
       }}
     >
       <Root classNames={classNames}>
-        <Label ariaLabelText={ariaLabelText} />
+        <Label ariaLabelText={ariaLabelText} classNames={classNames} />
         <TagList classNames={classNames} tagListTitleText={tagListTitleText}>
           {tags.map((tag, index) => (
             <Tag

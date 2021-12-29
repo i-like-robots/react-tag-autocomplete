@@ -28,6 +28,17 @@ describe('React Tags Autocomplete', () => {
     })
   })
 
+  describe('label', () => {
+    beforeEach(() => {
+      harness = new Harness()
+    })
+
+    it('removes the label from the layout', () => {
+      const result = Array.from(harness.label.style)
+      expect(result).toEqual(expect.arrayContaining(['position', 'width', 'height']))
+    })
+  })
+
   describe('selected tags list', () => {
     const tags = [{ ...suggestions[0] }, { ...suggestions[1] }]
 
@@ -46,9 +57,12 @@ describe('React Tags Autocomplete', () => {
     it('calls the onDelete() callback with selected tag index when clicked', () => {
       userEvent.click(harness.selectedTags[0])
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
+
+      userEvent.click(harness.selectedTags[1])
+      expect(harness.props.onDelete).toHaveBeenCalledWith(1)
     })
 
-    it('moves the cursor focus to the root element after removing a tag with focus', () => {
+    it('moves cursor focus to the root element after removing a tag with focus', () => {
       harness.selectedTags[0].focus()
 
       harness.props.tags = harness.props.tags.slice(1)

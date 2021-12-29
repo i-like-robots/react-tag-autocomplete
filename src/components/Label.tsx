@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
+import type { ClassNames } from '../sharedTypes'
 
 const LabelStyles: React.CSSProperties = {
   position: 'absolute',
@@ -12,13 +13,14 @@ const LabelStyles: React.CSSProperties = {
 
 export type LabelProps = {
   ariaLabelText: string
+  classNames: ClassNames
 }
 
-export function Label({ ariaLabelText }: LabelProps): JSX.Element {
+export function Label({ ariaLabelText, classNames }: LabelProps): JSX.Element {
   const { id } = useContext(GlobalContext)
 
   return (
-    <span id={`${id}-label`} style={LabelStyles}>
+    <span className={classNames.hiddenLabel} id={`${id}-label`} style={LabelStyles}>
       {ariaLabelText}
     </span>
   )

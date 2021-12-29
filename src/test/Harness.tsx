@@ -32,6 +32,10 @@ export class Harness {
     return document.querySelector('.react-tags')
   }
 
+  get label(): HTMLDivElement {
+    return this.root.querySelector('.react-tags__label')
+  }
+
   get selectedList(): HTMLUListElement {
     return this.root.querySelector('.react-tags__selected')
   }
