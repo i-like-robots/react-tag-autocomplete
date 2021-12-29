@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 import type React from 'react'
 
 export type UseComboBoxState = {
@@ -11,7 +11,7 @@ export type UseComboBoxState = {
 }
 
 export function useComboBox(): UseComboBoxState {
-  const { comboBoxRef, id, isDisabled, listManager } = useContext(InternalRefs)
+  const { comboBoxRef, id, isDisabled, listManager } = useContext(GlobalContext)
 
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 import type React from 'react'
 
 const SizerStyles: React.CSSProperties = {
@@ -34,7 +34,7 @@ export function useInputWidth({
   allowResize = true,
   value,
 }: UseInputWidthArgs): UseInputWidthState {
-  const { inputRef } = useContext(InternalRefs)
+  const { inputRef } = useContext(GlobalContext)
 
   const sizerRef = useRef<HTMLDivElement>()
   const [width, setWidth] = useState(0)

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 import { tagToKey } from '../lib'
 import type { TagOption, TagSuggestion } from '../sharedTypes'
 
@@ -7,7 +7,7 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(tag: TagSuggestion): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
-  const { id, inputRef, listManager, onSelect } = useContext(InternalRefs)
+  const { id, inputRef, listManager, onSelect } = useContext(GlobalContext)
   const { results, selectedKeys, activeIndex } = listManager.state
 
   const index = results.indexOf(tag)

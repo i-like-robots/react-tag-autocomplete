@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 
 const LabelStyles: React.CSSProperties = {
   position: 'absolute',
@@ -15,7 +15,7 @@ export type LabelProps = {
 }
 
 export function Label({ ariaLabelText }: LabelProps): JSX.Element {
-  const { id } = useContext(InternalRefs)
+  const { id } = useContext(GlobalContext)
 
   return (
     <span id={`${id}-label`} style={LabelStyles}>

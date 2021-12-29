@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 import type { ClassNames, TagSelected } from '../sharedTypes'
 
 export type TagProps = {
@@ -10,7 +10,7 @@ export type TagProps = {
 }
 
 export function Tag({ classNames, onClick, removeButtonText, tag }: TagProps): JSX.Element {
-  const { isDisabled } = useContext(InternalRefs)
+  const { isDisabled } = useContext(GlobalContext)
 
   return (
     <button

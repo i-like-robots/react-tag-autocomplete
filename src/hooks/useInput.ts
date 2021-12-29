@@ -1,13 +1,13 @@
 import { useCallback, useContext } from 'react'
 import { KeyNames } from '../constants'
-import { ComboBoxContext, InternalRefs } from '../contexts'
-import { isCaretAtEnd, isCaretAtStart } from '../lib/cursor'
+import { ComboBoxContext, GlobalContext } from '../contexts'
+import { isCaretAtEnd, isCaretAtStart } from '../lib'
 import type React from 'react'
 
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput(): UseInputState {
-  const { id, inputRef, isDisabled, listManager, onSelect } = useContext(InternalRefs)
+  const { id, inputRef, isDisabled, listManager, onSelect } = useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
   const { activeIndex, value } = listManager.state
 

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 import { usePrevious } from './'
 
 export function useManageFocus(): void {
-  const { listManager, rootRef, tagListRef } = useContext(InternalRefs)
+  const { listManager, rootRef, tagListRef } = useContext(GlobalContext)
 
   const currentLength = listManager.state.selectedTags.length
   const prevLength = usePrevious<number>(currentLength)

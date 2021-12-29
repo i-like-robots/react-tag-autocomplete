@@ -1,7 +1,7 @@
 import React from 'react'
 import type { UseListManagerState } from '../hooks'
 
-export type InternalRefsContext = {
+export type GlobalContextValue = {
   comboBoxRef: React.MutableRefObject<HTMLDivElement>
   id: string
   inputRef: React.MutableRefObject<HTMLInputElement>
@@ -13,4 +13,4 @@ export type InternalRefsContext = {
   tagListRef: React.MutableRefObject<HTMLUListElement>
 }
 
-export const InternalRefs = React.createContext<InternalRefsContext | null>(null)
+export const GlobalContext = React.createContext<GlobalContextValue | null>(null)

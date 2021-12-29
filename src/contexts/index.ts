@@ -1,2 +1,2 @@
 export * from './ComboBoxContext'
-export * from './InternalRefs'
+export * from './GlobalContext'

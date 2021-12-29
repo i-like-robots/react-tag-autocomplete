@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 
 export type UseListBoxState = React.ComponentPropsWithRef<'div'>
 
 export function useListBox(): UseListBoxState {
-  const { id, listBoxRef } = useContext(InternalRefs)
+  const { id, listBoxRef } = useContext(GlobalContext)
 
   return {
     id: `${id}-listbox`,

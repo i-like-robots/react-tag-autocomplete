@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import type { TagProps } from './'
 import type { ClassNames } from '../sharedTypes'
-import { InternalRefs } from '../contexts'
+import { GlobalContext } from '../contexts'
 
 export type TagListProps = {
   children: React.ReactElement<TagProps>[]
@@ -10,7 +10,7 @@ export type TagListProps = {
 }
 
 export function TagList({ children, classNames, tagListTitleText }: TagListProps): JSX.Element {
-  const { tagListRef } = useContext(InternalRefs)
+  const { tagListRef } = useContext(GlobalContext)
 
   return (
     <>

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { InternalRefs } from '../contexts'
-import { useManageFocus, useRootActive } from '../hooks'
+import { GlobalContext } from '../contexts'
+import { useManageFocus, useRoot } from '../hooks'
 import type { ClassNames } from '../sharedTypes'
 
 export type RootProps = {
@@ -11,8 +11,8 @@ export type RootProps = {
 export function Root({ children, classNames }: RootProps): JSX.Element {
   useManageFocus()
 
-  const { isDisabled } = useContext(InternalRefs)
-  const { isActive, rootProps } = useRootActive()
+  const { isDisabled } = useContext(GlobalContext)
+  const { isActive, rootProps } = useRoot()
 
   const classes = [classNames.root]
 
