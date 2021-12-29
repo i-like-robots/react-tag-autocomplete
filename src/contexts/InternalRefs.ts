@@ -10,6 +10,7 @@ export type InternalRefsContext = {
   listManager: UseListManagerState
   onSelect: () => void
   rootRef: React.MutableRefObject<HTMLDivElement>
+  // tagListRef: React.MutableRefObject<HTMLUListElement>
 }
 
 export const InternalRefs = React.createContext<InternalRefsContext | null>(null)

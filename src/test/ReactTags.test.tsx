@@ -75,7 +75,7 @@ describe('React Tags Autocomplete', () => {
       expect(screen.getByRole('combobox')).toBe(harness.input)
     })
 
-    it('allows user input', () => {
+    it('allows inputting a value', () => {
       userEvent.type(harness.input, 'United')
       expect(harness.input.value).toBe('United')
     })
@@ -327,5 +327,31 @@ describe('React Tags Autocomplete', () => {
     })
   })
 
-  // describe('when disabled', () => {})
+  describe('when disabled', () => {
+    beforeEach(() => {
+      harness = new Harness({ isDisabled: true, tags: [{ ...suggestions[10] }] })
+    })
+
+    it('sets the disabled state on the root', () => {
+      expect(harness.root.classList.contains('is-disabled')).toBe(true)
+    })
+
+    it('sets the disabled state on the selected tags', () => {
+      expect(harness.selectedTags[0].getAttribute('aria-disabled')).toBe('true')
+    })
+
+    it('ignores clicking on the selected tags', () => {
+      userEvent.click(harness.selectedTags[0])
+      expect(harness.props.onDelete).not.toHaveBeenCalled()
+    })
+
+    it('sets the disabled state on the input', () => {
+      expect(harness.input.getAttribute('aria-disabled')).toBe('true')
+    })
+
+    it('ignores inputting a value', () => {
+      userEvent.type(harness.input, 'uni')
+      expect(harness.input.value).toBe('')
+    })
+  })
 })

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { InternalRefs } from '../contexts'
 import type { ClassNames, TagSelected } from '../sharedTypes'
 
 export type TagProps = {
@@ -9,14 +10,15 @@ export type TagProps = {
 }
 
 export function Tag({ classNames, onClick, removeButtonText, tag }: TagProps): JSX.Element {
-  const ariaLabel = removeButtonText.replace('%label%', tag.label)
+  const { isDisabled } = useContext(InternalRefs)
 
   return (
     <button
       type="button"
+      aria-disabled={isDisabled}
+      aria-label={removeButtonText.replace('%label%', tag.label)}
       className={classNames.selectedTag}
-      aria-label={ariaLabel}
-      onClick={onClick}
+      onClick={isDisabled ? null : onClick}
     >
       <span className={classNames.selectedTagName}>{tag.label}</span>
     </button>
