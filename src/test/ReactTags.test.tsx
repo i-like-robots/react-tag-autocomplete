@@ -137,7 +137,6 @@ describe('React Tags Autocomplete', () => {
 
     it('clears the input when an option is selected', () => {
       userEvent.type(harness.input, 'france{enter}')
-
       expect(harness.input.value).toBe('')
     })
 
@@ -147,6 +146,49 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, '{esc}')
       expect(harness.input.getAttribute('aria-expanded')).toBe('false')
+    })
+
+    it('expands the list box when the cursor is at the start and up key is pressed', () => {
+      userEvent.type(harness.input, 'uni')
+      expect(harness.isExpanded()).toBe(true)
+
+      userEvent.type(harness.input, '{esc}')
+      expect(harness.isExpanded()).toBe(false)
+
+      harness.input.setSelectionRange(0, 0)
+
+      userEvent.type(harness.input, '{arrowup}', {
+        initialSelectionStart: 0,
+        initialSelectionEnd: 0,
+      })
+      expect(harness.isExpanded()).toBe(true)
+    })
+
+    it('expands the list box when the cursor is at the end and down key is pressed', () => {
+      userEvent.type(harness.input, 'uni')
+      expect(harness.isExpanded()).toBe(true)
+
+      userEvent.type(harness.input, '{esc}')
+      expect(harness.isExpanded()).toBe(false)
+
+      userEvent.type(harness.input, '{arrowdown}')
+      expect(harness.isExpanded()).toBe(true)
+    })
+
+    it('does not expand the list box when text is selected and up/down key is pressed', () => {
+      userEvent.type(harness.input, 'uni')
+      expect(harness.isExpanded()).toBe(true)
+
+      userEvent.type(harness.input, '{esc}')
+      expect(harness.isExpanded()).toBe(false)
+
+      harness.input.setSelectionRange(0, 3)
+
+      userEvent.type(harness.input, '{arrowup}')
+      expect(harness.isExpanded()).toBe(false)
+
+      userEvent.type(harness.input, '{arrowdown}')
+      expect(harness.isExpanded()).toBe(false)
     })
   })
 

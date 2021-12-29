@@ -1,3 +1,3 @@
-export * from './cursor'
+export * from './cursorPosition'
 export * from './keys'
 export * from './textMatchers'
