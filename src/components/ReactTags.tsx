@@ -66,6 +66,7 @@ export function ReactTags({
   const inputRef = useRef<HTMLInputElement>()
   const listBoxRef = useRef<HTMLDivElement>()
   const rootRef = useRef<HTMLDivElement>()
+  const tagListRef = useRef<HTMLUListElement>()
 
   const listManager = useListManager({
     activeIndex: -1,
@@ -92,6 +93,7 @@ export function ReactTags({
         listManager,
         onSelect,
         rootRef,
+        tagListRef,
       }}
     >
       <Root classNames={classNames}>

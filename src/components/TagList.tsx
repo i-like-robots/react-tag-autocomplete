@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import type { TagProps } from './'
 import type { ClassNames } from '../sharedTypes'
+import { InternalRefs } from '../contexts'
 
 export type TagListProps = {
   children: React.ReactElement<TagProps>[]
@@ -9,9 +10,11 @@ export type TagListProps = {
 }
 
 export function TagList({ children, classNames, tagListTitleText }: TagListProps): JSX.Element {
+  const { tagListRef } = useContext(InternalRefs)
+
   return (
     <>
-      <ul className={classNames.selected} aria-label={tagListTitleText}>
+      <ul className={classNames.selected} aria-label={tagListTitleText} ref={tagListRef}>
         {children.map((child) => (
           <li className={classNames.selectedItem} key={child.key} role="listitem">
             {child}
