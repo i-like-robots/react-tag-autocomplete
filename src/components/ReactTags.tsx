@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
-import { useListManager, useOnSelect } from '../hooks'
+import { useListManager } from '../hooks'
 import { ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
 
@@ -80,8 +80,6 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect(listManager, isDisabled, onAddition, onDelete)
-
   return (
     <GlobalContext.Provider
       value={{
@@ -92,9 +90,8 @@ export function ReactTags({
         isDisabled,
         listBoxRef,
         listManager,
-        // onAddition
-        // onDelete
-        onSelect,
+        onAddition,
+        onDelete,
         rootRef,
         tagListRef,
       }}

@@ -1,30 +1,26 @@
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 import { CreateNewOptionValue } from '../constants'
+import { GlobalContext } from '../contexts'
 import { findSuggestionExact, tagToKey } from '../lib'
-import type { UseListManagerState } from '.'
 import type { Tag, TagSelected } from '../sharedTypes'
 
 export type UseOnSelectState = () => void
 
-export function useOnSelect(
-  manager: UseListManagerState,
-  isDisabled: boolean,
-  onAddition: (tag: TagSelected) => boolean,
-  onDelete: (index: number) => boolean
-): UseOnSelectState {
-  const { activeTag, results, selectedKeys, value } = manager.state
+export function useOnSelect(): UseOnSelectState {
+  const { isDisabled, listManager, onAddition, onDelete } = useContext(GlobalContext)
+  const { activeTag, results, selectedKeys, value } = listManager.state
 
   const selectTag = useCallback(
     (tag: TagSelected) => {
       const index = selectedKeys.indexOf(tagToKey(tag))
 
       if (index > -1) {
-        onDelete(index) && manager.clearValue()
+        onDelete(index) && listManager.clearValue()
       } else {
-        onAddition(tag) && manager.clearValue()
+        onAddition(tag) && listManager.clearValue()
       }
     },
-    [manager, onAddition, onDelete, selectedKeys]
+    [listManager, onAddition, onDelete, selectedKeys]
   )
 
   const getNewTag = useCallback((): Tag => {

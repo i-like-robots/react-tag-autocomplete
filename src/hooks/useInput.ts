@@ -2,14 +2,16 @@ import { useCallback, useContext } from 'react'
 import { KeyNames } from '../constants'
 import { ComboBoxContext, GlobalContext } from '../contexts'
 import { isCaretAtEnd, isCaretAtStart } from '../lib'
+import { useOnSelect } from '.'
 import type React from 'react'
 
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput(): UseInputState {
-  const { id, inputRef, isDisabled, listManager, onSelect } = useContext(GlobalContext)
+  const { id, inputRef, isDisabled, listManager } = useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
-  const { activeIndex, value } = listManager.state
+
+  const onSelect = useOnSelect()
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,24 +61,15 @@ export function useInput(): UseInputState {
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === KeyNames.UpArrow) {
-        return onUpArrowKey(e)
-      }
-
-      if (e.key === KeyNames.DownArrow) {
-        return onDownArrowKey(e)
-      }
-
-      if (e.key === KeyNames.Enter) {
-        return onEnterKey(e)
-      }
-
-      if (e.key === KeyNames.Escape) {
-        return onEscapeKey()
-      }
+      if (e.key === KeyNames.UpArrow) return onUpArrowKey(e)
+      if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
+      if (e.key === KeyNames.Enter) return onEnterKey(e)
+      if (e.key === KeyNames.Escape) return onEscapeKey()
     },
     [onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
   )
+
+  const { activeIndex, value } = listManager.state
 
   return {
     'aria-autocomplete': 'list',

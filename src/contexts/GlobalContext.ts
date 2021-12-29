@@ -1,5 +1,6 @@
 import React from 'react'
 import type { UseListManagerState } from '../hooks'
+import type { TagSelected } from '../sharedTypes'
 
 export type GlobalContextValue = {
   comboBoxRef: React.MutableRefObject<HTMLDivElement>
@@ -8,7 +9,8 @@ export type GlobalContextValue = {
   isDisabled: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   listManager: UseListManagerState
-  onSelect: () => void
+  onAddition: (tag: TagSelected) => boolean
+  onDelete: (index: number) => boolean
   rootRef: React.MutableRefObject<HTMLDivElement>
   tagListRef: React.MutableRefObject<HTMLUListElement>
 }

@@ -1,15 +1,17 @@
 import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react'
 import { GlobalContext } from '../contexts'
 import { tagToKey } from '../lib'
+import { useOnSelect } from '.'
 import type { TagOption, TagSuggestion } from '../sharedTypes'
 
 export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> } & TagOption
 
 export function useOption(tag: TagSuggestion): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
-  const { id, inputRef, listManager, onSelect } = useContext(GlobalContext)
-  const { results, selectedKeys, activeIndex } = listManager.state
+  const { id, inputRef, listManager } = useContext(GlobalContext)
+  const onSelect = useOnSelect()
 
+  const { results, selectedKeys, activeIndex } = listManager.state
   const index = results.indexOf(tag)
   const active = index === activeIndex
   const disabled = tag.disabled ?? false
