@@ -1,6 +1,5 @@
 import React from 'react'
-import { useInput } from '../hooks'
-import { useInputWidth } from '../hooks/useInputWidth'
+import { useInput, useInputSizer } from '../hooks'
 import type { ClassNames } from '../sharedTypes'
 
 export type InputProps = {
@@ -15,13 +14,8 @@ export function Input({
   placeholderText,
 }: InputProps): JSX.Element {
   const inputProps = useInput()
-
-  const sizerValue = String(inputProps.value || placeholderText)
-
-  const { sizerProps, width } = useInputWidth({
-    allowResize,
-    value: sizerValue,
-  })
+  const text = String(inputProps.value || placeholderText)
+  const { sizerProps, width } = useInputSizer({ allowResize, text })
 
   return (
     <div className={classNames.searchWrapper}>
@@ -31,7 +25,7 @@ export function Input({
         style={{ width }}
         {...inputProps}
       />
-      {allowResize ? <div {...sizerProps}>{sizerValue}</div> : null}
+      {allowResize ? <div {...sizerProps}>{text}</div> : null}
     </div>
   )
 }

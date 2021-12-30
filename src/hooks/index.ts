@@ -1,6 +1,6 @@
 export * from './useComboBox'
 export * from './useInput'
-export * from './useInputWidth'
+export * from './useInputSizer'
 export * from './useManageFocus'
 export * from './useListBox'
 export * from './useListManager'

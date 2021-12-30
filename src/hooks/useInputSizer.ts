@@ -1,6 +1,5 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { GlobalContext } from '../contexts'
-import type React from 'react'
 
 const SizerStyles: React.CSSProperties = {
   position: 'absolute',
@@ -20,34 +19,20 @@ const StyleProps: Array<keyof React.CSSProperties> = [
   'textTransform',
 ]
 
-export type UseInputWidthArgs = {
+export type UseInputSizerArgs = {
   allowResize: boolean
-  value: string
+  text: string
 }
 
-export type UseInputWidthState = {
+export type UseInputSizerState = {
   width: number
   sizerProps: React.ComponentPropsWithRef<'div'>
 }
 
-export function useInputWidth({
-  allowResize = true,
-  value,
-}: UseInputWidthArgs): UseInputWidthState {
-  const { inputRef } = useContext(GlobalContext)
-
+export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): UseInputSizerState {
   const sizerRef = useRef<HTMLDivElement>()
+  const { inputRef } = useContext(GlobalContext)
   const [width, setWidth] = useState(0)
-
-  const updateInputWidth = useCallback(() => {
-    // scrollWidth is designed to be fast not accurate.
-    // +2 is completely arbitrary but does the job.
-    const newInputWidth = Math.ceil(sizerRef.current.scrollWidth) + 2
-
-    if (width !== newInputWidth) {
-      setWidth(newInputWidth)
-    }
-  }, [width, sizerRef])
 
   useEffect(() => {
     const inputStyle = window.getComputedStyle(inputRef.current)
@@ -55,17 +40,16 @@ export function useInputWidth({
     StyleProps.forEach((prop) => {
       sizerRef.current.style[prop] = inputStyle[prop]
     })
-
-    if (allowResize) {
-      updateInputWidth()
-    }
-  })
+  }, [inputRef, sizerRef])
 
   useEffect(() => {
     if (allowResize) {
-      updateInputWidth()
+      // scrollWidth is designed to be fast not accurate.
+      // +2 is completely arbitrary but does the job.
+      const newInputWidth = Math.ceil(sizerRef.current.scrollWidth) + 2
+      if (width !== newInputWidth) setWidth(newInputWidth)
     }
-  }, [allowResize, updateInputWidth, value])
+  }, [allowResize, text, width])
 
   return {
     width,
