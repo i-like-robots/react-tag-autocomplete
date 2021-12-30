@@ -18,9 +18,9 @@ export function Input({
   const { sizerProps, width } = useInputSizer({ allowResize, text })
 
   return (
-    <div className={classNames.searchWrapper}>
+    <div className={classNames.comboBoxWrapper}>
       <input
-        className={classNames.searchInput}
+        className={classNames.comboBoxInput}
         placeholder={placeholderText}
         style={{ width }}
         {...inputProps}

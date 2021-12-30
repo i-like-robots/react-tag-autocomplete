@@ -16,9 +16,9 @@ export function Root({ children, classNames }: RootProps): JSX.Element {
 
   const classes = [classNames.root]
 
-  if (isActive) classes.push(classNames.rootActive)
-  if (isDisabled) classes.push(classNames.rootDisabled)
-  if (isInvalid) classes.push(classNames.rootInvalid)
+  if (isActive) classes.push(classNames.rootIsActive)
+  if (isDisabled) classes.push(classNames.rootIsDisabled)
+  if (isInvalid) classes.push(classNames.rootIsInvalid)
 
   return (
     <div className={classes.join(' ')} {...rootProps}>

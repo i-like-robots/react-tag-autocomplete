@@ -17,10 +17,10 @@ export function Tag({ classNames, onClick, removeButtonText, tag }: TagProps): J
       type="button"
       aria-disabled={isDisabled}
       aria-label={removeButtonText.replace('%label%', tag.label)}
-      className={classNames.selectedTag}
+      className={classNames.tag}
       onClick={isDisabled ? null : onClick}
     >
-      <span className={classNames.selectedTagName}>{tag.label}</span>
+      <span className={classNames.tagName}>{tag.label}</span>
     </button>
   )
 }

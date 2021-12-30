@@ -9,8 +9,10 @@ export function ComboBox({ children, classNames }: ComboBoxProps): JSX.Element {
   const { comboBoxProps, ...comboBoxState } = useComboBox()
 
   return (
-    <div className={classNames.search} {...comboBoxProps}>
-      <ComboBoxContext.Provider value={comboBoxState}>{children}</ComboBoxContext.Provider>
-    </div>
+    <ComboBoxContext.Provider value={comboBoxState}>
+      <div className={classNames.comboBox} {...comboBoxProps}>
+        {children}
+      </div>
+    </ComboBoxContext.Provider>
   )
 }

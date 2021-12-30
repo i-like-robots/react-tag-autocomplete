@@ -12,7 +12,7 @@ export function ListBox({ children, classNames }: ListBoxProps): JSX.Element {
   if (!isExpanded) return null
 
   return (
-    <div className={classNames.suggestions} {...listBoxProps}>
+    <div className={classNames.listBox} {...listBoxProps}>
       {children}
     </div>
   )

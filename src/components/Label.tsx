@@ -20,7 +20,7 @@ export function Label({ ariaLabelText, classNames }: LabelProps): JSX.Element {
   const { id } = useContext(GlobalContext)
 
   return (
-    <span className={classNames.hiddenLabel} id={`${id}-label`} style={LabelStyles}>
+    <span className={classNames.label} id={`${id}-label`} style={LabelStyles}>
       {ariaLabelText}
     </span>
   )

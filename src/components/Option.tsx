@@ -10,9 +10,9 @@ export type OptionProps = {
 export function Option({ classNames, tag }: OptionProps): JSX.Element {
   const { active, optionProps } = useOption(tag)
 
-  const classes = [classNames.suggestionsItem]
+  const classes = [classNames.option]
 
-  active && classes.push(classNames.suggestionActive)
+  if (active) classes.push(classNames.optionIsActive)
 
   return (
     <div className={classes.join(' ')} {...optionProps}>

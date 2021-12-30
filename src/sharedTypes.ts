@@ -1,19 +1,19 @@
 export type ClassNames = {
   root: string
-  rootActive: string
-  rootDisabled: string
-  rootInvalid: string
-  hiddenLabel: string
-  selected: string
-  selectedItem: string
-  selectedTag: string
-  selectedTagName: string
-  search: string
-  searchWrapper: string
-  searchInput: string
-  suggestions: string
-  suggestionsItem: string
-  suggestionActive: string
+  rootIsActive: string
+  rootIsDisabled: string
+  rootIsInvalid: string
+  label: string
+  tagList: string
+  tagListItem: string
+  tag: string
+  tagName: string
+  comboBox: string
+  comboBoxWrapper: string
+  comboBoxInput: string
+  listBox: string
+  option: string
+  optionIsActive: string
 }
 
 export type Tag = {

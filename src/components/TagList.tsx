@@ -14,9 +14,9 @@ export function TagList({ children, classNames, tagListTitleText }: TagListProps
 
   return (
     <>
-      <ul className={classNames.selected} aria-label={tagListTitleText} ref={tagListRef}>
+      <ul className={classNames.tagList} aria-label={tagListTitleText} ref={tagListRef}>
         {children.map((child) => (
-          <li className={classNames.selectedItem} key={child.key} role="listitem">
+          <li className={classNames.tagListItem} key={child.key} role="listitem">
             {child}
           </li>
         ))}
