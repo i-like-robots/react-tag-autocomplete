@@ -7,8 +7,10 @@ export type GlobalContextValue = {
   id: string
   inputRef: React.MutableRefObject<HTMLInputElement>
   isDisabled: boolean
+  isInvalid: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   listManager: UseListManagerState
+  // TODO
   onAddition: (tag: TagSelected) => boolean
   onDelete: (index: number) => boolean
   rootRef: React.MutableRefObject<HTMLDivElement>

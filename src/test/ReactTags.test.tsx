@@ -410,4 +410,18 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.value).toBe('')
     })
   })
+
+  describe('when invalid', () => {
+    beforeEach(() => {
+      harness = new Harness({ isInvalid: true })
+    })
+
+    it('sets the invalid state on the root', () => {
+      expect(harness.root.classList.contains('is-invalid')).toBe(true)
+    })
+
+    it('sets the invalid state on the input', () => {
+      expect(harness.input.getAttribute('aria-invalid')).toBe('true')
+    })
+  })
 })

@@ -9,6 +9,7 @@ const DefaultClassNames: ClassNames = {
   root: 'react-tags',
   rootActive: 'is-active',
   rootDisabled: 'is-disabled',
+  rootInvalid: 'is-invalid',
   hiddenLabel: 'react-tags__label',
   selected: 'react-tags__selected',
   selectedItem: 'react-tags__selected-item',
@@ -30,7 +31,7 @@ export type ReactTagsProps = {
   classNames?: ClassNames
   id?: string
   isDisabled?: boolean
-  // invalid?: boolean
+  isInvalid?: boolean
   newTagText?: string
   // noSuggestionsText?: string
   tagListTitleText?: string
@@ -51,7 +52,7 @@ export function ReactTags({
   classNames = DefaultClassNames,
   id = 'react-tags',
   isDisabled = false,
-  // invalid = false,
+  isInvalid = false,
   newTagText = 'Add %value%',
   // noSuggestionsText = 'No matches found',
   tagListTitleText = 'Selected tags',
@@ -89,6 +90,7 @@ export function ReactTags({
         id,
         inputRef,
         isDisabled,
+        isInvalid,
         listBoxRef,
         listManager,
         onAddition,

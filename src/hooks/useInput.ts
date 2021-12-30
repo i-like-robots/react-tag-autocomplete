@@ -8,7 +8,7 @@ import type React from 'react'
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput(): UseInputState {
-  const { id, inputRef, isDisabled, listManager } = useContext(GlobalContext)
+  const { id, inputRef, isDisabled, isInvalid, listManager } = useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
 
   const onSelect = useOnSelect()
@@ -75,6 +75,7 @@ export function useInput(): UseInputState {
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded && activeIndex > -1 ? `${id}-listbox-${activeIndex}` : '',
     'aria-disabled': isDisabled,
+    'aria-invalid': isInvalid,
     'aria-labelledby': `${id}-label`,
     'aria-expanded': isExpanded,
     'aria-owns': isExpanded ? `${id}-listbox` : null,
