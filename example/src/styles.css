@@ -1,7 +1,7 @@
 .react-tags {
   position: relative;
   padding: 6px 0 0 6px;
-  border: 1px solid #D1D1D1;
+  border: 1px solid #d1d1d1;
   border-radius: 1px;
 
   /* shared font styles */
@@ -14,7 +14,7 @@
 
 .react-tags.is-active {
   border-color: #666666;
-  box-shadow: 0 0 0 2px rgba(58, 182, 255, 0.2)
+  box-shadow: 0 0 0 2px rgba(58, 182, 255, 0.2);
 }
 
 .react-tags.is-disabled {
@@ -25,67 +25,75 @@
 }
 
 .react-tags.is-invalid {
-  box-shadow: 0 0 0 2px rgba(255, 58, 74, 0.6)
+  box-shadow: 0 0 0 2px rgba(255, 58, 74, 0.6);
 }
 
-.react-tags__selected {
+.react-tags__label {
+  position: absolute;
+  left: -10000;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.react-tags__list {
+  /* Do not use display: contents, it's too buggy */
   display: inline;
   padding: 0;
 }
 
-.react-tags__selected-item {
+.react-tags__list-item {
   display: inline;
   list-style: none;
 }
 
-.react-tags__selected-tag {
+.react-tags__tag {
   box-sizing: border-box;
   margin: 0 6px 6px 0;
   padding: 6px 8px;
-  border: 1px solid #D1D1D1;
+  border: 1px solid #d1d1d1;
   border-radius: 2px;
-  background: #F1F1F1;
+  background: #f1f1f1;
 
   /* match the font styles */
   font-size: inherit;
   line-height: inherit;
 }
 
-.react-tags__selected-tag:after {
+.react-tags__tag::after {
   content: '\2715';
-  color: #AAA;
+  color: #aaa;
   margin-left: 8px;
 }
 
-.react-tags__selected-tag:hover {
-  border-color: #B1B1B1;
+.react-tags__tag:hover {
+  border-color: #b1b1b1;
 }
 
-.react-tags__selected-tag:focus {
+.react-tags__tag:focus {
   box-shadow: 2px 0 0 0 rgba(58, 182, 255, 0.35);
 }
 
-.react-tags__search {
+.react-tags__combobox {
   display: inline-block;
 
   /* match tag layout */
   padding: 7px 2px;
   margin-bottom: 6px;
 
-  /* prevent autoresize overflowing the container */
+  /* prevents autoresize overflowing the container */
   max-width: 100%;
 }
 
-@media screen and (min-width: 30em) {
-
-  .react-tags__search {
+@media screen and (min-width: 32em) {
+  .react-tags__combobox {
     /* this will become the offsetParent for suggestions */
     position: relative;
   }
-
 }
 
-.react-tags__search-input {
+.react-tags__combobox-input {
   /* prevent autoresize overflowing the container */
   max-width: 100%;
 
@@ -101,11 +109,7 @@
   line-height: inherit;
 }
 
-.react-tags__search-input::-ms-clear {
-  display: none;
-}
-
-.react-tags__suggestions {
+.react-tags__listbox {
   position: absolute;
   top: 100%;
   left: 0;
@@ -113,38 +117,36 @@
   max-height: 240px;
   overflow-y: auto;
   background: white;
-  border: 1px solid #D1D1D1;
+  border: 1px solid #d1d1d1;
   border-radius: 2px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 @media screen and (min-width: 30em) {
-
-  .react-tags__suggestions {
+  .react-tags__listbox {
     width: 240px;
   }
-
 }
 
-.react-tags__suggestions-item {
+.react-tags__listbox-option {
   border-bottom: 1px solid #ddd;
   padding: 6px 8px;
 }
 
-.react-tags__suggestions-item:hover {
+.react-tags__listbox-option:hover {
   cursor: pointer;
   background: #eee;
 }
 
-.react-tags__suggestions-item.is-active {
+.react-tags__listbox-option.is-active {
   background: #b7cfe0;
 }
 
-.react-tags__suggestions-item[aria-disabled="true"] {
+.react-tags__listbox-option[aria-disabled='true'] {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-.react-tags__suggestions-item[aria-selected="true"]::after {
-  content: ' ✓'
+.react-tags__listbox-option[aria-selected='true']::after {
+  content: ' ✓';
 }
