@@ -9,8 +9,7 @@ export type ClassNames = {
   tag: string
   tagName: string
   comboBox: string
-  comboBoxWrapper: string
-  comboBoxInput: string
+  input: string
   listBox: string
   option: string
   optionIsActive: string
