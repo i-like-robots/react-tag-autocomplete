@@ -1,10 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../contexts'
 
 export type UseListBoxState = React.ComponentPropsWithRef<'div'>
 
 export function useListBox(): UseListBoxState {
-  const { id, listBoxRef } = useContext(GlobalContext)
+  const { id, listBoxRef, listManager } = useContext(GlobalContext)
+
+  useEffect(() => {
+    if (listManager.state.activeIndex === -1) {
+      listBoxRef.current?.scrollTo({ top: 0 })
+    }
+  }, [listBoxRef, listManager.state.activeIndex])
 
   return {
     id: `${id}-listbox`,
