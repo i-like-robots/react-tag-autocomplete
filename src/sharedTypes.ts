@@ -36,3 +36,7 @@ export type TagSuggestion = Tag & Partial<TagMetaProps>
 export type TagOption = Tag & TagMetaProps & TagInternalProps
 
 export type TagSelected = Tag
+
+export type OnAddition = (tag: TagSelected) => boolean
+
+export type OnDelete = (index: number) => boolean

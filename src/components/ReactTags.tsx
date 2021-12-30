@@ -3,7 +3,7 @@ import { tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
 import { useListManager } from '../hooks'
 import { ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
-import type { ClassNames, TagSelected, TagSuggestion } from '../sharedTypes'
+import type { ClassNames, OnAddition, OnDelete, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
   root: 'react-tags',
@@ -35,8 +35,8 @@ export type ReactTagsProps = {
   newTagText?: string
   // noSuggestionsText?: string
   tagListTitleText?: string
-  onAddition: (tag: TagSelected) => boolean
-  onDelete: (index: number) => boolean
+  onAddition: OnAddition
+  onDelete: OnDelete
   // onValidate: (value: string) => boolean
   placeholderText?: string
   removeButtonText?: string
