@@ -2,6 +2,7 @@ import userEvent from '@testing-library/user-event'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
 import { countrySuggestions as suggestions } from '../../example/src/countries'
+import type { MockedOnAddition } from './Harness'
 
 describe('React Tags Autocomplete', () => {
   let harness: Harness
@@ -33,9 +34,8 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness()
     })
 
-    it('removes the label from the layout', () => {
-      const result = Array.from(harness.label.style)
-      expect(result).toEqual(expect.arrayContaining(['position', 'width', 'height']))
+    it('renders a label with ID', () => {
+      expect(harness.label.id).toBe('react-tags-label')
     })
   })
 
@@ -149,9 +149,16 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('clears the input when an option is selected', () => {
+    it('clears the input when an option is selected and callback returns true', () => {
       userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('')
+    })
+
+    it('does not clear the input when an option is selected and callback returns false', () => {
+      (harness.props.onAddition as MockedOnAddition).mockReturnValue(false)
+
+      userEvent.type(harness.input, 'france{enter}')
+      expect(harness.input.value).toBe('france')
     })
 
     it('collapses the listbox when the escape key is pressed', () => {
@@ -422,6 +429,20 @@ describe('React Tags Autocomplete', () => {
 
     it('sets the invalid state on the input', () => {
       expect(harness.input.getAttribute('aria-invalid')).toBe('true')
+    })
+  })
+
+  describe('when new tags can be created', () => {
+    beforeEach(() => {
+      harness = new Harness({ allowNew: true })
+    })
+
+    it('allows non-suggested tags to be added when new option is active', () => {
+      userEvent.type(harness.input, 'boop{enter}')
+      expect(harness.props.onAddition).not.toHaveBeenCalled()
+
+      userEvent.type(harness.input, '{arrowdown}{enter}')
+      expect(harness.props.onAddition).not.toHaveBeenCalledWith({ label: 'boop', value: 'boop' })
     })
   })
 })
