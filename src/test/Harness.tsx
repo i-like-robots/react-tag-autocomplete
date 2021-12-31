@@ -3,10 +3,15 @@ import { vi } from 'vitest'
 import { fireEvent, render } from '@testing-library/react'
 import { ReactTags } from '..'
 import type { ReactTagsProps } from '..'
+import type { MockedFunction } from 'vitest'
 import type { RenderResult } from '@testing-library/react'
+import type { OnAddition, OnDelete } from '../sharedTypes'
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
-window.HTMLElement.prototype.scrollIntoView = vi.fn()
+window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
+window.HTMLElement.prototype.scrollTo = vi.fn(() => null)
+export type MockedOnAddition = MockedFunction<OnAddition>
+export type MockedOnDelete = MockedFunction<OnDelete>
 
 export class Harness {
   public props: ReactTagsProps
@@ -37,39 +42,39 @@ export class Harness {
   }
 
   get selectedList(): HTMLUListElement {
-    return this.root.querySelector('.react-tags__selected')
+    return this.root.querySelector('.react-tags__list')
   }
 
   get selectedItems(): HTMLLIElement[] {
-    return Array.from(this.selectedList.querySelectorAll('.react-tags__selected-item'))
+    return Array.from(this.selectedList.querySelectorAll('.react-tags__list-item'))
   }
 
   get selectedTags(): HTMLButtonElement[] {
-    return Array.from(this.selectedList.querySelectorAll('.react-tags__selected-tag'))
+    return Array.from(this.selectedList.querySelectorAll('.react-tags__tag'))
   }
 
   get combobox(): HTMLDivElement {
-    return this.root.querySelector('.react-tags__search')
+    return this.root.querySelector('.react-tags__combobox')
   }
 
   get input(): HTMLInputElement {
-    return this.combobox.querySelector('.react-tags__search-input')
+    return this.combobox.querySelector('.react-tags__combobox-input')
   }
 
   get sizer(): HTMLDivElement {
-    return this.combobox.querySelector('.react-tags__search-input + div[style]')
+    return this.combobox.querySelector('.react-tags__combobox-input + div[style]')
   }
 
   get listBox(): HTMLDivElement {
-    return this.combobox.querySelector('.react-tags__suggestions')
+    return this.root.querySelector('.react-tags__listbox')
   }
 
   get options(): HTMLDivElement[] {
-    return Array.from(this.combobox.querySelectorAll('.react-tags__suggestions-item'))
+    return Array.from(this.listBox.querySelectorAll('.react-tags__listbox-option'))
   }
 
   get activeOption(): HTMLDivElement {
-    return this.combobox.querySelector('.is-active')
+    return this.listBox.querySelector('.is-active')
   }
 
   isExpanded(): boolean {
