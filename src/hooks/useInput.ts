@@ -1,5 +1,5 @@
 import { useCallback, useContext } from 'react'
-import { KeyNames } from '../constants'
+import { DisableAutoComplete, KeyNames } from '../constants'
 import { ComboBoxContext, GlobalContext } from '../contexts'
 import { isCaretAtEnd, isCaretAtStart } from '../lib'
 import { useOnSelect } from '.'
@@ -72,6 +72,7 @@ export function useInput(): UseInputState {
   const { activeIndex, value } = listManager.state
 
   return {
+    ...DisableAutoComplete,
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded && activeIndex > -1 ? `${id}-listbox-${activeIndex}` : '',
     'aria-disabled': isDisabled,
@@ -79,7 +80,6 @@ export function useInput(): UseInputState {
     'aria-labelledby': `${id}-label`,
     'aria-expanded': isExpanded,
     'aria-owns': isExpanded ? `${id}-listbox` : null,
-    autoComplete: 'false',
     id: `${id}-input`,
     onChange,
     onKeyDown,

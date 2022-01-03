@@ -4,6 +4,7 @@ example/build/
 node_modules/
 
 .DS_Store
+.eslintcache
 *.tsbuildinfo
 npm-debug.log
 Thumbs.db
