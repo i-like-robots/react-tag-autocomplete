@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
 import { useListManager } from '../hooks'
-import { ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
+import { ComboBox, Input, Label, ListBox, ListBoxEmpty, Option, Root, Tag, TagList } from '.'
 import type { ClassNames, OnAddition, OnDelete, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -18,6 +18,7 @@ const DefaultClassNames: ClassNames = {
   comboBox: 'react-tags__combobox',
   input: 'react-tags__combobox-input',
   listBox: 'react-tags__listbox',
+  listBoxEmpty: 'react-tags__listbox-empty',
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
 }
@@ -31,8 +32,8 @@ export type ReactTagsProps = {
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
+  listBoxEmptyText?: string
   newTagText?: string
-  // noSuggestionsText?: string
   tagListTitleText?: string
   onAddition: OnAddition
   onDelete: OnDelete
@@ -52,8 +53,8 @@ export function ReactTags({
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
+  listBoxEmptyText = 'No options available',
   newTagText = 'Add %value%',
-  // noSuggestionsText = 'No matches found',
   tagListTitleText = 'Selected tags',
   onAddition,
   onDelete,
@@ -118,6 +119,9 @@ export function ReactTags({
             placeholderText={placeholderText}
           />
           <ListBox classNames={classNames}>
+            {listManager.state.results.length === 0 && (
+              <ListBoxEmpty classNames={classNames}>{listBoxEmptyText}</ListBoxEmpty>
+            )}
             {listManager.state.results.map((tag) => (
               <Option key={tagToKey(tag)} classNames={classNames} tag={tag} />
             ))}

@@ -16,7 +16,7 @@ export function useComboBox(): UseComboBoxState {
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
-  const canExpand = Boolean(!isDisabled && isFocused && listManager.state.results.length)
+  const canExpand = Boolean(!isDisabled && isFocused)
 
   useEffect(() => setIsExpanded(canExpand), [canExpand])
 

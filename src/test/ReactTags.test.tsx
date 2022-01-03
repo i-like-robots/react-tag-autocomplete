@@ -274,8 +274,6 @@ describe('React Tags Autocomplete', () => {
 
     // it('can handle non-ascii characters', () => {})
 
-    // it('shows a message when there are no suggestions available', () => {})
-
     it('allows the active option to wrap', () => {
       userEvent.type(harness.input, 'aus')
 
@@ -363,19 +361,9 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ suggestions: [] })
     })
 
-    it('does not render the list box on focus', () => {
-      harness.listBoxExpand()
-      expect(screen.queryByRole('listbox')).toBeNull()
-    })
-
-    it('does not change the input expanded state on focus', () => {
-      harness.listBoxExpand()
-      expect(harness.input.getAttribute('aria-expanded')).toBe('false')
-    })
-
-    it('does not associate the input with the list box on focus', () => {
-      harness.listBoxExpand()
-      expect(harness.input.getAttribute('aria-owns')).toBeNull()
+    it('shows no suggestions message when there are no options to show', () => {
+      userEvent.type(harness.input, 'blah')
+      expect(screen.queryByText('No options available')).toBeTruthy()
     })
 
     it('does not respond to arrow up/down key presses', () => {
@@ -440,12 +428,20 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ allowNew: true })
     })
 
-    it('allows non-suggested tags to be added when new option is active', () => {
+    it('displays the new tag option', () => {
+      userEvent.type(harness.input, 'blah')
+      expect(screen.queryByText('Add blah'))
+    })
+
+    it('allows non-suggested options to be added when new tag option is active', () => {
       userEvent.type(harness.input, 'boop{enter}')
       expect(harness.props.onAddition).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, '{arrowdown}{enter}')
-      expect(harness.props.onAddition).not.toHaveBeenCalledWith({ label: 'boop', value: 'boop' })
+      userEvent.type(harness.input, '{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('Add boop')
+
+      userEvent.type(harness.input, '{enter}')
+      expect(harness.props.onAddition).toHaveBeenCalledWith({ label: 'boop', value: null })
     })
   })
 })
