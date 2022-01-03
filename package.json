@@ -9,7 +9,7 @@
     "build": "vite build -c vite.config.js",
     "type-check": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx,js,jsx",
-    "format": "prettier --write '**/*.{ts,tsx,js,jsx,json}'",
+    "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,yml}'",
     "spec": "vitest run",
     "verify": "npm run lint && npm run type-check && npm run format",
     "test": "npm run verify && npm run spec",
