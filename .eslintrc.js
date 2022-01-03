@@ -19,10 +19,8 @@ module.exports = {
     },
     {
       files: ['**/*.spec.ts', '**/*.test.ts'],
-      plugins: ['jest'],
-      env: {
-        'jest/globals': true,
-      },
+      plugins: [],
+      env: {},
     },
   ],
 }
