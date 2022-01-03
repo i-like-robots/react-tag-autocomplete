@@ -133,7 +133,8 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateValue) {
     const results = matchSuggestionsPartial(action.payload, state.suggestions)
 
-    if (state.allowNew && action.payload) results.push(createNewTag(state.newTagText, action.payload))
+    if (state.allowNew && action.payload)
+      results.push(createNewTag(state.newTagText, action.payload))
 
     const selectedIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
 

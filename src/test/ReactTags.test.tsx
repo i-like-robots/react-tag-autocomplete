@@ -1,3 +1,4 @@
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
@@ -155,7 +156,9 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('does not clear the input when an option is selected and callback returns false', () => {
-      (harness.props.onAddition as MockedOnAddition).mockReturnValue(false)
+      const callback = harness.props.onAddition as MockedOnAddition
+
+      callback.mockReturnValue(false)
 
       userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('france')
