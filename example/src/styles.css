@@ -128,7 +128,7 @@
   }
 }
 
-.react-tags__listbox-empty {
+.react-tags__listbox-no-options {
   padding: 6px 8px;
   font-style: italic;
 }
