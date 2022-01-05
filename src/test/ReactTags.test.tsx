@@ -90,6 +90,11 @@ describe('React Tags Autocomplete', () => {
       expect(screen.getByRole('combobox')).toBe(harness.input)
     })
 
+    it('disables browser/OS/extension autocomplete', () => {
+      expect(harness.input.getAttribute('autocomplete')).toBe('off')
+      expect(harness.input.getAttribute('data-form-type')).toBe('other')
+    })
+
     it('allows inputting a value', () => {
       userEvent.type(harness.input, 'United')
       expect(harness.input.value).toBe('United')
