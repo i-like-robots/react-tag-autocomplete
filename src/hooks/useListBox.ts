@@ -13,6 +13,7 @@ export function useListBox(): UseListBoxState {
   }, [listBoxRef, listManager.state.activeIndex])
 
   return {
+    'aria-labelledby': `${id}-label`,
     id: `${id}-listbox`,
     ref: listBoxRef,
     role: 'listbox',

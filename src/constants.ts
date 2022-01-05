@@ -13,6 +13,6 @@ export const CreateNewOptionValue = Symbol('Create new tag')
 
 // <https://stackoverflow.com/questions/59939931/stop-dashlane-auto-fill-on-specific-input-fields>
 export const DisableAutoComplete = {
-  autoComplete: 'false',
+  autoComplete: 'off',
   'data-form-type': 'other',
 }
