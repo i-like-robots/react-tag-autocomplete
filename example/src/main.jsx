@@ -9,8 +9,6 @@ import { countrySuggestions } from './countries'
 
 function CountrySelector() {
   const [tags, setTags] = useState([])
-  const [isDisabled, setIsDisabled] = useState(false)
-  const [isInvalid, setIsInvalid] = useState(false)
 
   const onDelete = useCallback(
     (tagIndex) => {
@@ -33,26 +31,18 @@ function CountrySelector() {
       <p>Select the countries you have visited below:</p>
       <ReactTags
         ariaLabelText="Select countries"
-        isDisabled={isDisabled}
-        isInvalid={isInvalid}
         tags={tags}
         suggestions={countrySuggestions}
         noSuggestionsText="No matching countries"
         onDelete={onDelete}
         onAddition={onAddition}
       />
-      <label>
-        <input type="checkbox" onChange={() => setIsDisabled(!isDisabled)} /> Disabled
-      </label>
-      <label>
-        <input type="checkbox" onChange={() => setIsInvalid(!isInvalid)} /> Invalid
-      </label>
-      <p>
-        <b>Output:</b>
-      </p>
-      <pre>
-        <code>{JSON.stringify(tags, null, 2)}</code>
-      </pre>
+      <details>
+        <summary>View output</summary>
+        <pre>
+          <code>{JSON.stringify(tags, null, 2)}</code>
+        </pre>
+      </details>
     </>
   )
 }
@@ -102,14 +92,20 @@ function CustomTags() {
           <em>Tags must be 3–12 characters in length and only contain the letters A-Z</em>
         </small>
       </p>
-      <p>
-        <b>Output:</b>
-      </p>
-      <pre>
-        <code>{JSON.stringify(tags, null, 2)}</code>
-      </pre>
+      <details>
+        <summary>View output</summary>
+        <pre>
+          <code>{JSON.stringify(tags, null, 2)}</code>
+        </pre>
+      </details>
     </>
   )
 }
 
 ReactDOM.render(<CustomTags />, document.getElementById('demo-2'))
+
+/**
+ * Demo 3 - status
+ */
+
+// TODO
