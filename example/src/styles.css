@@ -1,8 +1,8 @@
 .react-tags {
   position: relative;
-  padding: 6px 0 0 6px;
-  border: 1px solid #d1d1d1;
-  border-radius: 1px;
+  padding: 0.25rem 0 0 0.25rem;
+  border: 2px solid #afb8c1;
+  border-radius: 6px;
 
   /* shared font styles */
   font-size: 1em;
@@ -13,24 +13,30 @@
 }
 
 .react-tags.is-active {
-  border-color: #666666;
-  box-shadow: 0 0 0 2px rgba(58, 182, 255, 0.2);
+  border-color: #4f46e5;
 }
 
 .react-tags.is-disabled {
   opacity: 0.75;
-  background-color: #eee;
-  cursor: not-allowed;
+  background-color: #eaeef2;
+  /* Prevent any clicking on the component */
   pointer-events: none;
+  cursor: not-allowed;
 }
 
+/* .react-tags.is-valid {
+  border-color: #1fa774;
+  box-shadow: 0 0 0 3px rgba(31, 167, 116, 0.25);
+} */
+
 .react-tags.is-invalid {
-  box-shadow: 0 0 0 2px rgba(255, 58, 74, 0.6);
+  border-color: #fd5956;
+  box-shadow: 0 0 0 2px rgba(253, 86, 83, 0.25);
 }
 
 .react-tags__label {
   position: absolute;
-  left: -10000;
+  left: -10000px;
   top: auto;
   width: 1px;
   height: 1px;
@@ -50,47 +56,41 @@
 
 .react-tags__tag {
   box-sizing: border-box;
-  margin: 0 6px 6px 0;
-  padding: 6px 8px;
-  border: 1px solid #d1d1d1;
-  border-radius: 2px;
-  background: #f1f1f1;
+  margin: 0 0.25rem 0.25rem 0;
+  padding: 0.375rem 0.5rem;
+  border: 0;
+  border-radius: 3px;
+  background: #eaeef2;
 
   /* match the font styles */
   font-size: inherit;
   line-height: inherit;
 }
 
-.react-tags__tag::after {
-  content: '\2715';
-  color: #aaa;
-  margin-left: 8px;
-}
-
-.react-tags__tag:hover {
-  border-color: #b1b1b1;
-}
-
+.react-tags__tag:hover,
 .react-tags__tag:focus {
-  box-shadow: 2px 0 0 0 rgba(58, 182, 255, 0.35);
+  color: #ffffff;
+  background-color: #4f46e5;
+}
+
+.react-tags__tag::after {
+  content: '✕';
+  margin-left: 0.5rem;
+}
+
+.react-tags__tag:not(:hover)::after {
+  color: #aaa;
 }
 
 .react-tags__combobox {
   display: inline-block;
 
   /* match tag layout */
-  padding: 7px 2px;
-  margin-bottom: 6px;
+  padding: 0.375rem 0.25rem;
+  margin-bottom: 0.25rem;
 
   /* prevents autoresize overflowing the container */
   max-width: 100%;
-}
-
-@media screen and (min-width: 32em) {
-  .react-tags__combobox {
-    /* this will become the offsetParent for suggestions */
-    position: relative;
-  }
 }
 
 .react-tags__combobox-input {
@@ -111,40 +111,38 @@
 
 .react-tags__listbox {
   position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  max-height: 240px;
-  overflow-y: auto;
-  background: white;
-  border: 1px solid #d1d1d1;
-  border-radius: 2px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
+  z-index: 1;
+  top: calc(100% + 4px);
 
-@media screen and (min-width: 30em) {
-  .react-tags__listbox {
-    width: 240px;
-  }
+  /* Negate the border width on the container */
+  left: -2px;
+  right: -2px;
+
+  max-height: 12.5rem;
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #afb8c1;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -4px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
 
 .react-tags__listbox-no-options {
-  padding: 6px 8px;
+  padding: 0.375rem 0.5rem;
   font-style: italic;
 }
 
 .react-tags__listbox-option {
-  border-bottom: 1px solid #ddd;
-  padding: 6px 8px;
+  padding: 0.375rem 0.5rem;
 }
 
 .react-tags__listbox-option:hover {
   cursor: pointer;
-  background: #eee;
+  background: #eaeef2;
 }
 
 .react-tags__listbox-option.is-active {
-  background: #b7cfe0;
+  background: #4f46e5;
+  color: #ffffff;
 }
 
 .react-tags__listbox-option[aria-disabled='true'] {
@@ -153,5 +151,10 @@
 }
 
 .react-tags__listbox-option[aria-selected='true']::after {
-  content: ' ✓';
+  content: '✓';
+  margin-left: 0.5rem;
+}
+
+.react-tags__listbox-option[aria-selected='true']:not(.is-active)::after {
+  color: #4f46e5;
 }
