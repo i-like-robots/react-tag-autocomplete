@@ -62,11 +62,13 @@ export function listManagerReducer(
   action: ListManagerAction
 ): ListManagerState {
   if (action.type === ListManagerActions.ClearValue) {
+    const results = [...state.suggestions]
+    const activeIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
+
     return {
       ...state,
-      activeIndex: -1,
-      activeTag: null,
-      results: [...state.suggestions],
+      activeIndex,
+      results,
       value: '',
     }
   }

@@ -359,6 +359,16 @@ describe('React Tags Autocomplete', () => {
 
       expect(document.activeElement).toBe(harness.input)
     })
+
+    it('maintains the active option after options are selected/deleted', () => {
+      userEvent.type(harness.input, 'bahrain{arrowdown}')
+      expect(harness.options.length).toBe(1)
+      expect(harness.activeOption.textContent).toBe('Bahrain')
+
+      userEvent.click(harness.activeOption)
+      expect(harness.options.length).toBe(206)
+      expect(harness.activeOption.textContent).toBe('Bahrain')
+    })
   })
 
   describe('without suggestions', () => {
