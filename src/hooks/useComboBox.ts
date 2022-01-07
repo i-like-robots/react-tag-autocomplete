@@ -1,40 +1,37 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { GlobalContext } from '../contexts'
 import type React from 'react'
 
-export type UseComboBoxState = {
-  collapse: () => void
-  comboBoxProps: React.ComponentPropsWithRef<'div'>
-  expand: () => void
+type ComboBoxInternalState = {
   isExpanded: boolean
   isFocused: boolean
 }
 
+export type UseComboBoxState = ComboBoxInternalState & {
+  collapse: () => void
+  comboBoxProps: React.ComponentPropsWithRef<'div'>
+  expand: () => void
+}
+
 export function useComboBox(): UseComboBoxState {
-  const { comboBoxRef, id, isDisabled, listManager } = useContext(GlobalContext)
-
-  const [isFocused, setIsFocused] = useState<boolean>(false)
-  const [isExpanded, setIsExpanded] = useState<boolean>(false)
-
-  const canExpand = Boolean(!isDisabled && isFocused)
-
-  useEffect(() => setIsExpanded(canExpand), [canExpand])
-
-  const expand = useCallback(() => canExpand && setIsExpanded(true), [canExpand])
-
-  const collapse = useCallback(() => isExpanded && setIsExpanded(false), [isExpanded])
+  const { comboBoxRef, id, listManager } = useContext(GlobalContext)
+  const [state, setState] = useState<ComboBoxInternalState>({ isExpanded: false, isFocused: false })
 
   const onBlur = useCallback(
     (e: React.FocusEvent) => {
-      if (comboBoxRef.current?.contains(e.relatedTarget) === false) {
+      if (!comboBoxRef.current?.contains(e.relatedTarget)) {
+        setState({ isExpanded: false, isFocused: false })
         listManager.clearActiveIndex()
-        setIsFocused(false)
       }
     },
     [comboBoxRef, listManager]
   )
 
-  const onFocus = useCallback(() => setIsFocused(true), [])
+  const onFocus = useCallback(() => setState({ isExpanded: true, isFocused: true }), [])
+
+  const expand = useCallback(() => setState({ ...state, isExpanded: true }), [state])
+
+  const collapse = useCallback(() => setState({ ...state, isExpanded: false }), [state])
 
   const comboBoxProps: UseComboBoxState['comboBoxProps'] = {
     id: `${id}-combobox`,
@@ -44,10 +41,9 @@ export function useComboBox(): UseComboBoxState {
   }
 
   return {
+    ...state,
     collapse,
     comboBoxProps,
     expand,
-    isExpanded,
-    isFocused,
   }
 }

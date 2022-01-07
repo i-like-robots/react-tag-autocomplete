@@ -82,32 +82,32 @@ export function listManagerReducer(
   }
 
   if (action.type === ListManagerActions.ActiveIndexNext) {
-    const selectedIndex = loop(state.activeIndex + 1, state.results.length)
+    const activeIndex = loop(state.activeIndex + 1, state.results.length)
 
     return {
       ...state,
-      activeIndex: selectedIndex,
-      activeTag: state.results[selectedIndex],
+      activeIndex,
+      activeTag: state.results[activeIndex],
     }
   }
 
   if (action.type === ListManagerActions.ActiveIndexPrev) {
-    const selectedIndex = loop(state.activeIndex - 1, state.results.length)
+    const activeIndex = loop(state.activeIndex - 1, state.results.length)
 
     return {
       ...state,
-      activeIndex: selectedIndex,
-      activeTag: state.results[selectedIndex],
+      activeIndex,
+      activeTag: state.results[activeIndex],
     }
   }
 
   if (action.type === ListManagerActions.ActiveIndexSet) {
-    const selectedIndex = loop(action.payload, state.results.length)
+    const activeIndex = loop(action.payload, state.results.length)
 
     return {
       ...state,
-      activeIndex: selectedIndex,
-      activeTag: state.results[selectedIndex],
+      activeIndex,
+      activeTag: state.results[activeIndex],
     }
   }
 
@@ -119,14 +119,16 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateSuggestions) {
     const results = matchSuggestionsPartial(state.value, action.payload)
 
-    if (state.allowNew && state.value) results.push(createNewTag(state.newTagText, state.value))
+    if (state.allowNew && state.value) {
+      results.push(createNewTag(state.newTagText, state.value))
+    }
 
-    const selectedIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
+    const activeIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
 
     return {
       ...state,
-      activeIndex: selectedIndex,
-      activeTag: results[selectedIndex] || null,
+      activeIndex,
+      activeTag: results[activeIndex] || null,
       results,
       suggestions: action.payload,
     }
@@ -135,15 +137,16 @@ export function listManagerReducer(
   if (action.type === ListManagerActions.UpdateValue) {
     const results = matchSuggestionsPartial(action.payload, state.suggestions)
 
-    if (state.allowNew && action.payload)
+    if (state.allowNew && action.payload) {
       results.push(createNewTag(state.newTagText, action.payload))
+    }
 
-    const selectedIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
+    const activeIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
 
     return {
       ...state,
-      activeIndex: selectedIndex,
-      activeTag: results[selectedIndex] || null,
+      activeIndex,
+      activeTag: results[activeIndex] || null,
       results,
       value: action.payload,
     }
