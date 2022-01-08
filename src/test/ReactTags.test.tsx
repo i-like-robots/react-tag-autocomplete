@@ -277,11 +277,19 @@ describe('React Tags Autocomplete', () => {
       expect(options.length).toBe(5)
 
       options.forEach((option) => {
-        expect(option.textContent).toMatch(new RegExp('uni', 'i'))
+        expect(option.textContent).toMatch(/uni/i)
       })
     })
 
-    // it('can handle non-ascii characters', () => {})
+    it('highlights the text matching the input value in each option', () => {
+      userEvent.type(harness.input, 'uni')
+
+      const options = screen.queryAllByRole('option')
+
+      options.forEach((option) => {
+        expect(option.innerHTML).toMatch(/<mark>uni<\/mark>/i)
+      })
+    })
 
     it('allows the active option to wrap', () => {
       userEvent.type(harness.input, 'aus')

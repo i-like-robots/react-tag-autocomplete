@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { OptionText } from '.'
+import { GlobalContext } from '../contexts'
 import { useOption } from '../hooks'
 import type { ClassNames, TagSuggestion } from '../sharedTypes'
 
@@ -9,6 +11,7 @@ export type OptionProps = {
 
 export function Option({ classNames, tag }: OptionProps): JSX.Element {
   const { active, optionProps } = useOption(tag)
+  const { listManager } = useContext(GlobalContext)
 
   const classes = [classNames.option]
 
@@ -16,7 +19,7 @@ export function Option({ classNames, tag }: OptionProps): JSX.Element {
 
   return (
     <div className={classes.join(' ')} {...optionProps}>
-      {tag.label}
+      <OptionText label={tag.label} value={listManager.state.value} />
     </div>
   )
 }
