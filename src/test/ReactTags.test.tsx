@@ -269,11 +269,15 @@ describe('React Tags Autocomplete', () => {
       expect(screen.queryAllByRole('option').length).toBe(suggestions.length)
     })
 
-    it('filters suggestions to those that match the query', () => {
-      userEvent.type(harness.input, 'united')
+    it('filters suggestions to those that match the input value', () => {
+      userEvent.type(harness.input, 'uni')
 
-      screen.queryAllByRole('option').forEach((option) => {
-        expect(option.textContent).toMatch(new RegExp('united', 'i'))
+      const options = screen.queryAllByRole('option')
+
+      expect(options.length).toBe(5)
+
+      options.forEach((option) => {
+        expect(option.textContent).toMatch(new RegExp('uni', 'i'))
       })
     })
 
@@ -300,18 +304,18 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('maintains the active option when still available after typing', () => {
-      userEvent.type(harness.input, 'u{arrowdown}{arrowdown}{arrowdown}')
-      expect(harness.activeOption.textContent).toBe('United Arab Emirates')
+      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, 'ni')
-      expect(harness.activeOption.textContent).toBe('United Arab Emirates')
+      userEvent.type(harness.input, 'n')
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
     })
 
     it('resets the active option when no longer available after typing', () => {
-      userEvent.type(harness.input, 'u{arrowdown}{arrowdown}')
-      expect(harness.activeOption.textContent).toBe('Ukraine')
+      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, 'ni')
+      userEvent.type(harness.input, 'b')
       expect(harness.activeOption).toBeNull()
     })
 

@@ -5,7 +5,7 @@ function escapeForRegExp(string: string): string {
 }
 
 export function partialRegExp(query: string): RegExp {
-  return new RegExp(`(?:^|\\s)${escapeForRegExp(query)}`, 'i')
+  return new RegExp(`${escapeForRegExp(query)}`, 'i')
 }
 
 export function exactRegExp(query: string): RegExp {
