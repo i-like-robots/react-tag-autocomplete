@@ -3,6 +3,7 @@ import type { UseListManagerState } from '../hooks'
 import type { OnAddition, OnDelete } from '../sharedTypes'
 
 export type GlobalContextValue = {
+  allowBackspace: boolean
   comboBoxRef: React.MutableRefObject<HTMLDivElement>
   id: string
   inputRef: React.MutableRefObject<HTMLInputElement>

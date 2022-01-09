@@ -8,7 +8,8 @@ import type React from 'react'
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput(): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, listManager } = useContext(GlobalContext)
+  const { allowBackspace, id, inputRef, isDisabled, isInvalid, listManager, onDelete } =
+    useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
 
   const onSelect = useOnSelect()
@@ -59,14 +60,22 @@ export function useInput(): UseInputState {
     }
   }, [collapse, isExpanded, listManager])
 
+  const onBackspaceKey = useCallback(() => {
+    const length = listManager.state.selectedTags.length
+    const isEmpty = listManager.state.value === ''
+
+    if (isEmpty && length && allowBackspace) onDelete(length - 1)
+  }, [allowBackspace, listManager, onDelete])
+
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === KeyNames.UpArrow) return onUpArrowKey(e)
       if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
       if (e.key === KeyNames.Enter) return onEnterKey(e)
       if (e.key === KeyNames.Escape) return onEscapeKey()
+      if (e.key === KeyNames.Backspace) return onBackspaceKey()
     },
-    [onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
+    [onBackspaceKey, onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
   )
 
   const { activeIndex, value } = listManager.state

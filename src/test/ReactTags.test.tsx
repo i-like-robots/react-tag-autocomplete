@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
 import { countrySuggestions as suggestions } from '../../example/src/countries'
-import type { MockedOnAddition } from './Harness'
+import type { MockedOnAddition, MockedOnDelete } from './Harness'
 
 describe('React Tags Autocomplete', () => {
   let harness: Harness
@@ -155,18 +155,31 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('clears the input when an option is selected and callback returns true', () => {
+    it('clears the value when an option is selected and addition callback returns true', () => {
       userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('')
     })
 
-    it('does not clear the input when an option is selected and callback returns false', () => {
+    it('does not clear the value when an option is selected and addition callback returns false', () => {
       const callback = harness.props.onAddition as MockedOnAddition
 
       callback.mockReturnValue(false)
 
       userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('france')
+    })
+
+    it('calls the delete callback when the backspace key is pressed whilst empty', () => {
+      const callback = harness.props.onDelete as MockedOnDelete
+
+      userEvent.type(harness.input, '{backspace}')
+      expect(callback).not.toHaveBeenCalled()
+
+      harness.props.tags = [{ ...suggestions[10] }]
+      harness.result.rerender(harness.component)
+
+      userEvent.type(harness.input, '{backspace}')
+      expect(callback).toHaveBeenCalledWith(0)
     })
 
     it('collapses the listbox when the escape key is pressed', () => {

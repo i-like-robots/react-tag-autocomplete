@@ -24,7 +24,7 @@ const DefaultClassNames: ClassNames = {
 }
 
 export type ReactTagsProps = {
-  // allowBackspace?: boolean
+  allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
   ariaLabelText?: string
@@ -45,7 +45,7 @@ export type ReactTagsProps = {
 }
 
 export function ReactTags({
-  // allowBackspace = true,
+  allowBackspace = true,
   allowNew = false,
   allowResize = true,
   ariaLabelText = 'Select tags',
@@ -85,6 +85,7 @@ export function ReactTags({
   return (
     <GlobalContext.Provider
       value={{
+        allowBackspace,
         // classNames
         comboBoxRef,
         id,
