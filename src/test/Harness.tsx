@@ -77,6 +77,10 @@ export class Harness {
     return this.listBox.querySelector('.is-active')
   }
 
+  get announcements(): HTMLDivElement {
+    return this.root.querySelector('div[role="status"]')
+  }
+
   isExpanded(): boolean {
     return this.input.getAttribute('aria-expanded') === 'true'
   }

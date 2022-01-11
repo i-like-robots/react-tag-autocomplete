@@ -1,3 +1,4 @@
+export * from './Announcements'
 export * from './ComboBox'
 export * from './Input'
 export * from './Label'

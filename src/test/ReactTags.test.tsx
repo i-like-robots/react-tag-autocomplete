@@ -146,6 +146,16 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
     })
 
+    it('does not call any callbacks when the active option is disabled and enter key is pressed', () => {
+      harness.props.suggestions = suggestions.map((item) => ({ ...item, disabled: true }))
+      harness.result.rerender(harness.component)
+
+      userEvent.type(harness.input, 'aus')
+      userEvent.type(harness.input, '{arrowdown}{enter}')
+
+      expect(harness.props.onAddition).not.toHaveBeenCalled()
+    })
+
     it('calls the addition callback when the input value matches an option and enter key is pressed', () => {
       userEvent.type(harness.input, 'france{enter}')
 
@@ -393,6 +403,39 @@ describe('React Tags Autocomplete', () => {
       userEvent.click(harness.activeOption)
       expect(harness.options.length).toBe(206)
       expect(harness.activeOption.textContent).toBe('Bahrain')
+    })
+  })
+
+  describe('announcements', () => {
+    beforeEach(() => {
+      harness = new Harness({ tags: [{ ...suggestions[10] }] })
+    })
+
+    it('renders a status box', () => {
+      expect(screen.queryByRole('status')).toBe(harness.announcements)
+    })
+
+    it('removes the status box from the layout', () => {
+      const result = Array.from(harness.announcements.style)
+      expect(result).toEqual(expect.arrayContaining(['position', 'left']))
+    })
+
+    it('does not output any messages on first render', () => {
+      expect(harness.announcements.textContent).toBe('')
+    })
+
+    it('appends an addition message when new tags are added', () => {
+      harness.props.tags = [...harness.props.tags, { ...suggestions[11] }]
+      harness.result.rerender(harness.component)
+
+      expect(harness.announcements.textContent).toBe('Selected tag Austria')
+    })
+
+    it('appends a removal message when selected tags are removed', () => {
+      harness.props.tags = []
+      harness.result.rerender(harness.component)
+
+      expect(harness.announcements.textContent).toBe('Removed tag Australia')
     })
   })
 

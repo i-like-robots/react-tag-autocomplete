@@ -2,7 +2,18 @@ import React, { useRef } from 'react'
 import { tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
 import { useListManager } from '../hooks'
-import { ComboBox, Input, Label, ListBox, NoOptions, Option, Root, Tag, TagList } from '.'
+import {
+  Announcements,
+  ComboBox,
+  Input,
+  Label,
+  ListBox,
+  NoOptions,
+  Option,
+  Root,
+  Tag,
+  TagList,
+} from '.'
 import type { ClassNames, OnAddition, OnDelete, TagSelected, TagSuggestion } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -128,6 +139,7 @@ export function ReactTags({
             ))}
           </ListBox>
         </ComboBox>
+        <Announcements selected={listManager.state.selectedTags} />
       </Root>
     </GlobalContext.Provider>
   )
