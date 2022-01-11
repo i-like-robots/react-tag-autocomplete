@@ -6,9 +6,9 @@ import { tagsToKeys } from '../lib'
 export enum ListManagerActions {
   ActiveIndexNext,
   ActiveIndexPrev,
-  ActiveIndexSet,
   ClearActiveIndex,
   ClearValue,
+  UpdateActiveIndex,
   UpdateSelected,
   UpdateSuggestions,
   UpdateValue,
@@ -17,9 +17,9 @@ export enum ListManagerActions {
 type ListManagerAction =
   | { type: ListManagerActions.ActiveIndexNext }
   | { type: ListManagerActions.ActiveIndexPrev }
-  | { type: ListManagerActions.ActiveIndexSet; payload: number }
   | { type: ListManagerActions.ClearActiveIndex }
   | { type: ListManagerActions.ClearValue }
+  | { type: ListManagerActions.UpdateActiveIndex; payload: number }
   | { type: ListManagerActions.UpdateSelected; payload: TagSelected[] }
   | { type: ListManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
   | { type: ListManagerActions.UpdateValue; payload: string }
@@ -102,8 +102,7 @@ export function listManagerReducer(
     }
   }
 
-  // TODO: rename "update"
-  if (action.type === ListManagerActions.ActiveIndexSet) {
+  if (action.type === ListManagerActions.UpdateActiveIndex) {
     const activeIndex = loop(action.payload, state.results.length)
 
     return {

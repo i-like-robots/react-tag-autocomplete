@@ -9,7 +9,7 @@ export type UseListManagerAPI = {
   clearValue(): void
   activeIndexNext(): void
   activeIndexPrev(): void
-  setActiveIndex(index: number): void
+  updateActiveIndex(index: number): void
   updateSelected(tags: TagSelected[]): void
   updateSuggestions(suggestions: TagSuggestion[]): void
   updateValue(value: string): void
@@ -40,8 +40,8 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
     clearValue() {
       dispatch({ type: ListManagerActions.ClearValue })
     },
-    setActiveIndex(index: number) {
-      dispatch({ type: ListManagerActions.ActiveIndexSet, payload: index })
+    updateActiveIndex(index: number) {
+      dispatch({ type: ListManagerActions.UpdateActiveIndex, payload: index })
     },
     updateSelected(selected: TagSelected[]) {
       dispatch({ type: ListManagerActions.UpdateSelected, payload: selected })

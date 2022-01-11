@@ -23,7 +23,7 @@ export function useOption(tag: TagSuggestion): UseOptionState {
   }, [inputRef, onSelect])
 
   const onMouseDown = useCallback(() => {
-    activeIndex !== index && listManager.setActiveIndex(index)
+    activeIndex !== index && listManager.updateActiveIndex(index)
   }, [index, listManager, activeIndex])
 
   useLayoutEffect(() => {
