@@ -68,6 +68,7 @@ export function listManagerReducer(
     return {
       ...state,
       activeIndex,
+      activeTag: results[activeIndex],
       results,
       value: '',
     }
@@ -101,6 +102,7 @@ export function listManagerReducer(
     }
   }
 
+  // TODO: rename "update"
   if (action.type === ListManagerActions.ActiveIndexSet) {
     const activeIndex = loop(action.payload, state.results.length)
 
