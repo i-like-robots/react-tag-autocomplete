@@ -5,11 +5,14 @@ import { isCaretAtEnd, isCaretAtStart } from '../lib'
 import { useOnSelect } from '.'
 import type React from 'react'
 
+export type UseInputArgs = {
+  allowBackspace: boolean
+}
+
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
-export function useInput(): UseInputState {
-  const { allowBackspace, id, inputRef, isDisabled, isInvalid, listManager, onDelete } =
-    useContext(GlobalContext)
+export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
+  const { id, inputRef, isDisabled, isInvalid, listManager, onDelete } = useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
 
   const onSelect = useOnSelect()

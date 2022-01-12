@@ -96,7 +96,6 @@ export function ReactTags({
   return (
     <GlobalContext.Provider
       value={{
-        allowBackspace,
         // classNames
         comboBoxRef,
         id,
@@ -126,6 +125,7 @@ export function ReactTags({
         </TagList>
         <ComboBox classNames={classNames}>
           <Input
+            allowBackspace={allowBackspace}
             allowResize={allowResize}
             classNames={classNames}
             placeholderText={placeholderText}
