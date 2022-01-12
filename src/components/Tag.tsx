@@ -1,16 +1,15 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
-import type { ClassNames, TagSelected } from '../sharedTypes'
+import type { TagSelected } from '../sharedTypes'
 
 export type TagProps = {
-  classNames: ClassNames
   onClick: () => void
   removeButtonText: string
   tag: TagSelected
 }
 
-export function Tag({ classNames, onClick, removeButtonText, tag }: TagProps): JSX.Element {
-  const { isDisabled } = useContext(GlobalContext)
+export function Tag({ onClick, removeButtonText, tag }: TagProps): JSX.Element {
+  const { classNames, isDisabled } = useContext(GlobalContext)
 
   return (
     <button

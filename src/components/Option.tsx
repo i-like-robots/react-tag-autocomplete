@@ -2,16 +2,15 @@ import React, { useContext } from 'react'
 import { OptionText } from '.'
 import { GlobalContext } from '../contexts'
 import { useOption } from '../hooks'
-import type { ClassNames, TagSuggestion } from '../sharedTypes'
+import type { TagSuggestion } from '../sharedTypes'
 
 export type OptionProps = {
-  classNames: ClassNames
   tag: TagSuggestion
 }
 
-export function Option({ classNames, tag }: OptionProps): JSX.Element {
+export function Option({ tag }: OptionProps): JSX.Element {
+  const { classNames, listManager } = useContext(GlobalContext)
   const { active, optionProps } = useOption(tag)
-  const { listManager } = useContext(GlobalContext)
 
   const classes = [classNames.option]
 

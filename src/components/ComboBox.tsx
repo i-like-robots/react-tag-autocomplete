@@ -1,11 +1,11 @@
-import React from 'react'
-import { ComboBoxContext } from '../contexts'
+import React, { useContext } from 'react'
+import { ComboBoxContext, GlobalContext } from '../contexts'
 import { useComboBox } from '../hooks'
-import type { ClassNames } from '../sharedTypes'
 
-export type ComboBoxProps = React.PropsWithChildren<{ classNames: ClassNames }>
+export type ComboBoxProps = React.PropsWithChildren<Record<string, unknown>>
 
-export function ComboBox({ children, classNames }: ComboBoxProps): JSX.Element {
+export function ComboBox({ children }: ComboBoxProps): JSX.Element {
+  const { classNames } = useContext(GlobalContext)
   const { comboBoxProps, ...comboBoxState } = useComboBox()
 
   return (

@@ -1,8 +1,9 @@
 import React from 'react'
 import type { UseListManagerState } from '../hooks'
-import type { OnAddition, OnDelete } from '../sharedTypes'
+import type { ClassNames, OnAddition, OnDelete } from '../sharedTypes'
 
 export type GlobalContextValue = {
+  classNames: ClassNames
   comboBoxRef: React.MutableRefObject<HTMLDivElement>
   id: string
   inputRef: React.MutableRefObject<HTMLInputElement>

@@ -66,7 +66,7 @@ export function ReactTags({
   isInvalid = false,
   noOptionsText = 'No options found',
   newTagText = 'Add %value%',
-  tagListTitleText = 'Selected tags',
+  tagListTitleText = 'Selected tags', // TODO
   onAddition,
   onDelete,
   // onValidate,
@@ -96,7 +96,7 @@ export function ReactTags({
   return (
     <GlobalContext.Provider
       value={{
-        // classNames
+        classNames,
         comboBoxRef,
         id,
         inputRef,
@@ -110,32 +110,28 @@ export function ReactTags({
         tagListRef,
       }}
     >
-      <Root classNames={classNames}>
-        <Label ariaLabelText={ariaLabelText} classNames={classNames} />
-        <TagList classNames={classNames} tagListTitleText={tagListTitleText}>
+      <Root>
+        <Label>{ariaLabelText}</Label>
+        <TagList tagListTitleText={tagListTitleText}>
           {tags.map((tag, index) => (
             <Tag
               key={tagToKey(tag)}
-              classNames={classNames}
               onClick={() => onDelete(index)}
               removeButtonText={removeButtonText}
               tag={tag}
             />
           ))}
         </TagList>
-        <ComboBox classNames={classNames}>
+        <ComboBox>
           <Input
             allowBackspace={allowBackspace}
             allowResize={allowResize}
-            classNames={classNames}
             placeholderText={placeholderText}
           />
-          <ListBox classNames={classNames}>
-            {listManager.state.results.length === 0 && (
-              <NoOptions classNames={classNames}>{noOptionsText}</NoOptions>
-            )}
+          <ListBox>
+            {listManager.state.results.length === 0 && <NoOptions>{noOptionsText}</NoOptions>}
             {listManager.state.results.map((tag) => (
-              <Option key={tagToKey(tag)} classNames={classNames} tag={tag} />
+              <Option key={tagToKey(tag)} tag={tag} />
             ))}
           </ListBox>
         </ComboBox>

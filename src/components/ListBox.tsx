@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { ComboBoxContext } from '../contexts'
+import { ComboBoxContext, GlobalContext } from '../contexts'
 import { useListBox } from '../hooks'
-import type { ClassNames } from '../sharedTypes'
 
-export type ListBoxProps = React.PropsWithChildren<{ classNames: ClassNames }>
+export type ListBoxProps = React.PropsWithChildren<Record<string, unknown>>
 
-export function ListBox({ children, classNames }: ListBoxProps): JSX.Element {
+export function ListBox({ children }: ListBoxProps): JSX.Element {
+  const { classNames } = useContext(GlobalContext)
   const { isExpanded } = useContext(ComboBoxContext)
   const listBoxProps = useListBox()
 

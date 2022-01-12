@@ -1,20 +1,19 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { GlobalContext } from '../contexts'
 import { useInput, useInputSizer } from '../hooks'
-import type { ClassNames } from '../sharedTypes'
 
 export type InputProps = {
   allowBackspace?: boolean
   allowResize?: boolean
-  classNames: ClassNames
   placeholderText: string
 }
 
 export function Input({
   allowBackspace = true,
   allowResize = true,
-  classNames,
   placeholderText,
 }: InputProps): JSX.Element {
+  const { classNames } = useContext(GlobalContext)
   const inputProps = useInput({ allowBackspace })
   const text = String(inputProps.value || placeholderText)
   const { sizerProps, width } = useInputSizer({ allowResize, text })
