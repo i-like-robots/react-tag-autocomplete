@@ -36,7 +36,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isExpanded) {
         e.preventDefault()
-        listManager.activeIndexNext()
+        listManager.updateActiveIndex(listManager.state.activeIndex + 1)
       } else if (isCaretAtEnd(e.currentTarget)) {
         expand()
       }
@@ -48,7 +48,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isExpanded) {
         e.preventDefault()
-        listManager.activeIndexPrev()
+        listManager.updateActiveIndex(listManager.state.activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
         expand()
       }

@@ -4,8 +4,6 @@ import type { TagSelected, TagSuggestion } from '../sharedTypes'
 import { tagsToKeys } from '../lib'
 
 export enum ListManagerActions {
-  ActiveIndexNext,
-  ActiveIndexPrev,
   ClearActiveIndex,
   ClearValue,
   UpdateActiveIndex,
@@ -15,8 +13,6 @@ export enum ListManagerActions {
 }
 
 type ListManagerAction =
-  | { type: ListManagerActions.ActiveIndexNext }
-  | { type: ListManagerActions.ActiveIndexPrev }
   | { type: ListManagerActions.ClearActiveIndex }
   | { type: ListManagerActions.ClearValue }
   | { type: ListManagerActions.UpdateActiveIndex; payload: number }
@@ -79,26 +75,6 @@ export function listManagerReducer(
       ...state,
       activeIndex: -1,
       activeTag: null,
-    }
-  }
-
-  if (action.type === ListManagerActions.ActiveIndexNext) {
-    const activeIndex = loop(state.activeIndex + 1, state.results.length)
-
-    return {
-      ...state,
-      activeIndex,
-      activeTag: state.results[activeIndex],
-    }
-  }
-
-  if (action.type === ListManagerActions.ActiveIndexPrev) {
-    const activeIndex = loop(state.activeIndex - 1, state.results.length)
-
-    return {
-      ...state,
-      activeIndex,
-      activeTag: state.results[activeIndex],
     }
   }
 

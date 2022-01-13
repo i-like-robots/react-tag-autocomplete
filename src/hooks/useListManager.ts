@@ -7,8 +7,6 @@ import type { TagSelected, TagSuggestion } from '../sharedTypes'
 export type UseListManagerAPI = {
   clearActiveIndex(): void
   clearValue(): void
-  activeIndexNext(): void
-  activeIndexPrev(): void
   updateActiveIndex(index: number): void
   updateSelected(tags: TagSelected[]): void
   updateSuggestions(suggestions: TagSuggestion[]): void
@@ -28,12 +26,6 @@ export function useListManager(initialState: ListManagerState): UseListManagerSt
 
   api.current ??= {
     state: null,
-    activeIndexNext() {
-      dispatch({ type: ListManagerActions.ActiveIndexNext })
-    },
-    activeIndexPrev() {
-      dispatch({ type: ListManagerActions.ActiveIndexPrev })
-    },
     clearActiveIndex() {
       dispatch({ type: ListManagerActions.ClearActiveIndex })
     },
