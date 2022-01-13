@@ -113,7 +113,7 @@ export function ReactTags({
       <Root>
         <Label>{ariaLabelText}</Label>
         <TagList tagListTitleText={tagListTitleText}>
-          {tags.map((tag, index) => (
+          {listManager.state.selectedTags.map((tag, index) => (
             <Tag
               key={tagToKey(tag)}
               onClick={() => onDelete(index)}

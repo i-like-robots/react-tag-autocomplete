@@ -11,9 +11,13 @@ export function useManageFocus(): void {
 
   const currentFocusInList = tagListRef.current?.contains(document.activeElement)
   const prevFocusInList = usePrevious<boolean>(currentFocusInList)
-  const wasFocusLost = prevFocusInList && !currentFocusInList
 
   useEffect(() => {
-    if (wasTagRemoved && wasFocusLost) rootRef.current?.focus()
-  }, [rootRef, wasFocusLost, wasTagRemoved])
+    if (wasTagRemoved) {
+      const currentFocusInList = tagListRef.current?.contains(document.activeElement)
+      const wasFocusLost = prevFocusInList && !currentFocusInList
+
+      if (wasFocusLost) rootRef.current?.focus()
+    }
+  }, [prevFocusInList, rootRef, tagListRef, wasTagRemoved])
 }
