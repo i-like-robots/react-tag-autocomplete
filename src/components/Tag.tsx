@@ -1,24 +1,18 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
-import type { TagSelected } from '../sharedTypes'
+import { useSelectedTag } from '../hooks'
 
 export type TagProps = {
-  onClick: () => void
-  removeButtonText: string
-  tag: TagSelected
+  title: string
+  index: number
 }
 
-export function Tag({ onClick, removeButtonText, tag }: TagProps): JSX.Element {
-  const { classNames, isDisabled } = useContext(GlobalContext)
+export function Tag({ index, title }: TagProps): JSX.Element {
+  const { classNames } = useContext(GlobalContext)
+  const { tag, tagProps } = useSelectedTag(index, title)
 
   return (
-    <button
-      type="button"
-      aria-disabled={isDisabled}
-      aria-label={removeButtonText.replace('%label%', tag.label)}
-      className={classNames.tag}
-      onClick={isDisabled ? null : onClick}
-    >
+    <button type="button" className={classNames.tag} {...tagProps}>
       <span className={classNames.tagName}>{tag.label}</span>
     </button>
   )

@@ -13,12 +13,9 @@ export function useOnSelect(): UseOnSelectState {
   const selectTag = useCallback(
     (tag: TagSelected) => {
       const index = selectedKeys.indexOf(tagToKey(tag))
+      const result = index > -1 ? onDelete(index) : onAddition(tag)
 
-      if (index > -1) {
-        onDelete(index) && listManager.clearValue()
-      } else {
-        onAddition(tag) && listManager.clearValue()
-      }
+      if (result) listManager.clearValue()
     },
     [listManager, onAddition, onDelete, selectedKeys]
   )
@@ -38,10 +35,7 @@ export function useOnSelect(): UseOnSelectState {
   const getExactTag = useCallback((): Tag => {
     if (value && results.length) {
       const match = findSuggestionExact(value, results)
-
-      if (match) {
-        return { label: match.label, value: match.value }
-      }
+      if (match) return { label: match.label, value: match.value }
     }
   }, [results, value])
 

@@ -114,12 +114,7 @@ export function ReactTags({
         <Label>{ariaLabelText}</Label>
         <TagList tagListTitleText={tagListTitleText}>
           {listManager.state.selectedTags.map((tag, index) => (
-            <Tag
-              key={tagToKey(tag)}
-              onClick={() => onDelete(index)}
-              removeButtonText={removeButtonText}
-              tag={tag}
-            />
+            <Tag key={tagToKey(tag)} index={index} title={removeButtonText} />
           ))}
         </TagList>
         <ComboBox>
