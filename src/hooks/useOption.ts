@@ -1,21 +1,21 @@
-import React, { useCallback, useContext, useLayoutEffect, useRef } from 'react'
+import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { GlobalContext } from '../contexts'
 import { tagToKey } from '../lib'
 import { useOnSelect } from '.'
-import type { TagOption, TagSuggestion } from '../sharedTypes'
+import type { TagOption } from '../sharedTypes'
 
 export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> } & TagOption
 
-export function useOption(tag: TagSuggestion): UseOptionState {
+export function useOption(index: number): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
   const { id, inputRef, listManager } = useContext(GlobalContext)
   const onSelect = useOnSelect()
+  const option = listManager.state.results[index]
 
   const { results, selectedKeys, activeIndex } = listManager.state
-  const index = results.indexOf(tag)
   const active = index === activeIndex
-  const disabled = tag.disabled ?? false
-  const selected = selectedKeys.includes(tagToKey(tag))
+  const disabled = option.disabled ?? false
+  const selected = selectedKeys.includes(tagToKey(option))
 
   const onClick = useCallback(() => {
     onSelect()
@@ -26,12 +26,12 @@ export function useOption(tag: TagSuggestion): UseOptionState {
     activeIndex !== index && listManager.updateActiveIndex(index)
   }, [index, listManager, activeIndex])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     active && optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
   }, [active, results.length])
 
   return {
-    ...tag,
+    ...option,
     active,
     disabled,
     index,

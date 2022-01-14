@@ -2,15 +2,14 @@ import React, { useContext } from 'react'
 import { OptionText } from '.'
 import { GlobalContext } from '../contexts'
 import { useOption } from '../hooks'
-import type { TagSuggestion } from '../sharedTypes'
 
 export type OptionProps = {
-  tag: TagSuggestion
+  index: number
 }
 
-export function Option({ tag }: OptionProps): JSX.Element {
+export function Option({ index }: OptionProps): JSX.Element {
   const { classNames, listManager } = useContext(GlobalContext)
-  const { active, optionProps } = useOption(tag)
+  const { active, label, optionProps } = useOption(index)
 
   const classes = [classNames.option]
 
@@ -18,7 +17,7 @@ export function Option({ tag }: OptionProps): JSX.Element {
 
   return (
     <div className={classes.join(' ')} {...optionProps}>
-      <OptionText label={tag.label} value={listManager.state.value} />
+      <OptionText label={label} value={listManager.state.value} />
     </div>
   )
 }

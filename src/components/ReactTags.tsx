@@ -124,10 +124,13 @@ export function ReactTags({
             placeholderText={placeholderText}
           />
           <ListBox>
-            {listManager.state.results.length === 0 && <NoOptions>{noOptionsText}</NoOptions>}
-            {listManager.state.results.map((tag) => (
-              <Option key={tagToKey(tag)} tag={tag} />
-            ))}
+            {listManager.state.results.length > 0 ? (
+              listManager.state.results.map((tag, index) => (
+                <Option key={tagToKey(tag)} index={index} />
+              ))
+            ) : (
+              <NoOptions>{noOptionsText}</NoOptions>
+            )}
           </ListBox>
         </ComboBox>
         <Announcements selected={listManager.state.selectedTags} />
