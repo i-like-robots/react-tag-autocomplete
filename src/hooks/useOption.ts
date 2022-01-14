@@ -10,9 +10,9 @@ export function useOption(index: number): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
   const { id, inputRef, listManager } = useContext(GlobalContext)
   const onSelect = useOnSelect()
-  const option = listManager.state.results[index]
+  const option = listManager.state.options[index]
 
-  const { results, selectedKeys, activeIndex } = listManager.state
+  const { options, selectedKeys, activeIndex } = listManager.state
   const active = index === activeIndex
   const disabled = option.disabled ?? false
   const selected = selectedKeys.includes(tagToKey(option))
@@ -28,7 +28,7 @@ export function useOption(index: number): UseOptionState {
 
   useEffect(() => {
     active && optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
-  }, [active, results.length])
+  }, [active, options.length])
 
   return {
     ...option,
@@ -40,7 +40,7 @@ export function useOption(index: number): UseOptionState {
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
       'aria-selected': disabled ? null : selected,
-      'aria-setsize': results.length,
+      'aria-setsize': options.length,
       id: `${id}-listbox-${index}`,
       onClick,
       onMouseDown,

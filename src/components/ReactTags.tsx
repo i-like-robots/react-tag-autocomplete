@@ -83,10 +83,10 @@ export function ReactTags({
 
   const listManager = useListManager({
     activeIndex: -1,
-    activeTag: null,
+    activeOption: null,
     allowNew,
     newTagText,
-    results: [],
+    options: [],
     selectedKeys: null,
     selectedTags: tags,
     suggestions,
@@ -124,8 +124,8 @@ export function ReactTags({
             placeholderText={placeholderText}
           />
           <ListBox>
-            {listManager.state.results.length > 0 ? (
-              listManager.state.results.map((tag, index) => (
+            {listManager.state.options.length > 0 ? (
+              listManager.state.options.map((tag, index) => (
                 <Option key={tagToKey(tag)} index={index} />
               ))
             ) : (

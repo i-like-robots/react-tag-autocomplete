@@ -22,13 +22,13 @@ type ListManagerAction =
 
 export type ListManagerState = {
   activeIndex: number
-  activeTag: TagSuggestion | null
+  activeOption: TagSuggestion | null
   allowNew: boolean
   newTagText: string
   selectedTags: TagSelected[]
   selectedKeys: string[]
   suggestions: TagSuggestion[]
-  results: TagSuggestion[]
+  options: TagSuggestion[]
   value: string
 }
 
@@ -58,14 +58,17 @@ export function listManagerReducer(
   action: ListManagerAction
 ): ListManagerState {
   if (action.type === ListManagerActions.ClearValue) {
-    const results = [...state.suggestions]
-    const activeIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
+    const options = [...state.suggestions]
+
+    const activeIndex = state.activeOption
+      ? findSuggestionIndex(state.activeOption.value, options)
+      : -1
 
     return {
       ...state,
       activeIndex,
-      activeTag: results[activeIndex],
-      results,
+      activeOption: options[activeIndex],
+      options,
       value: '',
     }
   }
@@ -74,17 +77,17 @@ export function listManagerReducer(
     return {
       ...state,
       activeIndex: -1,
-      activeTag: null,
+      activeOption: null,
     }
   }
 
   if (action.type === ListManagerActions.UpdateActiveIndex) {
-    const activeIndex = loop(action.payload, state.results.length)
+    const activeIndex = loop(action.payload, state.options.length)
 
     return {
       ...state,
       activeIndex,
-      activeTag: state.results[activeIndex],
+      activeOption: state.options[activeIndex],
     }
   }
 
@@ -94,37 +97,41 @@ export function listManagerReducer(
   }
 
   if (action.type === ListManagerActions.UpdateSuggestions) {
-    const results = matchSuggestionsPartial(state.value, action.payload)
+    const options = matchSuggestionsPartial(state.value, action.payload)
 
     if (state.allowNew && state.value) {
-      results.push(createNewTag(state.newTagText, state.value))
+      options.push(createNewTag(state.newTagText, state.value))
     }
 
-    const activeIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
+    const activeIndex = state.activeOption
+      ? findSuggestionIndex(state.activeOption.value, options)
+      : -1
 
     return {
       ...state,
       activeIndex,
-      activeTag: results[activeIndex] || null,
-      results,
+      activeOption: options[activeIndex] || null,
+      options,
       suggestions: action.payload,
     }
   }
 
   if (action.type === ListManagerActions.UpdateValue) {
-    const results = matchSuggestionsPartial(action.payload, state.suggestions)
+    const options = matchSuggestionsPartial(action.payload, state.suggestions)
 
     if (state.allowNew && action.payload) {
-      results.push(createNewTag(state.newTagText, action.payload))
+      options.push(createNewTag(state.newTagText, action.payload))
     }
 
-    const activeIndex = state.activeTag ? findSuggestionIndex(state.activeTag.value, results) : -1
+    const activeIndex = state.activeOption
+      ? findSuggestionIndex(state.activeOption.value, options)
+      : -1
 
     return {
       ...state,
       activeIndex,
-      activeTag: results[activeIndex] || null,
-      results,
+      activeOption: options[activeIndex] || null,
+      options,
       value: action.payload,
     }
   }

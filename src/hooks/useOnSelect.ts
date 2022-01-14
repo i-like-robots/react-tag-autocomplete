@@ -8,7 +8,7 @@ export type UseOnSelectState = () => void
 
 export function useOnSelect(): UseOnSelectState {
   const { isDisabled, listManager, onAddition, onDelete } = useContext(GlobalContext)
-  const { activeTag, results, selectedKeys, value } = listManager.state
+  const { activeOption, options, selectedKeys, value } = listManager.state
 
   const selectTag = useCallback(
     (tag: TagSelected) => {
@@ -21,23 +21,23 @@ export function useOnSelect(): UseOnSelectState {
   )
 
   const getNewTag = useCallback((): Tag => {
-    if (activeTag?.value === CreateNewOptionValue) {
+    if (activeOption?.value === CreateNewOptionValue) {
       return { label: value, value: null }
     }
-  }, [activeTag, value])
+  }, [activeOption, value])
 
   const getActiveTag = useCallback((): Tag => {
-    if (activeTag && activeTag?.disabled !== true) {
-      return { label: activeTag.label, value: activeTag.value }
+    if (activeOption && activeOption?.disabled !== true) {
+      return { label: activeOption.label, value: activeOption.value }
     }
-  }, [activeTag])
+  }, [activeOption])
 
   const getExactTag = useCallback((): Tag => {
-    if (value && results.length) {
-      const match = findSuggestionExact(value, results)
+    if (value && options.length) {
+      const match = findSuggestionExact(value, options)
       if (match) return { label: match.label, value: match.value }
     }
-  }, [results, value])
+  }, [options, value])
 
   return useCallback(() => {
     if (isDisabled) return

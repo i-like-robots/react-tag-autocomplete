@@ -17,7 +17,7 @@ export type UseListManagerState = UseListManagerAPI & { state: ListManagerState 
 
 function getInitialState(initialState: ListManagerState) {
   const selectedKeys = tagsToKeys(initialState.selectedTags)
-  return { ...initialState, results: [...initialState.suggestions], selectedKeys }
+  return { ...initialState, options: [...initialState.suggestions], selectedKeys }
 }
 
 export function useListManager(initialState: ListManagerState): UseListManagerState {
