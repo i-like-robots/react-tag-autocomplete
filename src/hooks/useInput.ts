@@ -1,7 +1,7 @@
 import { useCallback, useContext } from 'react'
 import { DisableAutoComplete, KeyNames } from '../constants'
 import { ComboBoxContext, GlobalContext } from '../contexts'
-import { isCaretAtEnd, isCaretAtStart } from '../lib'
+import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
 import { useOnSelect } from '.'
 import type React from 'react'
 
@@ -86,13 +86,13 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
   return {
     ...DisableAutoComplete,
     'aria-autocomplete': 'list',
-    'aria-activedescendant': isExpanded && activeIndex > -1 ? `${id}-listbox-${activeIndex}` : '',
+    'aria-activedescendant': isExpanded && activeIndex > -1 ? optionId(id, activeIndex) : '',
     'aria-disabled': isDisabled,
     'aria-invalid': isInvalid,
-    'aria-labelledby': `${id}-label`,
+    'aria-labelledby': labelId(id),
     'aria-expanded': isExpanded,
-    'aria-owns': isExpanded ? `${id}-listbox` : null,
-    id: `${id}-input`,
+    'aria-owns': isExpanded ? listBoxId(id) : null,
+    id: inputId(id),
     onChange,
     onKeyDown,
     ref: inputRef,

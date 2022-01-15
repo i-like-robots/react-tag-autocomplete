@@ -121,10 +121,10 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-activedescendant')).toBe('')
 
       userEvent.type(harness.input, '{arrowdown}')
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-listbox-0')
+      expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-0')
 
       userEvent.type(harness.input, '{arrowdown}')
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-listbox-1')
+      expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-1')
     })
 
     it('calls the addition callback when an unselected option is active and enter key is pressed', () => {

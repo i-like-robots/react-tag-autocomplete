@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react'
 import { GlobalContext } from '../contexts'
+import { labelId, rootId } from '../lib'
 
 export type UseRootState = {
   isActive: boolean
@@ -29,7 +30,8 @@ export function useRoot(): UseRootState {
   return {
     isActive,
     rootProps: {
-      'aria-describedby': `${id}-label`,
+      'aria-describedby': labelId(id),
+      id: rootId(id),
       onBlur,
       onClick,
       onFocus,

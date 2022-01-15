@@ -1,6 +1,7 @@
 import { useCallback, useContext, useState } from 'react'
 import { GlobalContext } from '../contexts'
 import type React from 'react'
+import { comboBoxId } from '../lib'
 
 type ComboBoxInternalState = {
   isExpanded: boolean
@@ -34,7 +35,7 @@ export function useComboBox(): UseComboBoxState {
   const collapse = useCallback(() => setState({ ...state, isExpanded: false }), [state])
 
   const comboBoxProps: UseComboBoxState['comboBoxProps'] = {
-    id: `${id}-combobox`,
+    id: comboBoxId(id),
     onBlur,
     onFocus,
     ref: comboBoxRef,

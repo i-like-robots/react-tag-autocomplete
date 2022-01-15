@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react'
 import { GlobalContext } from '../contexts'
-import { tagToKey } from '../lib'
+import { optionId, tagToKey } from '../lib'
 import { useOnSelect } from '.'
 import type { TagOption } from '../sharedTypes'
 
@@ -41,7 +41,7 @@ export function useOption(index: number): UseOptionState {
       'aria-posinset': index + 1,
       'aria-selected': disabled ? null : selected,
       'aria-setsize': options.length,
-      id: `${id}-listbox-${index}`,
+      id: optionId(id, index),
       onClick,
       onMouseDown,
       ref: optionRef,

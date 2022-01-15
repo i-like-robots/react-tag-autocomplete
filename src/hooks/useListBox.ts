@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../contexts'
+import { labelId, listBoxId } from '../lib'
 
 export type UseListBoxState = React.ComponentPropsWithRef<'div'>
 
@@ -13,8 +14,8 @@ export function useListBox(): UseListBoxState {
   }, [listBoxRef, listManager.state.activeIndex])
 
   return {
-    'aria-labelledby': `${id}-label`,
-    id: `${id}-listbox`,
+    'aria-labelledby': labelId(id),
+    id: listBoxId(id),
     ref: listBoxRef,
     role: 'listbox',
   }
