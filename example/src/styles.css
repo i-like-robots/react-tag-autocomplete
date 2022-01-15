@@ -76,10 +76,11 @@
 .react-tags__tag::after {
   content: '✕';
   margin-left: 0.5rem;
+  font-size: 0.875rem;
 }
 
 .react-tags__tag:not(:hover)::after {
-  color: #aaa;
+  color: #aaaaaa;
 }
 
 .react-tags__combobox {
@@ -112,7 +113,7 @@
 .react-tags__listbox {
   position: absolute;
   z-index: 1;
-  top: calc(100% + 4px);
+  top: calc(100% + 5px);
 
   /* Negate the border width on the container */
   left: -2px;
