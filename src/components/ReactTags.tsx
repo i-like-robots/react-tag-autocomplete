@@ -45,7 +45,7 @@ export type ReactTagsProps = {
   isInvalid?: boolean
   noOptionsText?: string
   newTagText?: string
-  tagListTitleText?: string
+  tagListLabelText?: string
   onAddition: OnAddition
   onDelete: OnDelete
   // onValidate: (value: string) => boolean
@@ -66,7 +66,7 @@ export function ReactTags({
   isInvalid = false,
   noOptionsText = 'No options found',
   newTagText = 'Add %value%',
-  tagListTitleText = 'Selected tags', // TODO
+  tagListLabelText = 'Selected tags',
   onAddition,
   onDelete,
   // onValidate,
@@ -112,7 +112,7 @@ export function ReactTags({
     >
       <Root>
         <Label>{ariaLabelText}</Label>
-        <TagList tagListTitleText={tagListTitleText}>
+        <TagList label={tagListLabelText}>
           {listManager.state.selectedTags.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} title={removeButtonText} />
           ))}
