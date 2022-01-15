@@ -38,17 +38,16 @@ export type ReactTagsProps = {
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
-  ariaLabelText?: string
   classNames?: ClassNames
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
+  labelText?: string
   noOptionsText?: string
   newTagText?: string
   tagListLabelText?: string
   onAddition: OnAddition
   onDelete: OnDelete
-  // onValidate: (value: string) => boolean
   placeholderText?: string
   removeButtonText?: string
   suggestions: TagSuggestion[]
@@ -59,17 +58,16 @@ export function ReactTags({
   allowBackspace = true,
   allowNew = false,
   allowResize = true,
-  ariaLabelText = 'Select tags',
   classNames = DefaultClassNames,
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
+  labelText = 'Select tags',
   noOptionsText = 'No options found',
   newTagText = 'Add %value%',
   tagListLabelText = 'Selected tags',
   onAddition,
   onDelete,
-  // onValidate,
   placeholderText = 'Add a tag',
   removeButtonText = 'Remove %label% from the list',
   suggestions = [],
@@ -111,7 +109,7 @@ export function ReactTags({
       }}
     >
       <Root>
-        <Label>{ariaLabelText}</Label>
+        <Label>{labelText}</Label>
         <TagList label={tagListLabelText}>
           {listManager.state.selectedTags.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} title={removeButtonText} />
