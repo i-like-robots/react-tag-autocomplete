@@ -1,18 +1,16 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 import { GlobalContext } from '../contexts'
 import { optionId, tagToKey } from '../lib'
-import { useOnSelect } from '.'
+import type React from 'react'
 import type { TagOption } from '../sharedTypes'
 
 export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> } & TagOption
 
 export function useOption(index: number): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
-  const { id, inputRef, listManager } = useContext(GlobalContext)
-  const onSelect = useOnSelect()
-  const option = listManager.state.options[index]
-
+  const { id, inputRef, listManager, onSelect } = useContext(GlobalContext)
   const { options, selectedKeys, activeIndex } = listManager.state
+  const option = options[index]
   const active = index === activeIndex
   const disabled = option.disabled ?? false
   const selected = selectedKeys.includes(tagToKey(option))
@@ -23,7 +21,7 @@ export function useOption(index: number): UseOptionState {
   }, [inputRef, onSelect])
 
   const onMouseDown = useCallback(() => {
-    activeIndex !== index && listManager.updateActiveIndex(index)
+    if (index !== activeIndex) listManager.updateActiveIndex(index)
   }, [index, listManager, activeIndex])
 
   useEffect(() => {

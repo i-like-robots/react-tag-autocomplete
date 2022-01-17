@@ -1,54 +1,49 @@
-import { useCallback, useContext } from 'react'
 import { CreateNewOptionValue } from '../constants'
-import { GlobalContext } from '../contexts'
 import { findSuggestionExact, tagToKey } from '../lib'
-import type { Tag, TagSelected } from '../sharedTypes'
+import type { UseListManagerState } from '.'
+import type { OnAddition, OnDelete, Tag, TagSuggestion, OnSelect } from '../sharedTypes'
+import { useCallback } from 'react'
 
-export type UseOnSelectState = () => void
+const getNewTag = (option: TagSuggestion, value: string): Tag => {
+  if (option?.value === CreateNewOptionValue) {
+    return { label: value, value: null }
+  }
+}
 
-export function useOnSelect(): UseOnSelectState {
-  const { isDisabled, listManager, onAddition, onDelete } = useContext(GlobalContext)
-  const { activeOption, options, selectedKeys, value } = listManager.state
+export type UseOnSelectArgs = {
+  listManager: UseListManagerState
+  onAddition: OnAddition
+  onDelete: OnDelete
+}
 
+export function useOnSelect({ listManager, onAddition, onDelete }: UseOnSelectArgs): OnSelect {
   const selectTag = useCallback(
-    (tag: TagSelected) => {
-      const index = selectedKeys.indexOf(tagToKey(tag))
+    (tag: TagSuggestion) => {
+      if (tag.disabled) return
+
+      const index = listManager.state.selectedKeys.indexOf(tagToKey(tag))
       const result = index > -1 ? onDelete(index) : onAddition(tag)
 
       if (result) listManager.clearValue()
     },
-    [listManager, onAddition, onDelete, selectedKeys]
+    [listManager, onAddition, onDelete]
   )
 
-  const getNewTag = useCallback((): Tag => {
-    if (activeOption?.value === CreateNewOptionValue) {
-      return { label: value, value: null }
-    }
-  }, [activeOption, value])
+  return useCallback(
+    (tag?: TagSuggestion) => {
+      const { activeOption, options, value } = listManager.state
 
-  const getActiveTag = useCallback((): Tag => {
-    if (activeOption && activeOption?.disabled !== true) {
-      return { label: activeOption.label, value: activeOption.value }
-    }
-  }, [activeOption])
+      if (tag) return selectTag(tag)
 
-  const getExactTag = useCallback((): Tag => {
-    if (value && options.length) {
-      const match = findSuggestionExact(value, options)
-      if (match) return { label: match.label, value: match.value }
-    }
-  }, [options, value])
+      if (activeOption) {
+        const newTag = getNewTag(activeOption, value)
+        return selectTag(newTag || activeOption)
+      }
 
-  return useCallback(() => {
-    if (isDisabled) return
+      const exactTag = findSuggestionExact(value, options)
 
-    const newTag = getNewTag()
-    if (newTag) return selectTag(newTag)
-
-    const activeTag = getActiveTag()
-    if (activeTag) return selectTag(activeTag)
-
-    const exactTag = getExactTag()
-    if (exactTag) return selectTag(exactTag)
-  }, [selectTag, getActiveTag, getExactTag, getNewTag, isDisabled])
+      if (exactTag) return selectTag(exactTag)
+    },
+    [listManager, selectTag]
+  )
 }

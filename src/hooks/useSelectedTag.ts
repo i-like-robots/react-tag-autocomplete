@@ -8,9 +8,9 @@ export type UseSelectedTagState = {
 }
 
 export function useSelectedTag(index: number, title: string): UseSelectedTagState {
-  const { isDisabled, listManager, onDelete } = useContext(GlobalContext)
-  const onClick = useCallback(() => onDelete(index), [index, onDelete])
+  const { isDisabled, listManager, onSelect } = useContext(GlobalContext)
   const tag = listManager.state.selectedTags[index]
+  const onClick = useCallback(() => onSelect(tag), [onSelect, tag])
 
   return {
     tag,

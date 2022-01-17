@@ -23,20 +23,23 @@ export type Tag = {
 
 export type TagMetaProps = {
   disabled: boolean
-  selected: boolean
 }
 
 export type TagInternalProps = {
   active: boolean
   index: number
+  selected: boolean
 }
 
 export type TagSuggestion = Tag & Partial<TagMetaProps>
 
 export type TagOption = Tag & TagMetaProps & TagInternalProps
 
+// TODO: delete
 export type TagSelected = Tag
 
-export type OnAddition = (tag: TagSelected) => boolean
+export type OnAddition = (tag: Tag) => boolean
 
 export type OnDelete = (index: number) => boolean
+
+export type OnSelect = (tag?: Tag) => void

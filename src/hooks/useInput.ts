@@ -2,8 +2,9 @@ import { useCallback, useContext } from 'react'
 import { DisableAutoComplete, KeyNames } from '../constants'
 import { ComboBoxContext, GlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
-import { useOnSelect } from '.'
 import type React from 'react'
+
+const NO_OP = () => undefined
 
 export type UseInputArgs = {
   allowBackspace: boolean
@@ -12,16 +13,14 @@ export type UseInputArgs = {
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, listManager, onDelete } = useContext(GlobalContext)
+  const { id, inputRef, isDisabled, isInvalid, listManager, onSelect } = useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
-
-  const onSelect = useOnSelect()
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!isDisabled) listManager.updateValue(e.currentTarget.value)
+      listManager.updateValue(e.currentTarget.value)
     },
-    [isDisabled, listManager]
+    [listManager]
   )
 
   const onEnterKey = useCallback(
@@ -64,11 +63,11 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
   }, [collapse, isExpanded, listManager])
 
   const onBackspaceKey = useCallback(() => {
-    const length = listManager.state.selectedTags.length
     const isEmpty = listManager.state.value === ''
+    const lastTag = listManager.state.selectedTags[listManager.state.selectedTags.length - 1]
 
-    if (isEmpty && length && allowBackspace) onDelete(length - 1)
-  }, [allowBackspace, listManager, onDelete])
+    if (allowBackspace && isEmpty && lastTag) onSelect(lastTag)
+  }, [allowBackspace, listManager, onSelect])
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -93,8 +92,8 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     'aria-expanded': isExpanded,
     'aria-owns': isExpanded ? listBoxId(id) : null,
     id: inputId(id),
-    onChange,
-    onKeyDown,
+    onChange: isDisabled ? NO_OP : onChange,
+    onKeyDown: isDisabled ? NO_OP : onKeyDown,
     ref: inputRef,
     role: 'combobox',
     type: 'text',

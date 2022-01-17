@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
-import { useListManager } from '../hooks'
+import { useListManager, useOnSelect } from '../hooks'
 import {
   Announcements,
   ComboBox,
@@ -91,6 +91,8 @@ export function ReactTags({
     value: '',
   })
 
+  const onSelect = useOnSelect({ listManager, onAddition, onDelete })
+
   return (
     <GlobalContext.Provider
       value={{
@@ -102,8 +104,7 @@ export function ReactTags({
         isInvalid,
         listBoxRef,
         listManager,
-        onAddition,
-        onDelete,
+        onSelect,
         rootRef,
         tagListRef,
       }}

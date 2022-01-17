@@ -1,6 +1,6 @@
 import React from 'react'
 import type { UseListManagerState } from '../hooks'
-import type { ClassNames, OnAddition, OnDelete } from '../sharedTypes'
+import type { ClassNames, OnSelect } from '../sharedTypes'
 
 export type GlobalContextValue = {
   classNames: ClassNames
@@ -11,8 +11,7 @@ export type GlobalContextValue = {
   isInvalid: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   listManager: UseListManagerState
-  onAddition: OnAddition
-  onDelete: OnDelete
+  onSelect: OnSelect
   rootRef: React.MutableRefObject<HTMLDivElement>
   tagListRef: React.MutableRefObject<HTMLUListElement>
 }
