@@ -1,10 +1,8 @@
 import { useCallback, useContext } from 'react'
-import { DisableAutoComplete, KeyNames } from '../constants'
+import { DisableAutoComplete, KeyNames, VoidFn } from '../constants'
 import { ComboBoxContext, GlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
 import type React from 'react'
-
-const NO_OP = () => undefined
 
 export type UseInputArgs = {
   allowBackspace: boolean
@@ -92,8 +90,8 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     'aria-expanded': isExpanded,
     'aria-owns': isExpanded ? listBoxId(id) : null,
     id: inputId(id),
-    onChange: isDisabled ? NO_OP : onChange,
-    onKeyDown: isDisabled ? NO_OP : onKeyDown,
+    onChange: isDisabled ? VoidFn : onChange,
+    onKeyDown: isDisabled ? VoidFn : onKeyDown,
     ref: inputRef,
     role: 'combobox',
     type: 'text',

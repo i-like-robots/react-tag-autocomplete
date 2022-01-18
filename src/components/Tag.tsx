@@ -9,11 +9,11 @@ export type TagProps = {
 
 export function Tag({ index, title }: TagProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
-  const { tag, tagProps } = useSelectedTag(index, title)
+  const { label, tagProps } = useSelectedTag(index, title)
 
   return (
     <button type="button" className={classNames.tag} {...tagProps}>
-      <span className={classNames.tagName}>{tag.label}</span>
+      <span className={classNames.tagName}>{label}</span>
     </button>
   )
 }

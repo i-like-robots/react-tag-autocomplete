@@ -16,3 +16,5 @@ export const DisableAutoComplete = {
   autoComplete: 'off',
   'data-form-type': 'other',
 }
+
+export const VoidFn = (): void => undefined
