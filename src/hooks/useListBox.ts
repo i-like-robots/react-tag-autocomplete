@@ -5,13 +5,13 @@ import { labelId, listBoxId } from '../lib'
 export type UseListBoxState = React.ComponentPropsWithRef<'div'>
 
 export function useListBox(): UseListBoxState {
-  const { id, listBoxRef, listManager } = useContext(GlobalContext)
+  const { id, listBoxRef, manager } = useContext(GlobalContext)
 
   useEffect(() => {
-    if (listManager.state.activeIndex === -1) {
+    if (manager.state.activeIndex === -1) {
       listBoxRef.current?.scrollTo({ top: 0 })
     }
-  }, [listBoxRef, listManager.state.activeIndex])
+  }, [listBoxRef, manager.state.activeIndex])
 
   return {
     'aria-labelledby': labelId(id),

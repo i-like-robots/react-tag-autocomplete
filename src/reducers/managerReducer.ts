@@ -3,7 +3,7 @@ import { CreateNewOptionValue } from '../constants'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
 import { tagsToKeys } from '../lib'
 
-export enum ListManagerActions {
+export enum ManagerActions {
   ClearActiveIndex,
   ClearValue,
   UpdateActiveIndex,
@@ -12,15 +12,15 @@ export enum ListManagerActions {
   UpdateValue,
 }
 
-type ListManagerAction =
-  | { type: ListManagerActions.ClearActiveIndex }
-  | { type: ListManagerActions.ClearValue }
-  | { type: ListManagerActions.UpdateActiveIndex; payload: number }
-  | { type: ListManagerActions.UpdateSelected; payload: TagSelected[] }
-  | { type: ListManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
-  | { type: ListManagerActions.UpdateValue; payload: string }
+type ManagerAction =
+  | { type: ManagerActions.ClearActiveIndex }
+  | { type: ManagerActions.ClearValue }
+  | { type: ManagerActions.UpdateActiveIndex; payload: number }
+  | { type: ManagerActions.UpdateSelected; payload: TagSelected[] }
+  | { type: ManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
+  | { type: ManagerActions.UpdateValue; payload: string }
 
-export type ListManagerState = {
+export type ManagerState = {
   activeIndex: number
   activeOption: TagSuggestion | null
   allowNew: boolean
@@ -53,11 +53,8 @@ function createNewTag(newTagText: string, value: string): TagSuggestion {
   }
 }
 
-export function listManagerReducer(
-  state: ListManagerState,
-  action: ListManagerAction
-): ListManagerState {
-  if (action.type === ListManagerActions.ClearValue) {
+export function managerReducer(state: ManagerState, action: ManagerAction): ManagerState {
+  if (action.type === ManagerActions.ClearValue) {
     const options = [...state.suggestions]
 
     const activeIndex = state.activeOption
@@ -73,7 +70,7 @@ export function listManagerReducer(
     }
   }
 
-  if (action.type === ListManagerActions.ClearActiveIndex) {
+  if (action.type === ManagerActions.ClearActiveIndex) {
     return {
       ...state,
       activeIndex: -1,
@@ -81,7 +78,7 @@ export function listManagerReducer(
     }
   }
 
-  if (action.type === ListManagerActions.UpdateActiveIndex) {
+  if (action.type === ManagerActions.UpdateActiveIndex) {
     const activeIndex = loop(action.payload, state.options.length)
 
     return {
@@ -91,12 +88,12 @@ export function listManagerReducer(
     }
   }
 
-  if (action.type === ListManagerActions.UpdateSelected) {
+  if (action.type === ManagerActions.UpdateSelected) {
     const selectedKeys = tagsToKeys(action.payload)
     return { ...state, selectedKeys, selectedTags: action.payload }
   }
 
-  if (action.type === ListManagerActions.UpdateSuggestions) {
+  if (action.type === ManagerActions.UpdateSuggestions) {
     const options = matchSuggestionsPartial(state.value, action.payload)
 
     if (state.allowNew && state.value) {
@@ -116,7 +113,7 @@ export function listManagerReducer(
     }
   }
 
-  if (action.type === ListManagerActions.UpdateValue) {
+  if (action.type === ManagerActions.UpdateValue) {
     const options = matchSuggestionsPartial(action.payload, state.suggestions)
 
     if (state.allowNew && action.payload) {

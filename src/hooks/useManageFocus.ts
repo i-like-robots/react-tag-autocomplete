@@ -3,9 +3,9 @@ import { GlobalContext } from '../contexts'
 import { usePrevious } from './'
 
 export function useManageFocus(): void {
-  const { listManager, rootRef, tagListRef } = useContext(GlobalContext)
+  const { manager, rootRef, tagListRef } = useContext(GlobalContext)
 
-  const currentLength = listManager.state.selectedTags.length
+  const currentLength = manager.state.selectedTags.length
   const prevLength = usePrevious<number>(currentLength)
   const wasTagRemoved = currentLength < prevLength
 

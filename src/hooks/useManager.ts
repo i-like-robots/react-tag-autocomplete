@@ -1,10 +1,10 @@
 import { useReducer, useRef } from 'react'
 import { tagsToKeys } from '../lib'
-import { listManagerReducer, ListManagerActions } from '../reducers'
-import type { ListManagerState } from '../reducers'
+import { managerReducer, ManagerActions } from '../reducers'
+import type { ManagerState } from '../reducers'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
-export type UseListManagerAPI = {
+export type ManagerAPI = {
   clearActiveIndex(): void
   clearValue(): void
   updateActiveIndex(index: number): void
@@ -13,36 +13,36 @@ export type UseListManagerAPI = {
   updateValue(value: string): void
 }
 
-export type UseListManagerState = UseListManagerAPI & { state: ListManagerState }
+export type UseManagerState = ManagerAPI & { state: ManagerState }
 
-function getInitialState(initialState: ListManagerState) {
+function getInitialState(initialState: ManagerState) {
   const selectedKeys = tagsToKeys(initialState.selectedTags)
   return { ...initialState, options: [...initialState.suggestions], selectedKeys }
 }
 
-export function useListManager(initialState: ListManagerState): UseListManagerState {
-  const api = useRef<UseListManagerState>()
-  const [state, dispatch] = useReducer(listManagerReducer, initialState, getInitialState)
+export function useManager(initialState: ManagerState): UseManagerState {
+  const api = useRef<UseManagerState>()
+  const [state, dispatch] = useReducer(managerReducer, initialState, getInitialState)
 
   api.current ??= {
     state: null,
     clearActiveIndex() {
-      dispatch({ type: ListManagerActions.ClearActiveIndex })
+      dispatch({ type: ManagerActions.ClearActiveIndex })
     },
     clearValue() {
-      dispatch({ type: ListManagerActions.ClearValue })
+      dispatch({ type: ManagerActions.ClearValue })
     },
     updateActiveIndex(index: number) {
-      dispatch({ type: ListManagerActions.UpdateActiveIndex, payload: index })
+      dispatch({ type: ManagerActions.UpdateActiveIndex, payload: index })
     },
     updateSelected(selected: TagSelected[]) {
-      dispatch({ type: ListManagerActions.UpdateSelected, payload: selected })
+      dispatch({ type: ManagerActions.UpdateSelected, payload: selected })
     },
     updateSuggestions(suggestions: TagSuggestion[]) {
-      dispatch({ type: ListManagerActions.UpdateSuggestions, payload: suggestions })
+      dispatch({ type: ManagerActions.UpdateSuggestions, payload: suggestions })
     },
     updateValue(value: string) {
-      dispatch({ type: ListManagerActions.UpdateValue, payload: value })
+      dispatch({ type: ManagerActions.UpdateValue, payload: value })
     },
   }
 

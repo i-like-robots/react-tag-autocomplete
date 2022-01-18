@@ -8,8 +8,8 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
-  const { id, inputRef, listManager, onSelect } = useContext(GlobalContext)
-  const { options, selectedKeys, activeIndex } = listManager.state
+  const { id, inputRef, manager, onSelect } = useContext(GlobalContext)
+  const { options, selectedKeys, activeIndex } = manager.state
   const option = options[index]
   const active = index === activeIndex
   const disabled = option.disabled ?? false
@@ -21,8 +21,8 @@ export function useOption(index: number): UseOptionState {
   }, [inputRef, onSelect])
 
   const onMouseDown = useCallback(() => {
-    if (index !== activeIndex) listManager.updateActiveIndex(index)
-  }, [index, listManager, activeIndex])
+    if (index !== activeIndex) manager.updateActiveIndex(index)
+  }, [index, manager, activeIndex])
 
   useEffect(() => {
     active && optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })

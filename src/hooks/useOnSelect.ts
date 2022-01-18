@@ -1,8 +1,8 @@
+import { useCallback } from 'react'
 import { CreateNewOptionValue } from '../constants'
 import { findSuggestionExact, tagToKey } from '../lib'
-import type { UseListManagerState } from '.'
+import type { UseManagerState } from '.'
 import type { OnAddition, OnDelete, Tag, TagSuggestion, OnSelect } from '../sharedTypes'
-import { useCallback } from 'react'
 
 const getNewTag = (option: TagSuggestion, value: string): Tag => {
   if (option?.value === CreateNewOptionValue) {
@@ -11,27 +11,27 @@ const getNewTag = (option: TagSuggestion, value: string): Tag => {
 }
 
 export type UseOnSelectArgs = {
-  listManager: UseListManagerState
+  manager: UseManagerState
   onAddition: OnAddition
   onDelete: OnDelete
 }
 
-export function useOnSelect({ listManager, onAddition, onDelete }: UseOnSelectArgs): OnSelect {
+export function useOnSelect({ manager, onAddition, onDelete }: UseOnSelectArgs): OnSelect {
   const selectTag = useCallback(
     (tag: TagSuggestion) => {
       if (tag.disabled) return
 
-      const index = listManager.state.selectedKeys.indexOf(tagToKey(tag))
+      const index = manager.state.selectedKeys.indexOf(tagToKey(tag))
       const result = index > -1 ? onDelete(index) : onAddition(tag)
 
-      if (result) listManager.clearValue()
+      if (result) manager.clearValue()
     },
-    [listManager, onAddition, onDelete]
+    [manager, onAddition, onDelete]
   )
 
   return useCallback(
     (tag?: TagSuggestion) => {
-      const { activeOption, options, value } = listManager.state
+      const { activeOption, options, value } = manager.state
 
       if (tag) return selectTag(tag)
 
@@ -44,6 +44,6 @@ export function useOnSelect({ listManager, onAddition, onDelete }: UseOnSelectAr
 
       if (exactTag) return selectTag(exactTag)
     },
-    [listManager, selectTag]
+    [manager, selectTag]
   )
 }

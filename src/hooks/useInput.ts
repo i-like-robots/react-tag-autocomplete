@@ -11,14 +11,14 @@ export type UseInputArgs = {
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, listManager, onSelect } = useContext(GlobalContext)
+  const { id, inputRef, isDisabled, isInvalid, manager, onSelect } = useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      listManager.updateValue(e.currentTarget.value)
+      manager.updateValue(e.currentTarget.value)
     },
-    [listManager]
+    [manager]
   )
 
   const onEnterKey = useCallback(
@@ -33,39 +33,39 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isExpanded) {
         e.preventDefault()
-        listManager.updateActiveIndex(listManager.state.activeIndex + 1)
+        manager.updateActiveIndex(manager.state.activeIndex + 1)
       } else if (isCaretAtEnd(e.currentTarget)) {
         expand()
       }
     },
-    [isExpanded, listManager, expand]
+    [isExpanded, manager, expand]
   )
 
   const onUpArrowKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (isExpanded) {
         e.preventDefault()
-        listManager.updateActiveIndex(listManager.state.activeIndex - 1)
+        manager.updateActiveIndex(manager.state.activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
         expand()
       }
     },
-    [isExpanded, listManager, expand]
+    [isExpanded, manager, expand]
   )
 
   const onEscapeKey = useCallback(() => {
     if (isExpanded) {
-      listManager.clearActiveIndex()
+      manager.clearActiveIndex()
       collapse()
     }
-  }, [collapse, isExpanded, listManager])
+  }, [collapse, isExpanded, manager])
 
   const onBackspaceKey = useCallback(() => {
-    const isEmpty = listManager.state.value === ''
-    const lastTag = listManager.state.selectedTags[listManager.state.selectedTags.length - 1]
+    const isEmpty = manager.state.value === ''
+    const lastTag = manager.state.selectedTags[manager.state.selectedTags.length - 1]
 
     if (allowBackspace && isEmpty && lastTag) onSelect(lastTag)
-  }, [allowBackspace, listManager, onSelect])
+  }, [allowBackspace, manager, onSelect])
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -78,7 +78,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     [onBackspaceKey, onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
   )
 
-  const { activeIndex, value } = listManager.state
+  const { activeIndex, value } = manager.state
 
   return {
     ...DisableAutoComplete,

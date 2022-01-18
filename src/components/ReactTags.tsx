@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
-import { useListManager, useOnSelect } from '../hooks'
+import { useManager, useOnSelect } from '../hooks'
 import {
   Announcements,
   ComboBox,
@@ -79,7 +79,7 @@ export function ReactTags({
   const rootRef = useRef<HTMLDivElement>()
   const tagListRef = useRef<HTMLUListElement>()
 
-  const listManager = useListManager({
+  const manager = useManager({
     activeIndex: -1,
     activeOption: null,
     allowNew,
@@ -91,7 +91,7 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect({ listManager, onAddition, onDelete })
+  const onSelect = useOnSelect({ manager, onAddition, onDelete })
 
   return (
     <GlobalContext.Provider
@@ -103,7 +103,7 @@ export function ReactTags({
         isDisabled,
         isInvalid,
         listBoxRef,
-        listManager,
+        manager,
         onSelect,
         rootRef,
         tagListRef,
@@ -112,7 +112,7 @@ export function ReactTags({
       <Root>
         <Label>{labelText}</Label>
         <TagList label={tagListLabelText}>
-          {listManager.state.selectedTags.map((tag, index) => (
+          {manager.state.selectedTags.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} title={removeButtonText} />
           ))}
         </TagList>
@@ -123,8 +123,8 @@ export function ReactTags({
             placeholderText={placeholderText}
           />
           <ListBox>
-            {listManager.state.options.length > 0 ? (
-              listManager.state.options.map((tag, index) => (
+            {manager.state.options.length > 0 ? (
+              manager.state.options.map((tag, index) => (
                 <Option key={tagToKey(tag)} index={index} />
               ))
             ) : (
@@ -132,7 +132,7 @@ export function ReactTags({
             )}
           </ListBox>
         </ComboBox>
-        <Announcements selected={listManager.state.selectedTags} />
+        <Announcements selected={manager.state.selectedTags} />
       </Root>
     </GlobalContext.Provider>
   )

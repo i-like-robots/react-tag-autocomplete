@@ -1,1 +1,1 @@
-export * from './listManagerReducer'
+export * from './managerReducer'

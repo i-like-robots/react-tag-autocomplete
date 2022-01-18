@@ -15,17 +15,17 @@ export type UseComboBoxState = ComboBoxInternalState & {
 }
 
 export function useComboBox(): UseComboBoxState {
-  const { comboBoxRef, id, listManager } = useContext(GlobalContext)
+  const { comboBoxRef, id, manager } = useContext(GlobalContext)
   const [state, setState] = useState<ComboBoxInternalState>({ isExpanded: false, isFocused: false })
 
   const onBlur = useCallback(
     (e: React.FocusEvent) => {
       if (!comboBoxRef.current?.contains(e.relatedTarget)) {
         setState({ isExpanded: false, isFocused: false })
-        listManager.clearActiveIndex()
+        manager.clearActiveIndex()
       }
     },
-    [comboBoxRef, listManager]
+    [comboBoxRef, manager]
   )
 
   const onFocus = useCallback(() => setState({ isExpanded: true, isFocused: true }), [])
