@@ -4,7 +4,7 @@ import { managerReducer, ManagerActions } from '../reducers'
 import type { ManagerState } from '../reducers'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
-export type ManagerAPI = {
+type ManagerAPI = {
   clearActiveIndex(): void
   clearValue(): void
   updateActiveIndex(index: number): void

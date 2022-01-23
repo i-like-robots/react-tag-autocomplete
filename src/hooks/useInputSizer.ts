@@ -32,7 +32,7 @@ export type UseInputSizerState = {
 export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): UseInputSizerState {
   const sizerRef = useRef<HTMLDivElement>()
   const { inputRef } = useContext(GlobalContext)
-  const [width, setWidth] = useState(0)
+  const [width, setWidth] = useState<number>(0)
 
   useEffect(() => {
     const inputStyle = window.getComputedStyle(inputRef.current)
@@ -46,8 +46,8 @@ export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): 
     if (allowResize) {
       // scrollWidth is designed to be fast not accurate.
       // +2 is completely arbitrary but does the job.
-      const newInputWidth = Math.ceil(sizerRef.current.scrollWidth) + 2
-      if (width !== newInputWidth) setWidth(newInputWidth)
+      const newWidth = Math.ceil(sizerRef.current.scrollWidth) + 2
+      if (width !== newWidth) setWidth(newWidth)
     }
   }, [allowResize, text, width])
 

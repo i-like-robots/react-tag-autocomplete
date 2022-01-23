@@ -1,22 +1,26 @@
 import { useCallback, useContext, useState } from 'react'
 import { GlobalContext } from '../contexts'
-import type React from 'react'
 import { comboBoxId } from '../lib'
+import type React from 'react'
 
-type ComboBoxInternalState = {
+type ComboBoxAPI = {
+  collapse: () => void
+  expand: () => void
+}
+
+type ComboBoxState = {
   isExpanded: boolean
   isFocused: boolean
 }
 
-export type UseComboBoxState = ComboBoxInternalState & {
-  collapse: () => void
-  comboBoxProps: React.ComponentPropsWithRef<'div'>
-  expand: () => void
-}
+export type UseComboBoxState = ComboBoxState &
+  ComboBoxAPI & {
+    comboBoxProps: React.ComponentPropsWithRef<'div'>
+  }
 
 export function useComboBox(): UseComboBoxState {
   const { comboBoxRef, id, manager } = useContext(GlobalContext)
-  const [state, setState] = useState<ComboBoxInternalState>({ isExpanded: false, isFocused: false })
+  const [state, setState] = useState<ComboBoxState>({ isExpanded: false, isFocused: false })
 
   const onBlur = useCallback(
     (e: React.FocusEvent) => {
