@@ -67,8 +67,7 @@
   line-height: inherit;
 }
 
-.react-tags__tag:hover,
-.react-tags__tag:focus {
+.react-tags__tag:hover {
   color: #ffffff;
   background-color: #4f46e5;
 }
