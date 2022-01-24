@@ -18,8 +18,8 @@ export class Harness {
   public result: RenderResult
 
   constructor(props: Partial<ReactTagsProps> = {}) {
-    const defaultProps = {
-      tags: [],
+    const defaultProps: ReactTagsProps = {
+      selected: [],
       suggestions: [],
       onAddition: vi.fn(() => true),
       onDelete: vi.fn(() => true),

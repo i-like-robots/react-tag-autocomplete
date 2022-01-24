@@ -50,8 +50,8 @@ export type ReactTagsProps = {
   onDelete: OnDelete
   placeholderText?: string
   removeButtonText?: string
+  selected: TagSelected[]
   suggestions: TagSuggestion[]
-  tags: TagSelected[]
 }
 
 export function ReactTags({
@@ -70,8 +70,8 @@ export function ReactTags({
   onDelete,
   placeholderText = 'Add a tag',
   removeButtonText = 'Remove %label% from the list',
+  selected = [],
   suggestions = [],
-  tags = [],
 }: ReactTagsProps): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
@@ -86,7 +86,7 @@ export function ReactTags({
     newTagText,
     options: [],
     selectedKeys: null,
-    selectedTags: tags,
+    selectedTags: selected,
     suggestions,
     value: '',
   })

@@ -44,7 +44,7 @@ describe('React Tags Autocomplete', () => {
     const tags = [{ ...suggestions[0] }, { ...suggestions[1] }]
 
     beforeEach(() => {
-      harness = new Harness({ suggestions, tags })
+      harness = new Harness({ suggestions, selected: tags })
     })
 
     it('assigns the selected tag list a label', () => {
@@ -66,7 +66,7 @@ describe('React Tags Autocomplete', () => {
     it('moves cursor focus to the root element after removing a tag with focus', () => {
       harness.selectedTags[0].focus()
 
-      harness.props.tags = harness.props.tags.slice(1)
+      harness.props.selected = harness.props.selected.slice(1)
       harness.result.rerender(harness.component)
 
       expect(document.activeElement).toBe(harness.root)
@@ -137,7 +137,7 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('calls the delete callback when a selected option is active and enter key is pressed', () => {
-      harness.props.tags = [{ ...suggestions[10] }]
+      harness.props.selected = [{ ...suggestions[10] }]
       harness.result.rerender(harness.component)
 
       userEvent.type(harness.input, 'aus')
@@ -185,7 +185,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, '{backspace}')
       expect(callback).not.toHaveBeenCalled()
 
-      harness.props.tags = [{ ...suggestions[10] }]
+      harness.props.selected = [{ ...suggestions[10] }]
       harness.result.rerender(harness.component)
 
       userEvent.type(harness.input, '{backspace}')
@@ -369,7 +369,7 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('calls the delete callback when a selected option is clicked', () => {
-      harness.props.tags = [{ ...suggestions[10] }]
+      harness.props.selected = [{ ...suggestions[10] }]
       harness.result.rerender(harness.component)
 
       harness.listBoxExpand()
@@ -408,7 +408,7 @@ describe('React Tags Autocomplete', () => {
 
   describe('announcements', () => {
     beforeEach(() => {
-      harness = new Harness({ tags: [{ ...suggestions[10] }] })
+      harness = new Harness({ selected: [{ ...suggestions[10] }] })
     })
 
     it('renders a status box', () => {
@@ -425,14 +425,14 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('appends an addition message when new tags are added', () => {
-      harness.props.tags = [...harness.props.tags, { ...suggestions[11] }]
+      harness.props.selected = [...harness.props.selected, { ...suggestions[11] }]
       harness.result.rerender(harness.component)
 
       expect(harness.announcements.textContent).toBe('Selected tag Austria')
     })
 
     it('appends a removal message when selected tags are removed', () => {
-      harness.props.tags = []
+      harness.props.selected = []
       harness.result.rerender(harness.component)
 
       expect(harness.announcements.textContent).toBe('Removed tag Australia')
@@ -466,7 +466,7 @@ describe('React Tags Autocomplete', () => {
 
   describe('when disabled', () => {
     beforeEach(() => {
-      harness = new Harness({ isDisabled: true, tags: [{ ...suggestions[10] }] })
+      harness = new Harness({ isDisabled: true, selected: [{ ...suggestions[10] }] })
     })
 
     it('sets the disabled state on the root', () => {

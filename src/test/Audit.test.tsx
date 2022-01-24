@@ -6,7 +6,7 @@ import { suggestions } from '../../example/src/countries'
 describe('Axe a11y audit', () => {
   it('has no basic accessibility issues', (done) => {
     const harness = new Harness({
-      tags: [suggestions[10], suggestions[100]],
+      selected: [suggestions[10], suggestions[100]],
       suggestions,
     })
 
