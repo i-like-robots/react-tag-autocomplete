@@ -1,5 +1,5 @@
 {
-  "name": "project-name",
+  "name": "react-tag-autocomplete",
   "version": "0.0.0",
   "description": "",
   "module": "dist/ReactTags.es.js",
@@ -22,12 +22,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/i-like-robots/project-name.git"
+    "url": "git+https://github.com/i-like-robots/react-tag-autocomplete.git"
   },
   "bugs": {
-    "url": "https://github.com/i-like-robots/project-name/issues"
+    "url": "https://github.com/i-like-robots/react-tag-autocomplete/issues"
   },
-  "homepage": "https://github.com/i-like-robots/project-name",
+  "homepage": "https://github.com/i-like-robots/react-tag-autocomplete",
   "devDependencies": {
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
