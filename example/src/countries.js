@@ -207,6 +207,6 @@ const countries = [
   'Zimbabwe',
 ]
 
-const countrySuggestions = countries.map((name, index) => ({ value: index, label: name }))
+const suggestions = countries.map((name, index) => ({ value: index, label: name }))
 
-export { countries, countrySuggestions }
+export { countries, suggestions }

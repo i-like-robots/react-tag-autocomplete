@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react'
 import ReactDOM from 'react-dom'
 import { ReactTags } from '../../src'
-import { countrySuggestions } from './countries'
+import { suggestions } from './countries'
 
 /**
  * Demo 1 - Country selector
@@ -30,9 +30,9 @@ function CountrySelector() {
     <>
       <p>Select the countries you have visited below:</p>
       <ReactTags
-        ariaLabelText="Select countries"
+        labelText="Select countries"
         tags={tags}
-        suggestions={countrySuggestions}
+        suggestions={suggestions}
         noSuggestionsText="No matching countries"
         onDelete={onDelete}
         onAddition={onAddition}
@@ -81,7 +81,7 @@ function CustomTags() {
       <p>Enter new tags meeting the requirements below:</p>
       <ReactTags
         allowNew
-        ariaLabelText="Enter new tags"
+        labelText="Enter new tags"
         tags={tags}
         suggestions={[]}
         onDelete={onDelete}

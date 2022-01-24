@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
-import { countrySuggestions as suggestions } from '../../example/src/countries'
+import { suggestions } from '../../example/src/countries'
 import type { MockedOnAddition, MockedOnDelete } from './Harness'
 
 describe('React Tags Autocomplete', () => {

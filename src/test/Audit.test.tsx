@@ -1,7 +1,7 @@
 import axe from 'axe-core'
 import { describe, it } from 'vitest'
 import { Harness } from './Harness'
-import { countrySuggestions as suggestions } from '../../example/src/countries'
+import { suggestions } from '../../example/src/countries'
 
 describe('Axe a11y audit', () => {
   it('has no basic accessibility issues', (done) => {
