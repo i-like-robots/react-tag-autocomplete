@@ -8,22 +8,22 @@ import { suggestions } from './countries'
  */
 
 function CountrySelector() {
-  const [tags, setTags] = useState([])
+  const [selected, setSelected] = useState([])
 
   const onDelete = useCallback(
-    (tagIndex) => {
-      setTags(tags.filter((_, i) => i !== tagIndex))
+    (index) => {
+      setSelected(selected.filter((_, i) => i !== index))
       return true
     },
-    [tags]
+    [selected]
   )
 
   const onAddition = useCallback(
     (newTag) => {
-      setTags([...tags, newTag])
+      setSelected([...selected, newTag])
       return true
     },
-    [tags]
+    [selected]
   )
 
   return (
@@ -31,16 +31,16 @@ function CountrySelector() {
       <p>Select the countries you have visited below:</p>
       <ReactTags
         labelText="Select countries"
-        tags={tags}
+        selected={selected}
         suggestions={suggestions}
-        noSuggestionsText="No matching countries"
         onDelete={onDelete}
         onAddition={onAddition}
+        noSuggestionsText="No matching countries"
       />
       <details>
         <summary>View output</summary>
         <pre>
-          <code>{JSON.stringify(tags, null, 2)}</code>
+          <code>{JSON.stringify(selected, null, 2)}</code>
         </pre>
       </details>
     </>
@@ -50,30 +50,32 @@ function CountrySelector() {
 ReactDOM.render(<CountrySelector />, document.getElementById('demo-1'))
 
 /**
- * Demo 2 - Custom tags
+ * Demo 2 - AllowCustom tags
  */
 
-function CustomTags() {
-  const [tags, setTags] = useState([])
+function AllowCustomTags() {
+  const [selected, setSelected] = useState([])
 
   const onDelete = useCallback(
     (tagIndex) => {
-      setTags(tags.filter((_, i) => i !== tagIndex))
+      setSelected(selected.filter((_, i) => i !== tagIndex))
       return true
     },
-    [tags]
+    [selected]
   )
 
   const onAddition = useCallback(
     (newTag) => {
       if (/^[a-z]{3,12}$/i.test(newTag.label)) {
-        setTags([...tags, newTag])
+        setSelected([...selected, newTag])
         return true
       }
 
+      alert(`The tag you entered is not valid`)
+
       return false
     },
-    [tags]
+    [selected]
   )
 
   return (
@@ -82,7 +84,7 @@ function CustomTags() {
       <ReactTags
         allowNew
         labelText="Enter new tags"
-        tags={tags}
+        selected={selected}
         suggestions={[]}
         onDelete={onDelete}
         onAddition={onAddition}
@@ -95,17 +97,83 @@ function CustomTags() {
       <details>
         <summary>View output</summary>
         <pre>
-          <code>{JSON.stringify(tags, null, 2)}</code>
+          <code>{JSON.stringify(selected, null, 2)}</code>
         </pre>
       </details>
     </>
   )
 }
 
-ReactDOM.render(<CustomTags />, document.getElementById('demo-2'))
+ReactDOM.render(<AllowCustomTags />, document.getElementById('demo-2'))
 
 /**
- * Demo 3 - status
+ * Demo 3 - custom validity
  */
 
-// TODO
+function CustomValidity() {
+  const [selected, setSelected] = useState([])
+
+  const onDelete = useCallback(
+    (index) => {
+      setSelected(selected.filter((_, i) => i !== index))
+      return true
+    },
+    [selected]
+  )
+
+  const onAddition = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
+      return true
+    },
+    [selected]
+  )
+
+  const isInvalid = selected.length > 0 && selected.length <= 3
+
+  return (
+    <>
+      <p>Select at least 1 tag and maximum 3:</p>
+      <ReactTags
+        labelText="Select countries"
+        isInvalid={isInvalid}
+        selected={selected}
+        suggestions={suggestions}
+        onDelete={onDelete}
+        onAddition={onAddition}
+        noSuggestionsText="No matching countries"
+      />
+      <details>
+        <summary>View output</summary>
+        <pre>
+          <code>{JSON.stringify(selected, null, 2)}</code>
+        </pre>
+      </details>
+    </>
+  )
+}
+
+ReactDOM.render(<CustomValidity />, document.getElementById('demo-3'))
+
+/**
+ * Demo 4 - disabled input
+ */
+
+function DisabledInput() {
+  const onDelete = () => {}
+  const onAddition = () => {}
+
+  return (
+    <ReactTags
+      labelText="Select countries"
+      isDisabled={true}
+      noSuggestionsText="No matching countries"
+      onDelete={onDelete}
+      onAddition={onAddition}
+      selected={[suggestions[10], suggestions[200]]}
+      suggestions={suggestions}
+    />
+  )
+}
+
+ReactDOM.render(<DisabledInput />, document.getElementById('demo-4'))
