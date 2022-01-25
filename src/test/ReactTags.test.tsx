@@ -342,6 +342,9 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, 'n')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
+
+      userEvent.type(harness.input, '{backspace}')
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
     })
 
     it('resets the active option when no longer available after typing', () => {
@@ -463,6 +466,34 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, '{enter}')
       expect(harness.props.onAddition).not.toHaveBeenCalledWith()
       expect(harness.props.onDelete).not.toHaveBeenCalledWith()
+    })
+  })
+
+  describe('when given new suggestions', () => {
+    beforeEach(() => {
+      harness = new Harness({ suggestions })
+    })
+
+    it('maintains the active option when still available', () => {
+      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
+
+      harness.props.suggestions = [...suggestions].reverse()
+      harness.result.rerender(harness.component)
+
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
+    })
+
+    it('resets the active option when no longer available', () => {
+      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('British Virgin Islands')
+
+      harness.props.suggestions = [...suggestions].filter(
+        (tag) => tag.label !== 'British Virgin Islands'
+      )
+      harness.result.rerender(harness.component)
+
+      expect(harness.activeOption).toBeNull()
     })
   })
 
