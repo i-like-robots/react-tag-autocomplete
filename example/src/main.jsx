@@ -129,7 +129,7 @@ function CustomValidity() {
     [selected]
   )
 
-  const isInvalid = selected.length > 0 && selected.length <= 3
+  const isInvalid = selected.length > 0 && selected.length < 3
 
   return (
     <>

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { tagToKey } from '../lib'
+import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
 import { useManager, useOnSelect } from '../hooks'
 import {
@@ -14,7 +14,14 @@ import {
   Tag,
   TagList,
 } from '.'
-import type { ClassNames, OnAddition, OnDelete, TagSelected, TagSuggestion } from '../sharedTypes'
+import type {
+  ClassNames,
+  OnAddition,
+  OnDelete,
+  SuggestionsTransform,
+  TagSelected,
+  TagSuggestion,
+} from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
   root: 'react-tags',
@@ -52,6 +59,7 @@ export type ReactTagsProps = {
   removeButtonText?: string
   selected: TagSelected[]
   suggestions: TagSuggestion[]
+  suggestionsTransform?: SuggestionsTransform
 }
 
 export function ReactTags({
@@ -72,6 +80,7 @@ export function ReactTags({
   removeButtonText = 'Remove %label% from the list',
   selected = [],
   suggestions = [],
+  suggestionsTransform = matchSuggestionsPartial,
 }: ReactTagsProps): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
@@ -88,6 +97,7 @@ export function ReactTags({
     selectedKeys: null,
     selectedTags: selected,
     suggestions,
+    suggestionsTransform,
     value: '',
   })
 

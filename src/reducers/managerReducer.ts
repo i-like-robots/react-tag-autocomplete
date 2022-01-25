@@ -1,7 +1,7 @@
-import { findSuggestionIndex, matchSuggestionsPartial } from '../lib/textMatchers'
+import { findSuggestionIndex } from '../lib/textMatchers'
 import { CreateNewOptionValue } from '../constants'
-import type { TagSelected, TagSuggestion } from '../sharedTypes'
 import { tagsToKeys } from '../lib'
+import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../sharedTypes'
 
 export enum ManagerActions {
   ClearActiveIndex,
@@ -28,6 +28,7 @@ export type ManagerState = {
   selectedTags: TagSelected[]
   selectedKeys: string[]
   suggestions: TagSuggestion[]
+  suggestionsTransform: SuggestionsTransform
   options: TagSuggestion[]
   value: string
 }
@@ -94,7 +95,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.UpdateSuggestions) {
-    const options = matchSuggestionsPartial(state.value, action.payload)
+    const options = state.suggestionsTransform(state.value, action.payload)
 
     if (state.allowNew && state.value) {
       options.push(createNewTag(state.newTagText, state.value))
@@ -114,7 +115,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.UpdateValue) {
-    const options = matchSuggestionsPartial(action.payload, state.suggestions)
+    const options = state.suggestionsTransform(action.payload, state.suggestions)
 
     if (state.allowNew && action.payload) {
       options.push(createNewTag(state.newTagText, action.payload))

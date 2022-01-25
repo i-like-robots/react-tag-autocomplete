@@ -1,9 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { matchSorter } from 'match-sorter'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
 import { suggestions } from '../../example/src/countries'
 import type { MockedOnAddition, MockedOnDelete } from './Harness'
+import type { SuggestionsTransform } from '../sharedTypes'
 
 describe('React Tags Autocomplete', () => {
   let harness: Harness
@@ -525,6 +527,27 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, '{enter}')
       expect(harness.props.onAddition).toHaveBeenCalledWith({ label: 'boop', value: null })
+    })
+  })
+
+  describe('with custom suggestions transform', () => {
+    beforeEach(() => {
+      const suggestionsTransform: SuggestionsTransform = (query, suggestions) => {
+        return matchSorter(suggestions, query, { keys: ['label'] })
+      }
+
+      harness = new Harness({ suggestions, suggestionsTransform })
+    })
+
+    it('uses provided suggestionsTransform callback', () => {
+      userEvent.type(harness.input, 'uni')
+
+      const [one, two, ...others] = harness.options
+
+      expect(one.textContent).toBe('United Arab Emirates') // top match
+      expect(two.textContent).toBe('United Kingdom')
+      expect(others.some((option) => option.textContent === 'Reunion')).toBe(true)
+      expect(others.some((option) => option.textContent === 'Tunisia')).toBe(true)
     })
   })
 })
