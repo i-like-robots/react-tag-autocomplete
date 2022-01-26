@@ -15,7 +15,8 @@
     "test": "npm run verify && npm run spec",
     "example:dev": "cd example && vite -c vite.config.js",
     "example:build": "cd example && vite build -c vite.config.js",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [],
   "author": "Matt Hinchliffe",
