@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { CreateNewOptionValue } from '../constants'
-import { findSuggestionExact, tagToKey } from '../lib'
+import { findSuggestionExact, findTagIndex, tagToKey } from '../lib'
 import type { UseManagerState } from '.'
 import type { OnAddition, OnDelete, Tag, TagSuggestion, OnSelect } from '../sharedTypes'
 
@@ -21,7 +21,7 @@ export function useOnSelect({ manager, onAddition, onDelete }: UseOnSelectArgs):
     (tag: TagSuggestion) => {
       if (tag.disabled) return
 
-      const index = manager.state.selectedKeys.indexOf(tagToKey(tag))
+      const index = findTagIndex(tag, manager.state.selectedTags)
       const result = index > -1 ? onDelete(index) : onAddition(tag)
 
       if (result) manager.clearValue()

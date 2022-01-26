@@ -97,7 +97,6 @@ export function ReactTags({
     allowNew,
     newTagText,
     options: [],
-    selectedKeys: null,
     selectedTags: selected,
     suggestions,
     suggestionsTransform,

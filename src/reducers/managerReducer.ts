@@ -1,6 +1,5 @@
 import { findSuggestionIndex } from '../lib/textMatchers'
 import { CreateNewOptionValue } from '../constants'
-import { tagsToKeys } from '../lib'
 import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../sharedTypes'
 
 export enum ManagerActions {
@@ -26,7 +25,6 @@ export type ManagerState = {
   allowNew: boolean
   newTagText: string
   selectedTags: TagSelected[]
-  selectedKeys: string[]
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
   options: TagSuggestion[]
@@ -90,8 +88,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.UpdateSelected) {
-    const selectedKeys = tagsToKeys(action.payload)
-    return { ...state, selectedKeys, selectedTags: action.payload }
+    return { ...state, selectedTags: action.payload }
   }
 
   if (action.type === ManagerActions.UpdateSuggestions) {

@@ -1,5 +1,4 @@
 import { useReducer, useRef } from 'react'
-import { tagsToKeys } from '../lib'
 import { managerReducer, ManagerActions } from '../reducers'
 import type { ManagerState } from '../reducers'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
@@ -16,8 +15,7 @@ type ManagerAPI = {
 export type UseManagerState = ManagerAPI & { state: ManagerState }
 
 function getInitialState(initialState: ManagerState) {
-  const selectedKeys = tagsToKeys(initialState.selectedTags)
-  return { ...initialState, options: [...initialState.suggestions], selectedKeys }
+  return { ...initialState, options: [...initialState.suggestions] }
 }
 
 export function useManager(initialState: ManagerState): UseManagerState {

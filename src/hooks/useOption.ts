@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useRef } from 'react'
 import { GlobalContext } from '../contexts'
-import { optionId, tagToKey } from '../lib'
+import { findTagIndex, optionId } from '../lib'
 import type React from 'react'
 import type { TagOption } from '../sharedTypes'
 
@@ -9,11 +9,11 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 export function useOption(index: number): UseOptionState {
   const optionRef = useRef<HTMLDivElement>()
   const { id, inputRef, manager, onSelect } = useContext(GlobalContext)
-  const { options, selectedKeys, activeIndex } = manager.state
+  const { options, selectedTags, activeIndex } = manager.state
   const option = options[index]
   const active = index === activeIndex
   const disabled = option.disabled ?? false
-  const selected = selectedKeys.includes(tagToKey(option))
+  const selected = findTagIndex(option, selectedTags) > -1
 
   const onClick = useCallback(() => {
     onSelect()
