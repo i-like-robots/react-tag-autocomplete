@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { matchSorter } from 'match-sorter'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
-import { Harness } from './Harness'
+import { Harness, MockedOnInput } from './Harness'
 import { suggestions } from '../../example/src/countries'
 import type { MockedOnAddition, MockedOnDelete } from './Harness'
 import type { SuggestionsTransform } from '../sharedTypes'
@@ -192,6 +192,18 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, '{backspace}')
       expect(callback).toHaveBeenCalledWith(0)
+    })
+
+    it('calls the input callback on each change', () => {
+      const callback = harness.props.onInput as MockedOnInput
+
+      userEvent.type(harness.input, '{esc}{arrowup}{arrowdown}')
+      expect(callback).not.toHaveBeenCalled()
+
+      userEvent.type(harness.input, 'fra')
+      expect(callback).toHaveBeenNthCalledWith(1, 'f')
+      expect(callback).toHaveBeenNthCalledWith(2, 'fr')
+      expect(callback).toHaveBeenNthCalledWith(3, 'fra')
     })
 
     it('collapses the listbox when the escape key is pressed', () => {
@@ -538,6 +550,8 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-invalid')).toBe('true')
     })
   })
+
+  // describe('when deleting tags with backspace is disabled', () => {})
 
   describe('when new tags can be created', () => {
     beforeEach(() => {

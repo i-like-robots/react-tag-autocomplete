@@ -42,6 +42,8 @@ export type OnAddition = (tag: Tag) => boolean
 
 export type OnDelete = (index: number) => boolean
 
+export type OnInput = (value: string) => void
+
 export type OnSelect = (tag?: Tag) => void
 
 export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[]) => TagSuggestion[]

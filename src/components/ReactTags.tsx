@@ -18,6 +18,7 @@ import type {
   ClassNames,
   OnAddition,
   OnDelete,
+  OnInput,
   SuggestionsTransform,
   TagSelected,
   TagSuggestion,
@@ -50,11 +51,12 @@ export type ReactTagsProps = {
   isDisabled?: boolean
   isInvalid?: boolean
   labelText?: string
-  noOptionsText?: string
   newTagText?: string
+  noSuggestionsText?: string
   tagListLabelText?: string
   onAddition: OnAddition
   onDelete: OnDelete
+  onInput?: OnInput
   placeholderText?: string
   removeButtonText?: string
   selected: TagSelected[]
@@ -71,11 +73,12 @@ export function ReactTags({
   isDisabled = false,
   isInvalid = false,
   labelText = 'Select tags',
-  noOptionsText = 'No options found',
   newTagText = 'Add %value%',
+  noSuggestionsText = 'No options found',
   tagListLabelText = 'Selected tags',
   onAddition,
   onDelete,
+  onInput,
   placeholderText = 'Add a tag',
   removeButtonText = 'Remove %label% from the list',
   selected = [],
@@ -114,6 +117,7 @@ export function ReactTags({
         isInvalid,
         listBoxRef,
         manager,
+        onInput,
         onSelect,
         rootRef,
         tagListRef,
@@ -138,7 +142,7 @@ export function ReactTags({
                 <Option key={tagToKey(tag)} index={index} />
               ))
             ) : (
-              <NoOptions>{noOptionsText}</NoOptions>
+              <NoOptions>{noSuggestionsText}</NoOptions>
             )}
           </ListBox>
         </ComboBox>

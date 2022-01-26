@@ -1,6 +1,6 @@
 import React from 'react'
 import type { UseManagerState } from '../hooks'
-import type { ClassNames, OnSelect } from '../sharedTypes'
+import type { ClassNames, OnInput, OnSelect } from '../sharedTypes'
 
 export type GlobalContextValue = {
   classNames: ClassNames
@@ -11,6 +11,7 @@ export type GlobalContextValue = {
   isInvalid: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   manager: UseManagerState
+  onInput: OnInput
   onSelect: OnSelect
   rootRef: React.MutableRefObject<HTMLDivElement>
   tagListRef: React.MutableRefObject<HTMLUListElement>

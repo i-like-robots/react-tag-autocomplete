@@ -11,14 +11,17 @@ export type UseInputArgs = {
 export type UseInputState = React.ComponentPropsWithRef<'input'>
 
 export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, manager, onSelect } = useContext(GlobalContext)
+  const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
+    useContext(GlobalContext)
   const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      manager.updateValue(e.currentTarget.value)
+      const value = e.currentTarget.value
+      manager.updateValue(value)
+      onInput?.(value)
     },
-    [manager]
+    [manager, onInput]
   )
 
   const onEnterKey = useCallback(
