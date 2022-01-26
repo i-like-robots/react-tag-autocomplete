@@ -46,8 +46,8 @@ export function useManager(initialState: ManagerState): UseManagerState {
 
   api.current.state = state
 
-  if (initialState.selectedTags !== state.selectedTags) {
-    api.current.updateSelected(initialState.selectedTags)
+  if (initialState.selected !== state.selected) {
+    api.current.updateSelected(initialState.selected)
   }
 
   if (initialState.suggestions !== state.suggestions) {

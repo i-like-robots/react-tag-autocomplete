@@ -24,7 +24,7 @@ export type ManagerState = {
   activeOption: TagSuggestion | null
   allowNew: boolean
   newTagText: string
-  selectedTags: TagSelected[]
+  selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
   options: TagSuggestion[]
@@ -86,7 +86,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.UpdateSelected) {
-    return { ...state, selectedTags: action.payload }
+    return { ...state, selected: action.payload }
   }
 
   if (action.type === ManagerActions.UpdateSuggestions) {

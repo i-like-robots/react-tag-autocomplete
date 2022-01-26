@@ -97,7 +97,7 @@ export function ReactTags({
     allowNew,
     newTagText,
     options: [],
-    selectedTags: selected,
+    selected,
     suggestions,
     suggestionsTransform,
     value: '',
@@ -125,7 +125,7 @@ export function ReactTags({
       <Root>
         <Label>{labelText}</Label>
         <TagList label={tagListLabelText}>
-          {manager.state.selectedTags.map((tag, index) => (
+          {manager.state.selected.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} title={removeButtonText} />
           ))}
         </TagList>
@@ -145,7 +145,7 @@ export function ReactTags({
             )}
           </ListBox>
         </ComboBox>
-        <Announcements selected={manager.state.selectedTags} />
+        <Announcements selected={manager.state.selected} />
       </Root>
     </GlobalContext.Provider>
   )

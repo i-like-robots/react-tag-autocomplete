@@ -65,7 +65,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
 
   const onBackspaceKey = useCallback(() => {
     const isEmpty = manager.state.value === ''
-    const lastTag = manager.state.selectedTags[manager.state.selectedTags.length - 1]
+    const lastTag = manager.state.selected[manager.state.selected.length - 1]
 
     if (allowBackspace && isEmpty && lastTag) onSelect(lastTag)
   }, [allowBackspace, manager, onSelect])
