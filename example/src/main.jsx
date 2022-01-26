@@ -129,11 +129,11 @@ function CustomValidity() {
     [selected]
   )
 
-  const isInvalid = selected.length > 0 && selected.length < 3
+  const isInvalid = selected.length > 0 && selected.length !== 3
 
   return (
     <>
-      <p>Select at least 1 tag and maximum 3:</p>
+      <p>Please select 3 tags:</p>
       <ReactTags
         labelText="Select countries"
         isInvalid={isInvalid}
@@ -177,3 +177,93 @@ function DisabledInput() {
 }
 
 ReactDOM.render(<DisabledInput />, document.getElementById('demo-4'))
+
+/**
+ * Demo 5 - async suggestions
+ */
+
+async function fetchData(query) {
+  try {
+    const response = await fetch(
+      `https://api.openbrewerydb.org/breweries/autocomplete?query=${query}`
+    )
+
+    if (response.ok) {
+      const json = await response.json()
+      return json.map((item) => ({ value: item.id, label: item.name }))
+    } else {
+      throw Error(`The API returned a ${response.status}`)
+    }
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
+
+function AsyncSuggestions() {
+  const [value, setValue] = useState('')
+  const [isBusy, setIsBusy] = useState(false)
+  const [selected, setSelected] = useState([])
+  const [suggestions, setSuggestions] = useState([])
+
+  const onDelete = useCallback(
+    (index) => {
+      setSelected(selected.filter((_, i) => i !== index))
+      return true
+    },
+    [selected]
+  )
+
+  const onAddition = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
+      setSuggestions([])
+      return true
+    },
+    [selected]
+  )
+
+  const onInputChange = useCallback(
+    async (query) => {
+      setValue(query)
+
+      if (!isBusy) {
+        setIsBusy(true)
+
+        try {
+          const suggestions = await fetchData(query)
+
+          if (suggestions) setSuggestions(suggestions)
+        } catch (error) {
+          alert('Oh no!')
+        }
+
+        setIsBusy(false)
+      }
+    },
+    [isBusy]
+  )
+
+  const noSuggestionsText = isBusy ? 'Loading...' : 'No breweries found'
+
+  return (
+    <>
+      <p>
+        Select the breweries you have visited using React Tags below (powered by the{' '}
+        <a href="https://www.openbrewerydb.org/">Open Brewery DB</a>):
+      </p>
+      <ReactTags
+        labelText="Select breweries"
+        noSuggestionsText={noSuggestionsText}
+        onDelete={onDelete}
+        onAddition={onAddition}
+        onInput={onInputChange}
+        placeholderText="Start typing to fetch suggestions"
+        selected={selected}
+        suggestions={suggestions}
+      />
+    </>
+  )
+}
+
+ReactDOM.render(<AsyncSuggestions />, document.getElementById('demo-5'))
