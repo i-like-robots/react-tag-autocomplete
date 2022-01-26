@@ -1,4 +1,4 @@
-import { findSuggestionIndex } from '../lib/textMatchers'
+import { findTagIndex } from '../lib'
 import { CreateNewOptionValue } from '../constants'
 import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../sharedTypes'
 
@@ -56,9 +56,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   if (action.type === ManagerActions.ClearValue) {
     const options = [...state.suggestions]
 
-    const activeIndex = state.activeOption
-      ? findSuggestionIndex(state.activeOption.value, options)
-      : -1
+    const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1
 
     return {
       ...state,
@@ -98,9 +96,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
       options.push(createNewTag(state.newTagText, state.value))
     }
 
-    const activeIndex = state.activeOption
-      ? findSuggestionIndex(state.activeOption.value, options)
-      : -1
+    const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1
 
     return {
       ...state,
@@ -118,9 +114,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
       options.push(createNewTag(state.newTagText, action.payload))
     }
 
-    const activeIndex = state.activeOption
-      ? findSuggestionIndex(state.activeOption.value, options)
-      : -1
+    const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1
 
     return {
       ...state,
