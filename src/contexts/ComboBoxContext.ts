@@ -4,7 +4,7 @@ export type ComboBoxContextState = {
   collapse: () => void
   expand: () => void
   isExpanded: boolean
-  isFocused: boolean
+  // isFocused: boolean
 }
 
 export const ComboBoxContext = React.createContext<ComboBoxContextState | null>(null)

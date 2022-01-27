@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
 import { DisableAutoComplete, KeyNames, VoidFn } from '../constants'
-import { ComboBoxContext, GlobalContext } from '../contexts'
+import { GlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
 import type React from 'react'
 
@@ -13,7 +13,6 @@ export type UseInputState = React.ComponentPropsWithRef<'input'>
 export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
   const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
     useContext(GlobalContext)
-  const { collapse, expand, isExpanded } = useContext(ComboBoxContext)
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,34 +33,34 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
 
   const onDownArrowKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (isExpanded) {
+      if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(manager.state.activeIndex + 1)
       } else if (isCaretAtEnd(e.currentTarget)) {
-        expand()
+        manager.expand()
       }
     },
-    [isExpanded, manager, expand]
+    [manager]
   )
 
   const onUpArrowKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (isExpanded) {
+      if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(manager.state.activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
-        expand()
+        manager.expand()
       }
     },
-    [isExpanded, manager, expand]
+    [manager]
   )
 
   const onEscapeKey = useCallback(() => {
-    if (isExpanded) {
+    if (manager.state.isExpanded) {
       manager.clearActiveIndex()
-      collapse()
+      manager.collapse()
     }
-  }, [collapse, isExpanded, manager])
+  }, [manager])
 
   const onBackspaceKey = useCallback(() => {
     const isEmpty = manager.state.value === ''
@@ -81,7 +80,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     [onBackspaceKey, onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
   )
 
-  const { activeIndex, value } = manager.state
+  const { activeIndex, isExpanded, value } = manager.state
 
   return {
     ...DisableAutoComplete,

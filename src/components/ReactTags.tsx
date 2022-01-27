@@ -47,6 +47,7 @@ export type ReactTagsProps = {
   allowNew?: boolean
   allowResize?: boolean
   classNames?: ClassNames
+  // closeMenuOnSelect?: boolean
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -69,6 +70,7 @@ export function ReactTags({
   allowNew = false,
   allowResize = true,
   classNames = DefaultClassNames,
+  // closeMenuOnSelect = false,
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
@@ -95,6 +97,7 @@ export function ReactTags({
     activeIndex: -1,
     activeOption: null,
     allowNew,
+    isExpanded: false,
     newTagText,
     options: [],
     selected,
@@ -109,6 +112,7 @@ export function ReactTags({
     <GlobalContext.Provider
       value={{
         classNames,
+        // closeMenuOnSelect,
         comboBoxRef,
         id,
         inputRef,
@@ -141,6 +145,7 @@ export function ReactTags({
                 <Option key={tagToKey(tag)} index={index} />
               ))
             ) : (
+              // TODO: refactor into manager
               <NoOptions>{noSuggestionsText}</NoOptions>
             )}
           </ListBox>

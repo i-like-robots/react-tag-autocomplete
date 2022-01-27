@@ -5,6 +5,8 @@ import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../shared
 export enum ManagerActions {
   ClearActiveIndex,
   ClearValue,
+  Collapse,
+  Expand,
   UpdateActiveIndex,
   UpdateSelected,
   UpdateSuggestions,
@@ -14,6 +16,8 @@ export enum ManagerActions {
 type ManagerAction =
   | { type: ManagerActions.ClearActiveIndex }
   | { type: ManagerActions.ClearValue }
+  | { type: ManagerActions.Collapse }
+  | { type: ManagerActions.Expand }
   | { type: ManagerActions.UpdateActiveIndex; payload: number }
   | { type: ManagerActions.UpdateSelected; payload: TagSelected[] }
   | { type: ManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
@@ -23,6 +27,7 @@ export type ManagerState = {
   activeIndex: number
   activeOption: TagSuggestion | null
   allowNew: boolean
+  isExpanded: boolean
   newTagText: string
   selected: TagSelected[]
   suggestions: TagSuggestion[]
@@ -72,6 +77,20 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
       ...state,
       activeIndex: -1,
       activeOption: null,
+    }
+  }
+
+  if (action.type === ManagerActions.Collapse) {
+    return {
+      ...state,
+      isExpanded: false,
+    }
+  }
+
+  if (action.type === ManagerActions.Expand) {
+    return {
+      ...state,
+      isExpanded: true,
     }
   }
 
