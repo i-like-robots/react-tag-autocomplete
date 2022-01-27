@@ -99,4 +99,13 @@ export class Harness {
   listBoxCollapse(): void {
     if (this.isExpanded()) fireEvent.blur(this.input)
   }
+
+  rerender(props?: Partial<ReactTagsProps>) {
+    if (this.result) {
+      Object.assign(this.props, props)
+      this.result.rerender(this.component)
+    } else {
+      throw new Error('No result defined to rerender')
+    }
+  }
 }

@@ -68,8 +68,7 @@ describe('React Tags Autocomplete', () => {
     it('moves cursor focus to the root element after removing a tag with focus', () => {
       harness.selectedTags[0].focus()
 
-      harness.props.selected = harness.props.selected.slice(1)
-      harness.result.rerender(harness.component)
+      harness.rerender({ selected: harness.props.selected.slice(1) })
 
       expect(document.activeElement).toBe(harness.root)
     })
@@ -139,21 +138,18 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('calls the delete callback when a selected option is active and enter key is pressed', () => {
-      harness.props.selected = [{ ...suggestions[10] }]
-      harness.result.rerender(harness.component)
+      harness.rerender({ selected: [{ ...suggestions[10] }] })
 
-      userEvent.type(harness.input, 'aus')
-      userEvent.type(harness.input, '{arrowdown}{enter}')
+      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
     })
 
     it('does not call any callbacks when the active option is disabled and enter key is pressed', () => {
-      harness.props.suggestions = suggestions.map((item) => ({ ...item, disabled: true }))
-      harness.result.rerender(harness.component)
+      const newSuggestions = suggestions.map((item) => ({ ...item, disabled: true }))
+      harness.rerender({ suggestions: newSuggestions })
 
-      userEvent.type(harness.input, 'aus')
-      userEvent.type(harness.input, '{arrowdown}{enter}')
+      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
       expect(harness.props.onAddition).not.toHaveBeenCalled()
     })
@@ -187,8 +183,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, '{backspace}')
       expect(callback).not.toHaveBeenCalled()
 
-      harness.props.selected = [{ ...suggestions[10] }]
-      harness.result.rerender(harness.component)
+      harness.rerender({ selected: [{ ...suggestions[10] }] })
 
       userEvent.type(harness.input, '{backspace}')
       expect(callback).toHaveBeenCalledWith(0)
@@ -228,6 +223,7 @@ describe('React Tags Autocomplete', () => {
         initialSelectionEnd: 0,
         skipClick: true,
       })
+
       expect(harness.isExpanded()).toBe(true)
     })
 
@@ -387,8 +383,7 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('calls the delete callback when a selected option is clicked', () => {
-      harness.props.selected = [{ ...suggestions[10] }]
-      harness.result.rerender(harness.component)
+      harness.rerender({ selected: [{ ...suggestions[10] }] })
 
       harness.listBoxExpand()
 
@@ -397,8 +392,8 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('ignores clicks on disabled options', () => {
-      harness.props.suggestions = suggestions.map((item) => ({ ...item, disabled: true }))
-      harness.result.rerender(harness.component)
+      const newSuggestions = suggestions.map((item) => ({ ...item, disabled: true }))
+      harness.rerender({ suggestions: newSuggestions })
 
       harness.listBoxExpand()
 
@@ -421,8 +416,7 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('closes when an option is selected and closeOnSelect is enabled', () => {
-      harness.props.closeOnSelect = true
-      harness.result.rerender(harness.component)
+      harness.rerender({ closeOnSelect: true })
 
       userEvent.type(harness.input, 'aus')
       userEvent.click(harness.options[0])
@@ -460,15 +454,14 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('appends an addition message when new tags are added', () => {
-      harness.props.selected = [...harness.props.selected, { ...suggestions[11] }]
-      harness.result.rerender(harness.component)
+      const selected = [...harness.props.selected, { ...suggestions[11] }]
+      harness.rerender({ selected })
 
       expect(harness.announcements.textContent).toBe('Selected tag Austria')
     })
 
     it('appends a removal message when selected tags are removed', () => {
-      harness.props.selected = []
-      harness.result.rerender(harness.component)
+      harness.rerender({ selected: [] })
 
       expect(harness.announcements.textContent).toBe('Removed tag Australia')
     })
@@ -508,8 +501,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      harness.props.suggestions = [...suggestions].reverse()
-      harness.result.rerender(harness.component)
+      harness.rerender({ suggestions: [...suggestions].reverse() })
 
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
     })
@@ -518,10 +510,10 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      harness.props.suggestions = [...suggestions].filter(
+      const newSuggestions = [...suggestions].filter(
         (tag) => tag.label !== 'British Virgin Islands'
       )
-      harness.result.rerender(harness.component)
+      harness.rerender({ suggestions: newSuggestions })
 
       expect(harness.activeOption).toBeNull()
     })
