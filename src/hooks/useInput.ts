@@ -8,7 +8,7 @@ export type UseInputArgs = {
   allowBackspace: boolean
 }
 
-export type UseInputState = React.ComponentPropsWithRef<'input'>
+export type UseInputState = Omit<React.ComponentPropsWithRef<'input'>, 'value'> & { value: string }
 
 export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
   const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =

@@ -274,8 +274,13 @@ describe('React Tags Autocomplete', () => {
       expect(harness.sizer.textContent).toBe(harness.input.placeholder)
     })
 
-    it('copies the input value when there is a value', () => {
+    it('copies the input placeholder when longer than the value', () => {
       userEvent.type(harness.input, 'aus')
+      expect(harness.sizer.textContent).toBe(harness.input.placeholder)
+    })
+
+    it('copies the input value when longer than the placeholder', () => {
+      userEvent.type(harness.input, 'antigua & barbuda')
       expect(harness.sizer.textContent).toBe(harness.input.value)
     })
 

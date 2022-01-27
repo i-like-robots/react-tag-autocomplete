@@ -14,8 +14,8 @@ export function Input({
   placeholderText,
 }: InputProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
-  const inputProps = useInput({ allowBackspace })
-  const text = String(inputProps.value || placeholderText)
+  const { value, ...inputProps } = useInput({ allowBackspace })
+  const text = value.length < placeholderText.length ? placeholderText : value
   const { sizerProps, width } = useInputSizer({ allowResize, text })
 
   return (
@@ -24,6 +24,7 @@ export function Input({
         className={classNames.input}
         placeholder={placeholderText}
         style={{ width }}
+        value={value}
         {...inputProps}
       />
       {allowResize ? <div {...sizerProps}>{text}</div> : null}
