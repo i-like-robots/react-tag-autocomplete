@@ -11,12 +11,18 @@ const getNewTag = (option: TagSuggestion, value: string): Tag => {
 }
 
 export type UseOnSelectArgs = {
+  closeOnSelect: boolean
   manager: UseManagerState
   onAddition: OnAddition
   onDelete: OnDelete
 }
 
-export function useOnSelect({ manager, onAddition, onDelete }: UseOnSelectArgs): OnSelect {
+export function useOnSelect({
+  closeOnSelect,
+  manager,
+  onAddition,
+  onDelete,
+}: UseOnSelectArgs): OnSelect {
   const selectTag = useCallback(
     (tag: TagSuggestion) => {
       if (tag.disabled) return
@@ -25,8 +31,9 @@ export function useOnSelect({ manager, onAddition, onDelete }: UseOnSelectArgs):
       const result = index > -1 ? onDelete(index) : onAddition(tag)
 
       if (result) manager.clearValue()
+      if (closeOnSelect) manager.collapse()
     },
-    [manager, onAddition, onDelete]
+    [closeOnSelect, manager, onAddition, onDelete]
   )
 
   return useCallback(
@@ -41,7 +48,6 @@ export function useOnSelect({ manager, onAddition, onDelete }: UseOnSelectArgs):
       }
 
       const exactTag = findSuggestionExact(value, options)
-
       if (exactTag) return selectTag(exactTag)
     },
     [manager, selectTag]

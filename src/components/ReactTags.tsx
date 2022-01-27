@@ -47,7 +47,7 @@ export type ReactTagsProps = {
   allowNew?: boolean
   allowResize?: boolean
   classNames?: ClassNames
-  // closeMenuOnSelect?: boolean
+  closeOnSelect?: boolean
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -70,7 +70,7 @@ export function ReactTags({
   allowNew = false,
   allowResize = true,
   classNames = DefaultClassNames,
-  // closeMenuOnSelect = false,
+  closeOnSelect = false,
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
@@ -106,13 +106,12 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect({ manager, onAddition, onDelete })
+  const onSelect = useOnSelect({ closeOnSelect, manager, onAddition, onDelete })
 
   return (
     <GlobalContext.Provider
       value={{
         classNames,
-        // closeMenuOnSelect,
         comboBoxRef,
         id,
         inputRef,

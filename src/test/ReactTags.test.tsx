@@ -218,7 +218,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}')
+      userEvent.type(harness.input, '{esc}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
       harness.input.setSelectionRange(0, 0)
@@ -226,6 +226,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, '{arrowup}', {
         initialSelectionStart: 0,
         initialSelectionEnd: 0,
+        skipClick: true,
       })
       expect(harness.isExpanded()).toBe(true)
     })
@@ -234,10 +235,10 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}')
+      userEvent.type(harness.input, '{esc}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.isExpanded()).toBe(true)
     })
 
@@ -245,15 +246,15 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}')
+      userEvent.type(harness.input, '{esc}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
       harness.input.setSelectionRange(0, 3)
 
-      userEvent.type(harness.input, '{arrowup}')
+      userEvent.type(harness.input, '{arrowup}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
     })
   })
@@ -410,6 +411,23 @@ describe('React Tags Autocomplete', () => {
       userEvent.click(harness.options[0])
 
       expect(document.activeElement).toBe(harness.input)
+    })
+
+    it('remains open when an option is selected and closeOnSelect is disabled', () => {
+      userEvent.type(harness.input, 'aus')
+      userEvent.click(harness.options[0])
+
+      expect(harness.isExpanded()).toBe(true)
+    })
+
+    it('closes when an option is selected and closeOnSelect is enabled', () => {
+      harness.props.closeOnSelect = true
+      harness.result.rerender(harness.component)
+
+      userEvent.type(harness.input, 'aus')
+      userEvent.click(harness.options[0])
+
+      expect(harness.isExpanded()).toBe(false)
     })
 
     it('maintains the active option after options are selected/deleted', () => {
