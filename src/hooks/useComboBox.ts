@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext } from 'react'
 import { GlobalContext } from '../contexts'
 import { comboBoxId } from '../lib'
 import type React from 'react'
@@ -6,13 +6,11 @@ import type React from 'react'
 export type UseComboBoxState = React.ComponentPropsWithRef<'div'>
 
 export function useComboBox(): UseComboBoxState {
-  const [isFocused, setIsFocused] = useState<boolean>(false)
   const { comboBoxRef, id, manager } = useContext(GlobalContext)
 
   const onBlur = useCallback(
     (e: React.FocusEvent) => {
       if (!comboBoxRef.current?.contains(e.relatedTarget)) {
-        setIsFocused(false)
         manager.collapse()
         manager.clearActiveIndex()
       }
@@ -23,7 +21,6 @@ export function useComboBox(): UseComboBoxState {
   const onFocus = useCallback(
     (e: React.FocusEvent) => {
       if (!comboBoxRef.current?.contains(e.relatedTarget)) {
-        setIsFocused(true)
         manager.expand()
       }
     },
@@ -31,10 +28,10 @@ export function useComboBox(): UseComboBoxState {
   )
 
   const onClick = useCallback(() => {
-    if (isFocused && !manager.state.isExpanded) {
+    if (!manager.state.isExpanded) {
       manager.expand()
     }
-  }, [isFocused, manager])
+  }, [manager])
 
   return {
     id: comboBoxId(id),

@@ -124,7 +124,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, '{arrowdown}')
       expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-0')
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-1')
     })
 
@@ -185,7 +185,7 @@ describe('React Tags Autocomplete', () => {
 
       harness.rerender({ selected: [{ ...suggestions[10] }] })
 
-      userEvent.type(harness.input, '{backspace}')
+      userEvent.type(harness.input, '{backspace}', { skipClick: true })
       expect(callback).toHaveBeenCalledWith(0)
     })
 
@@ -195,7 +195,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, '{esc}{arrowup}{arrowdown}')
       expect(callback).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, 'fra')
+      userEvent.type(harness.input, 'fra', { skipClick: true })
       expect(callback).toHaveBeenNthCalledWith(1, 'f')
       expect(callback).toHaveBeenNthCalledWith(2, 'fr')
       expect(callback).toHaveBeenNthCalledWith(3, 'fra')
@@ -332,16 +332,16 @@ describe('React Tags Autocomplete', () => {
 
       expect(harness.activeOption).toBeNull()
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option1)
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option2)
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBeNull()
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option1)
     })
 
@@ -349,10 +349,10 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, 'n')
+      userEvent.type(harness.input, 'n', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, '{backspace}')
+      userEvent.type(harness.input, '{backspace}', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
     })
 
@@ -360,7 +360,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, 'b')
+      userEvent.type(harness.input, 'b', { skipClick: true })
       expect(harness.activeOption).toBeNull()
     })
 
@@ -577,10 +577,10 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'boop{enter}')
       expect(harness.props.onAddition).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, '{arrowdown}')
+      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('Add boop')
 
-      userEvent.type(harness.input, '{enter}')
+      userEvent.type(harness.input, '{enter}', { skipClick: true })
       expect(harness.props.onAddition).toHaveBeenCalledWith({ label: 'boop', value: null })
     })
   })
