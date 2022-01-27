@@ -109,6 +109,10 @@
   line-height: inherit;
 }
 
+.react-tags__combobox-input::placeholder {
+  color: #7c7d86;
+}
+
 .react-tags__listbox {
   position: absolute;
   z-index: 1;
@@ -146,8 +150,9 @@
 }
 
 .react-tags__listbox-option[aria-disabled='true'] {
-  opacity: 0.6;
+  color: #7c7d86;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .react-tags__listbox-option[aria-selected='true']::after {
