@@ -177,7 +177,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.value).toBe('france')
     })
 
-    it('calls the delete callback when the backspace key is pressed whilst empty', () => {
+    it('calls the delete callback when backspace is pressed whilst empty and allowBackspace is true', () => {
       const callback = harness.props.onDelete as MockedOnDelete
 
       userEvent.type(harness.input, '{backspace}')
@@ -187,6 +187,15 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, '{backspace}', { skipClick: true })
       expect(callback).toHaveBeenCalledWith(0)
+    })
+
+    it('does not call the delete callback when backspace is pressed whilst empty and allowBackspace is false', () => {
+      const callback = harness.props.onDelete as MockedOnDelete
+
+      harness.rerender({ allowBackspace: false, selected: [{ ...suggestions[10] }] })
+
+      userEvent.type(harness.input, '{backspace}')
+      expect(callback).not.toHaveBeenCalled()
     })
 
     it('calls the input callback on each change', () => {
@@ -207,6 +216,14 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, '{esc}')
       expect(harness.input.getAttribute('aria-expanded')).toBe('false')
+    })
+
+    it('expands the listbox when the input is clicked', () => {
+      userEvent.type(harness.input, '{esc}')
+      expect(harness.input.getAttribute('aria-expanded')).toBe('false')
+
+      fireEvent.click(harness.input)
+      expect(harness.input.getAttribute('aria-expanded')).toBe('true')
     })
 
     it('expands the list box when the cursor is at the start and up key is pressed', () => {
@@ -565,8 +582,6 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-invalid')).toBe('true')
     })
   })
-
-  // describe('when deleting tags with backspace is disabled', () => {})
 
   describe('when new tags can be created', () => {
     beforeEach(() => {
