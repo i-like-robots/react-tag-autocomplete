@@ -5,6 +5,7 @@ import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
 type ManagerAPI = {
   clearActiveIndex(): void
+  clearAll(): void
   clearValue(): void
   collapse(): void
   expand(): void
@@ -28,6 +29,9 @@ export function useManager(initialState: ManagerState): UseManagerState {
     state: null,
     clearActiveIndex() {
       dispatch({ type: ManagerActions.ClearActiveIndex })
+    },
+    clearAll() {
+      dispatch({ type: ManagerActions.ClearAll })
     },
     clearValue() {
       dispatch({ type: ManagerActions.ClearValue })

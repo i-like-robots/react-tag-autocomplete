@@ -1,14 +1,9 @@
 import { useCallback } from 'react'
+import { ManagerState } from '../reducers'
 import { CreateNewOptionValue } from '../constants'
 import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
-import type { OnAddition, OnDelete, Tag, TagSuggestion, OnSelect } from '../sharedTypes'
-
-const getNewTag = (option: TagSuggestion, value: string): Tag => {
-  if (option?.value === CreateNewOptionValue) {
-    return { label: value, value: null }
-  }
-}
+import type { OnAddition, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
 export type UseOnSelectArgs = {
   closeOnSelect: boolean
@@ -17,39 +12,44 @@ export type UseOnSelectArgs = {
   onDelete: OnDelete
 }
 
+function getNewTag(option: Tag, value: string): Tag {
+  if (option?.value === CreateNewOptionValue) {
+    return { label: value, value: null }
+  }
+}
+
+function findSelectedTag(state: ManagerState): Tag {
+  const selected: TagSuggestion =
+    getNewTag(state.activeOption, state.value) ||
+    state.activeOption ||
+    findSuggestionExact(state.value, state.options)
+
+  return selected?.disabled ? undefined : selected
+}
+
 export function useOnSelect({
   closeOnSelect,
   manager,
   onAddition,
   onDelete,
 }: UseOnSelectArgs): OnSelect {
-  const selectTag = useCallback(
-    (tag: TagSuggestion) => {
-      if (tag.disabled) return
-
-      const index = findTagIndex(tag, manager.state.selected)
-      const result = index > -1 ? onDelete(index) : onAddition(tag)
-
-      if (result) manager.clearValue()
-      if (closeOnSelect) manager.collapse()
-    },
-    [closeOnSelect, manager, onAddition, onDelete]
-  )
-
   return useCallback(
-    (tag?: TagSuggestion) => {
-      const { activeOption, options, value } = manager.state
+    (tag?: Tag) => {
+      const selected = tag || findSelectedTag(manager.state)
 
-      if (tag) return selectTag(tag)
+      if (!selected) return
 
-      if (activeOption) {
-        const newTag = getNewTag(activeOption, value)
-        return selectTag(newTag || activeOption)
+      const index = findTagIndex(selected, manager.state.selected)
+      const result = index > -1 ? onDelete(index) : onAddition(selected)
+
+      if (result !== false) {
+        if (closeOnSelect) {
+          manager.clearAll()
+        } else {
+          manager.clearValue()
+        }
       }
-
-      const exactTag = findSuggestionExact(value, options)
-      if (exactTag) return selectTag(exactTag)
     },
-    [manager, selectTag]
+    [closeOnSelect, manager, onDelete, onAddition]
   )
 }

@@ -394,6 +394,14 @@ describe('React Tags Autocomplete', () => {
       expect(harness.activeOption).toBe(harness.options[0])
     })
 
+    it('resets the active option when collapsed', () => {
+      userEvent.type(harness.input, 'aus{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('Australia')
+
+      userEvent.type(harness.input, '{esc}{arrowdown}', { skipClick: true })
+      expect(harness.activeOption).toBeNull()
+    })
+
     it('calls the addition callback when an unselected option is clicked', () => {
       userEvent.type(harness.input, 'aus')
       userEvent.click(harness.options[0])
