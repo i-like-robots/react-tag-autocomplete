@@ -3,14 +3,7 @@ import { ManagerState } from '../reducers'
 import { CreateNewOptionValue } from '../constants'
 import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
-import type { OnAddition, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
-
-export type UseOnSelectArgs = {
-  closeOnSelect: boolean
-  manager: UseManagerState
-  onAddition: OnAddition
-  onDelete: OnDelete
-}
+import type { OnAddition, OnDelete, Tag, OnSelect, TagSuggestion, OnValidate } from '../sharedTypes'
 
 function getNewTag(option: Tag, value: string): Tag {
   if (option?.value === CreateNewOptionValue) {
@@ -18,13 +11,22 @@ function getNewTag(option: Tag, value: string): Tag {
   }
 }
 
-function findSelectedTag(state: ManagerState): Tag {
-  const selected: TagSuggestion =
+function findSelectedTag(state: ManagerState): TagSuggestion {
+  const tag =
     getNewTag(state.activeOption, state.value) ||
     state.activeOption ||
     findSuggestionExact(state.value, state.options)
 
-  return selected?.disabled ? undefined : selected
+  // TODO: fix types
+  return tag?.['disabled'] ? null : tag
+}
+
+export type UseOnSelectArgs = {
+  closeOnSelect: boolean
+  manager: UseManagerState
+  onAddition: OnAddition
+  onDelete: OnDelete
+  onValidate: OnValidate
 }
 
 export function useOnSelect({
@@ -32,17 +34,21 @@ export function useOnSelect({
   manager,
   onAddition,
   onDelete,
+  onValidate,
 }: UseOnSelectArgs): OnSelect {
   return useCallback(
     (tag?: Tag) => {
-      const selected = tag || findSelectedTag(manager.state)
+      tag ??= findSelectedTag(manager.state)
 
-      if (!selected) return
+      if (!tag) return
 
-      const index = findTagIndex(selected, manager.state.selected)
-      const result = index > -1 ? onDelete(index) : onAddition(selected)
+      const tagIndex = findTagIndex(tag, manager.state.selected)
 
-      if (result !== false) {
+      if (tagIndex >= 0) {
+        onDelete(tagIndex)
+      } else if (onValidate ? onValidate(tag) : true) {
+        onAddition(tag)
+
         if (closeOnSelect) {
           manager.clearAll()
         } else {
@@ -50,6 +56,6 @@ export function useOnSelect({
         }
       }
     },
-    [closeOnSelect, manager, onDelete, onAddition]
+    [closeOnSelect, manager, onDelete, onAddition, onValidate]
   )
 }

@@ -46,4 +46,6 @@ export type OnInput = (value: string) => void
 
 export type OnSelect = (tag?: Tag) => void
 
+export type OnValidate = (tag?: Tag) => boolean
+
 export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[]) => TagSuggestion[]

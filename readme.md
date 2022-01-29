@@ -69,6 +69,7 @@ function CountrySelector() {
 - [`allowNew`](#allowNew-optional)
 - [`allowResize`](#allowResize-optional)
 - [`classNames`](#classNames-optional)
+- [`closeOnSelect`](#closeOnSelect-optional)
 - [`id`](#id-optional)
 - [`isDisabled`](#isDisabled-optional)
 - [`isInvalid`](#isInvalid-optional)
@@ -78,6 +79,7 @@ function CountrySelector() {
 - [`onAddition`](#onaddition-required)
 - [`onDelete`](#ondelete-required)
 - [`onInput`](#oninput-optional)
+- [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
 - [`removeButtonText`](#removeButtontext-optional)
 - [`selected`](#selected-optional)
@@ -119,6 +121,11 @@ Override the default class names used by the component. Defaults to:
   optionIsActive: 'is-active',
 }
 ```
+
+#### closeOnSelect (optional)
+
+Boolean parameter to control whether the listbox should be closed and active option reset when a tag is selected. Defaults to `false`.
+
 #### id (optional)
 
 The ID attribute given to the listbox element. This should be unique for each component instance. Defaults to: `"ReactTags"`.
@@ -177,6 +184,17 @@ function onInput(value) {
   setValue(value)
 }
 ```
+
+#### onValidate (optional)
+
+Optional callback function that determines if a tag should be added. Receives the tag object and must return a boolean. Example:
+
+```js
+function onValidate(tag) {
+  return tag.label.length >= 5;
+}
+```
+
 #### placeholderText (optional)
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.

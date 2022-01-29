@@ -19,6 +19,7 @@ import type {
   OnAddition,
   OnDelete,
   OnInput,
+  OnValidate,
   SuggestionsTransform,
   TagSelected,
   TagSuggestion,
@@ -58,6 +59,7 @@ export type ReactTagsProps = {
   onAddition: OnAddition
   onDelete: OnDelete
   onInput?: OnInput
+  onValidate?: OnValidate
   placeholderText?: string
   removeButtonText?: string
   selected: TagSelected[]
@@ -81,6 +83,7 @@ export function ReactTags({
   onAddition,
   onDelete,
   onInput,
+  onValidate,
   placeholderText = 'Add a tag',
   removeButtonText = 'Remove %label% from the list',
   selected = [],
@@ -106,7 +109,7 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect({ closeOnSelect, manager, onAddition, onDelete })
+  const onSelect = useOnSelect({ closeOnSelect, manager, onAddition, onDelete, onValidate })
 
   return (
     <GlobalContext.Provider
