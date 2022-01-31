@@ -49,6 +49,7 @@ export type ReactTagsProps = {
   allowResize?: boolean
   classNames?: ClassNames
   closeOnSelect?: boolean
+  // errorMessage?: string
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -73,6 +74,7 @@ export function ReactTags({
   allowResize = true,
   classNames = DefaultClassNames,
   closeOnSelect = false,
+  // errorMessageIs,
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
@@ -122,6 +124,7 @@ export function ReactTags({
         isInvalid,
         listBoxRef,
         manager,
+        // todo: move it
         onInput,
         onSelect,
         rootRef,

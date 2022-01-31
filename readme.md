@@ -35,9 +35,8 @@ function CountrySelector() {
   const [selected, setSelected] = useState([])
 
   const onDelete = useCallback(
-    (index) => {
-      setSelected(selected.filter((_, i) => i !== index))
-      return true
+    (tagIndex) => {
+      setSelected(selected.filter((_, i) => i !== tagIndex))
     },
     [selected]
   )
@@ -45,7 +44,6 @@ function CountrySelector() {
   const onAddition = useCallback(
     (newTag) => {
       setSelected([...selected, newTag])
-      return true
     },
     [selected]
   )
@@ -137,6 +135,7 @@ Disables all interactive elements of the component. Defaults to: `false`.
 #### isInvalid (optional)
 
 Marks the input as invalid. Defaults to: `false`.
+
 #### labelText (optional)
 
 The label text used to describe the component and input. Defaults to: `"Select tags"`.
@@ -191,7 +190,7 @@ Optional callback function that determines if a tag should be added. Receives th
 
 ```js
 function onValidate(tag) {
-  return tag.label.length >= 5;
+  return tag.label.length >= 5
 }
 ```
 

@@ -8,12 +8,15 @@ import { suggestions } from './countries'
  */
 
 function CountrySelector() {
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState([suggestions[10], suggestions[121]])
+  const [isInvalid, setIsInvalid] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(false)
+  const [closeOnSelect, setCloseOnSelect] = useState(false)
+  const [allowBackspace, setAllowBackspace] = useState(false)
 
   const onDelete = useCallback(
     (index) => {
       setSelected(selected.filter((_, i) => i !== index))
-      return true
     },
     [selected]
   )
@@ -21,7 +24,6 @@ function CountrySelector() {
   const onAddition = useCallback(
     (newTag) => {
       setSelected([...selected, newTag])
-      return true
     },
     [selected]
   )
@@ -30,6 +32,10 @@ function CountrySelector() {
     <>
       <p>Select the countries you have visited below:</p>
       <ReactTags
+        allowBackspace={allowBackspace}
+        closeOnSelect={closeOnSelect}
+        isDisabled={isDisabled}
+        isInvalid={isInvalid}
         labelText="Select countries"
         selected={selected}
         suggestions={suggestions}
@@ -37,6 +43,33 @@ function CountrySelector() {
         onAddition={onAddition}
         noSuggestionsText="No matching countries"
       />
+      <fieldset>
+        <legend>Options</legend>
+        <label>
+          <input type="checkbox" checked={isDisabled} onChange={() => setIsDisabled(!isDisabled)} />
+          Disable component
+        </label>
+        <label>
+          <input type="checkbox" checked={isInvalid} onChange={() => setIsInvalid(!isInvalid)} />
+          Mark as invalid
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={allowBackspace}
+            onChange={() => setAllowBackspace(!allowBackspace)}
+          />
+          Allow backspace to delete selected tags
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={closeOnSelect}
+            onChange={() => setCloseOnSelect(!closeOnSelect)}
+          />
+          Close the listbox on select
+        </label>
+      </fieldset>
       <details>
         <summary>View output</summary>
         <pre>
@@ -53,53 +86,53 @@ ReactDOM.render(<CountrySelector />, document.getElementById('demo-1'))
  * Demo 2 - AllowCustom tags
  */
 
+function isValid(value) {
+  return /^[a-z]{3,12}$/i.test(value)
+}
+
 function AllowCustomTags() {
   const [selected, setSelected] = useState([])
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const onDelete = useCallback(
     (tagIndex) => {
       setSelected(selected.filter((_, i) => i !== tagIndex))
-      return true
     },
     [selected]
   )
 
   const onAddition = useCallback(
     (newTag) => {
-      if (/^[a-z]{3,12}$/i.test(newTag.label)) {
-        setSelected([...selected, newTag])
-        return true
-      }
-
-      alert(`The tag you entered is not valid`)
-
-      return false
+      setSelected([...selected, newTag])
     },
     [selected]
   )
+
+  const onValidate = useCallback((newTag) => {
+    const result = isValid(newTag.label)
+    setErrorMessage(result ? '' : 'The tag is not valid')
+    return result
+  }, [])
 
   return (
     <>
       <p>Enter new tags meeting the requirements below:</p>
       <ReactTags
         allowNew
+        closeOnSelect={true}
         labelText="Enter new tags"
         selected={selected}
         suggestions={[]}
         onDelete={onDelete}
         onAddition={onAddition}
+        onValidate={onValidate}
       />
+      {errorMessage ? <p style={{ color: 'tomato' }}>{errorMessage}</p> : null}
       <p style={{ margin: '0.25rem 0', color: 'gray' }}>
         <small>
           <em>Tags must be 3–12 characters in length and only contain the letters A-Z</em>
         </small>
       </p>
-      <details>
-        <summary>View output</summary>
-        <pre>
-          <code>{JSON.stringify(selected, null, 2)}</code>
-        </pre>
-      </details>
     </>
   )
 }
@@ -113,6 +146,8 @@ ReactDOM.render(<AllowCustomTags />, document.getElementById('demo-2'))
 function CustomValidity() {
   const [selected, setSelected] = useState([])
 
+  const isValid = selected.length === 3
+
   const onDelete = useCallback(
     (index) => {
       setSelected(selected.filter((_, i) => i !== index))
@@ -123,32 +158,37 @@ function CustomValidity() {
 
   const onAddition = useCallback(
     (newTag) => {
-      setSelected([...selected, newTag])
-      return true
-    },
-    [selected]
-  )
+      if (!isValid) {
+        setSelected([...selected, newTag])
+        return true
+      }
 
-  const isInvalid = selected.length > 0 && selected.length !== 3
+      return false
+    },
+    [isValid, selected]
+  )
 
   return (
     <>
-      <p>Please select 3 tags:</p>
-      <ReactTags
-        labelText="Select countries"
-        isInvalid={isInvalid}
-        selected={selected}
-        suggestions={suggestions}
-        onDelete={onDelete}
-        onAddition={onAddition}
-        noSuggestionsText="No matching countries"
-      />
-      <details>
-        <summary>View output</summary>
-        <pre>
-          <code>{JSON.stringify(selected, null, 2)}</code>
-        </pre>
-      </details>
+      <p>
+        Please select <em>exactly</em> 3 tags:
+      </p>
+      <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ flex: 1 }}>
+          <ReactTags
+            labelText="Select countries"
+            isInvalid={!isValid}
+            selected={selected}
+            suggestions={suggestions}
+            onDelete={onDelete}
+            onAddition={onAddition}
+            noSuggestionsText="No matching countries"
+          />
+        </div>
+        <div style={{ fontSize: '1.75rem' }} role="status">
+          {selected.length === 3 ? '🥳' : '😞'}
+        </div>
+      </div>
     </>
   )
 }
@@ -156,30 +196,7 @@ function CustomValidity() {
 ReactDOM.render(<CustomValidity />, document.getElementById('demo-3'))
 
 /**
- * Demo 4 - disabled input
- */
-
-function DisabledInput() {
-  const onDelete = () => {}
-  const onAddition = () => {}
-
-  return (
-    <ReactTags
-      labelText="Select countries"
-      isDisabled={true}
-      noSuggestionsText="No matching countries"
-      onDelete={onDelete}
-      onAddition={onAddition}
-      selected={[suggestions[10], suggestions[200]]}
-      suggestions={suggestions}
-    />
-  )
-}
-
-ReactDOM.render(<DisabledInput />, document.getElementById('demo-4'))
-
-/**
- * Demo 5 - async suggestions
+ * Demo 4 - async suggestions
  */
 
 async function fetchData(query) {
@@ -201,7 +218,6 @@ async function fetchData(query) {
 }
 
 function AsyncSuggestions() {
-  const [value, setValue] = useState('')
   const [isBusy, setIsBusy] = useState(false)
   const [selected, setSelected] = useState([])
   const [suggestions, setSuggestions] = useState([])
@@ -224,14 +240,12 @@ function AsyncSuggestions() {
   )
 
   const onInputChange = useCallback(
-    async (query) => {
-      setValue(query)
-
+    async (value) => {
       if (!isBusy) {
         setIsBusy(true)
 
         try {
-          const suggestions = await fetchData(query)
+          const suggestions = await fetchData(value)
 
           if (suggestions) setSuggestions(suggestions)
         } catch (error) {
@@ -266,4 +280,4 @@ function AsyncSuggestions() {
   )
 }
 
-ReactDOM.render(<AsyncSuggestions />, document.getElementById('demo-5'))
+ReactDOM.render(<AsyncSuggestions />, document.getElementById('demo-4'))

@@ -79,7 +79,7 @@
 }
 
 .react-tags__tag:not(:hover)::after {
-  color: #aaaaaa;
+  color: #7c7d86;
 }
 
 .react-tags__combobox {
@@ -111,6 +111,7 @@
 
 .react-tags__combobox-input::placeholder {
   color: #7c7d86;
+  opacity: 1;
 }
 
 .react-tags__listbox {
