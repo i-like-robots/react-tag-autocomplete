@@ -202,18 +202,26 @@ describe('React Tags Autocomplete', () => {
 
     it('collapses the listbox when the escape key is pressed', () => {
       fireEvent.focus(harness.input)
-      expect(harness.input.getAttribute('aria-expanded')).toBe('true')
+      expect(harness.isExpanded()).toBe(true)
 
       userEvent.type(harness.input, '{esc}')
-      expect(harness.input.getAttribute('aria-expanded')).toBe('false')
+      expect(harness.isExpanded()).toBe(false)
+    })
+
+    it('expands the listbox on change', () => {
+      userEvent.type(harness.input, '{esc}')
+      expect(harness.isExpanded()).toBe(false)
+
+      userEvent.type(harness.input, 'uni', { skipClick: true })
+      expect(harness.isExpanded()).toBe(true)
     })
 
     it('expands the listbox when the input is clicked', () => {
       userEvent.type(harness.input, '{esc}')
-      expect(harness.input.getAttribute('aria-expanded')).toBe('false')
+      expect(harness.isExpanded()).toBe(false)
 
       fireEvent.click(harness.input)
-      expect(harness.input.getAttribute('aria-expanded')).toBe('true')
+      expect(harness.isExpanded()).toBe(true)
     })
 
     it('expands the list box when the cursor is at the start and up key is pressed', () => {

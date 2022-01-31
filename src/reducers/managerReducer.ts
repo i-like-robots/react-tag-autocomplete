@@ -154,6 +154,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
       ...state,
       activeIndex,
       activeOption: options[activeIndex] || null,
+      isExpanded: true,
       options,
       value: action.payload,
     }
