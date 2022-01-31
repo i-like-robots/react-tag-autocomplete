@@ -4,7 +4,7 @@ import { matchSorter } from 'match-sorter'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
 import { suggestions } from '../../example/src/countries'
-import type { MockedOnDelete, MockedOnInput, MockedOnValidate } from './Harness'
+import type { MockedOnDelete, MockedOnInput } from './Harness'
 import type { SuggestionsTransform } from '../sharedTypes'
 
 describe('React Tags Autocomplete', () => {
@@ -128,15 +128,6 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-1')
     })
 
-    it('calls the validate callback when an unselected option is active and enter key is pressed', () => {
-      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
-
-      expect(harness.props.onValidate).toHaveBeenCalledWith({
-        value: 10,
-        label: 'Australia',
-      })
-    })
-
     it('calls the addition callback when an unselected option is active and enter key is pressed', () => {
       userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
@@ -144,15 +135,6 @@ describe('React Tags Autocomplete', () => {
         value: 10,
         label: 'Australia',
       })
-    })
-
-    it('does not call the addition callback when the validate callback returns false', () => {
-      const callback = harness.props.onValidate as MockedOnValidate
-      callback.mockReturnValue(false)
-
-      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
-
-      expect(harness.props.onAddition).not.toHaveBeenCalled()
     })
 
     it('calls the delete callback when a selected option is active and enter key is pressed', () => {
@@ -163,21 +145,11 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
     })
 
-    it('does not call the validate callback when a selected option is active and enter key is pressed', () => {
-      harness.rerender({ selected: [{ ...suggestions[10] }] })
-
-      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
-
-      expect(harness.props.onValidate).not.toHaveBeenCalled()
-    })
-
     it('does not call any callbacks when the active option is disabled and enter key is pressed', () => {
       const newSuggestions = suggestions.map((item) => ({ ...item, disabled: true }))
       harness.rerender({ suggestions: newSuggestions })
 
       userEvent.type(harness.input, 'aus{arrowdown}{enter}')
-
-      expect(harness.props.onValidate).not.toHaveBeenCalled()
       expect(harness.props.onAddition).not.toHaveBeenCalled()
     })
 
@@ -193,14 +165,6 @@ describe('React Tags Autocomplete', () => {
     it('clears the value after an option is selected', () => {
       userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('')
-    })
-
-    it('does not clear the value when the validate callback returns false', () => {
-      const callback = harness.props.onValidate as MockedOnValidate
-      callback.mockReturnValue(false)
-
-      userEvent.type(harness.input, 'france{enter}')
-      expect(harness.input.value).toBe('france')
     })
 
     it('calls the delete callback when backspace is pressed whilst empty and allowBackspace is true', () => {

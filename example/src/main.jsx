@@ -103,16 +103,15 @@ function AllowCustomTags() {
 
   const onAddition = useCallback(
     (newTag) => {
-      setSelected([...selected, newTag])
+      if (isValid(newTag.label)) {
+        setSelected([...selected, newTag])
+        setErrorMessage('')
+      } else {
+        setErrorMessage('The tag is not valid')
+      }
     },
     [selected]
   )
-
-  const onValidate = useCallback((newTag) => {
-    const result = isValid(newTag.label)
-    setErrorMessage(result ? '' : 'The tag is not valid')
-    return result
-  }, [])
 
   return (
     <>
@@ -125,9 +124,10 @@ function AllowCustomTags() {
         suggestions={[]}
         onDelete={onDelete}
         onAddition={onAddition}
-        onValidate={onValidate}
       />
-      {errorMessage ? <p style={{ color: 'tomato' }}>{errorMessage}</p> : null}
+      {errorMessage ? (
+        <p style={{ margin: '0.25rem 0', color: '#fd5956' }}>{errorMessage}</p>
+      ) : null}
       <p style={{ margin: '0.25rem 0', color: 'gray' }}>
         <small>
           <em>Tags must be 3–12 characters in length and only contain the letters A-Z</em>

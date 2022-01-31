@@ -5,7 +5,7 @@ import { ReactTags } from '..'
 import type { ReactTagsProps } from '..'
 import type { MockedFunction } from 'vitest'
 import type { RenderResult } from '@testing-library/react'
-import type { OnAddition, OnDelete, OnInput, OnValidate } from '../sharedTypes'
+import type { OnAddition, OnDelete, OnInput } from '../sharedTypes'
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
@@ -14,7 +14,6 @@ window.HTMLElement.prototype.scrollTo = vi.fn(() => null)
 export type MockedOnAddition = MockedFunction<OnAddition>
 export type MockedOnDelete = MockedFunction<OnDelete>
 export type MockedOnInput = MockedFunction<OnInput>
-export type MockedOnValidate = MockedFunction<OnValidate>
 
 export class Harness {
   public props: ReactTagsProps
@@ -27,7 +26,6 @@ export class Harness {
       onAddition: vi.fn(),
       onDelete: vi.fn(),
       onInput: vi.fn(),
-      onValidate: vi.fn(() => true),
     }
 
     this.props = { ...defaultProps, ...props }

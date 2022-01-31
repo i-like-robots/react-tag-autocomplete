@@ -77,7 +77,6 @@ function CountrySelector() {
 - [`onAddition`](#onaddition-required)
 - [`onDelete`](#ondelete-required)
 - [`onInput`](#oninput-optional)
-- [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
 - [`removeButtonText`](#removeButtontext-optional)
 - [`selected`](#selected-optional)
@@ -181,16 +180,6 @@ const [value, setValue] = useState('')
 
 function onInput(value) {
   setValue(value)
-}
-```
-
-#### onValidate (optional)
-
-Optional callback function that determines if a tag should be added. Receives the tag object and must return a boolean. Example:
-
-```js
-function onValidate(tag) {
-  return tag.label.length >= 5
 }
 ```
 
