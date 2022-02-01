@@ -14,6 +14,7 @@ export function useOption(index: number): UseOptionState {
   const active = index === activeIndex
   const disabled = option.disabled ?? false
   const selected = findTagIndex(option, selectedTags) > -1
+  const disableMarkText = option.disableMarkText ?? false
 
   const onClick = useCallback(() => {
     onSelect()
@@ -32,6 +33,7 @@ export function useOption(index: number): UseOptionState {
     ...option,
     active,
     disabled,
+    disableMarkText,
     index,
     selected,
     optionProps: {

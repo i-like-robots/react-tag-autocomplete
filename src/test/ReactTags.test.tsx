@@ -599,6 +599,12 @@ describe('React Tags Autocomplete', () => {
       expect(screen.queryByText('Add blah'))
     })
 
+    it('does not highlight the new tag option', () => {
+      userEvent.type(harness.input, 'uni')
+      const [option] = screen.queryAllByRole('option')
+      expect(option.innerHTML).toMatch('uni')
+    })
+
     it('allows non-suggested options to be added when new tag option is active', () => {
       userEvent.type(harness.input, 'boop{enter}')
       expect(harness.props.onAddition).not.toHaveBeenCalled()

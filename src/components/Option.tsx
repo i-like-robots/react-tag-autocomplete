@@ -9,7 +9,7 @@ export type OptionProps = {
 
 export function Option({ index }: OptionProps): JSX.Element {
   const { classNames, manager } = useContext(GlobalContext)
-  const { active, label, optionProps } = useOption(index)
+  const { active, label, optionProps, disableMarkText } = useOption(index)
 
   const classes = [classNames.option]
 
@@ -17,7 +17,7 @@ export function Option({ index }: OptionProps): JSX.Element {
 
   return (
     <div className={classes.join(' ')} {...optionProps}>
-      <OptionText label={label} value={manager.state.value} />
+      {disableMarkText ? label : <OptionText label={label} value={manager.state.value} />}
     </div>
   )
 }

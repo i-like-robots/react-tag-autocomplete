@@ -23,6 +23,7 @@ export type Tag = {
 
 export type TagMetaProps = {
   disabled: boolean
+  disableMarkText: boolean
 }
 
 export type TagInternalProps = {

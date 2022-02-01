@@ -56,6 +56,7 @@ function createNewTag(newTagText: string, value: string): TagSuggestion {
   return {
     label: newTagText.replace('%value%', value),
     value: CreateNewOptionValue,
+    disableMarkText: true,
   }
 }
 

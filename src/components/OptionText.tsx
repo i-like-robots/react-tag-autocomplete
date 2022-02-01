@@ -1,7 +1,7 @@
 import React from 'react'
 import { partialRegExp } from '../lib'
 
-function markIt(name: string, value: string) {
+function markText(name: string, value: string) {
   const regexp = partialRegExp(value)
   return name.replace(regexp, '<mark>$&</mark>')
 }
@@ -12,7 +12,7 @@ export type OptionTextProps = {
 }
 
 function OptionText({ label, value }: OptionTextProps): JSX.Element {
-  return <span dangerouslySetInnerHTML={{ __html: markIt(label, value) }} />
+  return <span dangerouslySetInnerHTML={{ __html: markText(label, value) }} />
 }
 
 const MemoizedOptionText = React.memo(OptionText)
