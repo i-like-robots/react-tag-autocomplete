@@ -70,7 +70,7 @@ describe('React Tags Autocomplete', () => {
 
       harness.rerender({ selected: harness.props.selected.slice(1) })
 
-      expect(document.activeElement).toBe(harness.root)
+      expect(document.activeElement).toBe(harness.input)
     })
   })
 
