@@ -189,7 +189,7 @@ The placeholder text shown in the input when it is empty. Defaults to `"Add a ta
 
 #### removeButtonText (optional)
 
-The helper text added to each selected tag. The placeholder `%label%` will be replaced by the selected tag label. Default `"Remove %label% from the list"`.
+The helper text added to each selected tag. The placeholder `%value%` will be replaced by the selected tag label. Default `"Remove %value% from the list"`.
 
 #### selected (optional)
 

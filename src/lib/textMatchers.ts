@@ -1,7 +1,9 @@
 import type { TagSuggestion } from '../sharedTypes'
 
+const EscapeRegExp = /[-\\^$*+?.()|[\]{}]/g
+
 function escapeForRegExp(string: string): string {
-  return string.replace(/[-\\^$*+?.()|[\]{}]/g, '\\$&')
+  return string.replace(EscapeRegExp, '\\$&')
 }
 
 export function partialRegExp(query: string): RegExp {

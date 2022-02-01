@@ -1,4 +1,4 @@
-import { findTagIndex } from '../lib'
+import { findTagIndex, replacePlaceholder } from '../lib'
 import { CreateNewOptionValue } from '../constants'
 import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../sharedTypes'
 
@@ -55,7 +55,7 @@ function loop(next: number, size: number): number {
 
 function getNewOption(newTagText: string, value: string): TagSuggestion {
   return {
-    label: newTagText.replace('%value%', value),
+    label: replacePlaceholder(newTagText, value),
     value: CreateNewOptionValue,
     disableMarkText: true,
   }
@@ -63,7 +63,7 @@ function getNewOption(newTagText: string, value: string): TagSuggestion {
 
 function getEmptyOption(noOptionsText: string, value: string): TagSuggestion {
   return {
-    label: noOptionsText.replace('%value%', value),
+    label: replacePlaceholder(noOptionsText, value),
     value: null,
     disabled: true,
     disableMarkText: true,

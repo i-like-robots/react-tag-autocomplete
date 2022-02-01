@@ -73,7 +73,7 @@ export function ReactTags({
   onDelete,
   onInput,
   placeholderText = 'Add a tag',
-  removeButtonText = 'Remove %label% from the list',
+  removeButtonText = 'Remove %value% from the list',
   selected = [],
   suggestions = [],
   suggestionsTransform = matchSuggestionsPartial,
