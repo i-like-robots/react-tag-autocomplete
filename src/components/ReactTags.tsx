@@ -2,18 +2,7 @@ import React, { useRef } from 'react'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
 import { useManager, useOnSelect } from '../hooks'
-import {
-  Announcements,
-  ComboBox,
-  Input,
-  Label,
-  ListBox,
-  NoOptions,
-  Option,
-  Root,
-  Tag,
-  TagList,
-} from '.'
+import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type {
   ClassNames,
   OnAddition,
@@ -54,7 +43,7 @@ export type ReactTagsProps = {
   isInvalid?: boolean
   labelText?: string
   newTagText?: string
-  noSuggestionsText?: string
+  noOptionsText?: string
   tagListLabelText?: string
   onAddition: OnAddition
   onDelete: OnDelete
@@ -78,7 +67,7 @@ export function ReactTags({
   isInvalid = false,
   labelText = 'Select tags',
   newTagText = 'Add %value%',
-  noSuggestionsText = 'No options found',
+  noOptionsText = 'No options found for %value%',
   tagListLabelText = 'Selected tags',
   onAddition,
   onDelete,
@@ -101,6 +90,7 @@ export function ReactTags({
     allowNew,
     isExpanded: false,
     newTagText,
+    noOptionsText,
     options: [],
     selected,
     suggestions,
@@ -142,14 +132,9 @@ export function ReactTags({
             placeholderText={placeholderText}
           />
           <ListBox>
-            {manager.state.options.length > 0 ? (
-              manager.state.options.map((tag, index) => (
-                <Option key={tagToKey(tag)} index={index} />
-              ))
-            ) : (
-              // TODO: refactor into manager
-              <NoOptions>{noSuggestionsText}</NoOptions>
-            )}
+            {manager.state.options.map((tag, index) => (
+              <Option key={tagToKey(tag)} index={index} />
+            ))}
           </ListBox>
         </ComboBox>
         <Announcements selected={manager.state.selected} />

@@ -31,6 +31,7 @@ export type ManagerState = {
   allowNew: boolean
   isExpanded: boolean
   newTagText: string
+  noOptionsText: string
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
@@ -52,10 +53,19 @@ function loop(next: number, size: number): number {
   return next
 }
 
-function createNewTag(newTagText: string, value: string): TagSuggestion {
+function getNewOption(newTagText: string, value: string): TagSuggestion {
   return {
     label: newTagText.replace('%value%', value),
     value: CreateNewOptionValue,
+    disableMarkText: true,
+  }
+}
+
+function getEmptyOption(noOptionsText: string, value: string): TagSuggestion {
+  return {
+    label: noOptionsText.replace('%value%', value),
+    value: null,
+    disabled: true,
     disableMarkText: true,
   }
 }
@@ -128,7 +138,11 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
     const options = state.suggestionsTransform(state.value, action.payload)
 
     if (state.allowNew && state.value) {
-      options.push(createNewTag(state.newTagText, state.value))
+      options.push(getNewOption(state.newTagText, state.value))
+    }
+
+    if (options.length === 0 && state.noOptionsText && state.value) {
+      options.push(getEmptyOption(state.noOptionsText, state.value))
     }
 
     const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1
@@ -146,7 +160,11 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
     const options = state.suggestionsTransform(action.payload, state.suggestions)
 
     if (state.allowNew && action.payload) {
-      options.push(createNewTag(state.newTagText, action.payload))
+      options.push(getNewOption(state.newTagText, action.payload))
+    }
+
+    if (options.length === 0 && state.noOptionsText && action.payload) {
+      options.push(getEmptyOption(state.noOptionsText, action.payload))
     }
 
     const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1

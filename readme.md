@@ -143,9 +143,9 @@ The label text used to describe the component and input. Defaults to: `"Select t
 
 The option text shown when the `allowNew` option is enabled. The placeholder `%value%` will be replaced by the current input value. Defaults to `"Add %value%"`.
 
-#### noSuggestionsText (optional)
+#### noOptionsText (optional)
 
-The option text shown when there are no matching suggestions. Defaults to `"No options found"`.
+The option text shown when there are no matching suggestions. The placeholder `%value%` will be replaced by the current input value. Defaults to `"No options found for %value%"`.
 
 #### onAddition (required)
 

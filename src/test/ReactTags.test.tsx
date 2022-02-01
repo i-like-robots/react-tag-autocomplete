@@ -502,7 +502,7 @@ describe('React Tags Autocomplete', () => {
 
     it('shows no suggestions message when there are no options to show', () => {
       userEvent.type(harness.input, 'blah')
-      expect(screen.queryByText('No options found')).toBeTruthy()
+      expect(screen.queryByText('No options found for blah')).toBeTruthy()
     })
 
     it('does not respond to arrow up/down key presses', () => {

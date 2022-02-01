@@ -8,7 +8,7 @@ export function ListBox({ children }: ListBoxProps): JSX.Element {
   const { classNames, manager } = useContext(GlobalContext)
   const listBoxProps = useListBox()
 
-  if (!manager.state.isExpanded) return null
+  if (!manager.state.isExpanded || React.Children.count(children) === 0) return null
 
   return (
     <div className={classNames.listBox} {...listBoxProps}>
