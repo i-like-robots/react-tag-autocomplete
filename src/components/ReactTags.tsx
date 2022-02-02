@@ -35,6 +35,7 @@ export type ReactTagsProps = {
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
+  allowTab?: boolean
   classNames?: ClassNames
   closeOnSelect?: boolean
   // errorMessage?: string
@@ -59,6 +60,7 @@ export function ReactTags({
   allowBackspace = true,
   allowNew = false,
   allowResize = true,
+  allowTab = false,
   classNames = DefaultClassNames,
   closeOnSelect = false,
   // errorMessageIs,
@@ -129,6 +131,7 @@ export function ReactTags({
           <Input
             allowBackspace={allowBackspace}
             allowResize={allowResize}
+            allowTab={allowTab}
             placeholderText={placeholderText}
           />
           <ListBox>

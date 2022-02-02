@@ -13,6 +13,7 @@ function CountrySelector() {
   const [isDisabled, setIsDisabled] = useState(false)
   const [closeOnSelect, setCloseOnSelect] = useState(false)
   const [allowBackspace, setAllowBackspace] = useState(false)
+  const [allowTab, setAllowTab] = useState(false)
 
   const onDelete = useCallback(
     (index) => {
@@ -33,6 +34,7 @@ function CountrySelector() {
       <p>Select the countries you have visited below:</p>
       <ReactTags
         allowBackspace={allowBackspace}
+        allowTab={allowTab}
         closeOnSelect={closeOnSelect}
         isDisabled={isDisabled}
         isInvalid={isInvalid}
@@ -59,7 +61,11 @@ function CountrySelector() {
             checked={allowBackspace}
             onChange={() => setAllowBackspace(!allowBackspace)}
           />
-          Allow backspace to delete selected tags
+          Allow backspace key to delete selected tags
+        </label>
+        <label>
+          <input type="checkbox" checked={allowTab} onChange={() => setAllowTab(!allowTab)} />
+          Allow tab key to trigger selection
         </label>
         <label>
           <input

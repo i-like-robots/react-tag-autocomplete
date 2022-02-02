@@ -6,11 +6,12 @@ import type React from 'react'
 
 export type UseInputArgs = {
   allowBackspace: boolean
+  allowTab: boolean
 }
 
 export type UseInputState = Omit<React.ComponentPropsWithRef<'input'>, 'value'> & { value: string }
 
-export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
+export function useInput({ allowBackspace, allowTab }: UseInputArgs): UseInputState {
   const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
     useContext(GlobalContext)
 
@@ -23,7 +24,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     [manager, onInput]
   )
 
-  const onEnterKey = useCallback(
+  const onSelectKey = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       e.preventDefault()
       onSelect()
@@ -66,18 +67,29 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     const isEmpty = manager.state.value === ''
     const lastTag = manager.state.selected[manager.state.selected.length - 1]
 
-    if (allowBackspace && isEmpty && lastTag) onSelect(lastTag)
-  }, [allowBackspace, manager, onSelect])
+    if (isEmpty && lastTag) {
+      onSelect(lastTag)
+    }
+  }, [manager, onSelect])
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === KeyNames.UpArrow) return onUpArrowKey(e)
       if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
-      if (e.key === KeyNames.Enter) return onEnterKey(e)
+      if (e.key === KeyNames.Enter) return onSelectKey(e)
       if (e.key === KeyNames.Escape) return onEscapeKey()
-      if (e.key === KeyNames.Backspace) return onBackspaceKey()
+      if (e.key === KeyNames.Backspace && allowBackspace) return onBackspaceKey()
+      if (e.key === KeyNames.Tab && allowTab) return onSelectKey(e)
     },
-    [onBackspaceKey, onEnterKey, onEscapeKey, onDownArrowKey, onUpArrowKey]
+    [
+      allowBackspace,
+      allowTab,
+      onBackspaceKey,
+      onSelectKey,
+      onEscapeKey,
+      onDownArrowKey,
+      onUpArrowKey,
+    ]
   )
 
   const { activeIndex, isExpanded, value } = manager.state
@@ -87,6 +99,7 @@ export function useInput({ allowBackspace }: UseInputArgs): UseInputState {
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded && activeIndex > -1 ? optionId(id, activeIndex) : '',
     'aria-disabled': isDisabled,
+    // 'aria-errormessage': errorMessage
     'aria-invalid': isInvalid,
     'aria-labelledby': labelId(id),
     'aria-expanded': isExpanded,

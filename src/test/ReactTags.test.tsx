@@ -162,6 +162,17 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
+    it('triggers tag selection when the tab is pressed and allowTab is true', () => {
+      harness.rerender({ allowTab: true })
+
+      userEvent.type(harness.input, 'aus{arrowdown}{Tab}')
+
+      expect(harness.props.onAddition).toHaveBeenCalledWith({
+        value: 10,
+        label: 'Australia',
+      })
+    })
+
     it('clears the value after an option is selected', () => {
       userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('')

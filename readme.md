@@ -66,6 +66,7 @@ function CountrySelector() {
 - [`allowBackspace`](#allowBackspace-optional)
 - [`allowNew`](#allowNew-optional)
 - [`allowResize`](#allowResize-optional)
+- [`allowTab`](#allowTab-optional)
 - [`classNames`](#classNames-optional)
 - [`closeOnSelect`](#closeOnSelect-optional)
 - [`id`](#id-optional)
@@ -94,6 +95,10 @@ Enable users to add new (not suggested) tags based on the input text. Defaults t
 #### allowResize (optional)
 
 Boolean parameter to control whether the text input should be automatically resized to fit its value. Defaults to `true`.
+
+#### allowTab (optional)
+
+Enable users to trigger tag selection when the tab key is pressed. Defaults to `false`.
 
 #### classNames (optional)
 
