@@ -7,11 +7,18 @@ import type React from 'react'
 export type UseInputArgs = {
   allowBackspace: boolean
   allowTab: boolean
+  ariaDescribedBy?: string
+  ariaErrorMessage?: string
 }
 
 export type UseInputState = Omit<React.ComponentPropsWithRef<'input'>, 'value'> & { value: string }
 
-export function useInput({ allowBackspace, allowTab }: UseInputArgs): UseInputState {
+export function useInput({
+  allowBackspace,
+  allowTab,
+  ariaDescribedBy,
+  ariaErrorMessage,
+}: UseInputArgs): UseInputState {
   const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
     useContext(GlobalContext)
 
@@ -98,8 +105,9 @@ export function useInput({ allowBackspace, allowTab }: UseInputArgs): UseInputSt
     ...DisableAutoComplete,
     'aria-autocomplete': 'list',
     'aria-activedescendant': isExpanded && activeIndex > -1 ? optionId(id, activeIndex) : '',
+    'aria-describedby': ariaDescribedBy || null,
     'aria-disabled': isDisabled,
-    // 'aria-errormessage': errorMessage
+    'aria-errormessage': (isInvalid && ariaErrorMessage) || null,
     'aria-invalid': isInvalid,
     'aria-labelledby': labelId(id),
     'aria-expanded': isExpanded,

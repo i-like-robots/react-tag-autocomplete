@@ -37,10 +37,11 @@ export type ReactTagsProps = {
   allowResize?: boolean
   allowTab?: boolean
   ariaAddedText?: string
+  ariaDescribedBy?: string
+  ariaErrorMessage?: string
   ariaRemovedText?: string
   classNames?: ClassNames
   closeOnSelect?: boolean
-  // errorMessage?: string
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -64,10 +65,11 @@ export function ReactTags({
   allowResize = true,
   allowTab = false,
   ariaAddedText = 'Added tag %value%',
+  ariaDescribedBy,
+  ariaErrorMessage,
   ariaRemovedText = 'Removed tag %value%',
   classNames = DefaultClassNames,
   closeOnSelect = false,
-  // errorMessageIs,
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
@@ -137,6 +139,8 @@ export function ReactTags({
             allowResize={allowResize}
             allowTab={allowTab}
             placeholderText={placeholderText}
+            ariaDescribedBy={ariaDescribedBy}
+            ariaErrorMessage={ariaErrorMessage}
           />
           <ListBox>
             {manager.state.options.map((tag, index) => (

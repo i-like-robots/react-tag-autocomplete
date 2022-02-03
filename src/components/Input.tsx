@@ -6,6 +6,8 @@ export type InputProps = {
   allowBackspace?: boolean
   allowResize?: boolean
   allowTab?: boolean
+  ariaDescribedBy?: string
+  ariaErrorMessage?: string
   placeholderText: string
 }
 
@@ -13,10 +15,17 @@ export function Input({
   allowBackspace = true,
   allowResize = true,
   allowTab = false,
+  ariaDescribedBy,
+  ariaErrorMessage,
   placeholderText,
 }: InputProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
-  const { value, ...inputProps } = useInput({ allowBackspace, allowTab })
+  const { value, ...inputProps } = useInput({
+    allowBackspace,
+    allowTab,
+    ariaDescribedBy,
+    ariaErrorMessage,
+  })
   const text = value.length < placeholderText.length ? placeholderText : value
   const { sizerProps, width } = useInputSizer({ allowResize, text })
 

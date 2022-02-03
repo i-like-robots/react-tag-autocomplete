@@ -68,6 +68,8 @@ function CountrySelector() {
 - [`allowResize`](#allowResize-optional)
 - [`allowTab`](#allowTab-optional)
 - [`ariaAddedText`](#ariaAddedText-optional)
+- [`ariaDescribedBy`](#ariaDescribedBy-optional)
+- [`ariaErrorMessage`](#ariaErrorMessage-optional)
 - [`ariaRemovedText`](#ariaRemovedText-optional)
 - [`classNames`](#classNames-optional)
 - [`closeOnSelect`](#closeOnSelect-optional)
@@ -106,6 +108,14 @@ Enable users to trigger tag selection when the tab key is pressed. Defaults to `
 
 The status text announced when a selected tag is added. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Added tag %value%"`.
 
+#### ariaDescribedBy (optional)
+
+References elements by ID which contain more information about the component. Defaults to `""`.
+
+#### ariaErrorMessage (optional)
+
+References an element by ID which contains the error message for the input when the component is marked as invalid. Defaults to `""`.
+
 #### ariaRemovedText (optional)
 
 The status text announced when a selected tag is removed. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Removed tag %value%"`.
@@ -140,7 +150,7 @@ Boolean parameter to control whether the listbox should be closed and active opt
 
 #### id (optional)
 
-The ID attribute given to the listbox element. This should be unique for each component instance. Defaults to: `"ReactTags"`.
+The ID attribute given to the component and used as a prefix for all sub-component IDs. This should be unique for each instance of the component. Defaults to: `"ReactTags"`.
 
 #### isDisabled (optional)
 

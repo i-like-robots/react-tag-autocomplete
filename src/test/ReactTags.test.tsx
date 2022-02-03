@@ -588,7 +588,7 @@ describe('React Tags Autocomplete', () => {
 
   describe('when invalid', () => {
     beforeEach(() => {
-      harness = new Harness({ isInvalid: true })
+      harness = new Harness({ isInvalid: true, ariaErrorMessage: 'id' })
     })
 
     it('sets the invalid state on the root', () => {
@@ -597,6 +597,10 @@ describe('React Tags Autocomplete', () => {
 
     it('sets the invalid state on the input', () => {
       expect(harness.input.getAttribute('aria-invalid')).toBe('true')
+    })
+
+    it('renders the error message attribute if provided', () => {
+      expect(harness.input.getAttribute('aria-errormessage')).toBe('id')
     })
   })
 
