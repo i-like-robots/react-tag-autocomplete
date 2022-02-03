@@ -496,7 +496,7 @@ describe('React Tags Autocomplete', () => {
       const selected = [...harness.props.selected, { ...suggestions[11] }]
       harness.rerender({ selected })
 
-      expect(harness.announcements.textContent).toBe('Selected tag Austria')
+      expect(harness.announcements.textContent).toBe('Added tag Austria')
     })
 
     it('appends a removal message when selected tags are removed', () => {

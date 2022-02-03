@@ -67,6 +67,8 @@ function CountrySelector() {
 - [`allowNew`](#allowNew-optional)
 - [`allowResize`](#allowResize-optional)
 - [`allowTab`](#allowTab-optional)
+- [`ariaAddedText`](#ariaAddedText-optional)
+- [`ariaRemovedText`](#ariaRemovedText-optional)
 - [`classNames`](#classNames-optional)
 - [`closeOnSelect`](#closeOnSelect-optional)
 - [`id`](#id-optional)
@@ -99,6 +101,14 @@ Boolean parameter to control whether the text input should be automatically resi
 #### allowTab (optional)
 
 Enable users to trigger tag selection when the tab key is pressed. Defaults to `false`.
+
+#### ariaAddedText (optional)
+
+The status text announced when a selected tag is added. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Added tag %value%"`.
+
+#### ariaRemovedText (optional)
+
+The status text announced when a selected tag is removed. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Removed tag %value%"`.
 
 #### classNames (optional)
 

@@ -36,6 +36,8 @@ export type ReactTagsProps = {
   allowNew?: boolean
   allowResize?: boolean
   allowTab?: boolean
+  ariaAddedText?: string
+  ariaRemovedText?: string
   classNames?: ClassNames
   closeOnSelect?: boolean
   // errorMessage?: string
@@ -61,6 +63,8 @@ export function ReactTags({
   allowNew = false,
   allowResize = true,
   allowTab = false,
+  ariaAddedText = 'Added tag %value%',
+  ariaRemovedText = 'Removed tag %value%',
   classNames = DefaultClassNames,
   closeOnSelect = false,
   // errorMessageIs,
@@ -140,7 +144,11 @@ export function ReactTags({
             ))}
           </ListBox>
         </ComboBox>
-        <Announcements selected={manager.state.selected} />
+        <Announcements
+          ariaAddedText={ariaAddedText}
+          ariaRemovedText={ariaRemovedText}
+          selected={manager.state.selected}
+        />
       </Root>
     </GlobalContext.Provider>
   )

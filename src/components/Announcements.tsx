@@ -1,5 +1,6 @@
 import React from 'react'
 import { usePrevious } from '../hooks'
+import { replacePlaceholder } from '../lib'
 import type { TagSelected } from '../sharedTypes'
 
 const VisuallyHiddenStyles: React.CSSProperties = {
@@ -12,21 +13,31 @@ const VisuallyHiddenStyles: React.CSSProperties = {
 }
 
 export type AnnouncementsProps = {
+  ariaAddedText: string
+  ariaRemovedText: string
   selected: TagSelected[]
 }
 
-function Announcements({ selected }: AnnouncementsProps): JSX.Element {
+function Announcements({
+  ariaAddedText,
+  ariaRemovedText,
+  selected,
+}: AnnouncementsProps): JSX.Element {
   // NOTE: There is no previous value on first render
   const prevSelected = usePrevious<TagSelected[]>(selected) || selected
 
   const logs: string[] = []
 
   selected.forEach((tag) => {
-    if (!prevSelected.includes(tag)) logs.push(`Selected tag ${tag.label}`)
+    if (!prevSelected.includes(tag)) {
+      logs.push(replacePlaceholder(ariaAddedText, tag.label))
+    }
   })
 
   prevSelected.forEach((tag) => {
-    if (!selected.includes(tag)) logs.push(`Removed tag ${tag.label}`)
+    if (!selected.includes(tag)) {
+      logs.push(replacePlaceholder(ariaRemovedText, tag.label))
+    }
   })
 
   return (
