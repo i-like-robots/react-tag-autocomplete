@@ -145,7 +145,7 @@
   background: #eaeef2;
 }
 
-.react-tags__listbox-option.is-active {
+.react-tags__listbox-option:not([aria-disabled='true']).is-active {
   background: #4f46e5;
   color: #ffffff;
 }

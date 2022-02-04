@@ -1,5 +1,4 @@
-import { findTagIndex, replacePlaceholder } from '../lib'
-import { CreateNewOptionValue } from '../constants'
+import { findTagIndex } from '../lib'
 import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../sharedTypes'
 
 export enum ManagerActions {
@@ -30,8 +29,8 @@ export type ManagerState = {
   activeOption: TagSuggestion | null
   allowNew: boolean
   isExpanded: boolean
-  newTagText: string
-  noOptionsText: string
+  newTagOption: (value: string) => TagSuggestion
+  noTagsOption: (value: string) => TagSuggestion
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
@@ -51,23 +50,6 @@ function loop(next: number, size: number): number {
   }
 
   return next
-}
-
-function getNewOption(newTagText: string, value: string): TagSuggestion {
-  return {
-    label: replacePlaceholder(newTagText, value),
-    value: CreateNewOptionValue,
-    disableMarkText: true,
-  }
-}
-
-function getEmptyOption(noOptionsText: string, value: string): TagSuggestion {
-  return {
-    label: replacePlaceholder(noOptionsText, value),
-    value: null,
-    disabled: true,
-    disableMarkText: true,
-  }
 }
 
 export function managerReducer(state: ManagerState, action: ManagerAction): ManagerState {
@@ -138,11 +120,11 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
     const options = state.suggestionsTransform(state.value, action.payload)
 
     if (state.allowNew && state.value) {
-      options.push(getNewOption(state.newTagText, state.value))
+      options.push(state.newTagOption(state.value))
     }
 
-    if (options.length === 0 && state.noOptionsText && state.value) {
-      options.push(getEmptyOption(state.noOptionsText, state.value))
+    if (options.length === 0 && state.value) {
+      options.push(state.noTagsOption(state.value))
     }
 
     const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1
@@ -160,11 +142,11 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
     const options = state.suggestionsTransform(action.payload, state.suggestions)
 
     if (state.allowNew && action.payload) {
-      options.push(getNewOption(state.newTagText, action.payload))
+      options.push(state.newTagOption(action.payload))
     }
 
-    if (options.length === 0 && state.noOptionsText && action.payload) {
-      options.push(getEmptyOption(state.noOptionsText, action.payload))
+    if (options.length === 0 && action.payload) {
+      options.push(state.noTagsOption(action.payload))
     }
 
     const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1

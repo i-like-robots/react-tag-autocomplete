@@ -4,7 +4,7 @@ import { matchSorter } from 'match-sorter'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness } from './Harness'
 import { suggestions } from '../../example/src/countries'
-import type { MockedOnDelete, MockedOnInput } from './Harness'
+import type { MockedOnDelete, MockedOnInput, MockedOnValidate } from './Harness'
 import type { SuggestionsTransform } from '../sharedTypes'
 
 describe('React Tags Autocomplete', () => {
@@ -511,9 +511,15 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ suggestions: [] })
     })
 
-    it('shows no suggestions message when there are no options to show', () => {
+    it('shows no suggestions message', () => {
       userEvent.type(harness.input, 'blah')
       expect(screen.queryByText('No options found for blah')).toBeTruthy()
+    })
+
+    it('does not highlight the no suggestions text', () => {
+      userEvent.type(harness.input, 'blah')
+      const [option] = screen.queryAllByRole('option')
+      expect(option.innerHTML).not.toMatch(/<mark>/)
     })
 
     it('does not respond to arrow up/down key presses', () => {
@@ -614,21 +620,47 @@ describe('React Tags Autocomplete', () => {
       expect(screen.queryByText('Add blah'))
     })
 
-    it('does not highlight the new tag option', () => {
+    it('does not highlight the new tag option text', () => {
       userEvent.type(harness.input, 'uni')
       const [option] = screen.queryAllByRole('option')
-      expect(option.innerHTML).toMatch('uni')
+      expect(option.innerHTML).not.toMatch(/<mark>/)
     })
 
-    it('allows non-suggested options to be added when new tag option is active', () => {
+    it('calls the onValidate callback when the value changes', () => {
+      userEvent.type(harness.input, 'uni')
+
+      expect(harness.props.onValidate).toHaveBeenCalledWith('u')
+      expect(harness.props.onValidate).toHaveBeenCalledWith('un')
+      expect(harness.props.onValidate).toHaveBeenCalledWith('uni')
+    })
+
+    it('disables the new tag option when onValidate returns false', () => {
+      const callback = harness.props.onValidate as MockedOnValidate
+      callback.mockReturnValue(false)
+
+      userEvent.type(harness.input, 'uni')
+
+      const [option] = screen.queryAllByRole('option')
+      expect(option.getAttribute('aria-disabled')).toBe('true')
+    })
+
+    it('calls onAddition with new tag when selected', () => {
       userEvent.type(harness.input, 'boop{enter}')
       expect(harness.props.onAddition).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
-      expect(harness.activeOption.textContent).toBe('Add boop')
-
-      userEvent.type(harness.input, '{enter}', { skipClick: true })
+      userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
       expect(harness.props.onAddition).toHaveBeenCalledWith({ label: 'boop', value: null })
+    })
+
+    it('does not call the onAddition with new tag when selected and onValidate returns false', () => {
+      const callback = harness.props.onValidate as MockedOnValidate
+      callback.mockReturnValue(false)
+
+      userEvent.type(harness.input, 'boop{enter}')
+      expect(harness.props.onAddition).not.toHaveBeenCalled()
+
+      userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
+      expect(harness.props.onAddition).not.toHaveBeenCalled()
     })
   })
 

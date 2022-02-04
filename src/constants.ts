@@ -11,6 +11,8 @@ export const KeyNames = {
 
 export const CreateNewOptionValue = Symbol('Create new tag')
 
+export const NoOptionValue = Symbol('No options')
+
 // <https://stackoverflow.com/questions/59939931/stop-dashlane-auto-fill-on-specific-input-fields>
 export const DisableAutoComplete = {
   autoComplete: 'off',

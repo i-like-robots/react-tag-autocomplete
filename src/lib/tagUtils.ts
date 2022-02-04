@@ -5,5 +5,5 @@ export function tagToKey(tag: Tag): string {
 }
 
 export function findTagIndex(tag: Tag, tags: Tag[]): number {
-  return tags.findIndex(({ label, value }) => label === tag.label && value === tag.value)
+  return tags.findIndex(({ value }) => value === tag.value)
 }

@@ -39,11 +39,13 @@ export type TagOption = Tag & TagMetaProps & TagInternalProps
 // TODO: delete
 export type TagSelected = Tag
 
-export type OnAddition = (tag: Tag) => boolean
+export type OnAddition = (tag: Tag) => void
 
-export type OnDelete = (index: number) => boolean
+export type OnDelete = (index: number) => void
 
 export type OnInput = (value: string) => void
+
+export type OnValidate = (value?: string) => boolean
 
 export type OnSelect = (tag?: Tag) => void
 

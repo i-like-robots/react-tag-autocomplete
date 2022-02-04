@@ -5,9 +5,9 @@ import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
 import type { OnAddition, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
-function getNewTag(option: Tag, value: string): Tag {
-  if (option?.value === CreateNewOptionValue) {
-    return { label: value, value: null }
+function getNewTag(option: TagSuggestion, value: string): TagSuggestion {
+  if (option?.value === CreateNewOptionValue && option.disabled === false) {
+    return { value: null, label: value }
   }
 }
 
@@ -17,8 +17,7 @@ function findSelectedTag(state: ManagerState): TagSuggestion {
     state.activeOption ||
     findSuggestionExact(state.value, state.options)
 
-  // TODO: fix types
-  return tag?.['disabled'] ? null : tag
+  return tag?.disabled ? null : tag
 }
 
 export type UseOnSelectArgs = {
