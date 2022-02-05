@@ -1,7 +1,7 @@
-import React, { useCallback, useRef } from 'react'
-import { matchSuggestionsPartial, replacePlaceholder, tagToKey } from '../lib'
+import React, { useRef } from 'react'
+import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
-import { useManager, useOnSelect } from '../hooks'
+import { useInternalOptions, useManager, useOnSelect } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type {
   ClassNames,
@@ -13,7 +13,6 @@ import type {
   TagSelected,
   TagSuggestion,
 } from '../sharedTypes'
-import { CreateNewOptionValue, NoOptionValue } from '../constants'
 
 const DefaultClassNames: ClassNames = {
   root: 'react-tags',
@@ -96,29 +95,11 @@ export function ReactTags({
   const rootRef = useRef<HTMLDivElement>()
   const tagListRef = useRef<HTMLUListElement>()
 
-  const newTagOption = useCallback(
-    (value: string): TagSuggestion => {
-      return {
-        disabled: onValidate ? !onValidate(value) : undefined,
-        disableMarkText: true,
-        label: replacePlaceholder(newTagText, value),
-        value: CreateNewOptionValue,
-      }
-    },
-    [newTagText, onValidate]
-  )
-
-  const noTagsOption = useCallback(
-    (value: string): TagSuggestion => {
-      return {
-        disabled: true,
-        disableMarkText: true,
-        label: replacePlaceholder(noOptionsText, value),
-        value: NoOptionValue,
-      }
-    },
-    [noOptionsText]
-  )
+  const { newTagOption, noTagsOption } = useInternalOptions({
+    newTagText,
+    noOptionsText,
+    onValidate,
+  })
 
   const manager = useManager({
     activeIndex: -1,
