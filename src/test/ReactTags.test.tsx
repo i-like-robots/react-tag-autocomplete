@@ -211,12 +211,20 @@ describe('React Tags Autocomplete', () => {
       expect(callback).toHaveBeenNthCalledWith(3, 'fra')
     })
 
-    it('collapses the listbox when the escape key is pressed', () => {
+    it('collapses the listbox if open when the escape key is pressed', () => {
       fireEvent.focus(harness.input)
       expect(harness.isExpanded()).toBe(true)
 
       userEvent.type(harness.input, '{esc}')
       expect(harness.isExpanded()).toBe(false)
+    })
+
+    it('clears the input value when the listbox is closed when the escape key is pressed', () => {
+      userEvent.type(harness.input, 'uni{esc}')
+      expect(harness.input.value).toBe('uni')
+
+      userEvent.type(harness.input, '{esc}', { skipClick: true })
+      expect(harness.input.value).toBe('')
     })
 
     it('expands the listbox on change', () => {

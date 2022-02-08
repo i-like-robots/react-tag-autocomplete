@@ -67,6 +67,8 @@ export function useInput({
     if (manager.state.isExpanded) {
       manager.clearActiveIndex()
       manager.collapse()
+    } else {
+      manager.clearValue()
     }
   }, [manager])
 
