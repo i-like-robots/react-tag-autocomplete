@@ -8,11 +8,11 @@ function markText(name: string, value: string) {
 
 export type OptionTextProps = {
   label: string
-  value: string
+  query: string
 }
 
-function OptionText({ label, value }: OptionTextProps): JSX.Element {
-  return <span dangerouslySetInnerHTML={{ __html: markText(label, value) }} />
+function OptionText({ label, query }: OptionTextProps): JSX.Element {
+  return <span dangerouslySetInnerHTML={{ __html: markText(label, query) }} />
 }
 
 const MemoizedOptionText = React.memo(OptionText)
