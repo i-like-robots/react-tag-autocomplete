@@ -51,6 +51,9 @@
     "vite": "^2.8.0",
     "vitest": "^0.3.2"
   },
+  "peerDependencies": {
+    "react": "^17.0.0"
+  },
   "engines": {
     "node": ">= 16.12.0"
   },
