@@ -113,7 +113,7 @@ export function useInput({
     'aria-invalid': isInvalid,
     'aria-labelledby': labelId(id),
     'aria-expanded': isExpanded,
-    'aria-owns': isExpanded ? listBoxId(id) : null,
+    'aria-owns': listBoxId(id),
     id: inputId(id),
     onChange: isDisabled ? VoidFn : onChange,
     onKeyDown: isDisabled ? VoidFn : onKeyDown,
