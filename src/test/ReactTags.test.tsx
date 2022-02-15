@@ -109,7 +109,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-expanded')).toBe('false')
     })
 
-    it('associates the input with the list box when it is rendered', () => {
+    it('associates the input with the list box', () => {
       harness.listBoxExpand()
       expect(harness.input.getAttribute('aria-owns')).toBe(harness.listBox.id)
 
@@ -119,13 +119,13 @@ describe('React Tags Autocomplete', () => {
 
     it('associates the input with the active list box option', () => {
       harness.listBoxExpand()
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('')
+      expect(harness.input.getAttribute('aria-activedescendant')).toBeNull()
 
       userEvent.type(harness.input, '{arrowdown}')
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-0')
+      expect(harness.input.getAttribute('aria-activedescendant')).toMatch(/react-tags-option-0-/)
 
       userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('react-tags-option-1')
+      expect(harness.input.getAttribute('aria-activedescendant')).toMatch(/react-tags-option-1-/)
     })
 
     it('calls the addition callback when an unselected option is active and enter key is pressed', () => {
@@ -532,10 +532,10 @@ describe('React Tags Autocomplete', () => {
 
     it('does not respond to arrow up/down key presses', () => {
       harness.listBoxExpand()
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('')
+      expect(harness.input.getAttribute('aria-activedescendant')).toBeNull()
 
       userEvent.type(harness.input, '{arrowdown}')
-      expect(harness.input.getAttribute('aria-activedescendant')).toBe('')
+      expect(harness.input.getAttribute('aria-activedescendant')).toBeNull()
     })
 
     it('does not respond to enter key presses', () => {

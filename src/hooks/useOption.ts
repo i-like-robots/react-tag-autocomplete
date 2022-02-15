@@ -39,7 +39,7 @@ export function useOption(index: number): UseOptionState {
       'aria-posinset': index + 1,
       'aria-selected': disabled ? null : selected,
       'aria-setsize': options.length,
-      id: optionId(id, index),
+      id: optionId(id, option),
       onClick,
       onMouseDown,
       ref: optionRef,

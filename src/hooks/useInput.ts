@@ -101,12 +101,12 @@ export function useInput({
     ]
   )
 
-  const { activeIndex, isExpanded, value } = manager.state
+  const { activeOption, isExpanded, value } = manager.state
 
   return {
     ...DisableAutoComplete,
     'aria-autocomplete': 'list',
-    'aria-activedescendant': isExpanded && activeIndex > -1 ? optionId(id, activeIndex) : '',
+    'aria-activedescendant': activeOption ? optionId(id, activeOption) : null,
     'aria-describedby': ariaDescribedBy || null,
     'aria-disabled': isDisabled,
     'aria-errormessage': (isInvalid && ariaErrorMessage) || null,
