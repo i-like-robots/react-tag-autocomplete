@@ -155,11 +155,7 @@ export function ReactTags({
             ))}
           </ListBox>
         </ComboBox>
-        <Announcements
-          ariaAddedText={ariaAddedText}
-          ariaRemovedText={ariaRemovedText}
-          selected={manager.state.selected}
-        />
+        <Announcements ariaAddedText={ariaAddedText} ariaRemovedText={ariaRemovedText} />
       </Root>
     </GlobalContext.Provider>
   )
