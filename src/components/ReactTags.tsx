@@ -47,7 +47,7 @@ export type ReactTagsProps = {
   isDisabled?: boolean
   isInvalid?: boolean
   labelText?: string
-  newTagText?: string
+  newOptionText?: string
   noOptionsText?: string
   tagListLabelText?: string
   onAddition: OnAddition
@@ -76,7 +76,7 @@ export function ReactTags({
   isDisabled = false,
   isInvalid = false,
   labelText = 'Select tags',
-  newTagText = 'Add %value%',
+  newOptionText = 'Add %value%',
   noOptionsText = 'No options found for %value%',
   tagListLabelText = 'Selected tags',
   onAddition,
@@ -96,7 +96,7 @@ export function ReactTags({
   const tagListRef = useRef<HTMLUListElement>()
 
   const { newTagOption, noTagsOption } = useInternalOptions({
-    newTagText,
+    newOptionText,
     noOptionsText,
     onValidate,
   })

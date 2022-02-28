@@ -1,12 +1,12 @@
 import { useCallback } from 'react'
 import { ManagerState } from '../reducers'
-import { CreateNewOptionValue } from '../constants'
+import { NewOptionValue } from '../constants'
 import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
 import type { OnAddition, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
 function getNewTag(option: TagSuggestion, value: string): TagSuggestion {
-  if (option?.value === CreateNewOptionValue && option.disabled === false) {
+  if (option?.value === NewOptionValue && option.disabled === false) {
     return { value: null, label: value }
   }
 }

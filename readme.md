@@ -55,7 +55,7 @@ function CountrySelector() {
       suggestions={suggestions}
       onDelete={onDelete}
       onAddition={onAddition}
-      noSuggestionsText="No matching countries"
+      noOptionsText="No matching countries"
     />
   )
 }
@@ -77,8 +77,8 @@ function CountrySelector() {
 - [`isDisabled`](#isDisabled-optional)
 - [`isInvalid`](#isInvalid-optional)
 - [`labelText`](#labelText-optional)
-- [`newTagText`](#newTagText-optional)
-- [`noSuggestionsText`](#noSuggestionsText-optional)
+- [`newOptionText`](#newOptionText-optional)
+- [`noOptionsText`](#noOptionsText-optional)
 - [`onAddition`](#onaddition-required)
 - [`onDelete`](#ondelete-required)
 - [`onInput`](#oninput-optional)
@@ -164,7 +164,7 @@ Marks the input as invalid. Defaults to: `false`.
 
 The label text used to describe the component and input. Defaults to: `"Select tags"`.
 
-#### newTagText (optional)
+#### newOptionText (optional)
 
 The option text shown when the `allowNew` option is enabled. The placeholder `%value%` will be replaced by the current input value. Defaults to `"Add %value%"`.
 

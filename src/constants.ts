@@ -9,9 +9,9 @@ export const KeyNames = {
   DownArrowCompat: 'Down',
 }
 
-export const CreateNewOptionValue = Symbol('Create new tag')
+export const NewOptionValue = Symbol('Create new tag')
 
-export const NoOptionValue = Symbol('No options')
+export const NoOptionsValue = Symbol('No options')
 
 // <https://stackoverflow.com/questions/59939931/stop-dashlane-auto-fill-on-specific-input-fields>
 export const DisableAutoComplete = {
