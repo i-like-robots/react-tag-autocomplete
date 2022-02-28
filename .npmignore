@@ -1,11 +1,15 @@
+.github/
+.husky/
 .vscode/
 
 .editorconfig
+.eslintcache
 .eslintignore
 .eslintrc.js
 .huskyrc.js
 .lintstagedrc.js
 .prettierignore
 .prettierrc.json
-.tsbuildinfo
+*.tsbuildinfo
 tsconfig.json
+vite.config.js
