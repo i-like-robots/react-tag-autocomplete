@@ -18,8 +18,8 @@ export function Option({ index }: OptionProps): JSX.Element {
 
   return (
     <div className={classes.join(' ')} {...optionProps}>
-      {label === '' && typeof value === 'symbol' ? (
-        <InternalOptionText query={manager.state.value} value={value} />
+      {typeof value === 'symbol' ? (
+        <InternalOptionText label={label} query={manager.state.value} />
       ) : (
         <OptionText label={label} query={manager.state.value} />
       )}

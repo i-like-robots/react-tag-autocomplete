@@ -3,6 +3,8 @@ import { CreateNewOptionValue, NoOptionValue } from '../constants'
 import type { OnValidate, TagSuggestion } from '../sharedTypes'
 
 export type InternalOptionsArgs = {
+  newTagText: string
+  noOptionsText: string
   onValidate: OnValidate
 }
 
@@ -11,25 +13,29 @@ export type InternalOptionsValue = {
   noTagsOption: (value: string) => TagSuggestion
 }
 
-export function useInternalOptions({ onValidate }: InternalOptionsArgs): InternalOptionsValue {
+export function useInternalOptions({
+  newTagText,
+  noOptionsText,
+  onValidate,
+}: InternalOptionsArgs): InternalOptionsValue {
   const newTagOption = useCallback(
     (value: string): TagSuggestion => {
       return {
-        disabled: typeof onValidate === 'function' ? !onValidate(value) : false,
-        label: '',
+        disabled: !onValidate?.(value) || false,
+        label: newTagText,
         value: CreateNewOptionValue,
       }
     },
-    [onValidate]
+    [newTagText, onValidate]
   )
 
   const noTagsOption = useCallback((): TagSuggestion => {
     return {
       disabled: true,
-      label: '',
+      label: noOptionsText,
       value: NoOptionValue,
     }
-  }, [])
+  }, [noOptionsText])
 
   return { newTagOption, noTagsOption }
 }

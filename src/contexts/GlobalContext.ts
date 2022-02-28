@@ -11,8 +11,6 @@ export type GlobalContextValue = {
   isInvalid: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement>
   manager: UseManagerState
-  newTagText: string
-  noOptionsText: string
   onInput: OnInput
   onSelect: OnSelect
   rootRef: React.MutableRefObject<HTMLDivElement>

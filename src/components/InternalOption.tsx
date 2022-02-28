@@ -1,20 +1,11 @@
-import React, { useContext } from 'react'
-import { CreateNewOptionValue, NoOptionValue } from '../constants'
-import { GlobalContext } from '../contexts'
+import React from 'react'
 import { replacePlaceholder } from '../lib'
 
 export type InternalOptionTextProps = {
+  label: string
   query: string
-  value: symbol
 }
 
-export function InternalOptionText({ query, value }: InternalOptionTextProps): JSX.Element {
-  const { newTagText, noOptionsText } = useContext(GlobalContext)
-
-  const map = {
-    [CreateNewOptionValue]: newTagText,
-    [NoOptionValue]: noOptionsText,
-  }
-
-  return <span>{replacePlaceholder(map[value], query)}</span>
+export function InternalOptionText({ label, query }: InternalOptionTextProps): JSX.Element {
+  return <span>{replacePlaceholder(label, query)}</span>
 }

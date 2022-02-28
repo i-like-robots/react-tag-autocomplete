@@ -95,7 +95,11 @@ export function ReactTags({
   const rootRef = useRef<HTMLDivElement>()
   const tagListRef = useRef<HTMLUListElement>()
 
-  const { newTagOption, noTagsOption } = useInternalOptions({ onValidate })
+  const { newTagOption, noTagsOption } = useInternalOptions({
+    newTagText,
+    noOptionsText,
+    onValidate,
+  })
 
   const manager = useManager({
     activeIndex: -1,
@@ -124,9 +128,6 @@ export function ReactTags({
         isInvalid,
         listBoxRef,
         manager,
-        // todo: move it
-        newTagText,
-        noOptionsText,
         onInput,
         onSelect,
         rootRef,
