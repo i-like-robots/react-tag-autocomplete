@@ -82,11 +82,13 @@ function CountrySelector() {
 - [`onAddition`](#onaddition-required)
 - [`onDelete`](#ondelete-required)
 - [`onInput`](#oninput-optional)
+- [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
 - [`removeButtonText`](#removeButtontext-optional)
 - [`selected`](#selected-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
+- [`tagListLabelText`](#tagListLabelText-optional)
 
 #### allowBackspace (optional)
 
@@ -208,6 +210,16 @@ function onInput(value) {
 }
 ```
 
+#### onValidate (optional)
+
+Optional callback function called when the input value changes and is used to enable or disable the new option when `allowNew` is true. Receives the new input value and should return a boolean. Example:
+
+```js
+function onValidate(value) {
+  return /^[a-z]{4,12}$/i.test(value)
+}
+```
+
 #### placeholderText (optional)
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.
@@ -251,6 +263,10 @@ function suggestionsFilter(value, suggestions) {
   return matchSorter(suggestions, value, { keys: ['label'] })
 }
 ```
+
+#### tagListLabelText (optional)
+
+The ARIA label text added to the selected tags list. Defaults to `"Selected tags"`.
 
 ## API
 

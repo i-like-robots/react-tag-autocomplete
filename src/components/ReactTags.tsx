@@ -49,7 +49,6 @@ export type ReactTagsProps = {
   labelText?: string
   newOptionText?: string
   noOptionsText?: string
-  tagListLabelText?: string
   onAddition: OnAddition
   onDelete: OnDelete
   onInput?: OnInput
@@ -59,6 +58,7 @@ export type ReactTagsProps = {
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
+  tagListLabelText?: string
 }
 
 export function ReactTags({
@@ -78,7 +78,6 @@ export function ReactTags({
   labelText = 'Select tags',
   newOptionText = 'Add %value%',
   noOptionsText = 'No options found for %value%',
-  tagListLabelText = 'Selected tags',
   onAddition,
   onDelete,
   onInput,
@@ -88,6 +87,7 @@ export function ReactTags({
   selected = [],
   suggestions = [],
   suggestionsTransform = matchSuggestionsPartial,
+  tagListLabelText = 'Selected tags',
 }: ReactTagsProps): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>()
   const inputRef = useRef<HTMLInputElement>()
