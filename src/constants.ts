@@ -7,6 +7,8 @@ export const KeyNames = {
   UpArrowCompat: 'Up',
   DownArrow: 'ArrowDown',
   DownArrowCompat: 'Down',
+  PageDown: 'PageDown',
+  PageUp: 'PageUp',
 }
 
 export const NewOptionValue = Symbol('Create new tag')

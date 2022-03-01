@@ -63,6 +63,26 @@ export function useInput({
     [manager]
   )
 
+  const onPageDownKey = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (manager.state.isExpanded) {
+        e.preventDefault()
+        manager.updateActiveIndex(manager.state.options.length - 1)
+      }
+    },
+    [manager]
+  )
+
+  const onPageUpKey = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (manager.state.isExpanded) {
+        e.preventDefault()
+        manager.updateActiveIndex(0)
+      }
+    },
+    [manager]
+  )
+
   const onEscapeKey = useCallback(() => {
     if (manager.state.isExpanded) {
       manager.clearActiveIndex()
@@ -85,6 +105,8 @@ export function useInput({
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === KeyNames.UpArrow) return onUpArrowKey(e)
       if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
+      if (e.key === KeyNames.PageUp) return onPageUpKey(e)
+      if (e.key === KeyNames.PageDown) return onPageDownKey(e)
       if (e.key === KeyNames.Enter) return onSelectKey(e)
       if (e.key === KeyNames.Escape) return onEscapeKey()
       if (e.key === KeyNames.Backspace && allowBackspace) return onBackspaceKey()
@@ -94,9 +116,11 @@ export function useInput({
       allowBackspace,
       allowTab,
       onBackspaceKey,
-      onSelectKey,
-      onEscapeKey,
       onDownArrowKey,
+      onEscapeKey,
+      onPageDownKey,
+      onPageUpKey,
+      onSelectKey,
       onUpArrowKey,
     ]
   )

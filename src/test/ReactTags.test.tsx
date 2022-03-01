@@ -124,6 +124,17 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-activedescendant')).toMatch(/react-tags-option-1-/)
     })
 
+    it('allows skipping to first and last options with page up and down keys', () => {
+      userEvent.type(harness.input, 'au{arrowdown}{arrowdown}{arrowdown}')
+      expect(harness.activeOption.textContent).toBe('Guinea Bissau')
+
+      userEvent.type(harness.input, '{pagedown}', { skipClick: true })
+      expect(harness.activeOption.textContent).toBe('Saudi Arabia')
+
+      userEvent.type(harness.input, '{pageup}', { skipClick: true })
+      expect(harness.activeOption.textContent).toBe('Australia')
+    })
+
     it('calls the addition callback when an unselected option is active and enter key is pressed', () => {
       userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
