@@ -1,6 +1,6 @@
 {
   "name": "react-tag-autocomplete",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "description": "",
   "module": "dist/ReactTags.es.js",
   "browser": "dist/ReactTags.umd.js",
