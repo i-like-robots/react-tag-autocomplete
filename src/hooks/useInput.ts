@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { DisableAutoComplete, KeyNames, VoidFn } from '../constants'
 import { GlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
@@ -22,87 +22,69 @@ export function useInput({
   const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
     useContext(GlobalContext)
 
-  const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const events = useMemo(() => {
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
       manager.updateValue(value)
       onInput?.(value)
-    },
-    [manager, onInput]
-  )
+    }
 
-  const onSelectKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onSelectKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       e.preventDefault()
       onSelect()
-    },
-    [onSelect]
-  )
+    }
 
-  const onDownArrowKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onDownArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(manager.state.activeIndex + 1)
       } else if (isCaretAtEnd(e.currentTarget)) {
         manager.expand()
       }
-    },
-    [manager]
-  )
+    }
 
-  const onUpArrowKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onUpArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(manager.state.activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
         manager.expand()
       }
-    },
-    [manager]
-  )
+    }
 
-  const onPageDownKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onPageDownKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(manager.state.options.length - 1)
       }
-    },
-    [manager]
-  )
+    }
 
-  const onPageUpKey = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onPageUpKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(0)
       }
-    },
-    [manager]
-  )
-
-  const onEscapeKey = useCallback(() => {
-    if (manager.state.isExpanded) {
-      manager.clearActiveIndex()
-      manager.collapse()
-    } else {
-      manager.clearValue()
     }
-  }, [manager])
 
-  const onBackspaceKey = useCallback(() => {
-    const isEmpty = manager.state.value === ''
-    const lastTag = manager.state.selected[manager.state.selected.length - 1]
-
-    if (isEmpty && lastTag) {
-      onSelect(lastTag)
+    const onEscapeKey = () => {
+      if (manager.state.isExpanded) {
+        manager.clearActiveIndex()
+        manager.collapse()
+      } else {
+        manager.clearValue()
+      }
     }
-  }, [manager, onSelect])
 
-  const onKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const onBackspaceKey = () => {
+      const isEmpty = manager.state.value === ''
+      const lastTag = manager.state.selected[manager.state.selected.length - 1]
+
+      if (isEmpty && lastTag) {
+        onSelect(lastTag)
+      }
+    }
+
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key === KeyNames.UpArrow) return onUpArrowKey(e)
       if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
       if (e.key === KeyNames.PageUp) return onPageUpKey(e)
@@ -111,19 +93,10 @@ export function useInput({
       if (e.key === KeyNames.Escape) return onEscapeKey()
       if (e.key === KeyNames.Backspace && allowBackspace) return onBackspaceKey()
       if (e.key === KeyNames.Tab && allowTab) return onSelectKey(e)
-    },
-    [
-      allowBackspace,
-      allowTab,
-      onBackspaceKey,
-      onDownArrowKey,
-      onEscapeKey,
-      onPageDownKey,
-      onPageUpKey,
-      onSelectKey,
-      onUpArrowKey,
-    ]
-  )
+    }
+
+    return { onChange, onKeyDown }
+  }, [allowBackspace, allowTab, manager, onInput, onSelect])
 
   const { activeOption, isExpanded, value } = manager.state
 
@@ -139,8 +112,8 @@ export function useInput({
     'aria-expanded': isExpanded,
     'aria-owns': listBoxId(id),
     id: inputId(id),
-    onChange: isDisabled ? VoidFn : onChange,
-    onKeyDown: isDisabled ? VoidFn : onKeyDown,
+    onChange: isDisabled ? VoidFn : events.onChange,
+    onKeyDown: isDisabled ? VoidFn : events.onKeyDown,
     ref: inputRef,
     role: 'combobox',
     type: 'text',

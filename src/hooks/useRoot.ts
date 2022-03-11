@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { GlobalContext } from '../contexts'
 import { labelId, rootId } from '../lib'
 
@@ -12,31 +12,31 @@ export function useRoot(): UseRootState {
 
   const { id, inputRef, rootRef } = useContext(GlobalContext)
 
-  const onFocus = useCallback(() => setIsActive(true), [])
-
-  const onBlur = useCallback(() => {
-    if (!rootRef.current?.contains(document.activeElement)) {
-      setIsActive(false)
+  const rootProps = useMemo(() => {
+    return {
+      'aria-describedby': labelId(id),
+      id: rootId(id),
+      onFocus() {
+        setIsActive(true)
+      },
+      onBlur() {
+        if (!rootRef.current?.contains(document.activeElement)) {
+          setIsActive(false)
+        }
+      },
+      onClick() {
+        // Ensures that clicking on any non-interactive part of the component will focus the input
+        if (document.activeElement === rootRef.current) {
+          inputRef.current?.focus()
+        }
+      },
+      ref: rootRef,
+      tabIndex: -1,
     }
-  }, [rootRef])
-
-  // Ensures that clicking on any non-interactive part of the component will focus the input
-  const onClick = useCallback(() => {
-    if (document.activeElement === rootRef.current) {
-      inputRef.current?.focus()
-    }
-  }, [inputRef, rootRef])
+  }, [inputRef, id, rootRef])
 
   return {
     isActive,
-    rootProps: {
-      'aria-describedby': labelId(id),
-      id: rootId(id),
-      onBlur,
-      onClick,
-      onFocus,
-      ref: rootRef,
-      tabIndex: -1,
-    },
+    rootProps,
   }
 }
