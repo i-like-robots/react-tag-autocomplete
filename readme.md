@@ -4,9 +4,9 @@
 
 React Tag Autocomplete is a simple, accessible, tagging component ready to drop into your React projects. [View example](http://i-like-robots.github.io/react-tag-autocomplete/).
 
-<center>
+<p align="center">
   <img width="765" alt="Screenshot showing React Tag Autocomplete used as a country selector" src="https://user-images.githubusercontent.com/271645/150850388-d75bba59-0642-4722-a56f-6c8ae22c9814.png">
-</center>
+</p>
 
 _Please note:_ This repository is for version 7 of the component which is under development. To view the current stable version of React Tag Autocomplete see the [old repository](https://github.com/i-like-robots/react-tags).
 
