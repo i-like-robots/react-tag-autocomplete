@@ -15,10 +15,10 @@ const VisuallyHiddenStyles: React.CSSProperties = {
 
 export type AnnouncementsProps = {
   ariaAddedText: string
-  ariaRemovedText: string
+  ariaDeletedText: string
 }
 
-export function Announcements({ ariaAddedText, ariaRemovedText }: AnnouncementsProps): JSX.Element {
+export function Announcements({ ariaAddedText, ariaDeletedText }: AnnouncementsProps): JSX.Element {
   const { manager } = useContext(GlobalContext)
   const { selected } = manager.state
 
@@ -35,7 +35,7 @@ export function Announcements({ ariaAddedText, ariaRemovedText }: AnnouncementsP
 
   prevSelected.forEach((tag) => {
     if (!selected.includes(tag)) {
-      logsRef.current.push(replacePlaceholder(ariaRemovedText, tag.label))
+      logsRef.current.push(replacePlaceholder(ariaDeletedText, tag.label))
     }
   })
 

@@ -68,9 +68,9 @@ function CountrySelector() {
 - [`allowResize`](#allowResize-optional)
 - [`allowTab`](#allowTab-optional)
 - [`ariaAddedText`](#ariaAddedText-optional)
+- [`ariaDeletedText`](#ariaDeletedText-optional)
 - [`ariaDescribedBy`](#ariaDescribedBy-optional)
 - [`ariaErrorMessage`](#ariaErrorMessage-optional)
-- [`ariaRemovedText`](#ariaRemovedText-optional)
 - [`classNames`](#classNames-optional)
 - [`closeOnSelect`](#closeOnSelect-optional)
 - [`id`](#id-optional)
@@ -110,17 +110,19 @@ Enable users to trigger tag selection when the tab key is pressed. Defaults to `
 
 The status text announced when a selected tag is added. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Added tag %value%"`.
 
+#### ariaDeletedText (optional)
+
+References an element by ID which contains the error message for the input when the component is marked as invalid. Defaults to `""`.
+
+The status text announced when a selected tag is removed. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Removed tag %value%"`.
+
 #### ariaDescribedBy (optional)
 
 References elements by ID which contain more information about the component. Defaults to `""`.
 
 #### ariaErrorMessage (optional)
 
-References an element by ID which contains the error message for the input when the component is marked as invalid. Defaults to `""`.
-
-#### ariaRemovedText (optional)
-
-The status text announced when a selected tag is removed. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Removed tag %value%"`.
+TODO
 
 #### classNames (optional)
 

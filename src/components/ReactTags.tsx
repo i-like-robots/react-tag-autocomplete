@@ -40,7 +40,7 @@ export type ReactTagsProps = {
   ariaAddedText?: string
   ariaDescribedBy?: string
   ariaErrorMessage?: string
-  ariaRemovedText?: string
+  ariaDeletedText?: string
   classNames?: ClassNames
   closeOnSelect?: boolean
   id?: string
@@ -69,7 +69,7 @@ export function ReactTags({
   ariaAddedText = 'Added tag %value%',
   ariaDescribedBy,
   ariaErrorMessage,
-  ariaRemovedText = 'Removed tag %value%',
+  ariaDeletedText = 'Removed tag %value%',
   classNames = DefaultClassNames,
   closeOnSelect = false,
   id = 'react-tags',
@@ -156,7 +156,7 @@ export function ReactTags({
             ))}
           </ListBox>
         </ComboBox>
-        <Announcements ariaAddedText={ariaAddedText} ariaRemovedText={ariaRemovedText} />
+        <Announcements ariaAddedText={ariaAddedText} ariaDeletedText={ariaDeletedText} />
       </Root>
     </GlobalContext.Provider>
   )
