@@ -5,7 +5,7 @@ import { useInternalOptions, useManager, useOnSelect } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type {
   ClassNames,
-  OnAddition,
+  OnAdd,
   OnDelete,
   OnInput,
   OnValidate,
@@ -49,7 +49,7 @@ export type ReactTagsProps = {
   labelText?: string
   newOptionText?: string
   noOptionsText?: string
-  onAddition: OnAddition
+  onAdd: OnAdd
   onDelete: OnDelete
   onInput?: OnInput
   onValidate?: OnValidate
@@ -78,7 +78,7 @@ export function ReactTags({
   labelText = 'Select tags',
   newOptionText = 'Add %value%',
   noOptionsText = 'No options found for %value%',
-  onAddition,
+  onAdd,
   onDelete,
   onInput,
   onValidate,
@@ -115,7 +115,7 @@ export function ReactTags({
     value: '',
   })
 
-  const onSelect = useOnSelect({ closeOnSelect, manager, onAddition, onDelete })
+  const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
 
   return (
     <GlobalContext.Provider

@@ -18,16 +18,16 @@ function CountrySelector() {
     isInvalid: false,
   })
 
-  const onDelete = useCallback(
-    (index) => {
-      setSelected(selected.filter((_, i) => i !== index))
+  const onAdd = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
     },
     [selected]
   )
 
-  const onAddition = useCallback(
-    (newTag) => {
-      setSelected([...selected, newTag])
+  const onDelete = useCallback(
+    (index) => {
+      setSelected(selected.filter((_, i) => i !== index))
     },
     [selected]
   )
@@ -45,8 +45,8 @@ function CountrySelector() {
       <ReactTags
         id="demo-1"
         labelText="Select countries"
+        onAdd={onAdd}
         onDelete={onDelete}
-        onAddition={onAddition}
         selected={selected}
         suggestions={suggestions}
         {...options}
@@ -122,16 +122,16 @@ function isValid(value) {
 function CustomTags() {
   const [selected, setSelected] = useState([])
 
-  const onDelete = useCallback(
-    (tagIndex) => {
-      setSelected(selected.filter((_, i) => i !== tagIndex))
+  const onAdd = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
     },
     [selected]
   )
 
-  const onAddition = useCallback(
-    (newTag) => {
-      setSelected([...selected, newTag])
+  const onDelete = useCallback(
+    (tagIndex) => {
+      setSelected(selected.filter((_, i) => i !== tagIndex))
     },
     [selected]
   )
@@ -147,7 +147,7 @@ function CustomTags() {
         closeOnSelect
         id="demo-2"
         labelText="Enter new tags"
-        onAddition={onAddition}
+        onAdd={onAdd}
         onDelete={onDelete}
         onValidate={onValidate}
         selected={selected}
@@ -169,16 +169,16 @@ ReactDOM.render(<CustomTags />, document.getElementById('demo-2'))
 function CustomValidity() {
   const [selected, setSelected] = useState([])
 
-  const onDelete = useCallback(
-    (index) => {
-      setSelected(selected.filter((_, i) => i !== index))
+  const onAdd = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
     },
     [selected]
   )
 
-  const onAddition = useCallback(
-    (newTag) => {
-      setSelected([...selected, newTag])
+  const onDelete = useCallback(
+    (index) => {
+      setSelected(selected.filter((_, i) => i !== index))
     },
     [selected]
   )
@@ -197,7 +197,7 @@ function CustomValidity() {
         isInvalid={selected.length !== length}
         labelText="Select countries"
         onDelete={onDelete}
-        onAddition={onAddition}
+        onAdd={onAdd}
         selected={selected}
         suggestions={suggestions}
       />
@@ -263,16 +263,16 @@ function AsyncSuggestions() {
     suggestions: [],
   })
 
-  const onDelete = useCallback(
-    (index) => {
-      setState({ ...state, selected: state.selected.filter((_, i) => i !== index) })
+  const onAdd = useCallback(
+    (newTag) => {
+      setState({ ...state, selected: [...state.selected, newTag], suggestions: [] })
     },
     [state]
   )
 
-  const onAddition = useCallback(
-    (newTag) => {
-      setState({ ...state, selected: [...state.selected, newTag], suggestions: [] })
+  const onDelete = useCallback(
+    (index) => {
+      setState({ ...state, selected: state.selected.filter((_, i) => i !== index) })
     },
     [state]
   )
@@ -308,7 +308,7 @@ function AsyncSuggestions() {
         id="demo-4"
         labelText="Select breweries"
         noOptionsText={noOptionsText}
-        onAddition={onAddition}
+        onAdd={onAdd}
         onDelete={onDelete}
         onInput={onInput}
         placeholderText="Start typing..."

@@ -34,16 +34,16 @@ import { suggestions } from './country-list'
 function CountrySelector() {
   const [selected, setSelected] = useState([])
 
-  const onDelete = useCallback(
-    (tagIndex) => {
-      setSelected(selected.filter((_, i) => i !== tagIndex))
+  const onAdd = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
     },
     [selected]
   )
 
-  const onAddition = useCallback(
-    (newTag) => {
-      setSelected([...selected, newTag])
+  const onDelete = useCallback(
+    (tagIndex) => {
+      setSelected(selected.filter((_, i) => i !== tagIndex))
     },
     [selected]
   )
@@ -53,8 +53,8 @@ function CountrySelector() {
       labelText="Select countries"
       selected={selected}
       suggestions={suggestions}
+      onAdd={onAdd}
       onDelete={onDelete}
-      onAddition={onAddition}
       noOptionsText="No matching countries"
     />
   )
@@ -79,7 +79,7 @@ function CountrySelector() {
 - [`labelText`](#labelText-optional)
 - [`newOptionText`](#newOptionText-optional)
 - [`noOptionsText`](#noOptionsText-optional)
-- [`onAddition`](#onaddition-required)
+- [`onAdd`](#onadd-required)
 - [`onDelete`](#ondelete-required)
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
@@ -174,14 +174,14 @@ The option text shown when the `allowNew` option is enabled. The placeholder `%v
 
 The option text shown when there are no matching suggestions. The placeholder `%value%` will be replaced by the current input value. Defaults to `"No options found for %value%"`.
 
-#### onAddition (required)
+#### onAdd (required)
 
-Callback function called when the user attempts to select a tag. Receives the tag. Example:
+Callback function called when the user wants to select a tag. Receives the tag. Example:
 
 ```js
 const [selected, setSelected] = useState([])
 
-function onAddition(newTag) {
+function onAdd(newTag) {
   setSelected([...selected, newTag])
 }
 ```

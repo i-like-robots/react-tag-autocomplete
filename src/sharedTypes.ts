@@ -38,7 +38,7 @@ export type TagOption = Tag & TagMetaProps & TagInternalProps
 // TODO: delete
 export type TagSelected = Tag
 
-export type OnAddition = (tag: Tag) => void
+export type OnAdd = (tag: Tag) => void
 
 export type OnDelete = (index: number) => void
 

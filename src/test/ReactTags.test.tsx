@@ -138,7 +138,7 @@ describe('React Tags Autocomplete', () => {
     it('calls the addition callback when an unselected option is active and enter key is pressed', () => {
       userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
-      expect(harness.props.onAddition).toHaveBeenCalledWith({
+      expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 10,
         label: 'Australia',
       })
@@ -157,13 +157,13 @@ describe('React Tags Autocomplete', () => {
       harness.rerender({ suggestions: newSuggestions })
 
       userEvent.type(harness.input, 'aus{arrowdown}{enter}')
-      expect(harness.props.onAddition).not.toHaveBeenCalled()
+      expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
 
     it('calls the addition callback when the input value matches an option and enter key is pressed', () => {
       userEvent.type(harness.input, 'france{enter}')
 
-      expect(harness.props.onAddition).toHaveBeenCalledWith({
+      expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 63,
         label: 'France',
       })
@@ -174,7 +174,7 @@ describe('React Tags Autocomplete', () => {
 
       userEvent.type(harness.input, 'aus{arrowdown}{Tab}')
 
-      expect(harness.props.onAddition).toHaveBeenCalledWith({
+      expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 10,
         label: 'Australia',
       })
@@ -430,7 +430,7 @@ describe('React Tags Autocomplete', () => {
       userEvent.type(harness.input, 'aus')
       userEvent.click(harness.options[0])
 
-      expect(harness.props.onAddition).toHaveBeenCalledWith({
+      expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 10,
         label: 'Australia',
       })
@@ -452,7 +452,7 @@ describe('React Tags Autocomplete', () => {
       harness.listBoxExpand()
 
       userEvent.click(harness.options[10])
-      expect(harness.props.onAddition).not.toHaveBeenCalled()
+      expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
 
     it('always moves the cursor focus back to the input', () => {
@@ -547,7 +547,7 @@ describe('React Tags Autocomplete', () => {
 
     it('does not respond to enter key presses', () => {
       userEvent.type(harness.input, '{enter}')
-      expect(harness.props.onAddition).not.toHaveBeenCalledWith()
+      expect(harness.props.onAdd).not.toHaveBeenCalledWith()
       expect(harness.props.onDelete).not.toHaveBeenCalledWith()
     })
   })
@@ -659,23 +659,23 @@ describe('React Tags Autocomplete', () => {
       expect(option.getAttribute('aria-disabled')).toBe('true')
     })
 
-    it('calls onAddition with new tag when selected', () => {
+    it('calls onAdd with new tag when selected', () => {
       userEvent.type(harness.input, 'boop{enter}')
-      expect(harness.props.onAddition).not.toHaveBeenCalled()
+      expect(harness.props.onAdd).not.toHaveBeenCalled()
 
       userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
-      expect(harness.props.onAddition).toHaveBeenCalledWith({ label: 'boop', value: null })
+      expect(harness.props.onAdd).toHaveBeenCalledWith({ label: 'boop', value: null })
     })
 
-    it('does not call the onAddition with new tag when selected and onValidate returns false', () => {
+    it('does not call the onAdd with new tag when selected and onValidate returns false', () => {
       const callback = harness.props.onValidate as MockedOnValidate
       callback.mockReturnValue(false)
 
       userEvent.type(harness.input, 'boop{enter}')
-      expect(harness.props.onAddition).not.toHaveBeenCalled()
+      expect(harness.props.onAdd).not.toHaveBeenCalled()
 
       userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
-      expect(harness.props.onAddition).not.toHaveBeenCalled()
+      expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
   })
 

@@ -3,7 +3,7 @@ import { ManagerState } from '../reducers'
 import { NewOptionValue } from '../constants'
 import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
-import type { OnAddition, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
+import type { OnAdd, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
 function getNewTag(option: TagSuggestion, value: string): TagSuggestion {
   if (option?.value === NewOptionValue && option.disabled === false) {
@@ -23,14 +23,14 @@ function findSelectedTag(state: ManagerState): TagSuggestion {
 export type UseOnSelectArgs = {
   closeOnSelect: boolean
   manager: UseManagerState
-  onAddition: OnAddition
+  onAdd: OnAdd
   onDelete: OnDelete
 }
 
 export function useOnSelect({
   closeOnSelect,
   manager,
-  onAddition,
+  onAdd,
   onDelete,
 }: UseOnSelectArgs): OnSelect {
   return useCallback(
@@ -44,7 +44,7 @@ export function useOnSelect({
       if (tagIndex >= 0) {
         onDelete(tagIndex)
       } else {
-        onAddition(tag)
+        onAdd(tag)
 
         if (closeOnSelect) {
           manager.clearAll()
@@ -53,6 +53,6 @@ export function useOnSelect({
         }
       }
     },
-    [closeOnSelect, manager, onDelete, onAddition]
+    [closeOnSelect, manager, onDelete, onAdd]
   )
 }
