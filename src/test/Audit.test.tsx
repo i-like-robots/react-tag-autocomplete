@@ -43,13 +43,13 @@ describe('Axe a11y audit', () => {
     runAxeTest(harness.result.container, done)
   })
 
-  it('has no basic accessibility issues when listbox is expanded', (done) => {
+  it('has no basic accessibility issues when listbox is expanded', async (done) => {
     const harness = new Harness({
       selected: [suggestions[10], suggestions[100]],
       suggestions,
     })
 
-    userEvent.type(harness.input, 'United')
+    await userEvent.type(harness.input, 'United')
 
     runAxeTest(harness.result.container, done)
   })

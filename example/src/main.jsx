@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { ReactTags } from '../../src'
 import { suggestions } from './countries'
 
@@ -109,7 +109,8 @@ function CountrySelector() {
   )
 }
 
-ReactDOM.render(<CountrySelector />, document.getElementById('demo-1'))
+const container1 = ReactDOM.createRoot(document.getElementById('demo-1'))
+container1.render(<CountrySelector />)
 
 /**
  * Demo 2 - custom tags
@@ -160,7 +161,8 @@ function CustomTags() {
   )
 }
 
-ReactDOM.render(<CustomTags />, document.getElementById('demo-2'))
+const container2 = ReactDOM.createRoot(document.getElementById('demo-2'))
+container2.render(<CustomTags />)
 
 /**
  * Demo 3 - custom validity
@@ -215,7 +217,8 @@ function CustomValidity() {
   )
 }
 
-ReactDOM.render(<CustomValidity />, document.getElementById('demo-3'))
+const container3 = ReactDOM.createRoot(document.getElementById('demo-3'))
+container3.render(<CustomValidity />)
 
 /**
  * Demo 4 - async suggestions
@@ -322,4 +325,5 @@ function AsyncSuggestions() {
   )
 }
 
-ReactDOM.render(<AsyncSuggestions />, document.getElementById('demo-4'))
+const container4 = ReactDOM.createRoot(document.getElementById('demo-4'))
+container4.render(<AsyncSuggestions />)

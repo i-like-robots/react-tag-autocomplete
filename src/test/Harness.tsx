@@ -7,6 +7,8 @@ import type { MockedFunction } from 'vitest'
 import type { RenderResult } from '@testing-library/react'
 import type { OnAdd, OnDelete, OnInput, OnValidate } from '../sharedTypes'
 
+global.IS_REACT_ACT_ENVIRONMENT = true
+
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
 window.HTMLElement.prototype.scrollTo = vi.fn(() => null)
@@ -94,11 +96,11 @@ export class Harness {
     return this.input.getAttribute('aria-expanded') === 'false'
   }
 
-  listBoxExpand(): void {
+  async listBoxExpand(): Promise<void> {
     if (this.isCollapsed()) fireEvent.focus(this.input)
   }
 
-  listBoxCollapse(): void {
+  async listBoxCollapse(): Promise<void> {
     if (this.isExpanded()) fireEvent.blur(this.input)
   }
 

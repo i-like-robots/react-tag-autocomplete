@@ -57,11 +57,11 @@ describe('React Tags Autocomplete', () => {
       expect(harness.selectedTags.length).toBe(tags.length)
     })
 
-    it('calls the onDelete() callback with selected tag index when clicked', () => {
-      userEvent.click(harness.selectedTags[0])
+    it('calls the onDelete() callback with selected tag index when clicked', async () => {
+      await userEvent.click(harness.selectedTags[0])
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
 
-      userEvent.click(harness.selectedTags[1])
+      await userEvent.click(harness.selectedTags[1])
       expect(harness.props.onDelete).toHaveBeenCalledWith(1)
     })
 
@@ -96,8 +96,8 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('data-form-type')).toBe('other')
     })
 
-    it('allows inputting a value', () => {
-      userEvent.type(harness.input, 'United')
+    it('allows inputting a value', async () => {
+      await userEvent.type(harness.input, 'United')
       expect(harness.input.value).toBe('United')
     })
 
@@ -113,30 +113,30 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-owns')).toBe('react-tags-listbox')
     })
 
-    it('associates the input with the active list box option', () => {
+    it('associates the input with the active list box option', async () => {
       harness.listBoxExpand()
       expect(harness.input.getAttribute('aria-activedescendant')).toBeNull()
 
-      userEvent.type(harness.input, '{arrowdown}')
+      await userEvent.type(harness.input, '{arrowdown}')
       expect(harness.input.getAttribute('aria-activedescendant')).toMatch(/react-tags-option-0-/)
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.input.getAttribute('aria-activedescendant')).toMatch(/react-tags-option-1-/)
     })
 
-    it('allows skipping to first and last options with page up and down keys', () => {
-      userEvent.type(harness.input, 'au{arrowdown}{arrowdown}{arrowdown}')
+    it('allows skipping to first and last options with page up and down keys', async () => {
+      await userEvent.type(harness.input, 'au{arrowdown}{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('Guinea Bissau')
 
-      userEvent.type(harness.input, '{pagedown}', { skipClick: true })
+      await userEvent.type(harness.input, '{pagedown}', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('Saudi Arabia')
 
-      userEvent.type(harness.input, '{pageup}', { skipClick: true })
+      await userEvent.type(harness.input, '{pageup}', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('Australia')
     })
 
-    it('calls the addition callback when an unselected option is active and enter key is pressed', () => {
-      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
+    it('calls the addition callback when an unselected option is active and enter key is pressed', async () => {
+      await userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
       expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 10,
@@ -144,24 +144,24 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('calls the delete callback when a selected option is active and enter key is pressed', () => {
+    it('calls the delete callback when a selected option is active and enter key is pressed', async () => {
       harness.rerender({ selected: [{ ...suggestions[10] }] })
 
-      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
+      await userEvent.type(harness.input, 'aus{arrowdown}{enter}')
 
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
     })
 
-    it('does not call any callbacks when the active option is disabled and enter key is pressed', () => {
+    it('does not call any callbacks when the active option is disabled and enter key is pressed', async () => {
       const newSuggestions = suggestions.map((item) => ({ ...item, disabled: true }))
       harness.rerender({ suggestions: newSuggestions })
 
-      userEvent.type(harness.input, 'aus{arrowdown}{enter}')
+      await userEvent.type(harness.input, 'aus{arrowdown}{enter}')
       expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
 
-    it('calls the addition callback when the input value matches an option and enter key is pressed', () => {
-      userEvent.type(harness.input, 'france{enter}')
+    it('calls the addition callback when the input value matches an option and enter key is pressed', async () => {
+      await userEvent.type(harness.input, 'france{enter}')
 
       expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 63,
@@ -169,10 +169,10 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('triggers tag selection when the tab is pressed and allowTab is true', () => {
+    it('triggers tag selection when the tab is pressed and allowTab is true', async () => {
       harness.rerender({ allowTab: true })
 
-      userEvent.type(harness.input, 'aus{arrowdown}{Tab}')
+      await userEvent.type(harness.input, 'aus{arrowdown}{Tab}')
 
       expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 10,
@@ -180,86 +180,86 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('clears the value after an option is selected', () => {
-      userEvent.type(harness.input, 'france{enter}')
+    it('clears the value after an option is selected', async () => {
+      await userEvent.type(harness.input, 'france{enter}')
       expect(harness.input.value).toBe('')
     })
 
-    it('calls the delete callback when backspace is pressed whilst empty and allowBackspace is true', () => {
+    it('calls the delete callback when backspace is pressed whilst empty and allowBackspace is true', async () => {
       const callback = harness.props.onDelete as MockedOnDelete
 
-      userEvent.type(harness.input, '{backspace}')
+      await userEvent.type(harness.input, '{backspace}')
       expect(callback).not.toHaveBeenCalled()
 
       harness.rerender({ selected: [{ ...suggestions[10] }] })
 
-      userEvent.type(harness.input, '{backspace}', { skipClick: true })
+      await userEvent.type(harness.input, '{backspace}', { skipClick: true })
       expect(callback).toHaveBeenCalledWith(0)
     })
 
-    it('does not call the delete callback when backspace is pressed whilst empty and allowBackspace is false', () => {
+    it('does not call the delete callback when backspace is pressed whilst empty and allowBackspace is false', async () => {
       const callback = harness.props.onDelete as MockedOnDelete
 
       harness.rerender({ allowBackspace: false, selected: [{ ...suggestions[10] }] })
 
-      userEvent.type(harness.input, '{backspace}')
+      await userEvent.type(harness.input, '{backspace}')
       expect(callback).not.toHaveBeenCalled()
     })
 
-    it('calls the input callback on each change', () => {
+    it('calls the input callback on each change', async () => {
       const callback = harness.props.onInput as MockedOnInput
 
-      userEvent.type(harness.input, '{esc}{arrowup}{arrowdown}')
+      await userEvent.type(harness.input, '{Escape}{arrowup}{arrowdown}')
       expect(callback).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, 'fra', { skipClick: true })
+      await userEvent.type(harness.input, 'fra', { skipClick: true })
       expect(callback).toHaveBeenNthCalledWith(1, 'f')
       expect(callback).toHaveBeenNthCalledWith(2, 'fr')
       expect(callback).toHaveBeenNthCalledWith(3, 'fra')
     })
 
-    it('collapses the listbox if open when the escape key is pressed', () => {
-      fireEvent.focus(harness.input)
+    it('collapses the listbox if open when the escape key is pressed', async () => {
+      await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}')
+      await userEvent.type(harness.input, '{Escape}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
     })
 
-    it('clears the input value when the listbox is closed when the escape key is pressed', () => {
-      userEvent.type(harness.input, 'uni{esc}')
+    it('clears the input value when the listbox is closed when the escape key is pressed', async () => {
+      await userEvent.type(harness.input, 'uni{Escape}')
       expect(harness.input.value).toBe('uni')
 
-      userEvent.type(harness.input, '{esc}', { skipClick: true })
+      await userEvent.type(harness.input, '{Escape}', { skipClick: true })
       expect(harness.input.value).toBe('')
     })
 
-    it('expands the listbox on change', () => {
-      userEvent.type(harness.input, '{esc}')
+    it('expands the listbox on change', async () => {
+      await userEvent.type(harness.input, '{Escape}')
       expect(harness.isExpanded()).toBe(false)
 
-      userEvent.type(harness.input, 'uni', { skipClick: true })
+      await userEvent.type(harness.input, 'uni', { skipClick: true })
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('expands the listbox when the input is clicked', () => {
-      userEvent.type(harness.input, '{esc}')
+    it('expands the listbox when the input is clicked', async () => {
+      await userEvent.type(harness.input, '{Escape}')
       expect(harness.isExpanded()).toBe(false)
 
       fireEvent.click(harness.input)
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('expands the list box when the cursor is at the start and up key is pressed', () => {
-      userEvent.type(harness.input, 'uni')
+    it('expands the list box when the cursor is at the start and up key is pressed', async () => {
+      await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}', { skipClick: true })
+      await userEvent.type(harness.input, '{Escape}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
       harness.input.setSelectionRange(0, 0)
 
-      userEvent.type(harness.input, '{arrowup}', {
+      await userEvent.type(harness.input, '{arrowup}', {
         initialSelectionStart: 0,
         initialSelectionEnd: 0,
         skipClick: true,
@@ -268,30 +268,30 @@ describe('React Tags Autocomplete', () => {
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('expands the list box when the cursor is at the end and down key is pressed', () => {
-      userEvent.type(harness.input, 'uni')
+    it('expands the list box when the cursor is at the end and down key is pressed', async () => {
+      await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}', { skipClick: true })
+      await userEvent.type(harness.input, '{Escape}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('does not expand the list box when text is selected and up/down key is pressed', () => {
-      userEvent.type(harness.input, 'uni')
+    it('does not expand the list box when text is selected and up/down key is pressed', async () => {
+      await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
-      userEvent.type(harness.input, '{esc}', { skipClick: true })
+      await userEvent.type(harness.input, '{Escape}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
       harness.input.setSelectionRange(0, 3)
 
-      userEvent.type(harness.input, '{arrowup}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowup}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
     })
   })
@@ -315,18 +315,18 @@ describe('React Tags Autocomplete', () => {
       expect(harness.sizer.textContent).toBe(harness.input.placeholder)
     })
 
-    it('copies the input placeholder when longer than the value', () => {
-      userEvent.type(harness.input, 'aus')
+    it('copies the input placeholder when longer than the value', async () => {
+      await userEvent.type(harness.input, 'aus')
       expect(harness.sizer.textContent).toBe(harness.input.placeholder)
     })
 
-    it('copies the input value when longer than the placeholder', () => {
-      userEvent.type(harness.input, 'antigua & barbuda')
+    it('copies the input value when longer than the placeholder', async () => {
+      await userEvent.type(harness.input, 'antigua & barbuda')
       expect(harness.sizer.textContent).toBe(harness.input.value)
     })
 
-    it('sets the input width', () => {
-      userEvent.type(harness.input, 'aus')
+    it('sets the input width', async () => {
+      await userEvent.type(harness.input, 'aus')
       expect(harness.input.style.width).toMatch(/^[0-9]+px$/)
     })
   })
@@ -349,8 +349,8 @@ describe('React Tags Autocomplete', () => {
       expect(screen.queryAllByRole('option').length).toBe(suggestions.length)
     })
 
-    it('filters suggestions to those that match the input value', () => {
-      userEvent.type(harness.input, 'uni')
+    it('filters suggestions to those that match the input value', async () => {
+      await userEvent.type(harness.input, 'uni')
 
       const options = screen.queryAllByRole('option')
 
@@ -361,8 +361,8 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('highlights the text matching the input value in each option', () => {
-      userEvent.type(harness.input, 'uni')
+    it('highlights the text matching the input value in each option', async () => {
+      await userEvent.type(harness.input, 'uni')
 
       const options = screen.queryAllByRole('option')
 
@@ -371,64 +371,64 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('allows the active option to wrap', () => {
-      userEvent.type(harness.input, 'aus')
+    it('allows the active option to wrap', async () => {
+      await userEvent.type(harness.input, 'aus')
 
       const [option1, option2] = harness.options
 
       expect(harness.activeOption).toBeNull()
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option1)
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option2)
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBeNull()
 
-      userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option1)
     })
 
-    it('maintains the active option when still available after typing', () => {
-      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+    it('maintains the active option when still available after typing', async () => {
+      await userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, 'n', { skipClick: true })
+      await userEvent.type(harness.input, 'n', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, '{backspace}', { skipClick: true })
+      await userEvent.type(harness.input, '{backspace}', { skipClick: true })
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
     })
 
-    it('resets the active option when no longer available after typing', () => {
-      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+    it('resets the active option when no longer available after typing', async () => {
+      await userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
-      userEvent.type(harness.input, 'b', { skipClick: true })
+      await userEvent.type(harness.input, 'b', { skipClick: true })
       expect(harness.activeOption).toBeNull()
     })
 
-    it('sets the active option on mousedown', () => {
-      userEvent.type(harness.input, 'aus')
+    it('sets the active option on mousedown', async () => {
+      await userEvent.type(harness.input, 'aus')
       expect(harness.activeOption).toBeNull()
 
       fireEvent.mouseDown(harness.options[0])
       expect(harness.activeOption).toBe(harness.options[0])
     })
 
-    it('resets the active option when collapsed', () => {
-      userEvent.type(harness.input, 'aus{arrowdown}')
+    it('resets the active option when collapsed', async () => {
+      await userEvent.type(harness.input, 'aus{arrowdown}')
       expect(harness.activeOption.textContent).toBe('Australia')
 
-      userEvent.type(harness.input, '{esc}{arrowdown}', { skipClick: true })
+      await userEvent.type(harness.input, '{Escape}{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBeNull()
     })
 
-    it('calls the addition callback when an unselected option is clicked', () => {
-      userEvent.type(harness.input, 'aus')
-      userEvent.click(harness.options[0])
+    it('calls the addition callback when an unselected option is clicked', async () => {
+      await userEvent.type(harness.input, 'aus')
+      await userEvent.click(harness.options[0])
 
       expect(harness.props.onAdd).toHaveBeenCalledWith({
         value: 10,
@@ -436,54 +436,54 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('calls the delete callback when a selected option is clicked', () => {
+    it('calls the delete callback when a selected option is clicked', async () => {
       harness.rerender({ selected: [{ ...suggestions[10] }] })
 
       harness.listBoxExpand()
 
-      userEvent.click(harness.options[10])
+      await userEvent.click(harness.options[10])
       expect(harness.props.onDelete).toHaveBeenCalledWith(0)
     })
 
-    it('ignores clicks on disabled options', () => {
+    it('ignores clicks on disabled options', async () => {
       const newSuggestions = suggestions.map((item) => ({ ...item, disabled: true }))
       harness.rerender({ suggestions: newSuggestions })
 
       harness.listBoxExpand()
 
-      userEvent.click(harness.options[10])
+      await userEvent.click(harness.options[10])
       expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
 
-    it('always moves the cursor focus back to the input', () => {
-      userEvent.type(harness.input, 'aus')
-      userEvent.click(harness.options[0])
+    it('always moves the cursor focus back to the input', async () => {
+      await userEvent.type(harness.input, 'aus')
+      await userEvent.click(harness.options[0])
 
       expect(document.activeElement).toBe(harness.input)
     })
 
-    it('remains open when an option is selected and closeOnSelect is disabled', () => {
-      userEvent.type(harness.input, 'aus')
-      userEvent.click(harness.options[0])
+    it('remains open when an option is selected and closeOnSelect is disabled', async () => {
+      await userEvent.type(harness.input, 'aus')
+      await userEvent.click(harness.options[0])
 
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('closes when an option is selected and closeOnSelect is enabled', () => {
+    it('closes when an option is selected and closeOnSelect is enabled', async () => {
       harness.rerender({ closeOnSelect: true })
 
-      userEvent.type(harness.input, 'aus')
-      userEvent.click(harness.options[0])
+      await userEvent.type(harness.input, 'aus')
+      await userEvent.click(harness.options[0])
 
       expect(harness.isExpanded()).toBe(false)
     })
 
-    it('maintains the active option after options are selected/deleted', () => {
-      userEvent.type(harness.input, 'bahrain{arrowdown}')
+    it('maintains the active option after options are selected/deleted', async () => {
+      await userEvent.type(harness.input, 'bahrain{arrowdown}')
       expect(harness.options.length).toBe(1)
       expect(harness.activeOption.textContent).toBe('Bahrain')
 
-      userEvent.click(harness.activeOption)
+      await userEvent.click(harness.activeOption)
       expect(harness.options.length).toBe(206)
       expect(harness.activeOption.textContent).toBe('Bahrain')
     })
@@ -526,27 +526,27 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ suggestions: [] })
     })
 
-    it('shows no suggestions message', () => {
-      userEvent.type(harness.input, 'blah')
+    it('shows no suggestions message', async () => {
+      await userEvent.type(harness.input, 'blah')
       expect(screen.queryByText('No options found for blah')).toBeTruthy()
     })
 
-    it('does not highlight the no suggestions text', () => {
-      userEvent.type(harness.input, 'blah')
+    it('does not highlight the no suggestions text', async () => {
+      await userEvent.type(harness.input, 'blah')
       const [option] = screen.queryAllByRole('option')
       expect(option.innerHTML).not.toMatch(/<mark>/)
     })
 
-    it('does not respond to arrow up/down key presses', () => {
+    it('does not respond to arrow up/down key presses', async () => {
       harness.listBoxExpand()
       expect(harness.input.getAttribute('aria-activedescendant')).toBeNull()
 
-      userEvent.type(harness.input, '{arrowdown}')
+      await userEvent.type(harness.input, '{arrowdown}')
       expect(harness.input.getAttribute('aria-activedescendant')).toBeNull()
     })
 
-    it('does not respond to enter key presses', () => {
-      userEvent.type(harness.input, '{enter}')
+    it('does not respond to enter key presses', async () => {
+      await userEvent.type(harness.input, '{enter}')
       expect(harness.props.onAdd).not.toHaveBeenCalledWith()
       expect(harness.props.onDelete).not.toHaveBeenCalledWith()
     })
@@ -557,8 +557,8 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ suggestions })
     })
 
-    it('maintains the active option when still available', () => {
-      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+    it('maintains the active option when still available', async () => {
+      await userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
       harness.rerender({ suggestions: [...suggestions].reverse() })
@@ -566,8 +566,8 @@ describe('React Tags Autocomplete', () => {
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
     })
 
-    it('resets the active option when no longer available', () => {
-      userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
+    it('resets the active option when no longer available', async () => {
+      await userEvent.type(harness.input, 'gi{arrowdown}{arrowdown}')
       expect(harness.activeOption.textContent).toBe('British Virgin Islands')
 
       const newSuggestions = [...suggestions].filter(
@@ -592,8 +592,8 @@ describe('React Tags Autocomplete', () => {
       expect(harness.selectedTags[0].getAttribute('aria-disabled')).toBe('true')
     })
 
-    it('ignores clicking on the selected tags', () => {
-      userEvent.click(harness.selectedTags[0])
+    it('ignores clicking on the selected tags', async () => {
+      await userEvent.click(harness.selectedTags[0])
       expect(harness.props.onDelete).not.toHaveBeenCalled()
     })
 
@@ -601,8 +601,8 @@ describe('React Tags Autocomplete', () => {
       expect(harness.input.getAttribute('aria-disabled')).toBe('true')
     })
 
-    it('ignores inputting a value', () => {
-      userEvent.type(harness.input, 'uni')
+    it('ignores inputting a value', async () => {
+      await userEvent.type(harness.input, 'uni')
       expect(harness.input.value).toBe('')
     })
   })
@@ -630,51 +630,51 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ allowNew: true })
     })
 
-    it('displays the new tag option', () => {
-      userEvent.type(harness.input, 'blah')
+    it('displays the new tag option', async () => {
+      await userEvent.type(harness.input, 'blah')
       expect(screen.queryByText('Add blah'))
     })
 
-    it('does not highlight the new tag option text', () => {
-      userEvent.type(harness.input, 'uni')
+    it('does not highlight the new tag option text', async () => {
+      await userEvent.type(harness.input, 'uni')
       const [option] = screen.queryAllByRole('option')
       expect(option.innerHTML).not.toMatch(/<mark>/)
     })
 
-    it('calls the onValidate callback when the value changes', () => {
-      userEvent.type(harness.input, 'uni')
+    it('calls the onValidate callback when the value changes', async () => {
+      await userEvent.type(harness.input, 'uni')
 
       expect(harness.props.onValidate).toHaveBeenCalledWith('u')
       expect(harness.props.onValidate).toHaveBeenCalledWith('un')
       expect(harness.props.onValidate).toHaveBeenCalledWith('uni')
     })
 
-    it('disables the new tag option when onValidate returns false', () => {
+    it('disables the new tag option when onValidate returns false', async () => {
       const callback = harness.props.onValidate as MockedOnValidate
       callback.mockReturnValue(false)
 
-      userEvent.type(harness.input, 'uni')
+      await userEvent.type(harness.input, 'uni')
 
       const [option] = screen.queryAllByRole('option')
       expect(option.getAttribute('aria-disabled')).toBe('true')
     })
 
-    it('calls onAdd with new tag when selected', () => {
-      userEvent.type(harness.input, 'boop{enter}')
+    it('calls onAdd with new tag when selected', async () => {
+      await userEvent.type(harness.input, 'boop{enter}')
       expect(harness.props.onAdd).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
       expect(harness.props.onAdd).toHaveBeenCalledWith({ label: 'boop', value: null })
     })
 
-    it('does not call the onAdd with new tag when selected and onValidate returns false', () => {
+    it('does not call the onAdd with new tag when selected and onValidate returns false', async () => {
       const callback = harness.props.onValidate as MockedOnValidate
       callback.mockReturnValue(false)
 
-      userEvent.type(harness.input, 'boop{enter}')
+      await userEvent.type(harness.input, 'boop{enter}')
       expect(harness.props.onAdd).not.toHaveBeenCalled()
 
-      userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
+      await userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
       expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
   })
@@ -688,8 +688,8 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ suggestions, suggestionsTransform })
     })
 
-    it('uses provided suggestionsTransform callback', () => {
-      userEvent.type(harness.input, 'uni')
+    it('uses provided suggestionsTransform callback', async () => {
+      await userEvent.type(harness.input, 'uni')
 
       const [one, two, ...others] = harness.options
 

@@ -12,7 +12,7 @@ _Please note:_ This repository is for version 7 of the component which is under 
 
 ## Installation
 
-This is a [Node.js] module available through the [npm] registry. Node 16 and React 17 or above is required.
+This is a [Node.js] module available through the [npm] registry. Node 16 and React 18 or above is required.
 
 Installation is done using the [npm install] command:
 
