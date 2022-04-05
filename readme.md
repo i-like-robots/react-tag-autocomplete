@@ -122,7 +122,7 @@ References elements by ID which contain more information about the component. De
 
 #### ariaErrorMessage (optional)
 
-TODO
+References an element by ID which contains more information about errors related to the component. Defaults to `""`.
 
 #### classNames (optional)
 
