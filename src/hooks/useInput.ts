@@ -29,11 +29,6 @@ export function useInput({
       onInput?.(value)
     }
 
-    const onSelectKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      e.preventDefault()
-      onSelect()
-    }
-
     const onDownArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
@@ -66,6 +61,13 @@ export function useInput({
       }
     }
 
+    const onEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (manager.state.isExpanded) {
+        e.preventDefault()
+        onSelect()
+      }
+    }
+
     const onEscapeKey = () => {
       if (manager.state.isExpanded) {
         manager.clearActiveIndex()
@@ -76,11 +78,20 @@ export function useInput({
     }
 
     const onBackspaceKey = () => {
-      const isEmpty = manager.state.value === ''
-      const lastTag = manager.state.selected[manager.state.selected.length - 1]
+      if (allowBackspace) {
+        const isEmpty = manager.state.value === ''
+        const lastTag = manager.state.selected[manager.state.selected.length - 1]
 
-      if (isEmpty && lastTag) {
-        onSelect(lastTag)
+        if (isEmpty && lastTag) {
+          onSelect(lastTag)
+        }
+      }
+    }
+
+    const onTabKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (allowTab && manager.state.isExpanded) {
+        e.preventDefault()
+        onSelect()
       }
     }
 
@@ -89,10 +100,10 @@ export function useInput({
       if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
       if (e.key === KeyNames.PageUp) return onPageUpKey(e)
       if (e.key === KeyNames.PageDown) return onPageDownKey(e)
-      if (e.key === KeyNames.Enter) return onSelectKey(e)
+      if (e.key === KeyNames.Enter) return onEnterKey(e)
       if (e.key === KeyNames.Escape) return onEscapeKey()
-      if (e.key === KeyNames.Backspace && allowBackspace) return onBackspaceKey()
-      if (e.key === KeyNames.Tab && allowTab) return onSelectKey(e)
+      if (e.key === KeyNames.Backspace) return onBackspaceKey()
+      if (e.key === KeyNames.Tab) return onTabKey(e)
     }
 
     return { onChange, onKeyDown }

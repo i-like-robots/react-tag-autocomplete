@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { matchSorter } from 'match-sorter'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
-import { Harness } from './Harness'
+import { Harness, MockedOnAdd } from './Harness'
 import { suggestions } from '../../example/src/countries'
 import type { MockedOnDelete, MockedOnInput, MockedOnValidate } from './Harness'
 import type { SuggestionsTransform } from '../sharedTypes'
@@ -293,6 +293,24 @@ describe('React Tags Autocomplete', () => {
 
       await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.isExpanded()).toBe(false)
+    })
+
+    it('does nothing when the enter key is pressed and the listbox is closed', async () => {
+      await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{enter}')
+
+      expect(harness.isExpanded()).toBe(false)
+      expect(harness.props.onAdd as MockedOnAdd).not.toHaveBeenCalled()
+      expect(harness.props.onDelete as MockedOnDelete).not.toHaveBeenCalled()
+    })
+
+    it('does nothing when the tab key is pressed and the listbox is closed', async () => {
+      harness.rerender({ allowTab: true })
+
+      await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{Tab}')
+
+      expect(harness.isExpanded()).toBe(false)
+      expect(harness.props.onAdd as MockedOnAdd).not.toHaveBeenCalled()
+      expect(harness.props.onDelete as MockedOnDelete).not.toHaveBeenCalled()
     })
   })
 
