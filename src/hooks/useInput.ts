@@ -1,5 +1,5 @@
 import { useContext, useMemo } from 'react'
-import { DisableAutoComplete, KeyNames, VoidFn } from '../constants'
+import { KeyNames, VoidFn } from '../constants'
 import { GlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
 import type React from 'react'
@@ -12,6 +12,14 @@ export type UseInputArgs = {
 }
 
 export type UseInputState = Omit<React.ComponentPropsWithRef<'input'>, 'value'> & { value: string }
+
+// <https://stackoverflow.com/questions/59939931/stop-dashlane-auto-fill-on-specific-input-fields>
+const DisableAutoCompleteAttrs = {
+  autoComplete: 'off',
+  autoCorrect: 'off',
+  'data-form-type': 'other',
+  spellCheck: false,
+}
 
 export function useInput({
   allowBackspace,
@@ -112,7 +120,7 @@ export function useInput({
   const { activeOption, isExpanded, value } = manager.state
 
   return {
-    ...DisableAutoComplete,
+    ...DisableAutoCompleteAttrs,
     'aria-autocomplete': 'list',
     'aria-activedescendant': activeOption ? optionId(id, activeOption) : null,
     'aria-describedby': ariaDescribedBy || null,
