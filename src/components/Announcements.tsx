@@ -22,8 +22,7 @@ export function Announcements({ ariaAddedText, ariaDeletedText }: AnnouncementsP
   const { manager } = useContext(GlobalContext)
   const { selected } = manager.state
 
-  // NOTE: There is no previous value on first render
-  const prevSelected = usePrevious<TagSelected[]>(selected) || selected
+  const prevSelected = usePrevious<TagSelected[]>(selected)
 
   const logsRef = useRef<string[]>([])
 
