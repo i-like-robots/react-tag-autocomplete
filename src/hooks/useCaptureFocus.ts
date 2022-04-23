@@ -1,23 +1,19 @@
 import { useContext, useEffect } from 'react'
 import { GlobalContext } from '../contexts'
-import { usePrevious } from '.'
 
 export function useCaptureFocus(): void {
   const { inputRef, manager, tagListRef } = useContext(GlobalContext)
 
-  const currentLength = manager.state.selected.length
-  const prevLength = usePrevious<number>(currentLength)
-  const wasTagRemoved = currentLength < prevLength
-
-  const currentFocusInList = tagListRef.current?.contains(document.activeElement)
-  const prevFocusInList = usePrevious<boolean>(currentFocusInList)
+  const tagDeleted = manager.flags.tagDeleted
+  const isFocusInList = tagListRef.current?.contains(document.activeElement)
 
   useEffect(() => {
-    if (wasTagRemoved) {
-      const currentFocusInList = tagListRef.current?.contains(document.activeElement)
-      const wasFocusLost = prevFocusInList && !currentFocusInList
+    if (tagDeleted) {
+      const isFocusInListNow = tagListRef.current?.contains(document.activeElement)
 
-      if (wasFocusLost) inputRef.current?.focus()
+      if (isFocusInList && !isFocusInListNow) {
+        inputRef.current?.focus()
+      }
     }
-  }, [inputRef, prevFocusInList, tagListRef, wasTagRemoved])
+  }, [inputRef, isFocusInList, tagListRef, tagDeleted])
 }
