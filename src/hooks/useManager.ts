@@ -3,6 +3,11 @@ import { managerReducer, ManagerActions } from '../reducers'
 import type { ManagerState } from '../reducers'
 import type { TagSelected, TagSuggestion } from '../sharedTypes'
 
+type ManagerFlags = {
+  tagAdded: boolean
+  tagDeleted: boolean
+}
+
 type ManagerAPI = {
   clearActiveIndex(): void
   clearAll(): void
@@ -15,7 +20,7 @@ type ManagerAPI = {
   updateValue(value: string): void
 }
 
-export type UseManagerState = ManagerAPI & { state: ManagerState }
+export type UseManagerState = ManagerAPI & { flags: ManagerFlags; state: ManagerState }
 
 function getInitialState(initialState: ManagerState) {
   return { ...initialState, options: [...initialState.suggestions] }
@@ -27,6 +32,7 @@ export function useManager(initialState: ManagerState): UseManagerState {
 
   api.current ??= {
     state: null,
+    flags: null,
     clearActiveIndex() {
       dispatch({ type: ManagerActions.ClearActiveIndex })
     },
@@ -56,7 +62,13 @@ export function useManager(initialState: ManagerState): UseManagerState {
     },
   }
 
+  const flags = {
+    tagAdded: api.current.state?.selected.length < state.selected.length,
+    tagDeleted: api.current.state?.selected.length > state.selected.length,
+  }
+
   api.current.state = state
+  api.current.flags = flags
 
   if (initialState.selected !== state.selected) {
     api.current.updateSelected(initialState.selected)
