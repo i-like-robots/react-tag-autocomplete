@@ -7,7 +7,7 @@ import type { OnAdd, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTyp
 
 function getNewTag(option: TagSuggestion, value: string): TagSuggestion {
   if (option?.value === NewOptionValue && option.disabled === false) {
-    return { value: null, label: value }
+    return { value: value, label: value }
   }
 }
 

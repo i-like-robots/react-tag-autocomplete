@@ -682,7 +682,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onAdd).not.toHaveBeenCalled()
 
       await userEvent.type(harness.input, '{arrowdown}{enter}', { skipClick: true })
-      expect(harness.props.onAdd).toHaveBeenCalledWith({ label: 'boop', value: null })
+      expect(harness.props.onAdd).toHaveBeenCalledWith({ label: 'boop', value: 'boop' })
     })
 
     it('does not call the onAdd with new tag when selected and onValidate returns false', async () => {

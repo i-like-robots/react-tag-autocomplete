@@ -96,7 +96,7 @@ Enable users to delete selected tags when the backspace key is pressed whilst th
 
 #### allowNew (optional)
 
-Enable users to add new (not suggested) tags based on the input text. Defaults to `false`.
+Enable users to add new (not suggested) tags based on the input text. The new tag label and value will be set as the input text. Defaults to `false`.
 
 #### allowResize (optional)
 
