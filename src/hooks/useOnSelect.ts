@@ -5,19 +5,19 @@ import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
 import type { OnAdd, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
-function getNewTag(option: TagSuggestion, value: string): TagSuggestion {
+function getNewTag(option: TagSuggestion | null, value: string): TagSuggestion | undefined {
   if (option?.value === NewOptionValue && option.disabled === false) {
     return { value: value, label: value }
   }
 }
 
-function findSelectedTag(state: ManagerState): TagSuggestion {
+function findSelectedTag(state: ManagerState): TagSuggestion | undefined {
   const tag =
     getNewTag(state.activeOption, state.value) ||
     state.activeOption ||
     findSuggestionExact(state.value, state.options)
 
-  return tag?.disabled ? null : tag
+  return tag && !tag.disabled ? tag : undefined
 }
 
 export type UseOnSelectArgs = {

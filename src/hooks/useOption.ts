@@ -40,7 +40,7 @@ export function useOption(index: number): UseOptionState {
     optionProps: {
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
-      'aria-selected': disabled ? null : selected,
+      'aria-selected': disabled ? undefined : selected,
       'aria-setsize': manager.state.options.length,
       id: optionId(id, option),
       onClick,

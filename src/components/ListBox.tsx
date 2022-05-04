@@ -4,7 +4,7 @@ import { useListBox } from '../hooks'
 
 export type ListBoxProps = React.PropsWithChildren<Record<string, unknown>>
 
-export function ListBox({ children }: ListBoxProps): JSX.Element {
+export function ListBox({ children }: ListBoxProps): JSX.Element | null {
   const { classNames, manager } = useContext(GlobalContext)
   const listBoxProps = useListBox()
 

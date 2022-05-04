@@ -122,10 +122,10 @@ export function useInput({
   return {
     ...DisableAutoCompleteAttrs,
     'aria-autocomplete': 'list',
-    'aria-activedescendant': activeOption ? optionId(id, activeOption) : null,
-    'aria-describedby': ariaDescribedBy || null,
+    'aria-activedescendant': activeOption ? optionId(id, activeOption) : undefined,
+    'aria-describedby': ariaDescribedBy || undefined,
     'aria-disabled': isDisabled,
-    'aria-errormessage': (isInvalid && ariaErrorMessage) || null,
+    'aria-errormessage': (isInvalid && ariaErrorMessage) || undefined,
     'aria-invalid': isInvalid,
     'aria-labelledby': labelId(id),
     'aria-expanded': isExpanded,

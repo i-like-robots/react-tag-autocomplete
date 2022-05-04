@@ -5,7 +5,7 @@ import type { OnValidate, TagSuggestion } from '../sharedTypes'
 export type InternalOptionsArgs = {
   newOptionText: string
   noOptionsText: string
-  onValidate: OnValidate
+  onValidate?: OnValidate
 }
 
 export type InternalOptionsValue = {
