@@ -4,17 +4,17 @@ import type { ClassNames, OnInput, OnSelect } from '../sharedTypes'
 
 export type GlobalContextValue = {
   classNames: ClassNames
-  comboBoxRef: React.MutableRefObject<HTMLDivElement>
+  comboBoxRef: React.MutableRefObject<HTMLDivElement | null>
   id: string
-  inputRef: React.MutableRefObject<HTMLInputElement>
+  inputRef: React.MutableRefObject<HTMLInputElement | null>
   isDisabled: boolean
   isInvalid: boolean
-  listBoxRef: React.MutableRefObject<HTMLDivElement>
+  listBoxRef: React.MutableRefObject<HTMLDivElement | null>
   manager: UseManagerState
-  onInput: OnInput
+  onInput?: OnInput
   onSelect: OnSelect
-  rootRef: React.MutableRefObject<HTMLDivElement>
-  tagListRef: React.MutableRefObject<HTMLUListElement>
+  rootRef: React.MutableRefObject<HTMLDivElement | null>
+  tagListRef: React.MutableRefObject<HTMLUListElement | null>
 }
 
 export const GlobalContext = React.createContext<GlobalContextValue>(null)

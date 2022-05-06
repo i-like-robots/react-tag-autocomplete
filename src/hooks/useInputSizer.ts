@@ -30,7 +30,7 @@ export type UseInputSizerState = {
 }
 
 export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): UseInputSizerState {
-  const sizerRef = useRef<HTMLDivElement>()
+  const sizerRef = useRef<HTMLDivElement>(null)
   const { inputRef } = useContext(GlobalContext)
   const [width, setWidth] = useState<number>(0)
 

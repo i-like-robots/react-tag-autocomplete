@@ -8,7 +8,7 @@ export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
   const { id, inputRef, manager, onSelect } = useContext(GlobalContext)
-  const optionRef = useRef<HTMLDivElement>()
+  const optionRef = useRef<HTMLDivElement>(null)
   const option = manager.state.options[index]
   const active = index === manager.state.activeIndex
   const disabled = option.disabled ?? false

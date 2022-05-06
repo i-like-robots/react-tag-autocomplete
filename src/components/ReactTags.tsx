@@ -89,11 +89,11 @@ export function ReactTags({
   suggestionsTransform = matchSuggestionsPartial,
   tagListLabelText = 'Selected tags',
 }: ReactTagsProps): JSX.Element {
-  const comboBoxRef = useRef<HTMLDivElement>()
-  const inputRef = useRef<HTMLInputElement>()
-  const listBoxRef = useRef<HTMLDivElement>()
-  const rootRef = useRef<HTMLDivElement>()
-  const tagListRef = useRef<HTMLUListElement>()
+  const comboBoxRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const listBoxRef = useRef<HTMLDivElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const tagListRef = useRef<HTMLUListElement>(null)
 
   const { newTagOption, noTagsOption } = useInternalOptions({
     newOptionText,
