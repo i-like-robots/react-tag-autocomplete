@@ -17,4 +17,4 @@ export type GlobalContextValue = {
   tagListRef: React.MutableRefObject<HTMLUListElement | null>
 }
 
-export const GlobalContext = React.createContext<GlobalContextValue>(null)
+export const GlobalContext = React.createContext<GlobalContextValue | undefined>(undefined)
