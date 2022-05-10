@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event'
 import { Harness } from './Harness'
 import { suggestions } from '../../example/src/countries'
 
-function formatAxeErrors(results: axe.AxeResults): Error {
+function formatAxeErrors(results: axe.AxeResults): Error | undefined {
   const violations = results.violations.map((violation) => {
     const issues = violation.nodes.map((node) => {
       const selector = node.target.join(', ')
@@ -19,7 +19,7 @@ function formatAxeErrors(results: axe.AxeResults): Error {
   return violations.length ? new Error(violations.join('\n\n')) : undefined
 }
 
-function runAxeTest(container, callback) {
+function runAxeTest(container: axe.ElementContext, callback: (error?: Error) => void) {
   axe.run(container, (error, results) => {
     if (error) {
       return callback(error)
