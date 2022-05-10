@@ -1,6 +1,7 @@
 .github/
 .husky/
 .vscode/
+src/
 
 .editorconfig
 .eslintcache

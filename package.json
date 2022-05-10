@@ -4,9 +4,11 @@
   "description": "",
   "module": "dist/ReactTags.es.js",
   "browser": "dist/ReactTags.umd.js",
-  "types": "src/index.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "build": "vite build -c vite.config.js",
+    "build": "npm run build-types && npm run build-bundle",
+    "build-bundle": "vite build -c vite.config.js",
+    "build-types": "tsc --declaration --emitDeclarationOnly --outDir dist/types",
     "type-check": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx,js,jsx",
     "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,yml}'",
