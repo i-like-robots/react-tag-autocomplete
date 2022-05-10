@@ -1,3 +1,4 @@
+import React from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { matchSorter } from 'match-sorter'
@@ -316,17 +317,27 @@ describe('React Tags Autocomplete', () => {
 
   describe('sizer', () => {
     beforeEach(() => {
-      harness = new Harness({ suggestions })
+      const Styles: React.FC<React.PropsWithChildren<Record<string, unknown>>> = ({ children }) => {
+        const styles = 'input { font-family: FooBar; font-size: 12px; }'
+        return (
+          <div>
+            <style dangerouslySetInnerHTML={{ __html: styles }}></style>
+            {children}
+          </div>
+        )
+      }
+
+      harness = new Harness({ suggestions }, { wrapper: Styles })
     })
 
     it('removes the sizer from the layout', () => {
-      const result = Array.from(harness.sizer.style)
-      expect(result).toEqual(expect.arrayContaining(['position', 'visibility']))
+      expect(harness.sizer.style.getPropertyValue('position')).toBe('absolute')
+      expect(harness.sizer.style.getPropertyValue('visibility')).toBe('hidden')
     })
 
     it('copies styles from the input', () => {
-      const result = Array.from(harness.sizer.style)
-      expect(result).toEqual(expect.arrayContaining(['font-family', 'letter-spacing']))
+      expect(harness.sizer.style.getPropertyValue('font-family')).toBe('FooBar')
+      expect(harness.sizer.style.getPropertyValue('font-size')).toBe('12px')
     })
 
     it('copies the input placeholder when there is no value', () => {

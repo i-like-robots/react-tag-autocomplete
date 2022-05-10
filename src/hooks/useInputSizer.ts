@@ -10,13 +10,13 @@ const SizerStyles: React.CSSProperties = {
   whiteSpace: 'pre',
 }
 
-const StyleProps: Array<keyof React.CSSProperties> = [
-  'fontFamily',
-  'fontSize',
-  'fontStyle',
-  'fontWeight',
-  'letterSpacing',
-  'textTransform',
+const StyleProps: string[] = [
+  'font-family',
+  'font-size',
+  'font-style',
+  'font-weight',
+  'letter-spacing',
+  'text-transform',
 ]
 
 export type UseInputSizerArgs = {
@@ -35,11 +35,14 @@ export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): 
   const [width, setWidth] = useState<number>(0)
 
   useEffect(() => {
-    const inputStyle = window.getComputedStyle(inputRef.current)
+    if (inputRef.current) {
+      const inputStyle = window.getComputedStyle(inputRef.current)
 
-    StyleProps.forEach((prop) => {
-      sizerRef.current.style[prop] = inputStyle[prop]
-    })
+      StyleProps.forEach((prop) => {
+        const value = inputStyle.getPropertyValue(prop)
+        sizerRef.current?.style.setProperty(prop, value)
+      })
+    }
   }, [inputRef, sizerRef])
 
   useEffect(() => {

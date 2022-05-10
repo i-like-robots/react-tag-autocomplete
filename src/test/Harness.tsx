@@ -4,10 +4,12 @@ import { fireEvent, render } from '@testing-library/react'
 import { ReactTags } from '..'
 import type { ReactTagsProps } from '..'
 import type { MockedFunction } from 'vitest'
-import type { RenderResult } from '@testing-library/react'
+import type { RenderOptions, RenderResult } from '@testing-library/react'
 import type { OnAdd, OnDelete, OnInput, OnValidate } from '../sharedTypes'
 
-global.IS_REACT_ACT_ENVIRONMENT = true
+Object.defineProperty(global, 'IS_REACT_ACT_ENVIRONMENT', {
+  value: true,
+})
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
@@ -22,7 +24,7 @@ export class Harness {
   public props: ReactTagsProps
   public result: RenderResult
 
-  constructor(props: Partial<ReactTagsProps> = {}) {
+  constructor(props: Partial<ReactTagsProps> = {}, options: RenderOptions = {}) {
     const defaultProps: ReactTagsProps = {
       selected: [],
       suggestions: [],
@@ -33,7 +35,7 @@ export class Harness {
     }
 
     this.props = { ...defaultProps, ...props }
-    this.result = render(this.component)
+    this.result = render(this.component, options)
   }
 
   get component(): React.ReactElement<ReactTagsProps> {
