@@ -43,6 +43,7 @@ export type ReactTagsProps = {
   ariaDeletedText?: string
   classNames?: ClassNames
   closeOnSelect?: boolean
+  deleteButtonText?: string
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -54,7 +55,6 @@ export type ReactTagsProps = {
   onInput?: OnInput
   onValidate?: OnValidate
   placeholderText?: string
-  removeButtonText?: string
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
@@ -72,6 +72,7 @@ export function ReactTags({
   ariaDeletedText = 'Removed tag %value%',
   classNames = DefaultClassNames,
   closeOnSelect = false,
+  deleteButtonText = 'Remove %value% from the list',
   id = 'react-tags',
   isDisabled = false,
   isInvalid = false,
@@ -83,7 +84,6 @@ export function ReactTags({
   onInput,
   onValidate,
   placeholderText = 'Add a tag',
-  removeButtonText = 'Remove %value% from the list',
   selected = [],
   suggestions = [],
   suggestionsTransform = matchSuggestionsPartial,
@@ -138,7 +138,7 @@ export function ReactTags({
         <Label>{labelText}</Label>
         <TagList label={tagListLabelText}>
           {manager.state.selected.map((tag, index) => (
-            <Tag key={tagToKey(tag)} index={index} title={removeButtonText} />
+            <Tag key={tagToKey(tag)} index={index} title={deleteButtonText} />
           ))}
         </TagList>
         <ComboBox>

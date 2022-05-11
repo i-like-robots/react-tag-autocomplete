@@ -73,6 +73,7 @@ function CountrySelector() {
 - [`ariaErrorMessage`](#ariaErrorMessage-optional)
 - [`classNames`](#classNames-optional)
 - [`closeOnSelect`](#closeOnSelect-optional)
+- [`deleteButtonText`](#deleteButtontext-optional)
 - [`id`](#id-optional)
 - [`isDisabled`](#isDisabled-optional)
 - [`isInvalid`](#isInvalid-optional)
@@ -84,7 +85,6 @@ function CountrySelector() {
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
-- [`removeButtonText`](#removeButtontext-optional)
 - [`selected`](#selected-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
@@ -151,6 +151,10 @@ Override the default class names used by the component. Defaults to:
 #### closeOnSelect (optional)
 
 Boolean parameter to control whether the listbox should be closed and active option reset when a tag is selected. Defaults to `false`.
+
+#### deleteButtonText (optional)
+
+The helper text added to each selected tag. The placeholder `%value%` will be replaced by the selected tag label. Default `"Remove %value% from the list"`.
 
 #### id (optional)
 
@@ -225,10 +229,6 @@ function onValidate(value) {
 #### placeholderText (optional)
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.
-
-#### removeButtonText (optional)
-
-The helper text added to each selected tag. The placeholder `%value%` will be replaced by the selected tag label. Default `"Remove %value% from the list"`.
 
 #### selected (optional)
 
