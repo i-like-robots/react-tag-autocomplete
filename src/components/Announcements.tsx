@@ -1,8 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import { GlobalContext } from '../contexts'
-import { usePrevious } from '../hooks'
 import { replacePlaceholder } from '../lib'
-import type { TagSelected } from '../sharedTypes'
 
 const VisuallyHiddenStyles: React.CSSProperties = {
   position: 'absolute',
@@ -20,22 +18,15 @@ export type AnnouncementsProps = {
 
 export function Announcements({ ariaAddedText, ariaDeletedText }: AnnouncementsProps): JSX.Element {
   const { manager } = useContext(GlobalContext)
-  const { selected } = manager.state
-
-  const prevSelected = usePrevious<TagSelected[]>(selected)
 
   const logsRef = useRef<string[]>([])
 
-  selected.forEach((tag) => {
-    if (!prevSelected.includes(tag)) {
-      logsRef.current.push(replacePlaceholder(ariaAddedText, tag.label))
-    }
+  manager.flags.tagsAdded.forEach((tag) => {
+    logsRef.current.push(replacePlaceholder(ariaAddedText, tag.label))
   })
 
-  prevSelected.forEach((tag) => {
-    if (!selected.includes(tag)) {
-      logsRef.current.push(replacePlaceholder(ariaDeletedText, tag.label))
-    }
+  manager.flags.tagsDeleted.forEach((tag) => {
+    logsRef.current.push(replacePlaceholder(ariaDeletedText, tag.label))
   })
 
   return (

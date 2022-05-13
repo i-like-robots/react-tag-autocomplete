@@ -1,11 +1,12 @@
 import { useReducer, useRef } from 'react'
 import { managerReducer, ManagerActions } from '../reducers'
 import type { ManagerState } from '../reducers'
-import type { TagSelected, TagSuggestion } from '../sharedTypes'
+import type { Tag, TagSelected, TagSuggestion } from '../sharedTypes'
+import { arrayDiff } from '../lib/arrayDiff'
 
 type ManagerFlags = {
-  tagAdded: boolean
-  tagDeleted: boolean
+  tagsAdded: Tag[]
+  tagsDeleted: Tag[]
 }
 
 type ManagerAPI = {
@@ -62,13 +63,12 @@ export function useManager(initialState: ManagerState): UseManagerState {
     },
   }
 
-  const flags = {
-    tagAdded: api.current.state?.selected.length < state.selected.length,
-    tagDeleted: api.current.state?.selected.length > state.selected.length,
+  api.current.flags = {
+    tagsAdded: api.current.state ? arrayDiff(state.selected, api.current.state.selected) : [],
+    tagsDeleted: api.current.state ? arrayDiff(api.current.state.selected, state.selected) : [],
   }
 
   api.current.state = state
-  api.current.flags = flags
 
   if (initialState.selected !== state.selected) {
     api.current.updateSelected(initialState.selected)
