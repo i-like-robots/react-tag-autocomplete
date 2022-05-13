@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { OptionText } from '.'
+import { NewOptionValue, NoOptionsValue } from '../constants'
 import { GlobalContext } from '../contexts'
 import { useOption } from '../hooks'
 import { InternalOptionText } from './InternalOption'
@@ -18,7 +19,7 @@ export function Option({ index }: OptionProps): JSX.Element {
 
   return (
     <div className={classes.join(' ')} {...optionProps}>
-      {typeof value === 'symbol' ? (
+      {value === NewOptionValue || value === NoOptionsValue ? (
         <InternalOptionText label={label} query={manager.state.value} />
       ) : (
         <OptionText label={label} query={manager.state.value} />
