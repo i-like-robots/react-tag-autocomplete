@@ -35,7 +35,6 @@ export type TagSuggestion = Tag & Partial<TagMetaProps>
 
 export type TagOption = Tag & TagMetaProps & TagInternalProps
 
-// TODO: delete
 export type TagSelected = Tag
 
 export type OnAdd = (tag: Tag) => void

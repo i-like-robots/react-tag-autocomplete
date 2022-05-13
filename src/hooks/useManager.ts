@@ -28,10 +28,9 @@ function getInitialState(initialState: ManagerState) {
 }
 
 export function useManager(initialState: ManagerState): UseManagerState {
-  const api = useRef<UseManagerState>()
   const [state, dispatch] = useReducer(managerReducer, initialState, getInitialState)
 
-  api.current ??= {
+  const api = useRef<UseManagerState>({
     state: null,
     flags: null,
     clearActiveIndex() {
@@ -61,7 +60,7 @@ export function useManager(initialState: ManagerState): UseManagerState {
     updateValue(value: string) {
       dispatch({ type: ManagerActions.UpdateValue, payload: value })
     },
-  }
+  })
 
   api.current.flags = {
     tagsAdded: api.current.state ? arrayDiff(state.selected, api.current.state.selected) : [],
