@@ -36,4 +36,12 @@ jobs:
         run: npm run build
 
       - name: Test
-        run: npm run spec
+        run: npm run coverage
+
+      - name: Prepare coverage report
+        run: npx c8 report --reporter=lcov
+
+      - name: Send coverage report to Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

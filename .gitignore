@@ -1,4 +1,5 @@
 .vscode/
+coverage/
 dist/
 example/build/
 node_modules/

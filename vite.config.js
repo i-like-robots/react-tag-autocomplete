@@ -27,5 +27,9 @@ export default {
     deps: {
       inline: ['@testing-library/user-event'],
     },
+    coverage: {
+      reporter: ['text', 'lcov'],
+      exclude: ['src/test/**', 'example/src/**'],
+    },
   },
 }

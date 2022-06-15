@@ -1,6 +1,7 @@
 .github/
 .husky/
 .vscode/
+coverage/
 src/
 
 .editorconfig
