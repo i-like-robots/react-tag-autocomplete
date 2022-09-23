@@ -4,7 +4,7 @@ import { findTagIndex, optionId } from '../lib'
 import type React from 'react'
 import type { TagOption } from '../sharedTypes'
 
-export type UseOptionState = { optionProps: React.ComponentPropsWithRef<'div'> } & TagOption
+export type UseOptionState = { option: TagOption; optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
   const { id, inputRef, manager, onSelect } = useContext(GlobalContext)
@@ -32,11 +32,13 @@ export function useOption(index: number): UseOptionState {
   }, [active])
 
   return {
-    ...option,
-    active,
-    disabled,
-    index,
-    selected,
+    option: {
+      ...option,
+      active,
+      disabled,
+      index,
+      selected,
+    },
     optionProps: {
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
