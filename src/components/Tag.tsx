@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
 import { useSelectedTag } from '../hooks'
-import type { ClassNames } from '../sharedTypes'
+import type { ClassNames, TagSelected } from '../sharedTypes'
 
 type TagComponentProps = React.ComponentPropsWithoutRef<'button'> & {
   classNames: ClassNames
-  label: string
+  tag: TagSelected
 }
 
-function TagComponent({ classNames, label, ...tagProps }: TagComponentProps): JSX.Element {
+function TagComponent({ classNames, tag, ...tagProps }: TagComponentProps): JSX.Element {
   return (
     <button type="button" className={classNames.tag} {...tagProps}>
-      <span className={classNames.tagName}>{label}</span>
+      <span className={classNames.tagName}>{tag.label}</span>
     </button>
   )
 }
@@ -24,7 +24,7 @@ export type TagProps = {
 
 export function Tag({ render = TagComponent, index, title }: TagProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
-  const { label, tagProps } = useSelectedTag(index, title)
+  const { tag, tagProps } = useSelectedTag(index, title)
 
-  return render({ classNames, label, ...tagProps })
+  return render({ classNames, tag, ...tagProps })
 }

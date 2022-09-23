@@ -4,7 +4,8 @@ import { GlobalContext } from '../contexts'
 import { replacePlaceholder } from '../lib'
 import type { TagSelected } from '../sharedTypes'
 
-export type UseSelectedTagState = TagSelected & {
+export type UseSelectedTagState = {
+  tag: TagSelected
   tagProps: React.ComponentPropsWithoutRef<'button'>
 }
 
@@ -14,7 +15,7 @@ export function useSelectedTag(index: number, title: string): UseSelectedTagStat
   const onClick = useCallback(() => onSelect(tag), [onSelect, tag])
 
   return {
-    ...tag,
+    tag,
     tagProps: {
       'aria-disabled': isDisabled,
       title: replacePlaceholder(title, tag.label),
