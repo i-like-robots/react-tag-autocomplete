@@ -256,12 +256,12 @@ const suggestions = [
 
 #### suggestionsTransform (optional)
 
-Callback function to apply a custom filter to the list of suggestions. The callback receives two arguments; the current input `value` and the array of [suggestions](#suggestions-optional) and must return a new array of suggestions. Using this option you can also sort suggestions. Example:
+Callback function to apply a custom filter to the list of suggestions. The callback receives two arguments; the current input `value` and the array of [suggestions](#suggestions-optional) and must return a new array of suggestions. Using this option you could sort suggestions or change the number of suggestions. Example:
 
 ```js
 import matchSorter from 'match-sorter'
 
-function suggestionsFilter(value, suggestions) {
+function suggestionsTransform(value, suggestions) {
   return matchSorter(suggestions, value, { keys: ['label'] })
 }
 ```
@@ -269,12 +269,6 @@ function suggestionsFilter(value, suggestions) {
 #### tagListLabelText (optional)
 
 The ARIA label text added to the selected tags list. Defaults to `"Selected tags"`.
-
-## API
-
-### `.method(args)`
-
-Returns something.
 
 ## Development
 
