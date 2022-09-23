@@ -3,13 +3,15 @@ import { GlobalContext } from '../contexts'
 import { labelId } from '../lib'
 import type { ClassNames } from '../sharedTypes'
 
-type LabelComponentProps = {
+type LabelRendererProps = {
   children: React.ReactNode
   classNames: ClassNames
   id: string
 }
 
-function LabelComponent({ children, classNames, id }: LabelComponentProps): JSX.Element {
+export type LabelRenderer = (props: LabelRendererProps) => JSX.Element
+
+const DefaultLabel: LabelRenderer = ({ children, classNames, id }) => {
   return (
     <div className={classNames.label} id={id}>
       {children}
@@ -19,10 +21,10 @@ function LabelComponent({ children, classNames, id }: LabelComponentProps): JSX.
 
 export type LabelProps = {
   children: React.ReactNode
-  render?: (props: LabelComponentProps) => JSX.Element
+  render?: LabelRenderer
 }
 
-export function Label({ children, render = LabelComponent }: LabelProps): JSX.Element {
+export function Label({ children, render = DefaultLabel }: LabelProps): JSX.Element {
   const { classNames, id } = useContext(GlobalContext)
   return render({ children, classNames, id: labelId(id) })
 }

@@ -6,18 +6,15 @@ import { useOption } from '../hooks'
 import { InternalOptionText } from './InternalOption'
 import type { ClassNames, TagOption } from '../sharedTypes'
 
-type OptionComponentProps = React.ComponentPropsWithRef<'div'> & {
+type OptionRendererProps = React.ComponentPropsWithRef<'div'> & {
   children: React.ReactNode
   classNames: ClassNames
   option: TagOption
 }
 
-function OptionComponent({
-  children,
-  classNames,
-  option,
-  ...optionProps
-}: OptionComponentProps): JSX.Element {
+export type OptionRenderer = (props: OptionRendererProps) => JSX.Element
+
+const DefaultOption: OptionRenderer = ({ children, classNames, option, ...optionProps }) => {
   const classes = [classNames.option]
 
   if (option.active) classes.push(classNames.optionIsActive)
@@ -31,10 +28,10 @@ function OptionComponent({
 
 export type OptionProps = {
   index: number
-  render?: (props: OptionComponentProps) => JSX.Element
+  render?: OptionRenderer
 }
 
-export function Option({ index, render = OptionComponent }: OptionProps): JSX.Element {
+export function Option({ index, render = DefaultOption }: OptionProps): JSX.Element {
   const { classNames, manager } = useContext(GlobalContext)
   const { option, optionProps } = useOption(index)
 
