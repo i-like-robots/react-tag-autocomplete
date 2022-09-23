@@ -3,6 +3,7 @@ import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
 import { useInternalOptions, useManager, useOnSelect } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
+import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
   ClassNames,
   OnAdd,
@@ -55,6 +56,9 @@ export type ReactTagsProps = {
   onInput?: OnInput
   onValidate?: OnValidate
   placeholderText?: string
+  renderLabel?: LabelRenderer
+  renderOption?: OptionRenderer
+  renderTag?: TagRenderer
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
@@ -84,6 +88,9 @@ export function ReactTags({
   onInput,
   onValidate,
   placeholderText = 'Add a tag',
+  renderLabel,
+  renderOption,
+  renderTag,
   selected = [],
   suggestions = [],
   suggestionsTransform = matchSuggestionsPartial,
@@ -135,10 +142,10 @@ export function ReactTags({
       }}
     >
       <Root>
-        <Label>{labelText}</Label>
+        <Label render={renderLabel}>{labelText}</Label>
         <TagList label={tagListLabelText}>
           {manager.state.selected.map((tag, index) => (
-            <Tag key={tagToKey(tag)} index={index} title={deleteButtonText} />
+            <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
           ))}
         </TagList>
         <ComboBox>
@@ -152,7 +159,7 @@ export function ReactTags({
           />
           <ListBox>
             {manager.state.options.map((tag, index) => (
-              <Option key={tagToKey(tag)} index={index} />
+              <Option key={tagToKey(tag)} index={index} render={renderOption} />
             ))}
           </ListBox>
         </ComboBox>
