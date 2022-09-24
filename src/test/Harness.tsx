@@ -7,10 +7,6 @@ import type { MockedFunction } from 'vitest'
 import type { RenderOptions, RenderResult } from '@testing-library/react'
 import type { OnAdd, OnDelete, OnInput, OnValidate } from '../sharedTypes'
 
-Object.defineProperty(global, 'IS_REACT_ACT_ENVIRONMENT', {
-  value: true,
-})
-
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
 window.HTMLElement.prototype.scrollTo = vi.fn(() => null)

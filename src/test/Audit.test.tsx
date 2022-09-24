@@ -19,13 +19,21 @@ function formatAxeErrors(results: axe.AxeResults): Error | undefined {
   return violations.length ? new Error(violations.join('\n\n')) : undefined
 }
 
-function runAxeTest(container: axe.ElementContext, callback: (error?: Error) => void) {
-  axe.run(container, (error, results) => {
-    if (error) {
-      return callback(error)
-    }
+function runAxeTest(container: axe.ElementContext) {
+  return new Promise((resolve, reject) => {
+    axe.run(container, (error, results) => {
+      if (error) {
+        return reject(error)
+      }
 
-    callback(formatAxeErrors(results))
+      const errors = formatAxeErrors(results)
+
+      if (errors instanceof Error) {
+        reject(errors)
+      } else {
+        resolve(undefined)
+      }
+    })
   })
 }
 
@@ -34,16 +42,16 @@ describe('Axe a11y audit', () => {
     cleanup()
   })
 
-  it('has no basic accessibility issues with default state', (done) => {
+  it('has no basic accessibility issues with default state', () => {
     const harness = new Harness({
       selected: [suggestions[10], suggestions[100]],
       suggestions,
     })
 
-    runAxeTest(harness.result.container, done)
+    return runAxeTest(harness.result.container)
   })
 
-  it('has no basic accessibility issues when listbox is expanded', async (done) => {
+  it('has no basic accessibility issues when listbox is expanded', async () => {
     const harness = new Harness({
       selected: [suggestions[10], suggestions[100]],
       suggestions,
@@ -51,10 +59,10 @@ describe('Axe a11y audit', () => {
 
     await userEvent.type(harness.input, 'United')
 
-    runAxeTest(harness.result.container, done)
+    return runAxeTest(harness.result.container)
   })
 
-  it('has no basic accessibility issues with invalid state', (done) => {
+  it('has no basic accessibility issues with invalid state', () => {
     const harness = new Harness({
       isInvalid: true,
       ariaErrorMessage: 'error',
@@ -73,10 +81,10 @@ describe('Axe a11y audit', () => {
 
     harness.listBoxExpand()
 
-    runAxeTest(harness.result.container, done)
+    return runAxeTest(harness.result.container)
   })
 
-  it('has no basic accessibility issues with disabled state', (done) => {
+  it('has no basic accessibility issues with disabled state', () => {
     const harness = new Harness({
       isDisabled: true,
       selected: [suggestions[10], suggestions[100]],
@@ -85,6 +93,6 @@ describe('Axe a11y audit', () => {
 
     harness.listBoxExpand()
 
-    runAxeTest(harness.result.container, done)
+    return runAxeTest(harness.result.container)
   })
 })
