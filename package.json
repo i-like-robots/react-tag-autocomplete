@@ -22,7 +22,10 @@
     "prepublishOnly": "npm run test && npm run build"
   },
   "keywords": [],
-  "author": "Matt Hinchliffe",
+  "author": {
+    "name": "Matt Hinchliffe",
+    "url": "https://www.matthinchliffe.dev"
+  },
   "license": "ISC",
   "repository": {
     "type": "git",

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useMemo } from 'react'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type { OnValidate, TagSuggestion } from '../sharedTypes'
 
@@ -18,26 +18,24 @@ export function useInternalOptions({
   noOptionsText,
   onValidate,
 }: InternalOptionsArgs): InternalOptionsValue {
-  const newTagOption = useCallback(
-    (value: string): TagSuggestion => {
-      const disabled = typeof onValidate === 'function' ? !onValidate(value) : false
-
-      return {
-        disabled,
-        label: newOptionText,
-        value: NewOptionValue,
-      }
-    },
-    [newOptionText, onValidate]
-  )
-
-  const noTagsOption = useCallback((): TagSuggestion => {
+  return useMemo(() => {
     return {
-      disabled: true,
-      label: noOptionsText,
-      value: NoOptionsValue,
-    }
-  }, [noOptionsText])
+      newTagOption(value: string): TagSuggestion {
+        const disabled = typeof onValidate === 'function' ? !onValidate(value) : false
 
-  return { newTagOption, noTagsOption }
+        return {
+          disabled,
+          label: newOptionText,
+          value: NewOptionValue,
+        }
+      },
+      noTagsOption(): TagSuggestion {
+        return {
+          disabled: true,
+          label: noOptionsText,
+          value: NoOptionsValue,
+        }
+      },
+    }
+  }, [newOptionText, noOptionsText, onValidate])
 }
