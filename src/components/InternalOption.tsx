@@ -6,6 +6,10 @@ export type InternalOptionTextProps = {
   query: string
 }
 
-export function InternalOptionText({ label, query }: InternalOptionTextProps): JSX.Element {
+function InternalOptionText({ label, query }: InternalOptionTextProps): JSX.Element {
   return <span>{replacePlaceholder(label, query)}</span>
 }
+
+const MemoizedInternalOptionText = React.memo(InternalOptionText)
+
+export { MemoizedInternalOptionText as InternalOptionText }
