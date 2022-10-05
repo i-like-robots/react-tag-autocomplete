@@ -6,6 +6,7 @@ export default {
     lib: {
       entry: 'src/index.ts',
       name: 'ReactTags',
+      formats: ['es', 'cjs', 'umd'],
       fileName: (format) => `ReactTags.${format}.js`,
     },
     rollupOptions: {
