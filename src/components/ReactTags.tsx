@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { GlobalContext } from '../contexts'
-import { useInternalOptions, useManager, useOnSelect } from '../hooks'
+import { useInternalOptions, useManager, useOnSelect, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -10,6 +10,7 @@ import type {
   OnDelete,
   OnInput,
   OnValidate,
+  PublicAPI,
   SuggestionsTransform,
   TagSelected,
   TagSuggestion,
@@ -65,37 +66,40 @@ export type ReactTagsProps = {
   tagListLabelText?: string
 }
 
-export function ReactTags({
-  allowBackspace = true,
-  allowNew = false,
-  allowResize = true,
-  allowTab = false,
-  ariaAddedText = 'Added tag %value%',
-  ariaDescribedBy,
-  ariaErrorMessage,
-  ariaDeletedText = 'Removed tag %value%',
-  classNames = DefaultClassNames,
-  closeOnSelect = false,
-  deleteButtonText = 'Remove %value% from the list',
-  id = 'react-tags',
-  isDisabled = false,
-  isInvalid = false,
-  labelText = 'Select tags',
-  newOptionText = 'Add %value%',
-  noOptionsText = 'No options found for %value%',
-  onAdd,
-  onDelete,
-  onInput,
-  onValidate,
-  placeholderText = 'Add a tag',
-  renderLabel,
-  renderOption,
-  renderTag,
-  selected = [],
-  suggestions = [],
-  suggestionsTransform = matchSuggestionsPartial,
-  tagListLabelText = 'Selected tags',
-}: ReactTagsProps): JSX.Element {
+function ReactTags(
+  {
+    allowBackspace = true,
+    allowNew = false,
+    allowResize = true,
+    allowTab = false,
+    ariaAddedText = 'Added tag %value%',
+    ariaDescribedBy,
+    ariaErrorMessage,
+    ariaDeletedText = 'Removed tag %value%',
+    classNames = DefaultClassNames,
+    closeOnSelect = false,
+    deleteButtonText = 'Remove %value% from the list',
+    id = 'react-tags',
+    isDisabled = false,
+    isInvalid = false,
+    labelText = 'Select tags',
+    newOptionText = 'Add %value%',
+    noOptionsText = 'No options found for %value%',
+    onAdd,
+    onDelete,
+    onInput,
+    onValidate,
+    placeholderText = 'Add a tag',
+    renderLabel,
+    renderOption,
+    renderTag,
+    selected = [],
+    suggestions = [],
+    suggestionsTransform = matchSuggestionsPartial,
+    tagListLabelText = 'Selected tags',
+  }: ReactTagsProps,
+  ref?: React.MutableRefObject<PublicAPI>
+): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLDivElement>(null)
@@ -123,6 +127,12 @@ export function ReactTags({
   })
 
   const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
+
+  const publicAPI = usePublicAPI(manager)
+
+  if (ref && !ref.current) {
+    ref.current = publicAPI
+  }
 
   return (
     <GlobalContext.Provider
@@ -168,3 +178,7 @@ export function ReactTags({
     </GlobalContext.Provider>
   )
 }
+
+const ReactTagsWithRef = React.forwardRef(ReactTags)
+
+export { ReactTagsWithRef as ReactTags }
