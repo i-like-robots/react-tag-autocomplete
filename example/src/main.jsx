@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import { ReactTags } from '../../src'
 import { suggestions } from './countries'
@@ -43,7 +43,7 @@ function CountrySelector() {
     <>
       <p>Select the countries you have visited below:</p>
       <ReactTags
-        id="demo-1"
+        id="demo-component-1"
         labelText="Select countries"
         onAdd={onAdd}
         onDelete={onDelete}
@@ -146,7 +146,7 @@ function CustomTags() {
         allowNew
         ariaDescribedBy="description-2"
         closeOnSelect
-        id="demo-2"
+        id="demo-component-2"
         labelText="Enter new tags"
         onAdd={onAdd}
         onDelete={onDelete}
@@ -195,7 +195,7 @@ function CustomValidity() {
       <ReactTags
         ariaDescribedBy="description-3"
         ariaErrorMessage="error"
-        id="demo-3"
+        id="demo-component-3"
         isInvalid={selected.length !== length}
         labelText="Select countries"
         onDelete={onDelete}
@@ -308,7 +308,7 @@ function AsyncSuggestions() {
       <p id="description-4">Select the breweries you have visited using React Tags below:</p>
       <ReactTags
         ariaDescribedBy="description-4"
-        id="demo-4"
+        id="demo-component-4"
         labelText="Select breweries"
         noOptionsText={noOptionsText}
         onAdd={onAdd}
@@ -327,3 +327,69 @@ function AsyncSuggestions() {
 
 const container4 = ReactDOM.createRoot(document.getElementById('demo-4'))
 container4.render(<AsyncSuggestions />)
+
+/**
+ * Demo 5 - Using the API
+ */
+
+function UsingTheAPI() {
+  const [selected, setSelected] = useState([])
+
+  const onAdd = useCallback(
+    (newTag) => {
+      setSelected([...selected, newTag])
+    },
+    [selected]
+  )
+
+  const onDelete = useCallback(
+    (index) => {
+      setSelected(selected.filter((_, i) => i !== index))
+    },
+    [selected]
+  )
+
+  const api = useRef(null)
+
+  const focus = useCallback(() => {
+    api.current.input.focus()
+  }, [api])
+
+  const clear = useCallback(() => {
+    api.current.input.clear()
+  }, [api])
+
+  const toggle = useCallback(() => {
+    api.current.listBox.isExpanded ? api.current.listBox.collapse() : api.current.listBox.expand()
+  }, [api])
+
+  return (
+    <>
+      <p>Use the buttons below to control the component:</p>
+      <p>
+        <button type="button" onClick={focus}>
+          Focus input
+        </button>
+        <button type="button" onClick={clear}>
+          Clear input value
+        </button>
+        <button type="button" onClick={toggle}>
+          Toggle options list
+        </button>
+      </p>
+      <ReactTags
+        id="demo-component-5"
+        isInvalid={selected.length !== length}
+        labelText="Select countries"
+        onAdd={onAdd}
+        onDelete={onDelete}
+        ref={api}
+        selected={selected}
+        suggestions={suggestions}
+      />
+    </>
+  )
+}
+
+const container5 = ReactDOM.createRoot(document.getElementById('demo-5'))
+container5.render(<UsingTheAPI />)
