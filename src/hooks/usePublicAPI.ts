@@ -1,17 +1,23 @@
-import { useRef } from 'react'
+import React, { useRef } from 'react'
 import type { PublicAPI } from '../sharedTypes'
 import type { UseManagerState } from '.'
 
-export function usePublicAPI(manager: UseManagerState) {
+export function usePublicAPI(
+  manager: UseManagerState,
+  inputRef: React.MutableRefObject<HTMLInputElement | null>
+) {
   const api = useRef<PublicAPI>({
     input: {
-      clearValue() {
+      clear() {
         manager.clearValue()
       },
-      getValue() {
+      focus() {
+        inputRef.current?.focus()
+      },
+      get value() {
         return manager.state.value
       },
-      setValue(value: string) {
+      set value(value: string) {
         manager.updateValue(value)
       },
     },
@@ -22,8 +28,17 @@ export function usePublicAPI(manager: UseManagerState) {
       expand() {
         manager.expand()
       },
-      isExpanded() {
+      get activeIndex() {
+        return manager.state.activeIndex
+      },
+      set activeIndex(index: number) {
+        manager.updateActiveIndex(index)
+      },
+      get isExpanded() {
         return manager.state.isExpanded
+      },
+      get options() {
+        return manager.state.options
       },
     },
   })

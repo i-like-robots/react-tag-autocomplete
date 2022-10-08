@@ -128,10 +128,10 @@ function ReactTags(
 
   const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
 
-  const publicAPI = usePublicAPI(manager)
+  const publicAPI = usePublicAPI(manager, inputRef)
 
-  if (ref && !ref.current) {
-    ref.current = publicAPI
+  if (ref) {
+    ref.current ??= publicAPI
   }
 
   return (

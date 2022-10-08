@@ -51,13 +51,17 @@ export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[])
 
 export type PublicAPI = {
   input: {
-    clearValue(): void
-    getValue(): string
-    setValue(value: string): void
+    clear(): void
+    focus(): void
+    get value(): string
+    set value(value: string)
   }
   listBox: {
     collapse(): void
     expand(): void
-    isExpanded(): boolean
+    get activeIndex(): number
+    set activeIndex(index: number)
+    get isExpanded(): boolean
+    get options(): TagSuggestion[]
   }
 }
