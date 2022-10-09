@@ -728,4 +728,54 @@ describe('React Tags Autocomplete', () => {
       expect(others.some((option) => option.textContent === 'Tunisia')).toBe(true)
     })
   })
+
+  describe('render props', () => {
+    it('renders a custom label component when provided', () => {
+      const renderer: Harness['props']['renderLabel'] = ({ children, classNames, id }) => (
+        <p id={id} className={classNames.label}>
+          Custom {children}
+        </p>
+      )
+
+      harness = new Harness({ renderLabel: renderer })
+
+      expect(harness.label.id).toBe('react-tags-label')
+      expect(harness.label.textContent).toBe('Custom Select tags')
+    })
+
+    it('renders custom option components when provided', () => {
+      const renderer: Harness['props']['renderOption'] = ({ children, classNames, ...props }) => (
+        <div className={classNames.option} {...props}>
+          Custom {children}
+        </div>
+      )
+
+      harness = new Harness({ renderOption: renderer, suggestions })
+
+      harness.listBoxExpand()
+
+      expect(harness.options.length).toBeGreaterThan(0)
+
+      harness.options.forEach((option) => {
+        expect(option.id).toMatch(/^react-tags-option-/)
+        expect(option.textContent).toMatch(/Custom [\w\s]+/)
+      })
+    })
+
+    it('renders custom selected tag components when provided', () => {
+      const renderer: Harness['props']['renderTag'] = ({ classNames, tag, ...props }) => (
+        <button className={classNames.tag} {...props}>
+          Custom {tag.label}
+        </button>
+      )
+
+      harness = new Harness({ renderTag: renderer, selected: [{ ...suggestions[10] }] })
+
+      expect(harness.selectedTags.length).toBeGreaterThan(0)
+
+      harness.selectedTags.forEach((option) => {
+        expect(option.textContent).toMatch(/Custom [\w\s]+/)
+      })
+    })
+  })
 })
