@@ -2,10 +2,12 @@ import React, { useRef } from 'react'
 import type { PublicAPI } from '../sharedTypes'
 import type { UseManagerState } from '.'
 
-export function usePublicAPI(
-  manager: UseManagerState,
+export type UsePublicAPIArgs = {
   inputRef: React.MutableRefObject<HTMLInputElement | null>
-) {
+  manager: UseManagerState
+}
+
+export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI {
   const api = useRef<PublicAPI>({
     input: {
       clear() {
