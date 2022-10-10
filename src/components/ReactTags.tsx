@@ -34,7 +34,7 @@ const DefaultClassNames: ClassNames = {
   optionIsActive: 'is-active',
 }
 
-export type ReactTagsProps = {
+type ReactTagsProps = {
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
@@ -182,3 +182,5 @@ function ReactTags(
 const ReactTagsWithRef = React.forwardRef(ReactTags)
 
 export { ReactTagsWithRef as ReactTags }
+
+export type { PublicAPI as ReactTagsAPI, ReactTagsProps }

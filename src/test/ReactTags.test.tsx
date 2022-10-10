@@ -778,4 +778,14 @@ describe('React Tags Autocomplete', () => {
       })
     })
   })
+
+  describe('public API', () => {
+    beforeEach(() => {
+      harness = new Harness({ ref: React.createRef() })
+    })
+
+    it('assigns the API to a ref if provided', () => {
+      expect(harness.props.ref.current).not.toBeUndefined()
+    })
+  })
 })

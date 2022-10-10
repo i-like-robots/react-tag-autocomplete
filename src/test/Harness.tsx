@@ -2,7 +2,7 @@ import React from 'react'
 import { vi } from 'vitest'
 import { fireEvent, render } from '@testing-library/react'
 import { ReactTags } from '..'
-import type { ReactTagsProps } from '..'
+import type { ReactTagsAPI, ReactTagsProps } from '..'
 import type { MockedFunction } from 'vitest'
 import type { RenderOptions, RenderResult } from '@testing-library/react'
 import type { OnAdd, OnDelete, OnInput, OnValidate } from '../sharedTypes'
@@ -16,12 +16,14 @@ export type MockedOnDelete = MockedFunction<OnDelete>
 export type MockedOnInput = MockedFunction<OnInput>
 export type MockedOnValidate = MockedFunction<OnValidate>
 
+type HarnessProps = ReactTagsProps & { ref?: React.MutableRefObject<ReactTagsAPI> }
+
 export class Harness {
-  public props: ReactTagsProps
+  public props: HarnessProps
   public result: RenderResult
 
-  constructor(props: Partial<ReactTagsProps> = {}, options: RenderOptions = {}) {
-    const defaultProps: ReactTagsProps = {
+  constructor(props: Partial<HarnessProps> = {}, options: RenderOptions = {}) {
+    const defaultProps: HarnessProps = {
       selected: [],
       suggestions: [],
       onAdd: vi.fn(),
@@ -34,7 +36,7 @@ export class Harness {
     this.result = render(this.component, options)
   }
 
-  get component(): React.ReactElement<ReactTagsProps> {
+  get component(): React.ReactElement<HarnessProps> {
     return <ReactTags {...this.props} />
   }
 
