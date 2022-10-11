@@ -169,8 +169,8 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('triggers tag selection when the tab is pressed and allowTab is true', async () => {
-      harness.rerender({ allowTab: true })
+    it('triggers tag selection when another delimiter key is pressed', async () => {
+      harness.rerender({ delimiterKeys: ['Enter', 'Tab'] })
 
       await userEvent.type(harness.input, 'aus{arrowdown}{Tab}')
 
@@ -303,8 +303,8 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onDelete as MockedOnDelete).not.toHaveBeenCalled()
     })
 
-    it('does nothing when the tab key is pressed and the listbox is closed', async () => {
-      harness.rerender({ allowTab: true })
+    it('does nothing when another delimiter key is pressed and the listbox is closed', async () => {
+      harness.rerender({ delimiterKeys: ['Enter', 'Tab'] })
 
       await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{Tab}')
 

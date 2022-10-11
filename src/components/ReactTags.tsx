@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
-import { matchSuggestionsPartial, tagToKey } from '../lib'
+import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
+import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { useInternalOptions, useManager, useOnSelect, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
@@ -38,7 +39,6 @@ type ReactTagsProps = {
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
-  allowTab?: boolean
   ariaAddedText?: string
   ariaDescribedBy?: string
   ariaErrorMessage?: string
@@ -46,6 +46,7 @@ type ReactTagsProps = {
   classNames?: ClassNames
   closeOnSelect?: boolean
   deleteButtonText?: string
+  delimiterKeys?: string[]
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -71,7 +72,6 @@ function ReactTags(
     allowBackspace = true,
     allowNew = false,
     allowResize = true,
-    allowTab = false,
     ariaAddedText = 'Added tag %value%',
     ariaDescribedBy,
     ariaErrorMessage,
@@ -79,6 +79,7 @@ function ReactTags(
     classNames = DefaultClassNames,
     closeOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
+    delimiterKeys = [KeyNames.Enter],
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
@@ -162,7 +163,7 @@ function ReactTags(
           <Input
             allowBackspace={allowBackspace}
             allowResize={allowResize}
-            allowTab={allowTab}
+            delimiterKeys={delimiterKeys}
             placeholderText={placeholderText}
             ariaDescribedBy={ariaDescribedBy}
             ariaErrorMessage={ariaErrorMessage}
