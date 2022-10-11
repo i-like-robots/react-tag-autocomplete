@@ -85,6 +85,9 @@ function CountrySelector() {
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
+- [`renderLabel`](#renderLabel-optional)
+- [`renderOption`](#renderOption-optional)
+- [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
@@ -229,6 +232,54 @@ function onValidate(value) {
 #### placeholderText (optional)
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.
+
+#### renderLabel (optional)
+
+Optional custom label component to render. Receives the label text as children, required label attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+
+```js
+function CustomLabel({ children, classNames, ...labelProps }) {
+  return (
+    <div className={classNames.label} {...labelProps}>
+      {children}
+    </div>
+  )
+}
+```
+
+#### renderOption (optional)
+
+Optional custom option component to render. Receives the pre-rendered option text as children, option object, required option attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```js
+function CustomOption({ children, classNames, option, ...optionProps }) {
+  const classes = [
+    classNames.option,
+    option.active ? 'is-active' : '',
+    option.selected ? 'is-selected' : ''
+  ]
+
+  return (
+    <div className={classes.join(' ')} {...optionProps}>
+      {children}
+    </div>
+  )
+}
+```
+
+#### renderTag (optional)
+
+Optional custom tag component to render. Receives the selected tag object, required tag attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```js
+function CustomTag({ classNames, tag, ...tagProps }) {
+  return (
+    <button type="button" className={classNames.tag} {...tagProps}>
+      <span className={classNames.tagName}>{tag.label}</span>
+    </button>
+  )
+}
 
 #### selected (optional)
 
