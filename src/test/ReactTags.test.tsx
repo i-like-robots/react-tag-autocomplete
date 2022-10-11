@@ -1,7 +1,6 @@
 import React from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { matchSorter } from 'match-sorter'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness, MockedOnAdd } from './Harness'
 import { suggestions } from '../../example/src/countries'
@@ -711,21 +710,29 @@ describe('React Tags Autocomplete', () => {
   describe('with custom suggestions transform', () => {
     beforeEach(() => {
       const suggestionsTransform: SuggestionsTransform = (query, suggestions) => {
-        return matchSorter(suggestions, query, { keys: ['label'] })
+        const matcher = new RegExp(query, 'i')
+
+        return suggestions
+          .filter((option) => matcher.test(option.label))
+          .map((option) => ({
+            label: `## ${option.label}`,
+            value: option.value,
+          }))
       }
 
       harness = new Harness({ suggestions, suggestionsTransform })
     })
 
     it('uses provided suggestionsTransform callback', async () => {
+      await harness.listBoxExpand()
+
+      expect(harness.options.length).toBe(206)
+      expect(harness.options[1].textContent).toMatch('##')
+
       await userEvent.type(harness.input, 'uni')
 
-      const [one, two, ...others] = harness.options
-
-      expect(one.textContent).toBe('United Arab Emirates') // top match
-      expect(two.textContent).toBe('United Kingdom')
-      expect(others.some((option) => option.textContent === 'Reunion')).toBe(true)
-      expect(others.some((option) => option.textContent === 'Tunisia')).toBe(true)
+      expect(harness.options.length).toBe(5)
+      expect(harness.options[1].textContent).toMatch('##')
     })
   })
 

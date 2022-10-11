@@ -23,8 +23,9 @@ type ManagerAPI = {
 
 export type UseManagerState = ManagerAPI & { flags: ManagerFlags; state: ManagerState }
 
-function getInitialState(initialState: ManagerState) {
-  return { ...initialState, options: [...initialState.suggestions] }
+function getInitialState(state: ManagerState) {
+  const options = state.suggestionsTransform(state.value, state.suggestions)
+  return { ...state, options }
 }
 
 export function useManager(initialState: ManagerState): UseManagerState {

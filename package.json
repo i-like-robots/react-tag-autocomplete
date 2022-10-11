@@ -52,7 +52,6 @@
     "husky": "^8.0.0",
     "jsdom": "^20.0.0",
     "lint-staged": "^13.0.0",
-    "match-sorter": "^6.3.0",
     "prettier": "^2.6.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
