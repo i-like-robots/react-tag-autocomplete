@@ -393,3 +393,34 @@ function UsingTheAPI() {
 
 const container5 = ReactDOM.createRoot(document.getElementById('demo-5'))
 container5.render(<UsingTheAPI />)
+
+/**
+ * Demo 6 - Extending Tag type
+ */
+
+const _suggestions = [
+  {
+    value: '1',
+    label: 'One',
+    test: 'test',
+  },
+]
+function ExtendTagType() {
+  return (
+    <>
+      <ReactTags
+        id="demo-component-6"
+        labelText="Select countries"
+        suggestions={_suggestions} // FIXME: this is never[], somehow it's getting overconstrained
+        selected={[]}
+        onDelete={() => {
+          console.log()
+        }}
+        onAdd={(tag) => console.log(tag.test)}
+      />
+    </>
+  )
+}
+
+const container6 = ReactDOM.createRoot(document.getElementById('demo-6'))
+container6.render(<ExtendTagType />)

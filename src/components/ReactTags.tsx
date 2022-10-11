@@ -113,7 +113,7 @@ function ReactTags<T extends TagType>(
     onValidate,
   })
 
-  const manager = useManager<T>({
+  const manager = useManager({
     activeIndex: -1,
     activeOption: null,
     allowNew,
@@ -127,9 +127,9 @@ function ReactTags<T extends TagType>(
     value: '',
   })
 
-  const onSelect = useOnSelect<T>({ closeOnSelect, manager, onAdd, onDelete })
+  const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
 
-  const publicAPI = usePublicAPI<T>({ inputRef, manager })
+  const publicAPI = usePublicAPI({ inputRef, manager })
 
   if (ref) {
     ref.current ??= publicAPI
@@ -180,7 +180,10 @@ function ReactTags<T extends TagType>(
   )
 }
 
-const ReactTagsWithRef = React.forwardRef(ReactTags)
+// Type casting here allows forwardRef to support generics
+const ReactTagsWithRef = React.forwardRef(ReactTags) as <T extends TagType>(
+  p: ReactTagsProps<T> & { ref?: React.MutableRefObject<PublicAPI<T>> }
+) => JSX.Element
 
 export { ReactTagsWithRef as ReactTags }
 
