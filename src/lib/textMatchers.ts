@@ -28,8 +28,12 @@ export function matchSuggestionsPartial(
   query: string,
   suggestions: TagSuggestion[]
 ): TagSuggestion[] {
-  const matcher = matchPartial(query)
-  return suggestions.filter((item) => matcher(item.label))
+  if (query === '') {
+    return [].concat(suggestions)
+  } else {
+    const matcher = matchPartial(query)
+    return suggestions.filter((item) => matcher(item.label))
+  }
 }
 
 export function findSuggestionExact(
