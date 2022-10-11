@@ -1,16 +1,16 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../contexts'
+import React from 'react'
+import { useGlobalContext } from '../contexts'
 import { useSelectedTag } from '../hooks'
-import type { ClassNames, TagSelected } from '../sharedTypes'
+import type { ClassNames, Tag, TagSelected } from '../sharedTypes'
 
-type TagRendererProps = React.ComponentPropsWithoutRef<'button'> & {
+type TagRendererProps<T extends Tag> = React.ComponentPropsWithoutRef<'button'> & {
   classNames: ClassNames
-  tag: TagSelected
+  tag: TagSelected<T>
 }
 
-export type TagRenderer = (props: TagRendererProps) => JSX.Element
+export type TagRenderer<T extends Tag> = (props: TagRendererProps<T>) => JSX.Element
 
-const DefaultTag: TagRenderer = ({ classNames, tag, ...tagProps }) => {
+const DefaultTag = <T extends Tag>({ classNames, tag, ...tagProps }: TagRendererProps<T>) => {
   return (
     <button type="button" className={classNames.tag} {...tagProps}>
       <span className={classNames.tagName}>{tag.label}</span>
@@ -18,15 +18,19 @@ const DefaultTag: TagRenderer = ({ classNames, tag, ...tagProps }) => {
   )
 }
 
-export type TagProps = {
+export type TagProps<T extends Tag> = {
   index: number
-  render?: TagRenderer
+  render?: TagRenderer<T>
   title: string
 }
 
-export function Tag({ render = DefaultTag, index, title }: TagProps): JSX.Element {
-  const { classNames } = useContext(GlobalContext)
-  const { tag, tagProps } = useSelectedTag(index, title)
+export function Tag<T extends Tag>({
+  render = DefaultTag,
+  index,
+  title,
+}: TagProps<T>): JSX.Element {
+  const { classNames } = useGlobalContext<T>()
+  const { tag, tagProps } = useSelectedTag<T>(index, title)
 
   return render({ classNames, tag, ...tagProps })
 }

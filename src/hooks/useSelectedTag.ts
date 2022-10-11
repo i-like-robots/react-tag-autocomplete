@@ -1,16 +1,19 @@
-import { useCallback, useContext } from 'react'
+import { useCallback } from 'react'
 import { VoidFn } from '../constants'
-import { GlobalContext } from '../contexts'
+import { useGlobalContext } from '../contexts'
 import { replacePlaceholder } from '../lib'
-import type { TagSelected } from '../sharedTypes'
+import type { Tag, TagSelected } from '../sharedTypes'
 
-export type UseSelectedTagState = {
-  tag: TagSelected
+export type UseSelectedTagState<T extends Tag> = {
+  tag: TagSelected<T>
   tagProps: React.ComponentPropsWithoutRef<'button'>
 }
 
-export function useSelectedTag(index: number, title: string): UseSelectedTagState {
-  const { isDisabled, manager, onSelect } = useContext(GlobalContext)
+export function useSelectedTag<T extends Tag>(
+  index: number,
+  title: string
+): UseSelectedTagState<T> {
+  const { isDisabled, manager, onSelect } = useGlobalContext<T>()
   const tag = manager.state.selected[index]
   const onClick = useCallback(() => onSelect(tag), [onSelect, tag])
 

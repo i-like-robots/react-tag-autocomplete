@@ -1,20 +1,25 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { OptionText } from '.'
 import { NewOptionValue, NoOptionsValue } from '../constants'
-import { GlobalContext } from '../contexts'
+import { useGlobalContext } from '../contexts'
 import { useOption } from '../hooks'
 import { InternalOptionText } from './InternalOption'
-import type { ClassNames, TagOption } from '../sharedTypes'
+import type { ClassNames, Tag, TagOption } from '../sharedTypes'
 
-type OptionRendererProps = React.ComponentPropsWithRef<'div'> & {
+type OptionRendererProps<T extends Tag> = React.ComponentPropsWithRef<'div'> & {
   children: React.ReactNode
   classNames: ClassNames
-  option: TagOption
+  option: TagOption<T>
 }
 
-export type OptionRenderer = (props: OptionRendererProps) => JSX.Element
+export type OptionRenderer<T extends Tag> = (props: OptionRendererProps<T>) => JSX.Element
 
-const DefaultOption: OptionRenderer = ({ children, classNames, option, ...optionProps }) => {
+const DefaultOption = <T extends Tag>({
+  children,
+  classNames,
+  option,
+  ...optionProps
+}: OptionRendererProps<T>) => {
   const classes = [classNames.option]
 
   if (option.active) classes.push(classNames.optionIsActive)
@@ -26,14 +31,17 @@ const DefaultOption: OptionRenderer = ({ children, classNames, option, ...option
   )
 }
 
-export type OptionProps = {
+export type OptionProps<T extends Tag> = {
   index: number
-  render?: OptionRenderer
+  render?: OptionRenderer<T>
 }
 
-export function Option({ index, render = DefaultOption }: OptionProps): JSX.Element {
-  const { classNames, manager } = useContext(GlobalContext)
-  const { option, optionProps } = useOption(index)
+export function Option<T extends Tag>({
+  index,
+  render = DefaultOption,
+}: OptionProps<T>): JSX.Element {
+  const { classNames, manager } = useGlobalContext<T>()
+  const { option, optionProps } = useOption<T>(index)
 
   const children =
     option.value === NewOptionValue || option.value === NoOptionsValue ? (

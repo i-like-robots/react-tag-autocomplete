@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from 'react'
-import { GlobalContext } from '../contexts'
+import React, { useRef } from 'react'
+import { useGlobalContext } from '../contexts'
 import { replacePlaceholder } from '../lib'
 
 const VisuallyHiddenStyles: React.CSSProperties = {
@@ -17,7 +17,7 @@ export type AnnouncementsProps = {
 }
 
 export function Announcements({ ariaAddedText, ariaDeletedText }: AnnouncementsProps): JSX.Element {
-  const { manager } = useContext(GlobalContext)
+  const { manager } = useGlobalContext()
 
   const logsRef = useRef<string[]>([])
 

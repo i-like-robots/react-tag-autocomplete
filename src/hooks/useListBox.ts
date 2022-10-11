@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from 'react'
-import { GlobalContext } from '../contexts'
+import React, { useEffect } from 'react'
+import { useGlobalContext } from '../contexts'
 import { labelId, listBoxId } from '../lib'
 
 export type UseListBoxState = React.ComponentPropsWithRef<'div'>
 
 export function useListBox(): UseListBoxState {
-  const { id, listBoxRef, manager } = useContext(GlobalContext)
+  const { id, listBoxRef, manager } = useGlobalContext()
 
   useEffect(() => {
     if (manager.state.activeIndex === -1) {

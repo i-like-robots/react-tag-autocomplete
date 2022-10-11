@@ -1,13 +1,16 @@
-import { useCallback, useContext, useEffect, useRef } from 'react'
-import { GlobalContext } from '../contexts'
+import { useCallback, useEffect, useRef } from 'react'
+import { useGlobalContext } from '../contexts'
 import { findTagIndex, optionId } from '../lib'
 import type React from 'react'
-import type { TagOption } from '../sharedTypes'
+import type { Tag, TagOption } from '../sharedTypes'
 
-export type UseOptionState = { option: TagOption; optionProps: React.ComponentPropsWithRef<'div'> }
+export type UseOptionState<T extends Tag> = {
+  option: TagOption<T>
+  optionProps: React.ComponentPropsWithRef<'div'>
+}
 
-export function useOption(index: number): UseOptionState {
-  const { id, inputRef, manager, onSelect } = useContext(GlobalContext)
+export function useOption<T extends Tag>(index: number): UseOptionState<T> {
+  const { id, inputRef, manager, onSelect } = useGlobalContext<T>()
   const optionRef = useRef<HTMLDivElement>(null)
   const option = manager.state.options[index]
   const active = index === manager.state.activeIndex

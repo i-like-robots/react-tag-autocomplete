@@ -3,12 +3,13 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { cleanup, fireEvent, screen } from '@testing-library/react'
 import { Harness, MockedOnAdd } from './Harness'
-import { suggestions } from '../../example/src/countries'
+import { suggestions as _suggestions } from '../../example/src/countries'
 import type { MockedOnDelete, MockedOnInput, MockedOnValidate } from './Harness'
-import type { SuggestionsTransform } from '../sharedTypes'
+import type { SuggestionsTransform, Tag } from '../sharedTypes'
 
-describe('React Tags Autocomplete', () => {
-  let harness: Harness
+describe('React Tags Autocomplete', <T extends Tag>() => {
+  const suggestions = _suggestions as Array<T> // FIXME
+  let harness: Harness<T>
 
   afterEach(() => {
     cleanup()
@@ -46,7 +47,7 @@ describe('React Tags Autocomplete', () => {
     const tags = [{ ...suggestions[0] }, { ...suggestions[1] }]
 
     beforeEach(() => {
-      harness = new Harness({ suggestions, selected: tags })
+      harness = new Harness<T>({ suggestions, selected: tags })
     })
 
     it('assigns the selected tag list a label', () => {
@@ -76,7 +77,7 @@ describe('React Tags Autocomplete', () => {
 
   describe('input', () => {
     beforeEach(() => {
-      harness = new Harness({ suggestions })
+      harness = new Harness<T>({ suggestions })
     })
 
     it('assigns the label text', () => {
@@ -299,7 +300,7 @@ describe('React Tags Autocomplete', () => {
       await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{enter}')
 
       expect(harness.isExpanded()).toBe(false)
-      expect(harness.props.onAdd as MockedOnAdd).not.toHaveBeenCalled()
+      expect(harness.props.onAdd as MockedOnAdd<T>).not.toHaveBeenCalled()
       expect(harness.props.onDelete as MockedOnDelete).not.toHaveBeenCalled()
     })
 
@@ -309,7 +310,7 @@ describe('React Tags Autocomplete', () => {
       await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{Tab}')
 
       expect(harness.isExpanded()).toBe(false)
-      expect(harness.props.onAdd as MockedOnAdd).not.toHaveBeenCalled()
+      expect(harness.props.onAdd as MockedOnAdd<T>).not.toHaveBeenCalled()
       expect(harness.props.onDelete as MockedOnDelete).not.toHaveBeenCalled()
     })
   })
@@ -709,7 +710,7 @@ describe('React Tags Autocomplete', () => {
 
   describe('with custom suggestions transform', () => {
     beforeEach(() => {
-      const suggestionsTransform: SuggestionsTransform = (query, suggestions) => {
+      const suggestionsTransform: SuggestionsTransform<T> = (query, suggestions) => {
         const matcher = new RegExp(query, 'i')
 
         return suggestions
@@ -717,7 +718,7 @@ describe('React Tags Autocomplete', () => {
           .map((option) => ({
             label: `## ${option.label}`,
             value: option.value,
-          }))
+          })) as Array<T>
       }
 
       harness = new Harness({ suggestions, suggestionsTransform })
@@ -738,20 +739,24 @@ describe('React Tags Autocomplete', () => {
 
   describe('render props', () => {
     it('renders a custom label component when provided', () => {
-      const renderer: Harness['props']['renderLabel'] = ({ children, classNames, id }) => (
+      const renderer: Harness<T>['props']['renderLabel'] = ({ children, classNames, id }) => (
         <p id={id} className={classNames.label}>
           Custom {children}
         </p>
       )
 
-      harness = new Harness({ renderLabel: renderer })
+      harness = new Harness<T>({ renderLabel: renderer })
 
       expect(harness.label.id).toBe('react-tags-label')
       expect(harness.label.textContent).toBe('Custom Select tags')
     })
 
     it('renders custom option components when provided', () => {
-      const renderer: Harness['props']['renderOption'] = ({ children, classNames, ...props }) => (
+      const renderer: Harness<T>['props']['renderOption'] = ({
+        children,
+        classNames,
+        ...props
+      }) => (
         <div className={classNames.option} {...props}>
           Custom {children}
         </div>
@@ -770,7 +775,7 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('renders custom selected tag components when provided', () => {
-      const renderer: Harness['props']['renderTag'] = ({ classNames, tag, ...props }) => (
+      const renderer: Harness<T>['props']['renderTag'] = ({ classNames, tag, ...props }) => (
         <button className={classNames.tag} {...props}>
           Custom {tag.label}
         </button>

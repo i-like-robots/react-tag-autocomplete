@@ -5,25 +5,27 @@ import { ReactTags } from '..'
 import type { ReactTagsAPI, ReactTagsProps } from '..'
 import type { MockedFunction } from 'vitest'
 import type { RenderOptions, RenderResult } from '@testing-library/react'
-import type { OnAdd, OnDelete, OnInput, OnValidate } from '../sharedTypes'
+import type { OnAdd, OnDelete, OnInput, OnValidate, Tag } from '../sharedTypes'
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
 window.HTMLElement.prototype.scrollTo = vi.fn(() => null)
 
-export type MockedOnAdd = MockedFunction<OnAdd>
+export type MockedOnAdd<T extends Tag> = MockedFunction<OnAdd<T>>
 export type MockedOnDelete = MockedFunction<OnDelete>
 export type MockedOnInput = MockedFunction<OnInput>
 export type MockedOnValidate = MockedFunction<OnValidate>
 
-type HarnessProps = ReactTagsProps & { ref?: React.MutableRefObject<ReactTagsAPI> }
+type HarnessProps<T extends Tag> = ReactTagsProps<T> & {
+  ref?: React.MutableRefObject<ReactTagsAPI<T>>
+}
 
-export class Harness {
-  public props: HarnessProps
+export class Harness<T extends Tag> {
+  public props: HarnessProps<T>
   public result: RenderResult
 
-  constructor(props: Partial<HarnessProps> = {}, options: RenderOptions = {}) {
-    const defaultProps: HarnessProps = {
+  constructor(props: Partial<HarnessProps<T>> = {}, options: RenderOptions = {}) {
+    const defaultProps: HarnessProps<T> = {
       selected: [],
       suggestions: [],
       onAdd: vi.fn(),
@@ -36,7 +38,7 @@ export class Harness {
     this.result = render(this.component, options)
   }
 
-  get component(): React.ReactElement<HarnessProps> {
+  get component(): React.ReactElement<HarnessProps<T>> {
     return <ReactTags {...this.props} />
   }
 
@@ -104,7 +106,7 @@ export class Harness {
     if (this.isExpanded()) fireEvent.blur(this.input)
   }
 
-  rerender(props?: Partial<ReactTagsProps>) {
+  rerender(props?: Partial<ReactTagsProps<T>>) {
     if (this.result) {
       Object.assign(this.props, props)
       this.result.rerender(this.component)

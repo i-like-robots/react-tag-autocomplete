@@ -1,5 +1,5 @@
-import React, { useContext, useMemo, useState } from 'react'
-import { GlobalContext } from '../contexts'
+import React, { useMemo, useState } from 'react'
+import { useGlobalContext } from '../contexts'
 import { labelId, rootId } from '../lib'
 
 export type UseRootState = {
@@ -10,7 +10,7 @@ export type UseRootState = {
 export function useRoot(): UseRootState {
   const [isActive, setIsActive] = useState<boolean>(false)
 
-  const { id, inputRef, rootRef } = useContext(GlobalContext)
+  const { id, inputRef, rootRef } = useGlobalContext()
 
   const rootProps = useMemo(() => {
     return {

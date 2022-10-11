@@ -1,6 +1,6 @@
-import { useContext, useMemo } from 'react'
+import { useMemo } from 'react'
 import { KeyNames, VoidFn } from '../constants'
-import { GlobalContext } from '../contexts'
+import { useGlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
 import type React from 'react'
 
@@ -27,8 +27,7 @@ export function useInput({
   ariaDescribedBy,
   ariaErrorMessage,
 }: UseInputArgs): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
-    useContext(GlobalContext)
+  const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } = useGlobalContext()
 
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

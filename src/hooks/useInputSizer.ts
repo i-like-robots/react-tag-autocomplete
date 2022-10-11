@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { GlobalContext } from '../contexts'
+import React, { useEffect, useRef, useState } from 'react'
+import { useGlobalContext } from '../contexts'
 
 const SizerStyles: React.CSSProperties = {
   position: 'absolute',
@@ -31,7 +31,7 @@ export type UseInputSizerState = {
 
 export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): UseInputSizerState {
   const sizerRef = useRef<HTMLDivElement>(null)
-  const { inputRef } = useContext(GlobalContext)
+  const { inputRef } = useGlobalContext()
   const [width, setWidth] = useState<number>(0)
 
   useEffect(() => {

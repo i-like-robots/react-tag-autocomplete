@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../contexts'
+import React from 'react'
+import { useGlobalContext } from '../contexts'
 import { useInput, useInputSizer } from '../hooks'
 
 export type InputProps = {
@@ -19,7 +19,7 @@ export function Input({
   ariaErrorMessage,
   placeholderText,
 }: InputProps): JSX.Element {
-  const { classNames } = useContext(GlobalContext)
+  const { classNames } = useGlobalContext()
   const { value, ...inputProps } = useInput({
     allowBackspace,
     allowTab,

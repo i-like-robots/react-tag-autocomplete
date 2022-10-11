@@ -5,13 +5,16 @@ import { findSuggestionExact, findTagIndex } from '../lib'
 import type { UseManagerState } from '.'
 import type { OnAdd, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
-function getNewTag(option: TagSuggestion | null, value: string): TagSuggestion | undefined {
+function getNewTag<T extends Tag>(
+  option: TagSuggestion<T> | null,
+  value: string
+): TagSuggestion<T> | undefined {
   if (option?.value === NewOptionValue && option.disabled === false) {
-    return { value: value, label: value }
+    return { value: value, label: value } as TagSuggestion<T> // FIXME
   }
 }
 
-function findSelectedTag(state: ManagerState): TagSuggestion | undefined {
+function findSelectedTag<T extends Tag>(state: ManagerState<T>): TagSuggestion<T> | undefined {
   const tag =
     getNewTag(state.activeOption, state.value) ||
     state.activeOption ||
@@ -20,21 +23,21 @@ function findSelectedTag(state: ManagerState): TagSuggestion | undefined {
   return tag && !tag.disabled ? tag : undefined
 }
 
-export type UseOnSelectArgs = {
+export type UseOnSelectArgs<T extends Tag> = {
   closeOnSelect: boolean
-  manager: UseManagerState
-  onAdd: OnAdd
+  manager: UseManagerState<T>
+  onAdd: OnAdd<T>
   onDelete: OnDelete
 }
 
-export function useOnSelect({
+export function useOnSelect<T extends Tag>({
   closeOnSelect,
   manager,
   onAdd,
   onDelete,
-}: UseOnSelectArgs): OnSelect {
+}: UseOnSelectArgs<T>): OnSelect<T> {
   return useCallback(
-    (tag?: Tag) => {
+    (tag?: T) => {
       tag ??= findSelectedTag(manager.state)
 
       if (!tag) return

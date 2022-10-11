@@ -31,13 +31,13 @@ export type TagInternalProps = {
   selected: boolean
 }
 
-export type TagSuggestion = Tag & Partial<TagMetaProps>
+export type TagSuggestion<T extends Tag> = T & Partial<TagMetaProps>
 
-export type TagOption = Tag & TagMetaProps & TagInternalProps
+export type TagOption<T extends Tag> = T & TagMetaProps & TagInternalProps
 
-export type TagSelected = Tag
+export type TagSelected<T extends Tag> = T
 
-export type OnAdd = (tag: Tag) => void
+export type OnAdd<T extends Tag> = (tag: T) => void
 
 export type OnDelete = (index: number) => void
 
@@ -45,11 +45,14 @@ export type OnInput = (value: string) => void
 
 export type OnValidate = (value?: string) => boolean
 
-export type OnSelect = (tag?: Tag) => void
+export type OnSelect<T extends Tag> = (tag?: T) => void
 
-export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[]) => TagSuggestion[]
+export type SuggestionsTransform<T extends Tag> = (
+  value: string,
+  suggestions: TagSuggestion<T>[]
+) => TagSuggestion<T>[]
 
-export type PublicAPI = {
+export type PublicAPI<T extends Tag> = {
   input: {
     clear(): void
     focus(): void
@@ -62,6 +65,6 @@ export type PublicAPI = {
     get activeIndex(): number
     set activeIndex(index: number)
     get isExpanded(): boolean
-    get options(): TagSuggestion[]
+    get options(): TagSuggestion<T>[]
   }
 }

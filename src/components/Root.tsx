@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../contexts'
+import React from 'react'
+import { useGlobalContext } from '../contexts'
 import { useCaptureFocus, useRoot } from '../hooks'
 
 export type RootProps = {
@@ -9,7 +9,7 @@ export type RootProps = {
 export function Root({ children }: RootProps): JSX.Element {
   useCaptureFocus()
 
-  const { classNames, isDisabled, isInvalid } = useContext(GlobalContext)
+  const { classNames, isDisabled, isInvalid } = useGlobalContext()
   const { isActive, rootProps } = useRoot()
 
   const classes = [classNames.root]

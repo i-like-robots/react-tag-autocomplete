@@ -9,29 +9,32 @@ type ManagerFlags = {
   tagsDeleted: Tag[]
 }
 
-type ManagerAPI = {
+type ManagerAPI<T extends Tag> = {
   clearActiveIndex(): void
   clearAll(): void
   clearValue(): void
   collapse(): void
   expand(): void
   updateActiveIndex(index: number): void
-  updateSelected(tags: TagSelected[]): void
-  updateSuggestions(suggestions: TagSuggestion[]): void
+  updateSelected(tags: TagSelected<T>[]): void
+  updateSuggestions(suggestions: TagSuggestion<T>[]): void
   updateValue(value: string): void
 }
 
-export type UseManagerState = ManagerAPI & { flags: ManagerFlags; state: ManagerState }
+export type UseManagerState<T extends Tag> = ManagerAPI<T> & {
+  flags: ManagerFlags
+  state: ManagerState<T>
+}
 
-function getInitialState(state: ManagerState) {
+function getInitialState<T extends Tag>(state: ManagerState<T>) {
   const options = state.suggestionsTransform(state.value, state.suggestions)
   return { ...state, options }
 }
 
-export function useManager(initialState: ManagerState): UseManagerState {
+export function useManager<T extends Tag>(initialState: ManagerState<T>): UseManagerState<T> {
   const [state, dispatch] = useReducer(managerReducer, initialState, getInitialState)
 
-  const api = useRef<UseManagerState>({
+  const api = useRef<UseManagerState<T>>({
     state: null,
     flags: null,
     clearActiveIndex() {
@@ -52,10 +55,10 @@ export function useManager(initialState: ManagerState): UseManagerState {
     updateActiveIndex(index: number) {
       dispatch({ type: ManagerActions.UpdateActiveIndex, payload: index })
     },
-    updateSelected(selected: TagSelected[]) {
+    updateSelected(selected: TagSelected<T>[]) {
       dispatch({ type: ManagerActions.UpdateSelected, payload: selected })
     },
-    updateSuggestions(suggestions: TagSuggestion[]) {
+    updateSuggestions(suggestions: TagSuggestion<T>[]) {
       dispatch({ type: ManagerActions.UpdateSuggestions, payload: suggestions })
     },
     updateValue(value: string) {
@@ -68,7 +71,7 @@ export function useManager(initialState: ManagerState): UseManagerState {
     tagsDeleted: api.current.state ? arrayDiff(api.current.state.selected, state.selected) : [],
   }
 
-  api.current.state = state
+  api.current.state = state as ManagerState<T> // FIXME
 
   if (initialState.selected !== state.selected) {
     api.current.updateSelected(initialState.selected)

@@ -1,14 +1,17 @@
 import React, { useRef } from 'react'
-import type { PublicAPI } from '../sharedTypes'
+import type { PublicAPI, Tag } from '../sharedTypes'
 import type { UseManagerState } from '.'
 
-export type UsePublicAPIArgs = {
+export type UsePublicAPIArgs<T extends Tag> = {
   inputRef: React.MutableRefObject<HTMLInputElement | null>
-  manager: UseManagerState
+  manager: UseManagerState<T>
 }
 
-export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI {
-  const api = useRef<PublicAPI>({
+export function usePublicAPI<T extends Tag>({
+  inputRef,
+  manager,
+}: UsePublicAPIArgs<T>): PublicAPI<T> {
+  const api = useRef<PublicAPI<T>>({
     input: {
       clear() {
         manager.clearValue()

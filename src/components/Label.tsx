@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { GlobalContext } from '../contexts'
+import React from 'react'
+import { useGlobalContext } from '../contexts'
 import { labelId } from '../lib'
 import type { ClassNames } from '../sharedTypes'
 
@@ -25,6 +25,6 @@ export type LabelProps = {
 }
 
 export function Label({ children, render = DefaultLabel }: LabelProps): JSX.Element {
-  const { classNames, id } = useContext(GlobalContext)
+  const { classNames, id } = useGlobalContext()
   return render({ children, classNames, id: labelId(id) })
 }

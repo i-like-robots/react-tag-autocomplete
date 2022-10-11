@@ -1,12 +1,12 @@
-import { useContext, useMemo } from 'react'
-import { GlobalContext } from '../contexts'
+import { useMemo } from 'react'
+import { useGlobalContext } from '../contexts'
 import { comboBoxId } from '../lib'
 import type React from 'react'
 
 export type UseComboBoxState = React.ComponentPropsWithRef<'div'>
 
 export function useComboBox(): UseComboBoxState {
-  const { comboBoxRef, id, manager } = useContext(GlobalContext)
+  const { comboBoxRef, id, manager } = useGlobalContext()
 
   return useMemo(() => {
     return {

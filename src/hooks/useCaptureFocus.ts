@@ -1,8 +1,8 @@
-import { useContext, useEffect } from 'react'
-import { GlobalContext } from '../contexts'
+import { useEffect } from 'react'
+import { useGlobalContext } from '../contexts'
 
 export function useCaptureFocus(): void {
-  const { inputRef, manager, tagListRef } = useContext(GlobalContext)
+  const { inputRef, manager, tagListRef } = useGlobalContext()
 
   const tagDeleted = manager.flags.tagsDeleted.length
   const isFocusInList = tagListRef.current?.contains(document.activeElement)

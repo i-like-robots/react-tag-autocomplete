@@ -1,5 +1,5 @@
 import { findTagIndex } from '../lib'
-import type { SuggestionsTransform, TagSelected, TagSuggestion } from '../sharedTypes'
+import type { SuggestionsTransform, Tag, TagSelected, TagSuggestion } from '../sharedTypes'
 
 export enum ManagerActions {
   ClearActiveIndex,
@@ -13,28 +13,28 @@ export enum ManagerActions {
   UpdateValue,
 }
 
-type ManagerAction =
+type ManagerAction<T extends Tag> =
   | { type: ManagerActions.ClearActiveIndex }
   | { type: ManagerActions.ClearAll }
   | { type: ManagerActions.ClearValue }
   | { type: ManagerActions.Collapse }
   | { type: ManagerActions.Expand }
   | { type: ManagerActions.UpdateActiveIndex; payload: number }
-  | { type: ManagerActions.UpdateSelected; payload: TagSelected[] }
-  | { type: ManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
+  | { type: ManagerActions.UpdateSelected; payload: TagSelected<T>[] }
+  | { type: ManagerActions.UpdateSuggestions; payload: TagSuggestion<T>[] }
   | { type: ManagerActions.UpdateValue; payload: string }
 
-export type ManagerState = {
+export type ManagerState<T extends Tag> = {
   activeIndex: number
-  activeOption: TagSuggestion | null
+  activeOption: TagSuggestion<T> | null
   allowNew: boolean
   isExpanded: boolean
-  newTagOption: (value: string) => TagSuggestion
-  noTagsOption: (value: string) => TagSuggestion
-  selected: TagSelected[]
-  suggestions: TagSuggestion[]
-  suggestionsTransform: SuggestionsTransform
-  options: TagSuggestion[]
+  newTagOption: (value: string) => TagSuggestion<T>
+  noTagsOption: (value: string) => TagSuggestion<T>
+  selected: TagSelected<T>[]
+  suggestions: TagSuggestion<T>[]
+  suggestionsTransform: SuggestionsTransform<T>
+  options: TagSuggestion<T>[]
   value: string
 }
 
@@ -52,7 +52,10 @@ function loop(next: number, size: number): number {
   return next
 }
 
-export function managerReducer(state: ManagerState, action: ManagerAction): ManagerState {
+export function managerReducer<T extends Tag>(
+  state: ManagerState<T>,
+  action: ManagerAction<T>
+): ManagerState<T> {
   if (action.type === ManagerActions.ClearActiveIndex) {
     return {
       ...state,

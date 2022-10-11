@@ -14,6 +14,7 @@ import type {
   SuggestionsTransform,
   TagSelected,
   TagSuggestion,
+  Tag as TagType,
 } from '../sharedTypes'
 
 const DefaultClassNames: ClassNames = {
@@ -34,7 +35,7 @@ const DefaultClassNames: ClassNames = {
   optionIsActive: 'is-active',
 }
 
-type ReactTagsProps = {
+type ReactTagsProps<T extends TagType> = {
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
@@ -52,21 +53,21 @@ type ReactTagsProps = {
   labelText?: string
   newOptionText?: string
   noOptionsText?: string
-  onAdd: OnAdd
+  onAdd: OnAdd<T>
   onDelete: OnDelete
   onInput?: OnInput
   onValidate?: OnValidate
   placeholderText?: string
   renderLabel?: LabelRenderer
-  renderOption?: OptionRenderer
-  renderTag?: TagRenderer
-  selected: TagSelected[]
-  suggestions: TagSuggestion[]
-  suggestionsTransform?: SuggestionsTransform
+  renderOption?: OptionRenderer<T>
+  renderTag?: TagRenderer<T>
+  selected: TagSelected<T>[]
+  suggestions: TagSuggestion<T>[]
+  suggestionsTransform?: SuggestionsTransform<T>
   tagListLabelText?: string
 }
 
-function ReactTags(
+function ReactTags<T extends TagType>(
   {
     allowBackspace = true,
     allowNew = false,
@@ -97,8 +98,8 @@ function ReactTags(
     suggestions = [],
     suggestionsTransform = matchSuggestionsPartial,
     tagListLabelText = 'Selected tags',
-  }: ReactTagsProps,
-  ref?: React.MutableRefObject<PublicAPI>
+  }: ReactTagsProps<T>,
+  ref?: React.MutableRefObject<PublicAPI<T>>
 ): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -106,13 +107,13 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
   const tagListRef = useRef<HTMLUListElement>(null)
 
-  const { newTagOption, noTagsOption } = useInternalOptions({
+  const { newTagOption, noTagsOption } = useInternalOptions<T>({
     newOptionText,
     noOptionsText,
     onValidate,
   })
 
-  const manager = useManager({
+  const manager = useManager<T>({
     activeIndex: -1,
     activeOption: null,
     allowNew,
@@ -126,9 +127,9 @@ function ReactTags(
     value: '',
   })
 
-  const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
+  const onSelect = useOnSelect<T>({ closeOnSelect, manager, onAdd, onDelete })
 
-  const publicAPI = usePublicAPI({ inputRef, manager })
+  const publicAPI = usePublicAPI<T>({ inputRef, manager })
 
   if (ref) {
     ref.current ??= publicAPI
