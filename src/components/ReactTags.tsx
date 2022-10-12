@@ -99,7 +99,7 @@ function ReactTags(
     suggestionsTransform = matchSuggestionsPartial,
     tagListLabelText = 'Selected tags',
   }: ReactTagsProps,
-  ref?: React.MutableRefObject<PublicAPI>
+  ref?: React.ForwardedRef<PublicAPI>
 ): JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -132,7 +132,11 @@ function ReactTags(
   const publicAPI = usePublicAPI({ inputRef, manager })
 
   if (ref) {
-    ref.current ??= publicAPI
+    if (typeof ref === 'function') {
+      ref(publicAPI)
+    } else {
+      ref.current = publicAPI
+    }
   }
 
   return (
