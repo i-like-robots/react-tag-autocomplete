@@ -12,7 +12,6 @@ function CountrySelector() {
 
   const [options, setOptions] = useState({
     allowBackspace: false,
-    allowTab: false,
     closeOnSelect: false,
     isDisabled: false,
     isInvalid: false,
@@ -79,15 +78,6 @@ function CountrySelector() {
             onChange={onOptionChange}
           />
           Allow backspace key to delete selected tags
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            name="allowTab"
-            checked={options.allowTab}
-            onChange={onOptionChange}
-          />
-          Allow tab key to trigger selection
         </label>
         <label>
           <input

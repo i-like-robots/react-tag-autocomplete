@@ -6,9 +6,9 @@ import type React from 'react'
 
 export type UseInputArgs = {
   allowBackspace: boolean
-  allowTab: boolean
   ariaDescribedBy?: string
   ariaErrorMessage?: string
+  delimiterKeys: string[]
 }
 
 export type UseInputState = Omit<React.ComponentPropsWithRef<'input'>, 'value'> & { value: string }
@@ -23,9 +23,9 @@ const DisableAutoCompleteAttrs = {
 
 export function useInput({
   allowBackspace,
-  allowTab,
   ariaDescribedBy,
   ariaErrorMessage,
+  delimiterKeys,
 }: UseInputArgs): UseInputState {
   const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
     useContext(GlobalContext)
@@ -69,13 +69,6 @@ export function useInput({
       }
     }
 
-    const onEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (manager.state.isExpanded) {
-        e.preventDefault()
-        onSelect()
-      }
-    }
-
     const onEscapeKey = () => {
       if (manager.state.isExpanded) {
         manager.clearActiveIndex()
@@ -96,8 +89,8 @@ export function useInput({
       }
     }
 
-    const onTabKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (allowTab && manager.state.isExpanded) {
+    const onDelimiterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (manager.state.isExpanded) {
         e.preventDefault()
         onSelect()
       }
@@ -108,14 +101,13 @@ export function useInput({
       if (e.key === KeyNames.DownArrow) return onDownArrowKey(e)
       if (e.key === KeyNames.PageUp) return onPageUpKey(e)
       if (e.key === KeyNames.PageDown) return onPageDownKey(e)
-      if (e.key === KeyNames.Enter) return onEnterKey(e)
       if (e.key === KeyNames.Escape) return onEscapeKey()
       if (e.key === KeyNames.Backspace) return onBackspaceKey()
-      if (e.key === KeyNames.Tab) return onTabKey(e)
+      if (delimiterKeys.includes(e.key)) return onDelimiterKey(e)
     }
 
     return { onChange, onKeyDown }
-  }, [allowBackspace, allowTab, manager, onInput, onSelect])
+  }, [allowBackspace, delimiterKeys, manager, onInput, onSelect])
 
   const { activeOption, isExpanded, value } = manager.state
 

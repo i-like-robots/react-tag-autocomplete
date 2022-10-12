@@ -66,7 +66,6 @@ function CountrySelector() {
 - [`allowBackspace`](#allowBackspace-optional)
 - [`allowNew`](#allowNew-optional)
 - [`allowResize`](#allowResize-optional)
-- [`allowTab`](#allowTab-optional)
 - [`ariaAddedText`](#ariaAddedText-optional)
 - [`ariaDeletedText`](#ariaDeletedText-optional)
 - [`ariaDescribedBy`](#ariaDescribedBy-optional)
@@ -74,6 +73,7 @@ function CountrySelector() {
 - [`classNames`](#classNames-optional)
 - [`closeOnSelect`](#closeOnSelect-optional)
 - [`deleteButtonText`](#deleteButtontext-optional)
+- [`delimiterKeys`](#delimiterKeys-optional)
 - [`id`](#id-optional)
 - [`isDisabled`](#isDisabled-optional)
 - [`isInvalid`](#isInvalid-optional)
@@ -104,10 +104,6 @@ Enable users to add new (not suggested) tags based on the input text. The new ta
 #### allowResize (optional)
 
 Boolean parameter to control whether the text input should be automatically resized to fit its value. Defaults to `true`.
-
-#### allowTab (optional)
-
-Enable users to trigger tag selection when the tab key is pressed. Defaults to `false`.
 
 #### ariaAddedText (optional)
 
@@ -157,7 +153,11 @@ Boolean parameter to control whether the listbox should be closed and active opt
 
 #### deleteButtonText (optional)
 
-The helper text added to each selected tag. The placeholder `%value%` will be replaced by the selected tag label. Default `"Remove %value% from the list"`.
+The helper text added to each selected tag. The placeholder `%value%` will be replaced by the selected tag label. Defaults to `"Remove %value% from the list"`.
+
+#### delimiterKeys (optional)
+
+Array of key names matching [`KeyboardEvent` key values](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key). When a matching key is pressed it will trigger tag selection. Defaults to `['Enter']`.
 
 #### id (optional)
 
@@ -280,6 +280,7 @@ function CustomTag({ classNames, tag, ...tagProps }) {
     </button>
   )
 }
+```
 
 #### selected (optional)
 
