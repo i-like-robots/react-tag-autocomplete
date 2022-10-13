@@ -13,6 +13,11 @@ export enum ManagerActions {
   UpdateValue,
 }
 
+export type ManagerArgs = {
+  allowNew: boolean
+  suggestionsTransform: SuggestionsTransform
+}
+
 type ManagerAction =
   | { type: ManagerActions.ClearActiveIndex }
   | { type: ManagerActions.ClearAll }
@@ -21,19 +26,17 @@ type ManagerAction =
   | { type: ManagerActions.Expand }
   | { type: ManagerActions.UpdateActiveIndex; payload: number }
   | { type: ManagerActions.UpdateSelected; payload: TagSelected[] }
-  | { type: ManagerActions.UpdateSuggestions; payload: TagSuggestion[] }
-  | { type: ManagerActions.UpdateValue; payload: string }
+  | { type: ManagerActions.UpdateSuggestions; payload: TagSuggestion[]; args: ManagerArgs }
+  | { type: ManagerActions.UpdateValue; payload: string; args: ManagerArgs }
 
 export type ManagerState = {
   activeIndex: number
   activeOption: TagSuggestion | null
-  allowNew: boolean
   isExpanded: boolean
   newTagOption: (value: string) => TagSuggestion
   noTagsOption: (value: string) => TagSuggestion
   selected: TagSelected[]
   suggestions: TagSuggestion[]
-  suggestionsTransform: SuggestionsTransform
   options: TagSuggestion[]
   value: string
 }
@@ -117,9 +120,9 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.UpdateSuggestions) {
-    const options = state.suggestionsTransform(state.value, action.payload)
+    const options = action.args.suggestionsTransform(state.value, action.payload)
 
-    if (state.allowNew && state.value) {
+    if (action.args.allowNew && state.value) {
       options.push(state.newTagOption(state.value))
     }
 
@@ -139,9 +142,9 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.UpdateValue) {
-    const options = state.suggestionsTransform(action.payload, state.suggestions)
+    const options = action.args.suggestionsTransform(action.payload, state.suggestions)
 
-    if (state.allowNew && action.payload) {
+    if (action.args.allowNew && action.payload) {
       options.push(state.newTagOption(action.payload))
     }
 

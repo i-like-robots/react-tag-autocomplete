@@ -1,6 +1,6 @@
 import { useReducer, useRef } from 'react'
 import { managerReducer, ManagerActions } from '../reducers'
-import type { ManagerState } from '../reducers'
+import type { ManagerArgs, ManagerState } from '../reducers'
 import type { Tag, TagSelected, TagSuggestion } from '../sharedTypes'
 import { arrayDiff } from '../lib/arrayDiff'
 
@@ -23,13 +23,20 @@ type ManagerAPI = {
 
 export type UseManagerState = ManagerAPI & { flags: ManagerFlags; state: ManagerState }
 
-function getInitialState(state: ManagerState) {
-  const options = state.suggestionsTransform(state.value, state.suggestions)
+function getInitialState(state: ManagerState, args: ManagerArgs) {
+  const options = args.suggestionsTransform(state.value, state.suggestions)
   return { ...state, options }
 }
 
-export function useManager(initialState: ManagerState): UseManagerState {
-  const [state, dispatch] = useReducer(managerReducer, initialState, getInitialState)
+export function useManager(initialState: ManagerState, args: ManagerArgs): UseManagerState {
+  const [state, dispatch] = useReducer(managerReducer, initialState, (state) =>
+    getInitialState(state, args)
+  )
+
+  // allowNew, newOptionText, noOptionsText, onValidate, suggestionsTransform
+
+  // const api = useRef<UseManagerState>()
+  // api.current = {}
 
   const api = useRef<UseManagerState>({
     state: null,
@@ -56,10 +63,10 @@ export function useManager(initialState: ManagerState): UseManagerState {
       dispatch({ type: ManagerActions.UpdateSelected, payload: selected })
     },
     updateSuggestions(suggestions: TagSuggestion[]) {
-      dispatch({ type: ManagerActions.UpdateSuggestions, payload: suggestions })
+      dispatch({ type: ManagerActions.UpdateSuggestions, payload: suggestions, args })
     },
     updateValue(value: string) {
-      dispatch({ type: ManagerActions.UpdateValue, payload: value })
+      dispatch({ type: ManagerActions.UpdateValue, payload: value, args })
     },
   })
 

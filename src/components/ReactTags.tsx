@@ -113,19 +113,23 @@ function ReactTags(
     onValidate,
   })
 
-  const manager = useManager({
-    activeIndex: -1,
-    activeOption: null,
-    allowNew,
-    isExpanded: false,
-    newTagOption,
-    noTagsOption,
-    options: [],
-    selected,
-    suggestions,
-    suggestionsTransform,
-    value: '',
-  })
+  const manager = useManager(
+    {
+      activeIndex: -1,
+      activeOption: null,
+      isExpanded: false,
+      newTagOption,
+      noTagsOption,
+      options: [],
+      selected,
+      suggestions,
+      value: '',
+    },
+    {
+      allowNew,
+      suggestionsTransform,
+    }
+  )
 
   const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
 
