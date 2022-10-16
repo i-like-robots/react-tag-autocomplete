@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
-import { useInternalOptions, useManager, useOnSelect, usePublicAPI } from '../hooks'
+import { useInternalOptions, useManagerTwo, useOnSelect, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -113,7 +113,7 @@ function ReactTags(
     onValidate,
   })
 
-  const manager = useManager({
+  const manager = useManagerTwo({
     allowNew,
     newTagOption,
     noTagsOption,
@@ -154,7 +154,7 @@ function ReactTags(
       <Root>
         <Label render={renderLabel}>{labelText}</Label>
         <TagList label={tagListLabelText}>
-          {manager.props.selected.map((tag, index) => (
+          {manager.state.selected.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
           ))}
         </TagList>

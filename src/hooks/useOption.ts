@@ -12,7 +12,7 @@ export function useOption(index: number): UseOptionState {
   const option = manager.state.options[index]
   const active = index === manager.state.activeIndex
   const disabled = option.disabled ?? false
-  const selected = findTagIndex(option, manager.props.selected) > -1
+  const selected = findTagIndex(option, manager.state.selected) > -1
 
   const onClick = useCallback(() => {
     onSelect()

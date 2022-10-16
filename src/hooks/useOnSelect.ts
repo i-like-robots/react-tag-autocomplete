@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
-import { ManagerState } from '../reducers'
 import { NewOptionValue } from '../constants'
 import { findSuggestionExact, findTagIndex } from '../lib'
-import type { UseManagerState } from '.'
+import type { ManagerState, UseManagerState } from '../hooks'
 import type { OnAdd, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
 function getNewTag(option: TagSuggestion | null, value: string): TagSuggestion | undefined {
@@ -39,7 +38,7 @@ export function useOnSelect({
 
       if (!tag) return
 
-      const tagIndex = findTagIndex(tag, manager.props.selected)
+      const tagIndex = findTagIndex(tag, manager.state.selected)
 
       if (tagIndex >= 0) {
         onDelete(tagIndex)
