@@ -35,6 +35,8 @@ const DefaultClassNames: ClassNames = {
   optionIsActive: 'is-active',
 }
 
+const DefaultDelimiterKeys = [KeyNames.Enter]
+
 type ReactTagsProps = {
   allowBackspace?: boolean
   allowNew?: boolean
@@ -79,7 +81,7 @@ function ReactTags(
     classNames = DefaultClassNames,
     closeOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
-    delimiterKeys = [KeyNames.Enter],
+    delimiterKeys = DefaultDelimiterKeys,
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
