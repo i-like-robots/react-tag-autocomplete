@@ -39,7 +39,7 @@ export function useOnSelect({
 
       if (!tag) return
 
-      const tagIndex = findTagIndex(tag, manager.state.selected)
+      const tagIndex = findTagIndex(tag, manager.props.selected)
 
       if (tagIndex >= 0) {
         onDelete(tagIndex)

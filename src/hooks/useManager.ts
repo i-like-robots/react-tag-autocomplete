@@ -1,7 +1,7 @@
 import { useReducer, useRef } from 'react'
 import { managerReducer, ManagerActions } from '../reducers'
-import type { ManagerArgs, ManagerState } from '../reducers'
-import type { Tag, TagSelected, TagSuggestion } from '../sharedTypes'
+import type { ManagerProps, ManagerState } from '../reducers'
+import type { Tag, TagSuggestion } from '../sharedTypes'
 import { arrayDiff } from '../lib/arrayDiff'
 
 type ManagerFlags = {
@@ -16,39 +16,43 @@ type ManagerAPI = {
   collapse(): void
   expand(): void
   updateActiveIndex(index: number): void
-  updateSelected(tags: TagSelected[]): void
   updateSuggestions(suggestions: TagSuggestion[]): void
   updateValue(value: string): void
 }
 
-export type UseManagerState = ManagerAPI & { flags: ManagerFlags; state: ManagerState }
-
-function getInitialState(state: ManagerState, args: ManagerArgs) {
-  const options = args.suggestionsTransform(state.value, state.suggestions)
-  return { ...state, options }
+export type UseManagerState = ManagerAPI & {
+  flags: ManagerFlags
+  props: ManagerProps
+  state: ManagerState
 }
 
-export function useManager(initialState: ManagerState, args: ManagerArgs): UseManagerState {
-  const [state, dispatch] = useReducer(managerReducer, initialState, (state) =>
-    getInitialState(state, args)
-  )
+function getInitialState(props: ManagerProps): ManagerState {
+  const options = props.suggestionsTransform('', props.suggestions)
 
-  // allowNew, newOptionText, noOptionsText, onValidate, suggestionsTransform
+  return {
+    activeIndex: -1,
+    activeOption: null,
+    isExpanded: false,
+    options,
+    value: '',
+  }
+}
 
-  // const api = useRef<UseManagerState>()
-  // api.current = {}
+export function useManager(props: ManagerProps): UseManagerState {
+  const [state, dispatch] = useReducer(managerReducer, null, () => getInitialState(props))
 
   const api = useRef<UseManagerState>({
+    props: null,
     state: null,
     flags: null,
     clearActiveIndex() {
       dispatch({ type: ManagerActions.ClearActiveIndex })
     },
     clearAll() {
-      dispatch({ type: ManagerActions.ClearAll })
+      dispatch({ type: ManagerActions.ClearAll, props: this.props })
     },
     clearValue() {
-      dispatch({ type: ManagerActions.ClearValue })
+      dispatch({ type: ManagerActions.ClearValue, props: this.props })
     },
     collapse() {
       dispatch({ type: ManagerActions.Collapse })
@@ -59,31 +63,24 @@ export function useManager(initialState: ManagerState, args: ManagerArgs): UseMa
     updateActiveIndex(index: number) {
       dispatch({ type: ManagerActions.UpdateActiveIndex, payload: index })
     },
-    updateSelected(selected: TagSelected[]) {
-      dispatch({ type: ManagerActions.UpdateSelected, payload: selected })
-    },
     updateSuggestions(suggestions: TagSuggestion[]) {
-      dispatch({ type: ManagerActions.UpdateSuggestions, payload: suggestions, args })
+      dispatch({ type: ManagerActions.UpdateSuggestions, payload: suggestions, props: this.props })
     },
     updateValue(value: string) {
-      dispatch({ type: ManagerActions.UpdateValue, payload: value, args })
+      dispatch({ type: ManagerActions.UpdateValue, payload: value, props: this.props })
     },
   })
 
-  api.current.flags = {
-    tagsAdded: api.current.state ? arrayDiff(state.selected, api.current.state.selected) : [],
-    tagsDeleted: api.current.state ? arrayDiff(api.current.state.selected, state.selected) : [],
+  const flags = {
+    tagsAdded: api.current.props ? arrayDiff(props.selected, api.current.props.selected) : [],
+    tagsDeleted: api.current.props ? arrayDiff(api.current.props.selected, props.selected) : [],
   }
 
-  api.current.state = state
-
-  if (initialState.selected !== state.selected) {
-    api.current.updateSelected(initialState.selected)
+  if (api.current.props && api.current.props.suggestions !== props.suggestions) {
+    api.current.updateSuggestions(props.suggestions)
   }
 
-  if (initialState.suggestions !== state.suggestions) {
-    api.current.updateSuggestions(initialState.suggestions)
-  }
+  Object.assign(api.current, { flags, props, state })
 
   return api.current
 }

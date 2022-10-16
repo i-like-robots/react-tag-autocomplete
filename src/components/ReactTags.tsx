@@ -113,23 +113,14 @@ function ReactTags(
     onValidate,
   })
 
-  const manager = useManager(
-    {
-      activeIndex: -1,
-      activeOption: null,
-      isExpanded: false,
-      newTagOption,
-      noTagsOption,
-      options: [],
-      selected,
-      suggestions,
-      value: '',
-    },
-    {
-      allowNew,
-      suggestionsTransform,
-    }
-  )
+  const manager = useManager({
+    allowNew,
+    newTagOption,
+    noTagsOption,
+    selected,
+    suggestions,
+    suggestionsTransform,
+  })
 
   const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
 
@@ -163,7 +154,7 @@ function ReactTags(
       <Root>
         <Label render={renderLabel}>{labelText}</Label>
         <TagList label={tagListLabelText}>
-          {manager.state.selected.map((tag, index) => (
+          {manager.props.selected.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
           ))}
         </TagList>

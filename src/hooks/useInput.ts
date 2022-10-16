@@ -81,7 +81,7 @@ export function useInput({
     const onBackspaceKey = () => {
       if (allowBackspace) {
         const isEmpty = manager.state.value === ''
-        const lastTag = manager.state.selected[manager.state.selected.length - 1]
+        const lastTag = manager.props.selected[manager.props.selected.length - 1]
 
         if (isEmpty && lastTag) {
           onSelect(lastTag)
