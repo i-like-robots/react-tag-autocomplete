@@ -63,19 +63,22 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
   }
 
   if (action.type === ManagerActions.ClearAll) {
+    const value = ''
+    const options = action.props.suggestionsTransform(value, action.props.suggestions)
+
     return {
       ...state,
       activeIndex: -1,
       activeOption: null,
       isExpanded: false,
-      options: [...action.props.suggestions],
-      value: '',
+      options,
+      value,
     }
   }
 
   if (action.type === ManagerActions.ClearValue) {
-    const options = [...action.props.suggestions]
-
+    const value = ''
+    const options = action.props.suggestionsTransform(value, action.props.suggestions)
     const activeIndex = state.activeOption ? findTagIndex(state.activeOption, options) : -1
 
     return {
@@ -83,7 +86,7 @@ export function managerReducer(state: ManagerState, action: ManagerAction): Mana
       activeIndex,
       activeOption: options[activeIndex],
       options,
-      value: '',
+      value,
     }
   }
 

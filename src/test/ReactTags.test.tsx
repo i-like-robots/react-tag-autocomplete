@@ -1,7 +1,7 @@
 import React from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { cleanup, fireEvent, screen } from '@testing-library/react'
+import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react'
 import { Harness, MockedOnAdd } from './Harness'
 import { suggestions } from '../../example/src/countries'
 import type { MockedOnDelete, MockedOnInput, MockedOnValidate } from './Harness'
@@ -723,15 +723,27 @@ describe('React Tags Autocomplete', () => {
       harness = new Harness({ suggestions, suggestionsTransform })
     })
 
-    it('uses provided suggestionsTransform callback', async () => {
+    it('uses provided suggestionsTransform callback when initialised', async () => {
       await harness.listBoxExpand()
 
       expect(harness.options.length).toBe(206)
       expect(harness.options[1].textContent).toMatch('##')
+    })
 
+    it('uses provided suggestionsTransform callback when filtering', async () => {
       await userEvent.type(harness.input, 'uni')
 
       expect(harness.options.length).toBe(5)
+      expect(harness.options[1].textContent).toMatch('##')
+    })
+
+    it('uses provided suggestionsTransform when input is cleared', async () => {
+      await userEvent.type(harness.input, 'uni')
+
+      harness.props.ref.current.input.clear()
+
+      await waitFor(() => expect(harness.options.length).toBe(206))
+
       expect(harness.options[1].textContent).toMatch('##')
     })
   })
@@ -788,7 +800,7 @@ describe('React Tags Autocomplete', () => {
 
   describe('public API', () => {
     beforeEach(() => {
-      harness = new Harness({ ref: React.createRef() })
+      harness = new Harness()
     })
 
     it('assigns the API to a ref if provided', () => {
