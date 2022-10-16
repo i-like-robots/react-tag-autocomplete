@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { NewOptionValue } from '../constants'
 import { findSuggestionExact, findTagIndex } from '../lib'
-import type { ManagerState, UseManagerState } from '../hooks'
+import type { ManagerState, UseManagerState } from '.'
 import type { OnAdd, OnDelete, Tag, OnSelect, TagSuggestion } from '../sharedTypes'
 
 function getNewTag(option: TagSuggestion | null, value: string): TagSuggestion | undefined {
