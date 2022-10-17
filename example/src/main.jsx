@@ -369,7 +369,6 @@ function UsingTheAPI() {
       </p>
       <ReactTags
         id="demo-component-5"
-        isInvalid={selected.length !== length}
         labelText="Select countries"
         onAdd={onAdd}
         onDelete={onDelete}
