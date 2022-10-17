@@ -1,7 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import { findTagIndex } from '../lib'
 import { arrayDiff } from '../lib/arrayDiff'
-import { usePrevious } from '.'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type {
   OnValidate,
@@ -134,11 +133,9 @@ export function useManagerTwo({
     },
   }
 
-  const prevSelected = usePrevious<TagSelected[]>(selected)
-
   const flags = {
-    tagsAdded: prevSelected ? arrayDiff(selected, prevSelected) : [],
-    tagsDeleted: prevSelected ? arrayDiff(prevSelected, selected) : [],
+    tagsAdded: ref.current ? arrayDiff(selected, ref.current.state.selected) : [],
+    tagsDeleted: ref.current ? arrayDiff(ref.current.state.selected, selected) : [],
   }
 
   const state = {
