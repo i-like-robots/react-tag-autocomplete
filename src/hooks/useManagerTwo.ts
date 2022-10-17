@@ -2,7 +2,14 @@ import { useMemo, useRef, useState } from 'react'
 import { findTagIndex } from '../lib'
 import { arrayDiff } from '../lib/arrayDiff'
 import { usePrevious } from '.'
-import type { SuggestionsTransform, Tag, TagSelected, TagSuggestion } from '../sharedTypes'
+import { NewOptionValue, NoOptionsValue } from '../constants'
+import type {
+  OnValidate,
+  SuggestionsTransform,
+  Tag,
+  TagSelected,
+  TagSuggestion,
+} from '../sharedTypes'
 
 export type ManagerAPI = {
   clearActiveIndex(): void
@@ -30,8 +37,9 @@ export type ManagerFlags = {
 
 export type ManagerProps = {
   allowNew: boolean
-  newTagOption: (value: string) => TagSuggestion // TODO
-  noTagsOption: (value: string) => TagSuggestion // TODO
+  newOptionText: string
+  noOptionsText: string
+  onValidate?: OnValidate
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
@@ -58,13 +66,14 @@ function loop(next: number, size: number): number {
 
 export function useManagerTwo({
   allowNew,
-  newTagOption,
-  noTagsOption,
+  newOptionText,
+  noOptionsText,
+  onValidate,
   selected,
   suggestions,
   suggestionsTransform,
 }: ManagerProps) {
-  const ref = useRef<UseManagerState>(null)
+  const ref = useRef<UseManagerState>()
 
   const [activeOption, setActiveOption] = useState<TagSuggestion>(null)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
@@ -74,15 +83,25 @@ export function useManagerTwo({
     const opts = suggestionsTransform(value, suggestions)
 
     if (allowNew && value) {
-      opts.push(newTagOption(value))
+      const disabled = typeof onValidate === 'function' ? !onValidate(value) : false
+
+      opts.push({
+        disabled,
+        label: newOptionText,
+        value: NewOptionValue,
+      })
     }
 
     if (opts.length === 0 && value) {
-      opts.push(noTagsOption(value))
+      opts.push({
+        disabled: true,
+        label: noOptionsText,
+        value: NoOptionsValue,
+      })
     }
 
     return opts
-  }, [allowNew, newTagOption, noTagsOption, suggestions, suggestionsTransform, value])
+  }, [allowNew, newOptionText, noOptionsText, onValidate, suggestions, suggestionsTransform, value])
 
   const activeIndex = activeOption ? findTagIndex(activeOption, options) : -1
 

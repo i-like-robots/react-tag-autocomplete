@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
-import { useInternalOptions, useManagerTwo, useOnSelect, usePublicAPI } from '../hooks'
+import { useManagerTwo, useOnSelect, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -109,16 +109,11 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
   const tagListRef = useRef<HTMLUListElement>(null)
 
-  const { newTagOption, noTagsOption } = useInternalOptions({
+  const manager = useManagerTwo({
+    allowNew,
     newOptionText,
     noOptionsText,
     onValidate,
-  })
-
-  const manager = useManagerTwo({
-    allowNew,
-    newTagOption,
-    noTagsOption,
     selected,
     suggestions,
     suggestionsTransform,
