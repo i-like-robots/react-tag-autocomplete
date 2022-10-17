@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
-import { useInternalOptions, useManager, useOnSelect, usePublicAPI } from '../hooks'
+import { useManagerTwo, useOnSelect, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -34,6 +34,8 @@ const DefaultClassNames: ClassNames = {
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
 }
+
+const DefaultDelimiterKeys = [KeyNames.Enter]
 
 type ReactTagsProps = {
   allowBackspace?: boolean
@@ -79,7 +81,7 @@ function ReactTags(
     classNames = DefaultClassNames,
     closeOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
-    delimiterKeys = [KeyNames.Enter],
+    delimiterKeys = DefaultDelimiterKeys,
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
@@ -107,24 +109,14 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
   const tagListRef = useRef<HTMLUListElement>(null)
 
-  const { newTagOption, noTagsOption } = useInternalOptions({
+  const manager = useManagerTwo({
+    allowNew,
     newOptionText,
     noOptionsText,
     onValidate,
-  })
-
-  const manager = useManager({
-    activeIndex: -1,
-    activeOption: null,
-    allowNew,
-    isExpanded: false,
-    newTagOption,
-    noTagsOption,
-    options: [],
     selected,
     suggestions,
     suggestionsTransform,
-    value: '',
   })
 
   const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })

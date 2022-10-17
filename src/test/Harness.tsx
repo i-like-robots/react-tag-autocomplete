@@ -30,6 +30,7 @@ export class Harness {
       onDelete: vi.fn(),
       onInput: vi.fn(),
       onValidate: vi.fn(() => true),
+      ref: React.createRef(),
     }
 
     this.props = { ...defaultProps, ...props }
