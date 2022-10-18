@@ -279,6 +279,24 @@ describe('React Tags Autocomplete', () => {
       expect(harness.isExpanded()).toBe(true)
     })
 
+    it('expands the list box when the cursor is mid text and alt + down key is pressed', async () => {
+      await userEvent.type(harness.input, 'uni')
+      expect(harness.isExpanded()).toBe(true)
+
+      await userEvent.type(harness.input, '{Escape}', { skipClick: true })
+      expect(harness.isExpanded()).toBe(false)
+
+      harness.input.setSelectionRange(1, 0)
+
+      await userEvent.type(harness.input, '{Alt>}{arrowdown}{/Alt}', {
+        initialSelectionStart: 1,
+        initialSelectionEnd: 0,
+        skipClick: true,
+      })
+
+      expect(harness.isExpanded()).toBe(true)
+    })
+
     it('does not expand the list box when text is selected and up/down key is pressed', async () => {
       await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)

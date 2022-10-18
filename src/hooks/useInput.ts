@@ -41,7 +41,8 @@ export function useInput({
       if (manager.state.isExpanded) {
         e.preventDefault()
         manager.updateActiveIndex(manager.state.activeIndex + 1)
-      } else if (isCaretAtEnd(e.currentTarget)) {
+      } else if (isCaretAtEnd(e.currentTarget) || e.altKey) {
+        e.preventDefault()
         manager.expand()
       }
     }
@@ -51,6 +52,7 @@ export function useInput({
         e.preventDefault()
         manager.updateActiveIndex(manager.state.activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
+        e.preventDefault()
         manager.expand()
       }
     }

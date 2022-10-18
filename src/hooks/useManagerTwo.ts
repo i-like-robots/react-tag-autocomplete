@@ -82,10 +82,10 @@ export function useManagerTwo({
     const opts = suggestionsTransform(value, suggestions)
 
     if (allowNew && value) {
-      const disabled = typeof onValidate === 'function' ? !onValidate(value) : false
+      const isValid = typeof onValidate === 'function' ? onValidate(value) : true
 
       opts.push({
-        disabled,
+        disabled: !isValid,
         label: newOptionText,
         value: NewOptionValue,
       })
