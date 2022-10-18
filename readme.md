@@ -173,7 +173,7 @@ Marks the input as invalid. Defaults to: `false`.
 
 #### labelText (optional)
 
-The label text used to describe the component and input. Defaults to: `"Select tags"`.
+The label text used to describe the component and input. Please note that the label is visually hidden in the examples. Defaults to: `"Select tags"`.
 
 #### newOptionText (optional)
 
@@ -293,6 +293,13 @@ const tags = [
 ]
 ```
 
+For TypeScript users the `TagSelected` type can be used and extended if you want to add any additional properties to your tag data:
+
+```ts
+import type { TagSelected } from 'react-tag-autocomplete'
+const [selected, setSelected] = useState<Array<TagSelected & { myProperty: string }>>([])
+```
+
 #### suggestions (optional)
 
 An array of tags for the user select. Each suggestion is an object which must have a `value` and a `label` property. Suggestions may also specify a `disabled` property to make the suggestion non-selectable. Defaults to `[]`.
@@ -304,6 +311,13 @@ const suggestions = [
   { value: 5, label: 'Lemons' },
   { value: 6, label: 'Apricots', disabled: true },
 ]
+```
+
+For TypeScript users the `TagSuggestion` type can be used and extended if you want to add any additional properties to your tag data:
+
+```ts
+import type { TagSuggestion } from 'react-tag-autocomplete'
+const suggestions: Array<TagSuggestion & { myProperty: string }> = []
 ```
 
 #### suggestionsTransform (optional)
