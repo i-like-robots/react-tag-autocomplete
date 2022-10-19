@@ -49,6 +49,7 @@ type ReactTagsProps = {
   closeOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
+  highlightFirstOption?: boolean
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -82,6 +83,7 @@ function ReactTags(
     closeOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
     delimiterKeys = DefaultDelimiterKeys,
+    highlightFirstOption = false,
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
@@ -111,6 +113,7 @@ function ReactTags(
 
   const manager = useManagerTwo({
     allowNew,
+    highlightFirstOption,
     newOptionText,
     noOptionsText,
     onValidate,

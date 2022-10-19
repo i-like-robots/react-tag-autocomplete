@@ -13,6 +13,7 @@ function CountrySelector() {
   const [options, setOptions] = useState({
     allowBackspace: false,
     closeOnSelect: false,
+    highlightFirstOption: false,
     isDisabled: false,
     isInvalid: false,
   })
@@ -87,6 +88,15 @@ function CountrySelector() {
             onChange={onOptionChange}
           />
           Close the listbox on select
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="highlightFirstOption"
+            checked={options.highlightFirstOption}
+            onChange={onOptionChange}
+          />
+          Highlight first option in listbox
         </label>
       </fieldset>
       <details>
