@@ -89,6 +89,7 @@ function CountrySelector() {
 - [`renderOption`](#renderOption-optional)
 - [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
+- [`selectFirstTag`](#selectFirstTag-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
 - [`tagListLabelText`](#tagListLabelText-optional)
@@ -299,6 +300,10 @@ For TypeScript users the `TagSelected` type can be used and extended if you want
 import type { TagSelected } from 'react-tag-autocomplete'
 const [selected, setSelected] = useState<Array<TagSelected & { myProperty: string }>>([])
 ```
+
+#### selectFirstTag (optional)
+
+Automatically highlight the first option when the listbox is expanded without needing to press an arrow key. Defaults to `false`.
 
 #### suggestions (optional)
 

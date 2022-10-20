@@ -36,11 +36,11 @@ export type ManagerFlags = {
 
 export type ManagerProps = {
   allowNew: boolean
-  highlightFirstOption: boolean
   newOptionText: string
   noOptionsText: string
   onValidate?: OnValidate
   selected: TagSelected[]
+  selectFirstOption: boolean
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
 }
@@ -66,11 +66,11 @@ function loop(next: number, size: number): number {
 
 export function useManagerTwo({
   allowNew,
-  highlightFirstOption,
   newOptionText,
   noOptionsText,
   onValidate,
   selected,
+  selectFirstOption,
   suggestions,
   suggestionsTransform,
 }: ManagerProps) {
@@ -124,7 +124,10 @@ export function useManagerTwo({
     },
     expand() {
       setIsExpanded(true)
-      highlightFirstOption && setActiveOption(options[0])
+
+      if (selectFirstOption && activeOption === null) {
+        setActiveOption(options[0])
+      }
     },
     updateActiveIndex(index: number) {
       const activeIndex = loop(index, options.length)

@@ -13,9 +13,9 @@ function CountrySelector() {
   const [options, setOptions] = useState({
     allowBackspace: false,
     closeOnSelect: false,
-    highlightFirstOption: false,
     isDisabled: false,
     isInvalid: false,
+    selectFirstOption: false,
   })
 
   const onAdd = useCallback(
@@ -92,8 +92,8 @@ function CountrySelector() {
         <label>
           <input
             type="checkbox"
-            name="highlightFirstOption"
-            checked={options.highlightFirstOption}
+            name="selectFirstOption"
+            checked={options.selectFirstOption}
             onChange={onOptionChange}
           />
           Highlight first option in listbox

@@ -49,7 +49,6 @@ type ReactTagsProps = {
   closeOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
-  highlightFirstOption?: boolean
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -65,6 +64,7 @@ type ReactTagsProps = {
   renderOption?: OptionRenderer
   renderTag?: TagRenderer
   selected: TagSelected[]
+  selectFirstOption?: boolean
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
@@ -83,7 +83,6 @@ function ReactTags(
     closeOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
     delimiterKeys = DefaultDelimiterKeys,
-    highlightFirstOption = false,
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
@@ -99,6 +98,7 @@ function ReactTags(
     renderOption,
     renderTag,
     selected = [],
+    selectFirstOption = false,
     suggestions = [],
     suggestionsTransform = matchSuggestionsPartial,
     tagListLabelText = 'Selected tags',
@@ -113,11 +113,11 @@ function ReactTags(
 
   const manager = useManagerTwo({
     allowNew,
-    highlightFirstOption,
     newOptionText,
     noOptionsText,
     onValidate,
     selected,
+    selectFirstOption,
     suggestions,
     suggestionsTransform,
   })

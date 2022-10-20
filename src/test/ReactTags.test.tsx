@@ -472,6 +472,13 @@ describe('React Tags Autocomplete', () => {
       expect(harness.activeOption).toBeNull()
     })
 
+    it('sets the first option to active when expanded and selectFirstOption is enabled', async () => {
+      harness.rerender({ selectFirstOption: true })
+      harness.listBoxExpand()
+
+      expect(harness.activeOption.textContent).toBe('Afghanistan')
+    })
+
     it('calls the addition callback when an unselected option is clicked', async () => {
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
