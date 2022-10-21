@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-ISC-blue.svg)](https://github.com/i-like-robots/react-tag-autocomplete/blob/master/LICENSE) ![build status](https://github.com/i-like-robots/react-tag-autocomplete/actions/workflows/test.yml/badge.svg?branch=main) [![Coverage Status](https://coveralls.io/repos/github/i-like-robots/react-tag-autocomplete/badge.svg?branch=main)](https://coveralls.io/github/i-like-robots/react-tag-autocomplete) [![npm version](https://img.shields.io/npm/v/react-tag-autocomplete/beta.svg?style=flat)](https://www.npmjs.com/package/react-tag-autocomplete)
 
-React Tag Autocomplete is a simple, accessible, tagging component ready to drop into your React projects. [View example](http://i-like-robots.github.io/react-tag-autocomplete/).
+React Tag Autocomplete is a simple, accessible, tagging component ready to drop into your React projects. [Try the examples here](http://i-like-robots.github.io/react-tag-autocomplete/).
 
 <p align="center">
   <img width="765" alt="Screenshot showing React Tag Autocomplete used as a country selector" src="https://user-images.githubusercontent.com/271645/150850388-d75bba59-0642-4722-a56f-6c8ae22c9814.png">
@@ -12,7 +12,7 @@ _Please note:_ This repository is for version 7 of the component which is under 
 
 ## Installation
 
-This is a [Node.js] module available through the [npm] registry. Node 16 and React 18 or above is required.
+This is a [Node.js] module available through the [npm] registry. Node 16 and React 18 or above are required.
 
 Installation is done using the [npm install] command:
 
@@ -61,7 +61,7 @@ function CountrySelector() {
 }
 ```
 
-### Options
+### Props
 
 - [`allowBackspace`](#allowBackspace-optional)
 - [`allowNew`](#allowNew-optional)
@@ -89,7 +89,7 @@ function CountrySelector() {
 - [`renderOption`](#renderOption-optional)
 - [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
-- [`selectFirstTag`](#selectFirstTag-optional)
+- [`startWithFirstOption`](#startWithFirstOption-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
 - [`tagListLabelText`](#tagListLabelText-optional)
@@ -104,17 +104,15 @@ Enable users to add new (not suggested) tags based on the input text. The new ta
 
 #### allowResize (optional)
 
-Boolean parameter to control whether the text input should be automatically resized to fit its value. Defaults to `true`.
+Enable the text input to automatically resize to fit its value. Defaults to `true`.
 
 #### ariaAddedText (optional)
 
-The status text announced when a selected tag is added. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Added tag %value%"`.
+The status text announced when a selected tag is added. The placeholder `%value%` will be replaced by the selected tag label. Defaults to `"Added tag %value%"`.
 
 #### ariaDeletedText (optional)
 
-References an element by ID which contains the error message for the input when the component is marked as invalid. Defaults to `""`.
-
-The status text announced when a selected tag is removed. The placeholder `%value%` will be replaced by the tag label. Defaults to `"Removed tag %value%"`.
+The status text announced when a selected tag is removed. The placeholder `%value%` will be replaced by the removed tag label. Defaults to `"Removed tag %value%"`.
 
 #### ariaDescribedBy (optional)
 
@@ -122,7 +120,7 @@ References elements by ID which contain more information about the component. De
 
 #### ariaErrorMessage (optional)
 
-References an element by ID which contains more information about errors related to the component. Defaults to `""`.
+References an element by ID which contains more information about errors relating to the component. Defaults to `""`.
 
 #### classNames (optional)
 
@@ -150,7 +148,7 @@ Override the default class names used by the component. Defaults to:
 
 #### closeOnSelect (optional)
 
-Boolean parameter to control whether the listbox should be closed and active option reset when a tag is selected. Defaults to `false`.
+Controls whether the listbox should be closed and active option reset when a tag is selected. Defaults to `false`.
 
 #### deleteButtonText (optional)
 
@@ -162,7 +160,7 @@ Array of key names matching [`KeyboardEvent` key values](https://developer.mozil
 
 #### id (optional)
 
-The ID attribute given to the component and used as a prefix for all sub-component IDs. This should be unique for each instance of the component. Defaults to: `"ReactTags"`.
+The ID attribute given to the component and used as a prefix for all sub-component IDs. This must be unique for each instance of the component. Defaults to: `"ReactTags"`.
 
 #### isDisabled (optional)
 
@@ -170,15 +168,15 @@ Disables all interactive elements of the component. Defaults to: `false`.
 
 #### isInvalid (optional)
 
-Marks the input as invalid. Defaults to: `false`.
+Marks the input as invalid. When true this should be used along with the `ariaErrorMessage` prop to provide details about the problem. Defaults to: `false`.
 
 #### labelText (optional)
 
-The label text used to describe the component and input. Please note that the label is visually hidden in the examples. Defaults to: `"Select tags"`.
+The label text used to describe the component and input. _Please note_ that the label is visually hidden with CSS in the example code. Defaults to: `"Select tags"`.
 
 #### newOptionText (optional)
 
-The option text shown when the `allowNew` option is enabled. The placeholder `%value%` will be replaced by the current input value. Defaults to `"Add %value%"`.
+The option text shown when the `allowNew` prop is enabled. The placeholder `%value%` will be replaced by the current input value. Defaults to `"Add %value%"`.
 
 #### noOptionsText (optional)
 
@@ -222,7 +220,7 @@ function onInput(value) {
 
 #### onValidate (optional)
 
-Optional callback function called when the input value changes and is used to enable or disable the new option when `allowNew` is true. Receives the new input value and should return a boolean. Example:
+Callback function called when the input value changes and is used to enable or disable the new option when the `allowNew` prop is true. Receives the new input value and should return a boolean. Example:
 
 ```js
 function onValidate(value) {
@@ -236,7 +234,7 @@ The placeholder text shown in the input when it is empty. Defaults to `"Add a ta
 
 #### renderLabel (optional)
 
-Optional custom label component to render. Receives the label text as children, required label attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+A custom label component to render. Receives the label text as children, required label element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
 
 ```js
@@ -251,7 +249,7 @@ function CustomLabel({ children, classNames, ...labelProps }) {
 
 #### renderOption (optional)
 
-Optional custom option component to render. Receives the pre-rendered option text as children, option object, required option attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+A custom option component to render. Receives the pre-rendered text as children, option object, required option element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
 ```js
 function CustomOption({ children, classNames, option, ...optionProps }) {
@@ -271,7 +269,7 @@ function CustomOption({ children, classNames, option, ...optionProps }) {
 
 #### renderTag (optional)
 
-Optional custom tag component to render. Receives the selected tag object, required tag attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+A custom selected tag component to render. Receives the selected tag object, required tag element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
 ```js
 function CustomTag({ classNames, tag, ...tagProps }) {
@@ -294,16 +292,17 @@ const tags = [
 ]
 ```
 
-For TypeScript users the `TagSelected` type can be used and extended if you want to add any additional properties to your tag data:
+For TypeScript users the `TagSelected` type can be extended with additional properties:
 
 ```ts
 import type { TagSelected } from 'react-tag-autocomplete'
-const [selected, setSelected] = useState<Array<TagSelected & { myProperty: string }>>([])
+type CustomTagSelected = TagSelected & { myProperty: string }
+const [selected, setSelected] = useState<CustomTagSelected[]>([])
 ```
 
 #### startWithFirstOption (optional)
 
-Automatically activates the first option when the listbox is expanded and switches the active option directly from first to last and vice-versa when the options wrap. Defaults to `false`.
+Automatically activate the first option when the listbox is expanded and switch the active option directly from first to last/last to first when the selection wraps. Defaults to `false`.
 
 #### suggestions (optional)
 
@@ -318,16 +317,17 @@ const suggestions = [
 ]
 ```
 
-For TypeScript users the `TagSuggestion` type can be used and extended if you want to add any additional properties to your tag data:
+For TypeScript users the `TagSuggestion` type can be extended with additional properties:
 
 ```ts
 import type { TagSuggestion } from 'react-tag-autocomplete'
-const suggestions: Array<TagSuggestion & { myProperty: string }> = []
+type CustomTagSuggestion = TagSuggestion & { myProperty: string }
+const suggestions: CustomTagSuggestion[] = []
 ```
 
 #### suggestionsTransform (optional)
 
-Callback function to apply a custom filter to the list of suggestions. The callback receives two arguments; the current input `value` and the array of [suggestions](#suggestions-optional) and must return a new array of suggestions. Using this option you could sort suggestions or change the number of suggestions. Example:
+Callback function to apply a custom filter to the list of suggestions. The callback receives two arguments; the current input `value` and the array of [suggestions](#suggestions-optional) and must return a new array of suggestions. Using this prop you could sort suggestions or change the number of suggestions. Example:
 
 ```js
 import matchSorter from 'match-sorter'
