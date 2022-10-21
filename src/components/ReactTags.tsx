@@ -183,4 +183,4 @@ const ReactTagsWithRef = React.forwardRef(ReactTags)
 
 export { ReactTagsWithRef as ReactTags }
 
-export type { PublicAPI as ReactTagsAPI, ReactTagsProps, TagSelected, TagSuggestion }
+export type { PublicAPI as ReactTagsAPI, ReactTagsProps }
