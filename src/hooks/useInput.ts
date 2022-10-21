@@ -73,7 +73,6 @@ export function useInput({
 
     const onEscapeKey = () => {
       if (manager.state.isExpanded) {
-        manager.clearActiveIndex()
         manager.collapse()
       } else {
         manager.clearValue()

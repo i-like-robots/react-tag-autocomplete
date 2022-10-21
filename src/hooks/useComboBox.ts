@@ -15,7 +15,6 @@ export function useComboBox(): UseComboBoxState {
       onBlur(e: React.FocusEvent) {
         if (!comboBoxRef.current?.contains(e.relatedTarget)) {
           manager.collapse()
-          manager.clearActiveIndex()
         }
       },
       onFocus(e: React.FocusEvent) {
