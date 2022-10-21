@@ -40,6 +40,7 @@ export type ManagerProps = {
   noOptionsText: string
   onValidate?: OnValidate
   selected: TagSelected[]
+  startWithFirstOption: boolean
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
 }
@@ -49,14 +50,14 @@ export type UseManagerState = ManagerAPI & {
   state: ManagerState
 }
 
-function loop(next: number, size: number): number {
+function loop(next: number, size: number, min: number): number {
   const max = size - 1
 
   if (next > max) {
-    return -1
+    return min
   }
 
-  if (next < -1) {
+  if (next < min) {
     return max
   }
 
@@ -69,6 +70,7 @@ export function useManagerTwo({
   noOptionsText,
   onValidate,
   selected,
+  startWithFirstOption,
   suggestions,
   suggestionsTransform,
 }: ManagerProps) {
@@ -102,7 +104,8 @@ export function useManagerTwo({
     return opts
   }, [allowNew, newOptionText, noOptionsText, onValidate, suggestions, suggestionsTransform, value])
 
-  const activeIndex = activeOption ? findTagIndex(activeOption, options) : -1
+  const optionIndex = activeOption ? findTagIndex(activeOption, options) : -1
+  const activeIndex = startWithFirstOption ? Math.max(optionIndex, 0) : optionIndex
 
   const api = {
     clearActiveIndex() {
@@ -122,9 +125,10 @@ export function useManagerTwo({
     },
     expand() {
       setIsExpanded(true)
+      setActiveOption(options[activeIndex])
     },
     updateActiveIndex(index: number) {
-      const activeIndex = loop(index, options.length)
+      const activeIndex = loop(index, options.length, startWithFirstOption ? 0 : -1)
       setActiveOption(options[activeIndex])
     },
     updateValue(value: string) {

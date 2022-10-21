@@ -15,6 +15,7 @@ function CountrySelector() {
     closeOnSelect: false,
     isDisabled: false,
     isInvalid: false,
+    startWithFirstOption: false,
   })
 
   const onAdd = useCallback(
@@ -87,6 +88,15 @@ function CountrySelector() {
             onChange={onOptionChange}
           />
           Close the listbox on select
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            name="startWithFirstOption"
+            checked={options.startWithFirstOption}
+            onChange={onOptionChange}
+          />
+          Automatically activate the first option
         </label>
       </fieldset>
       <details>

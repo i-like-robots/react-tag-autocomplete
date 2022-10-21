@@ -64,6 +64,7 @@ type ReactTagsProps = {
   renderOption?: OptionRenderer
   renderTag?: TagRenderer
   selected: TagSelected[]
+  startWithFirstOption?: boolean
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
@@ -97,6 +98,7 @@ function ReactTags(
     renderOption,
     renderTag,
     selected = [],
+    startWithFirstOption = false,
     suggestions = [],
     suggestionsTransform = matchSuggestionsPartial,
     tagListLabelText = 'Selected tags',
@@ -115,6 +117,7 @@ function ReactTags(
     noOptionsText,
     onValidate,
     selected,
+    startWithFirstOption,
     suggestions,
     suggestionsTransform,
   })
