@@ -3,6 +3,7 @@ import { findTagIndex } from '../lib'
 import { arrayDiff } from '../lib/arrayDiff'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type {
+  OnInput,
   OnValidate,
   SuggestionsTransform,
   Tag,
@@ -38,6 +39,7 @@ export type ManagerProps = {
   allowNew: boolean
   newOptionText: string
   noOptionsText: string
+  onInput?: OnInput
   onValidate?: OnValidate
   selected: TagSelected[]
   startWithFirstOption: boolean
@@ -68,6 +70,7 @@ export function useManagerTwo({
   allowNew,
   newOptionText,
   noOptionsText,
+  onInput,
   onValidate,
   selected,
   startWithFirstOption,
@@ -134,6 +137,8 @@ export function useManagerTwo({
     updateValue(value: string) {
       setValue(value)
       setIsExpanded(true)
+
+      typeof onInput === 'function' && onInput(value)
     },
   }
 

@@ -27,14 +27,12 @@ export function useInput({
   ariaErrorMessage,
   delimiterKeys,
 }: UseInputArgs): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, manager, onInput, onSelect } =
-    useContext(GlobalContext)
+  const { id, inputRef, isDisabled, isInvalid, manager, onSelect } = useContext(GlobalContext)
 
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
       manager.updateValue(value)
-      onInput?.(value)
     }
 
     const onDownArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -108,7 +106,7 @@ export function useInput({
     }
 
     return { onChange, onKeyDown }
-  }, [allowBackspace, delimiterKeys, manager, onInput, onSelect])
+  }, [allowBackspace, delimiterKeys, manager, onSelect])
 
   const { activeOption, isExpanded, value } = manager.state
 
