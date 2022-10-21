@@ -417,7 +417,7 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
-    it('allows the active option to wrap', async () => {
+    it('wraps the active option from first to last and vice-versa', async () => {
       await userEvent.type(harness.input, 'aus')
 
       const [option1, option2] = harness.options
@@ -435,6 +435,12 @@ describe('React Tags Autocomplete', () => {
 
       await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBe(option1)
+
+      await userEvent.type(harness.input, '{arrowup}', { skipClick: true })
+      expect(harness.activeOption).toBeNull()
+
+      await userEvent.type(harness.input, '{arrowup}', { skipClick: true })
+      expect(harness.activeOption).toBe(option2)
     })
 
     it('maintains the active option when still available after typing', async () => {
@@ -470,13 +476,6 @@ describe('React Tags Autocomplete', () => {
 
       await userEvent.type(harness.input, '{Escape}{arrowdown}', { skipClick: true })
       expect(harness.activeOption).toBeNull()
-    })
-
-    it('sets the first option to active when expanded and selectFirstOption is enabled', async () => {
-      harness.rerender({ selectFirstOption: true })
-      harness.listBoxExpand()
-
-      expect(harness.activeOption.textContent).toBe('Afghanistan')
     })
 
     it('calls the addition callback when an unselected option is clicked', async () => {
@@ -539,6 +538,44 @@ describe('React Tags Autocomplete', () => {
       await userEvent.click(harness.activeOption)
       expect(harness.options.length).toBe(206)
       expect(harness.activeOption.textContent).toBe('Bahrain')
+    })
+
+    describe('with selectFirstOption enabled', () => {
+      beforeEach(() => {
+        harness.rerender({ selectFirstOption: true })
+      })
+
+      it('sets the first option to active when expanded', async () => {
+        await harness.listBoxExpand()
+        expect(harness.activeOption.textContent).toBe('Afghanistan')
+      })
+
+      it('maintains the first active option after typing', async () => {
+        await userEvent.type(harness.input, 'aus')
+        expect(harness.activeOption.textContent).toBe('Australia')
+      })
+
+      it('maintains the first active option after typing', async () => {
+        await userEvent.type(harness.input, 'aus')
+        expect(harness.activeOption.textContent).toBe('Australia')
+      })
+
+      it('wraps the active option from first to last and vice-versa', async () => {
+        await userEvent.type(harness.input, 'aus')
+
+        const [option1, option2] = harness.options
+
+        expect(harness.activeOption).toBe(option1)
+
+        await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+        expect(harness.activeOption).toBe(option2)
+
+        await userEvent.type(harness.input, '{arrowdown}', { skipClick: true })
+        expect(harness.activeOption).toBe(option1)
+
+        await userEvent.type(harness.input, '{arrowup}', { skipClick: true })
+        expect(harness.activeOption).toBe(option2)
+      })
     })
   })
 
