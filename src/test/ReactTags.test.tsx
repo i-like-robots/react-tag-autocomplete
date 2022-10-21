@@ -540,9 +540,9 @@ describe('React Tags Autocomplete', () => {
       expect(harness.activeOption.textContent).toBe('Bahrain')
     })
 
-    describe('with selectFirstOption enabled', () => {
+    describe('with startWithFirstOption enabled', () => {
       beforeEach(() => {
-        harness.rerender({ selectFirstOption: true })
+        harness.rerender({ startWithFirstOption: true })
       })
 
       it('sets the first option to active when expanded', async () => {
@@ -550,12 +550,7 @@ describe('React Tags Autocomplete', () => {
         expect(harness.activeOption.textContent).toBe('Afghanistan')
       })
 
-      it('maintains the first active option after typing', async () => {
-        await userEvent.type(harness.input, 'aus')
-        expect(harness.activeOption.textContent).toBe('Australia')
-      })
-
-      it('maintains the first active option after typing', async () => {
+      it('maintains the first option as active after typing', async () => {
         await userEvent.type(harness.input, 'aus')
         expect(harness.activeOption.textContent).toBe('Australia')
       })

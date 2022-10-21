@@ -301,9 +301,9 @@ import type { TagSelected } from 'react-tag-autocomplete'
 const [selected, setSelected] = useState<Array<TagSelected & { myProperty: string }>>([])
 ```
 
-#### selectFirstTag (optional)
+#### startWithFirstOption (optional)
 
-Automatically highlight the first option when the listbox is expanded without needing to press an arrow key. Defaults to `false`.
+Automatically activates the first option when the listbox is expanded and switches the active option directly from first to last and vice-versa when the options wrap. Defaults to `false`.
 
 #### suggestions (optional)
 
