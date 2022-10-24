@@ -122,30 +122,37 @@ export function useManagerTwo({
     },
     clearAll() {
       setActiveOption(null)
-      setIsExpanded(false)
-      setValue('')
+      this.collapse()
+      this.updateValue('')
     },
     clearValue() {
-      setValue('')
+      this.updateValue('')
     },
     collapse() {
-      setIsExpanded(false)
-      setActiveOption(null)
-      onCollapse?.()
+      if (isExpanded) {
+        setIsExpanded(false)
+        setActiveOption(null)
+        onCollapse?.()
+      }
     },
     expand() {
-      setIsExpanded(true)
-      setActiveOption(options[activeIndex])
-      onExpand?.()
+      if (!isExpanded) {
+        setIsExpanded(true)
+        setActiveOption(options[activeIndex])
+        onExpand?.()
+      }
     },
     updateActiveIndex(index: number) {
       const activeIndex = loop(index, options.length, startWithFirstOption ? 0 : -1)
       setActiveOption(options[activeIndex])
     },
-    updateValue(value: string) {
-      setValue(value)
-      setIsExpanded(true)
-      onInput?.(value)
+    updateValue(newValue: string) {
+      if (value !== newValue) {
+        setValue(newValue)
+        onInput?.(newValue)
+      }
+
+      this.expand()
     },
   }
 
