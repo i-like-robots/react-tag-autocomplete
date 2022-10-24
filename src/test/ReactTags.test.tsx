@@ -540,6 +540,14 @@ describe('React Tags Autocomplete', () => {
       expect(harness.activeOption.textContent).toBe('Bahrain')
     })
 
+    it('calls the onExpand and onCollapse callbacks when expanded and collapsed', () => {
+      harness.listBoxExpand()
+      expect(harness.props.onExpand).toHaveBeenCalledOnce()
+
+      harness.listBoxCollapse()
+      expect(harness.props.onCollapse).toHaveBeenCalledOnce()
+    })
+
     describe('with startWithFirstOption enabled', () => {
       beforeEach(() => {
         harness.rerender({ startWithFirstOption: true })

@@ -8,7 +8,9 @@ import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
   ClassNames,
   OnAdd,
+  OnCollapse,
   OnDelete,
+  OnExpand,
   OnInput,
   OnValidate,
   PublicAPI,
@@ -56,7 +58,9 @@ type ReactTagsProps = {
   newOptionText?: string
   noOptionsText?: string
   onAdd: OnAdd
+  onCollapse?: OnCollapse
   onDelete: OnDelete
+  onExpand?: OnExpand
   onInput?: OnInput
   onValidate?: OnValidate
   placeholderText?: string
@@ -90,7 +94,9 @@ function ReactTags(
     newOptionText = 'Add %value%',
     noOptionsText = 'No options found for %value%',
     onAdd,
+    onCollapse,
     onDelete,
+    onExpand,
     onInput,
     onValidate,
     placeholderText = 'Add a tag',
@@ -115,6 +121,9 @@ function ReactTags(
     allowNew,
     newOptionText,
     noOptionsText,
+    onCollapse,
+    onExpand,
+    onInput,
     onValidate,
     selected,
     startWithFirstOption,
@@ -145,7 +154,6 @@ function ReactTags(
         isInvalid,
         listBoxRef,
         manager,
-        onInput,
         onSelect,
         rootRef,
         tagListRef,

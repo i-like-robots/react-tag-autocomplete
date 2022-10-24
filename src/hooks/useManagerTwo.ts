@@ -3,6 +3,9 @@ import { findTagIndex } from '../lib'
 import { arrayDiff } from '../lib/arrayDiff'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type {
+  OnCollapse,
+  OnExpand,
+  OnInput,
   OnValidate,
   SuggestionsTransform,
   Tag,
@@ -38,6 +41,9 @@ export type ManagerProps = {
   allowNew: boolean
   newOptionText: string
   noOptionsText: string
+  onCollapse?: OnCollapse
+  onExpand?: OnExpand
+  onInput?: OnInput
   onValidate?: OnValidate
   selected: TagSelected[]
   startWithFirstOption: boolean
@@ -68,6 +74,9 @@ export function useManagerTwo({
   allowNew,
   newOptionText,
   noOptionsText,
+  onCollapse,
+  onExpand,
+  onInput,
   onValidate,
   selected,
   startWithFirstOption,
@@ -113,27 +122,37 @@ export function useManagerTwo({
     },
     clearAll() {
       setActiveOption(null)
-      setIsExpanded(false)
-      setValue('')
+      this.collapse()
+      this.updateValue('')
     },
     clearValue() {
-      setValue('')
+      this.updateValue('')
     },
     collapse() {
-      setIsExpanded(false)
-      setActiveOption(null)
+      if (isExpanded) {
+        setIsExpanded(false)
+        setActiveOption(null)
+        onCollapse?.()
+      }
     },
     expand() {
-      setIsExpanded(true)
-      setActiveOption(options[activeIndex])
+      if (!isExpanded) {
+        setIsExpanded(true)
+        setActiveOption(options[activeIndex])
+        onExpand?.()
+      }
     },
     updateActiveIndex(index: number) {
       const activeIndex = loop(index, options.length, startWithFirstOption ? 0 : -1)
       setActiveOption(options[activeIndex])
     },
-    updateValue(value: string) {
-      setValue(value)
-      setIsExpanded(true)
+    updateValue(newValue: string) {
+      if (value !== newValue) {
+        setValue(newValue)
+        onInput?.(newValue)
+      }
+
+      this.expand()
     },
   }
 

@@ -41,9 +41,13 @@ export type OnAdd = (tag: Tag) => void
 
 export type OnDelete = (index: number) => void
 
+export type OnCollapse = () => void
+
+export type OnExpand = () => void
+
 export type OnInput = (value: string) => void
 
-export type OnValidate = (value?: string) => boolean
+export type OnValidate = (value: string) => boolean
 
 export type OnSelect = (tag?: Tag) => void
 

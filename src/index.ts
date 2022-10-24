@@ -4,6 +4,8 @@ export type {
   ClassNames,
   OnAdd,
   OnDelete,
+  OnCollapse,
+  OnExpand,
   OnInput,
   OnValidate,
   SuggestionsTransform,
