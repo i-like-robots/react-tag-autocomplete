@@ -81,7 +81,9 @@ function CountrySelector() {
 - [`newOptionText`](#newOptionText-optional)
 - [`noOptionsText`](#noOptionsText-optional)
 - [`onAdd`](#onadd-required)
+- [`onCollapse`](#onCollapse-optional)
 - [`onDelete`](#ondelete-required)
+- [`onExpand`](#onExpand-optional)
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
@@ -148,7 +150,7 @@ Override the default class names used by the component. Defaults to:
 
 #### closeOnSelect (optional)
 
-Controls whether the listbox should be closed and active option reset when a tag is selected. Defaults to `false`.
+Controls whether the listbox should be collapsed and active option reset when a tag is selected. Defaults to `false`.
 
 #### deleteButtonText (optional)
 
@@ -194,6 +196,10 @@ function onAdd(newTag) {
 }
 ```
 
+#### onCollapse (optional)
+
+Callback function called when the listbox is collapsed. Receives no arguments.
+
 #### onDelete (required)
 
 Callback function called when the user wants to remove a selected tag. Receives the index of the selected tag. Example:
@@ -205,6 +211,10 @@ function onDelete(tagIndex) {
   setSelected(selected.filter((_, i) => i !== tagIndex))
 }
 ```
+
+#### onExpand (optional)
+
+Callback function called when the listbox is expanded. Receives no arguments.
 
 #### onInput (optional)
 
