@@ -29,7 +29,7 @@ export function useOption(index: number): UseOptionState {
     if (active) {
       optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
     }
-  }, [active])
+  }, [active, manager.state.options])
 
   return {
     option: {
