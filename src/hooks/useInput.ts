@@ -27,12 +27,29 @@ export function useInput({
   ariaErrorMessage,
   delimiterKeys,
 }: UseInputArgs): UseInputState {
-  const { id, inputRef, isDisabled, isInvalid, manager, onSelect } = useContext(GlobalContext)
+  const { id, comboBoxRef, inputRef, isDisabled, isInvalid, manager, onSelect } =
+    useContext(GlobalContext)
 
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
       manager.updateValue(value)
+
+      if (document.activeElement === inputRef.current) {
+        manager.expand()
+      }
+    }
+
+    const onFocus = () => {
+      manager.expand()
+    }
+
+    const onBlur = (e: React.FocusEvent) => {
+      if (comboBoxRef.current?.contains(e.relatedTarget)) {
+        inputRef.current.focus()
+      } else {
+        manager.collapse()
+      }
     }
 
     const onDownArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -105,8 +122,8 @@ export function useInput({
       if (delimiterKeys.includes(e.key)) return onDelimiterKey(e)
     }
 
-    return { onChange, onKeyDown }
-  }, [allowBackspace, delimiterKeys, manager, onSelect])
+    return { onBlur, onChange, onFocus, onKeyDown }
+  }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, manager, onSelect])
 
   const { activeOption, isExpanded, value } = manager.state
 
@@ -122,7 +139,9 @@ export function useInput({
     'aria-expanded': isExpanded,
     'aria-owns': listBoxId(id),
     id: inputId(id),
+    onBlur: isDisabled ? VoidFn : events.onBlur,
     onChange: isDisabled ? VoidFn : events.onChange,
+    onFocus: isDisabled ? VoidFn : events.onFocus,
     onKeyDown: isDisabled ? VoidFn : events.onKeyDown,
     ref: inputRef,
     role: 'combobox',

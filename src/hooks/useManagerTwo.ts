@@ -151,8 +151,6 @@ export function useManagerTwo({
         setValue(newValue)
         onInput?.(newValue)
       }
-
-      this.expand()
     },
   }
 

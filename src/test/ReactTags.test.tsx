@@ -242,14 +242,6 @@ describe('React Tags Autocomplete', () => {
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('expands the listbox when the input is clicked', async () => {
-      await userEvent.type(harness.input, '{Escape}')
-      expect(harness.isExpanded()).toBe(false)
-
-      fireEvent.click(harness.input)
-      expect(harness.isExpanded()).toBe(true)
-    })
-
     it('expands the list box when the cursor is at the start and up key is pressed', async () => {
       await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
