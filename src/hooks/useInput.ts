@@ -33,22 +33,22 @@ export function useInput({
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
-      manager.updateValue(value)
+      manager.updateInputValue(value)
 
       if (document.activeElement === inputRef.current) {
-        manager.expand()
+        manager.listBoxExpand()
       }
     }
 
     const onFocus = () => {
-      manager.expand()
+      manager.listBoxExpand()
     }
 
     const onBlur = (e: React.FocusEvent) => {
       if (comboBoxRef.current?.contains(e.relatedTarget)) {
         inputRef.current.focus()
       } else {
-        manager.collapse()
+        manager.listBoxCollapse()
       }
     }
 
@@ -58,7 +58,7 @@ export function useInput({
         manager.updateActiveIndex(manager.state.activeIndex + 1)
       } else if (isCaretAtEnd(e.currentTarget) || e.altKey) {
         e.preventDefault()
-        manager.expand()
+        manager.listBoxExpand()
       }
     }
 
@@ -68,7 +68,7 @@ export function useInput({
         manager.updateActiveIndex(manager.state.activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
         e.preventDefault()
-        manager.expand()
+        manager.listBoxExpand()
       }
     }
 
@@ -88,9 +88,9 @@ export function useInput({
 
     const onEscapeKey = () => {
       if (manager.state.isExpanded) {
-        manager.collapse()
+        manager.listBoxCollapse()
       } else {
-        manager.clearValue()
+        manager.updateInputValue('')
       }
     }
 

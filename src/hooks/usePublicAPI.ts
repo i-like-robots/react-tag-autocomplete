@@ -11,7 +11,7 @@ export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI
   const api = useRef<PublicAPI>({
     input: {
       clear() {
-        manager.clearValue()
+        manager.updateInputValue('')
       },
       focus() {
         inputRef.current?.focus()
@@ -20,15 +20,15 @@ export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI
         return manager.state.value
       },
       set value(value: string) {
-        manager.updateValue(value)
+        manager.updateInputValue(value)
       },
     },
     listBox: {
       collapse() {
-        manager.collapse()
+        manager.listBoxCollapse()
       },
       expand() {
-        manager.expand()
+        manager.listBoxExpand()
       },
       get activeIndex() {
         return manager.state.activeIndex

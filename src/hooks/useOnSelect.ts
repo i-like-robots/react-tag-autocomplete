@@ -46,10 +46,10 @@ export function useOnSelect({
         onAdd(tag)
 
         if (closeOnSelect) {
-          manager.clearAll()
-        } else {
-          manager.clearValue()
+          manager.listBoxCollapse()
         }
+
+        manager.updateInputValue('')
       }
     },
     [closeOnSelect, manager, onDelete, onAdd]

@@ -14,13 +14,10 @@ import type {
 } from '../sharedTypes'
 
 export type ManagerAPI = {
-  clearActiveIndex(): void
-  clearAll(): void
-  clearValue(): void
-  collapse(): void
-  expand(): void
+  listBoxCollapse(): void
+  listBoxExpand(): void
   updateActiveIndex(index: number): void
-  updateValue(value: string): void
+  updateInputValue(value: string): void
 }
 
 export type ManagerState = {
@@ -89,7 +86,7 @@ export function useManagerTwo({
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
-  const options = useMemo(() => {
+  const options: TagSuggestion[] = useMemo(() => {
     const opts = suggestionsTransform(value, suggestions)
 
     if (allowNew && value) {
@@ -116,26 +113,15 @@ export function useManagerTwo({
   const optionIndex = activeOption ? findTagIndex(activeOption, options) : -1
   const activeIndex = startWithFirstOption ? Math.max(optionIndex, 0) : optionIndex
 
-  const api = {
-    clearActiveIndex() {
-      setActiveOption(null)
-    },
-    clearAll() {
-      setActiveOption(null)
-      this.collapse()
-      this.updateValue('')
-    },
-    clearValue() {
-      this.updateValue('')
-    },
-    collapse() {
+  const api: ManagerAPI = {
+    listBoxCollapse() {
       if (isExpanded) {
         setIsExpanded(false)
         setActiveOption(null)
         onCollapse?.()
       }
     },
-    expand() {
+    listBoxExpand() {
       if (!isExpanded) {
         setIsExpanded(true)
         setActiveOption(options[activeIndex])
@@ -146,7 +132,7 @@ export function useManagerTwo({
       const activeIndex = loop(index, options.length, startWithFirstOption ? 0 : -1)
       setActiveOption(options[activeIndex])
     },
-    updateValue(newValue: string) {
+    updateInputValue(newValue: string) {
       if (value !== newValue) {
         setValue(newValue)
         onInput?.(newValue)
@@ -154,12 +140,12 @@ export function useManagerTwo({
     },
   }
 
-  const flags = {
+  const flags: ManagerFlags = {
     tagsAdded: ref.current ? arrayDiff(selected, ref.current.state.selected) : [],
     tagsDeleted: ref.current ? arrayDiff(ref.current.state.selected, selected) : [],
   }
 
-  const state = {
+  const state: ManagerState = {
     activeIndex,
     activeOption,
     isExpanded,
