@@ -52,6 +52,10 @@ export function useInput({
       }
     }
 
+    const onClick = () => {
+      manager.listBoxExpand()
+    }
+
     const onDownArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
@@ -122,7 +126,7 @@ export function useInput({
       if (delimiterKeys.includes(e.key)) return onDelimiterKey(e)
     }
 
-    return { onBlur, onChange, onFocus, onKeyDown }
+    return { onBlur, onChange, onClick, onFocus, onKeyDown }
   }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, manager, onSelect])
 
   const { activeOption, isExpanded, value } = manager.state
@@ -141,6 +145,7 @@ export function useInput({
     id: inputId(id),
     onBlur: isDisabled ? VoidFn : events.onBlur,
     onChange: isDisabled ? VoidFn : events.onChange,
+    onClick: isDisabled ? VoidFn : events.onClick,
     onFocus: isDisabled ? VoidFn : events.onFocus,
     onKeyDown: isDisabled ? VoidFn : events.onKeyDown,
     ref: inputRef,
