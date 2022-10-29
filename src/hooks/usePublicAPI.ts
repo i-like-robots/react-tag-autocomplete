@@ -30,17 +30,11 @@ export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI
       expand() {
         manager.listBoxExpand()
       },
-      get activeIndex() {
-        return manager.state.activeIndex
-      },
-      set activeIndex(index: number) {
-        manager.updateActiveIndex(index)
+      get activeOption() {
+        return manager.state.activeOption
       },
       get isExpanded() {
         return manager.state.isExpanded
-      },
-      get options() {
-        return manager.state.options
       },
     },
   })

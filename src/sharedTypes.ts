@@ -63,9 +63,7 @@ export type PublicAPI = {
   listBox: {
     collapse(): void
     expand(): void
-    get activeIndex(): number
-    set activeIndex(index: number)
+    get activeOption(): TagSuggestion
     get isExpanded(): boolean
-    get options(): TagSuggestion[]
   }
 }
