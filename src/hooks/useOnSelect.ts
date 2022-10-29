@@ -36,14 +36,14 @@ export function useOnSelect({
     (tag?: Tag) => {
       tag ??= findSelectedTag(manager.state)
 
-      if (!tag) return
+      if (tag) {
+        const tagIndex = findTagIndex(tag, manager.state.selected)
 
-      const tagIndex = findTagIndex(tag, manager.state.selected)
-
-      if (tagIndex >= 0) {
-        onDelete(tagIndex)
-      } else {
-        onAdd(tag)
+        if (tagIndex > -1) {
+          onDelete(tagIndex)
+        } else {
+          onAdd(tag)
+        }
 
         if (closeOnSelect) {
           manager.listBoxCollapse()
