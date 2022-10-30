@@ -1,5 +1,7 @@
 import React from 'react'
-import { partialRegExp } from '../lib'
+import { partialRegExp, replacePlaceholder } from '../lib'
+import { NewOptionValue, NoOptionsValue } from '../constants'
+import type { TagOption } from '../sharedTypes'
 
 function markText(name: string, value: string) {
   const regexp = partialRegExp(value)
@@ -7,14 +9,18 @@ function markText(name: string, value: string) {
 }
 
 export type OptionTextProps = {
-  label: string
+  option: TagOption
   query: string
 }
 
-function OptionText({ label, query }: OptionTextProps): JSX.Element {
-  return <span dangerouslySetInnerHTML={{ __html: markText(label, query) }} />
+function OptionText({ option, query }: OptionTextProps): JSX.Element {
+  if (option.value === NewOptionValue || option.value === NoOptionsValue) {
+    return <span>{replacePlaceholder(option.label, query)}</span>
+  } else {
+    return <span dangerouslySetInnerHTML={{ __html: markText(option.label, query) }} />
+  }
 }
 
-const MemoizedOptionText = React.memo(OptionText)
+const MemoisedOptionText = React.memo(OptionText)
 
-export { MemoizedOptionText as OptionText }
+export { MemoisedOptionText as OptionText }
