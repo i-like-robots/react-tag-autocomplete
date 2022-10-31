@@ -8,9 +8,11 @@ import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
   ClassNames,
   OnAdd,
+  OnBlur,
   OnCollapse,
   OnDelete,
   OnExpand,
+  OnFocus,
   OnInput,
   OnValidate,
   PublicAPI,
@@ -58,9 +60,11 @@ type ReactTagsProps = {
   newOptionText?: string
   noOptionsText?: string
   onAdd: OnAdd
+  onBlur?: OnBlur
   onCollapse?: OnCollapse
   onDelete: OnDelete
   onExpand?: OnExpand
+  onFocus?: OnFocus
   onInput?: OnInput
   onValidate?: OnValidate
   placeholderText?: string
@@ -94,9 +98,11 @@ function ReactTags(
     newOptionText = 'Add %value%',
     noOptionsText = 'No options found for %value%',
     onAdd,
+    onBlur,
     onCollapse,
     onDelete,
     onExpand,
+    onFocus,
     onInput,
     onValidate,
     placeholderText = 'Add a tag',
@@ -159,7 +165,7 @@ function ReactTags(
         tagListRef,
       }}
     >
-      <Root>
+      <Root onBlur={onBlur} onFocus={onFocus}>
         <Label render={renderLabel}>{labelText}</Label>
         <TagList label={tagListLabelText}>
           {manager.state.selected.map((tag, index) => (

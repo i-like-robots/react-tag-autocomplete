@@ -30,6 +30,16 @@ describe('React Tags Autocomplete', () => {
       fireEvent.blur(harness.input)
       expect(harness.root.classList.contains('is-active')).toBe(false)
     })
+
+    it('calls the onFocus callback when component focus is gained', () => {
+      fireEvent.focus(harness.input)
+      expect(harness.props.onFocus).toHaveBeenCalledOnce()
+    })
+
+    it('calls the onBlur callback when component focus is lost', () => {
+      fireEvent.blur(harness.input)
+      expect(harness.props.onBlur).toHaveBeenCalledOnce()
+    })
   })
 
   describe('label', () => {

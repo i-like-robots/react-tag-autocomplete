@@ -41,6 +41,10 @@ export type OnAdd = (tag: Tag) => void
 
 export type OnDelete = (index: number) => void
 
+export type OnBlur = () => void
+
+export type OnFocus = () => void
+
 export type OnCollapse = () => void
 
 export type OnExpand = () => void

@@ -1,13 +1,19 @@
 import React, { useContext, useMemo, useState } from 'react'
 import { GlobalContext } from '../contexts'
 import { labelId, rootId } from '../lib'
+import type { OnBlur, OnFocus } from '../sharedTypes'
+
+export type UseRootArgs = {
+  onBlur?: OnBlur
+  onFocus?: OnFocus
+}
 
 export type UseRootState = {
   isActive: boolean
   rootProps: React.ComponentPropsWithRef<'div'>
 }
 
-export function useRoot(): UseRootState {
+export function useRoot({ onBlur, onFocus }: UseRootArgs): UseRootState {
   const [isActive, setIsActive] = useState<boolean>(false)
 
   const { id, inputRef, rootRef } = useContext(GlobalContext)
@@ -18,10 +24,12 @@ export function useRoot(): UseRootState {
       id: rootId(id),
       onFocus() {
         setIsActive(true)
+        onFocus?.()
       },
       onBlur() {
         if (!rootRef.current?.contains(document.activeElement)) {
           setIsActive(false)
+          onBlur?.()
         }
       },
       onClick() {
@@ -33,7 +41,7 @@ export function useRoot(): UseRootState {
       ref: rootRef,
       tabIndex: -1,
     }
-  }, [inputRef, id, rootRef])
+  }, [inputRef, id, onBlur, onFocus, rootRef])
 
   return {
     isActive,

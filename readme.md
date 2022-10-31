@@ -80,10 +80,12 @@ function CountrySelector() {
 - [`labelText`](#labelText-optional)
 - [`newOptionText`](#newOptionText-optional)
 - [`noOptionsText`](#noOptionsText-optional)
-- [`onAdd`](#onadd-required)
+- [`onAdd`](#onAdd-required)
+- [`onBlur`](#onBlur-optional)
 - [`onCollapse`](#onCollapse-optional)
 - [`onDelete`](#ondelete-required)
 - [`onExpand`](#onExpand-optional)
+- [`onFocus`](#onFocus-optional)
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
@@ -196,9 +198,13 @@ function onAdd(newTag) {
 }
 ```
 
+#### onBlur (optional)
+
+Callback function called when the component loses focus. Receives no arguments.
+
 #### onCollapse (optional)
 
-Callback function called when the listbox is collapsed. Receives no arguments.
+Callback function called when the listbox collapses. Receives no arguments.
 
 #### onDelete (required)
 
@@ -214,7 +220,11 @@ function onDelete(tagIndex) {
 
 #### onExpand (optional)
 
-Callback function called when the listbox is expanded. Receives no arguments.
+Callback function called when the listbox expands. Receives no arguments.
+
+#### onFocus (optional)
+
+Callback function called when the component gains focus. Receives no arguments.
 
 #### onInput (optional)
 

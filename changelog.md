@@ -15,7 +15,6 @@ Breaking changes:
 - Removed `addOnBlur` prop
 - Removed `inputAttributes` prop
 - Removed `maxSuggestionsLength` prop, use `suggestionsTransform` instead
-- Removed `onFocus` and `onBlur` props
 - Removed `suggestionsFilter` prop, use `suggestionsTransform` instead
 
 New features and improvements:
