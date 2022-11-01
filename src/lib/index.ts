@@ -1,5 +1,7 @@
+export * from './arrayDiff'
 export * from './cursorPosition'
 export * from './ids'
+export * from './optionUtils'
 export * from './stringUtils'
 export * from './tagUtils'
 export * from './textMatchers'
