@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
-import { useManagerTwo, useOnSelect, usePublicAPI } from '../hooks'
+import { useManagerTwo, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -125,8 +125,11 @@ function ReactTags(
 
   const manager = useManagerTwo({
     allowNew,
+    closeOnSelect,
     newOptionText,
     noOptionsText,
+    onAdd,
+    onDelete,
     onCollapse,
     onExpand,
     onInput,
@@ -136,8 +139,6 @@ function ReactTags(
     suggestions,
     suggestionsTransform,
   })
-
-  const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
 
   const publicAPI = usePublicAPI({ inputRef, manager })
 
@@ -160,7 +161,6 @@ function ReactTags(
         isInvalid,
         listBoxRef,
         manager,
-        onSelect,
         rootRef,
         tagListRef,
       }}

@@ -27,8 +27,7 @@ export function useInput({
   ariaErrorMessage,
   delimiterKeys,
 }: UseInputArgs): UseInputState {
-  const { id, comboBoxRef, inputRef, isDisabled, isInvalid, manager, onSelect } =
-    useContext(GlobalContext)
+  const { id, comboBoxRef, inputRef, isDisabled, isInvalid, manager } = useContext(GlobalContext)
 
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +103,7 @@ export function useInput({
         const lastTag = manager.state.selected[manager.state.selected.length - 1]
 
         if (isEmpty && lastTag) {
-          onSelect(lastTag)
+          manager.selectTag(lastTag)
         }
       }
     }
@@ -112,7 +111,7 @@ export function useInput({
     const onDelimiterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (manager.state.isExpanded) {
         e.preventDefault()
-        onSelect()
+        manager.selectTag()
       }
     }
 
@@ -127,7 +126,7 @@ export function useInput({
     }
 
     return { onBlur, onChange, onClick, onFocus, onKeyDown }
-  }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, manager, onSelect])
+  }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, manager])
 
   const { activeOption, isExpanded, value } = manager.state
 

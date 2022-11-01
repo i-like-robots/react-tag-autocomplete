@@ -7,7 +7,7 @@ import type { TagOption } from '../sharedTypes'
 export type UseOptionState = { option: TagOption; optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
-  const { id, inputRef, manager, onSelect } = useContext(GlobalContext)
+  const { id, inputRef, manager } = useContext(GlobalContext)
   const optionRef = useRef<HTMLDivElement>(null)
   const option = manager.state.options[index]
   const active = index === manager.state.activeIndex
@@ -15,9 +15,9 @@ export function useOption(index: number): UseOptionState {
   const selected = findTagIndex(option, manager.state.selected) > -1
 
   const onClick = useCallback(() => {
-    onSelect()
-    inputRef.current?.focus()
-  }, [inputRef, onSelect])
+    manager.selectTag()
+    inputRef.current?.focus() // TODO
+  }, [inputRef, manager])
 
   const onMouseDown = useCallback(() => {
     if (index !== manager.state.activeIndex) {

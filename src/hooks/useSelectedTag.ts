@@ -10,9 +10,9 @@ export type UseSelectedTagState = {
 }
 
 export function useSelectedTag(index: number, title: string): UseSelectedTagState {
-  const { isDisabled, manager, onSelect } = useContext(GlobalContext)
+  const { isDisabled, manager } = useContext(GlobalContext)
   const tag = manager.state.selected[index]
-  const onClick = useCallback(() => onSelect(tag), [onSelect, tag])
+  const onClick = useCallback(() => manager.selectTag(tag), [manager, tag])
 
   return {
     tag,
