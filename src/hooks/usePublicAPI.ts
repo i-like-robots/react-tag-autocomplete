@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import type { PublicAPI } from '../sharedTypes'
-import type { UseManagerState } from '.'
+import type { PublicAPI, Tag } from '../sharedTypes'
+import type { UseManagerState } from './useManagerTwo'
 
 export type UsePublicAPIArgs = {
   inputRef: React.MutableRefObject<HTMLInputElement | null>
@@ -10,8 +10,8 @@ export type UsePublicAPIArgs = {
 export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI {
   const api = useRef<PublicAPI>({
     input: {
-      clear() {
-        manager.updateInputValue('')
+      blur() {
+        inputRef.current?.blur()
       },
       focus() {
         inputRef.current?.focus()
@@ -36,6 +36,9 @@ export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI
       get isExpanded() {
         return manager.state.isExpanded
       },
+    },
+    select(tag?: Tag) {
+      manager.selectTag(tag)
     },
   })
 

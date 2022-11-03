@@ -815,7 +815,7 @@ describe('React Tags Autocomplete', () => {
     it('uses provided suggestionsTransform when input is cleared', async () => {
       await userEvent.type(harness.input, 'uni')
 
-      harness.props.ref.current.input.clear()
+      harness.props.ref.current.input.value = ''
 
       await waitFor(() => expect(harness.options.length).toBe(206))
 
