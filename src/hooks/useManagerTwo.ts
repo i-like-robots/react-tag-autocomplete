@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import { arrayDiff, findSelectedOption, findTagIndex } from '../lib'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type {
@@ -87,7 +87,7 @@ export function useManagerTwo({
   startWithFirstOption,
   suggestions,
   suggestionsTransform,
-}: ManagerProps) {
+}: ManagerProps): React.MutableRefObject<UseManagerState> {
   const ref = useRef<UseManagerState>()
 
   const [activeOption, setActiveOption] = useState<TagSuggestion>(null)
@@ -181,7 +181,7 @@ export function useManagerTwo({
     },
   }
 
-  ref.current = Object.assign(ref.current || {}, { ...api, flags, state })
+  ref.current = { ...api, flags, state }
 
-  return ref.current
+  return ref
 }

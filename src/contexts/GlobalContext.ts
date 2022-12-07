@@ -10,7 +10,7 @@ export type GlobalContextValue = {
   isDisabled: boolean
   isInvalid: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement | null>
-  manager: UseManagerState
+  managerRef: React.MutableRefObject<UseManagerState>
   rootRef: React.MutableRefObject<HTMLDivElement | null>
   tagListRef: React.MutableRefObject<HTMLUListElement | null>
 }

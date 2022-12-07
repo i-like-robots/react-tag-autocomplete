@@ -17,15 +17,15 @@ export type AnnouncementsProps = {
 }
 
 export function Announcements({ ariaAddedText, ariaDeletedText }: AnnouncementsProps): JSX.Element {
-  const { manager } = useContext(GlobalContext)
+  const { managerRef } = useContext(GlobalContext)
 
   const logsRef = useRef<string[]>([])
 
-  manager.flags.tagsAdded.forEach((tag) => {
+  managerRef.current.flags.tagsAdded.forEach((tag) => {
     logsRef.current.push(replacePlaceholder(ariaAddedText, tag.label))
   })
 
-  manager.flags.tagsDeleted.forEach((tag) => {
+  managerRef.current.flags.tagsDeleted.forEach((tag) => {
     logsRef.current.push(replacePlaceholder(ariaDeletedText, tag.label))
   })
 

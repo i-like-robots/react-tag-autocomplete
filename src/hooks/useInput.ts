@@ -27,91 +27,97 @@ export function useInput({
   ariaErrorMessage,
   delimiterKeys,
 }: UseInputArgs): UseInputState {
-  const { id, comboBoxRef, inputRef, isDisabled, isInvalid, manager } = useContext(GlobalContext)
+  const { id, comboBoxRef, inputRef, isDisabled, isInvalid, managerRef } = useContext(GlobalContext)
 
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.currentTarget.value
-      manager.updateInputValue(value)
+      managerRef.current.updateInputValue(value)
 
       if (document.activeElement === inputRef.current) {
-        manager.listBoxExpand()
+        managerRef.current.listBoxExpand()
       }
     }
 
     const onFocus = () => {
-      manager.listBoxExpand()
+      managerRef.current.listBoxExpand()
     }
 
     const onBlur = (e: React.FocusEvent) => {
       if (comboBoxRef.current?.contains(e.relatedTarget)) {
         inputRef.current.focus()
       } else {
-        manager.listBoxCollapse()
+        managerRef.current.listBoxCollapse()
       }
     }
 
     const onClick = () => {
-      manager.listBoxExpand()
+      managerRef.current.listBoxExpand()
     }
 
     const onDownArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (manager.state.isExpanded) {
+      const { activeIndex, isExpanded } = managerRef.current.state
+
+      if (isExpanded) {
         e.preventDefault()
-        manager.updateActiveIndex(manager.state.activeIndex + 1)
+        managerRef.current.updateActiveIndex(activeIndex + 1)
       } else if (isCaretAtEnd(e.currentTarget) || e.altKey) {
         e.preventDefault()
-        manager.listBoxExpand()
+        managerRef.current.listBoxExpand()
       }
     }
 
     const onUpArrowKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (manager.state.isExpanded) {
+      const { activeIndex, isExpanded } = managerRef.current.state
+
+      if (isExpanded) {
         e.preventDefault()
-        manager.updateActiveIndex(manager.state.activeIndex - 1)
+        managerRef.current.updateActiveIndex(activeIndex - 1)
       } else if (isCaretAtStart(e.currentTarget)) {
         e.preventDefault()
-        manager.listBoxExpand()
+        managerRef.current.listBoxExpand()
       }
     }
 
     const onPageDownKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (manager.state.isExpanded) {
+      const { isExpanded, options } = managerRef.current.state
+
+      if (isExpanded) {
         e.preventDefault()
-        manager.updateActiveIndex(manager.state.options.length - 1)
+        managerRef.current.updateActiveIndex(options.length - 1)
       }
     }
 
     const onPageUpKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (manager.state.isExpanded) {
+      if (managerRef.current.state.isExpanded) {
         e.preventDefault()
-        manager.updateActiveIndex(0)
+        managerRef.current.updateActiveIndex(0)
       }
     }
 
     const onEscapeKey = () => {
-      if (manager.state.isExpanded) {
-        manager.listBoxCollapse()
+      if (managerRef.current.state.isExpanded) {
+        managerRef.current.listBoxCollapse()
       } else {
-        manager.updateInputValue('')
+        managerRef.current.updateInputValue('')
       }
     }
 
     const onBackspaceKey = () => {
       if (allowBackspace) {
-        const isEmpty = manager.state.value === ''
-        const lastTag = manager.state.selected[manager.state.selected.length - 1]
+        const { value, selected } = managerRef.current.state
+        const lastTag = selected[selected.length - 1]
 
-        if (isEmpty && lastTag) {
-          manager.selectTag(lastTag)
+        if (value === '' && lastTag) {
+          managerRef.current.selectTag(lastTag)
         }
       }
     }
 
     const onDelimiterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (manager.state.isExpanded) {
+      if (managerRef.current.state.isExpanded) {
         e.preventDefault()
-        manager.selectTag()
+        managerRef.current.selectTag()
       }
     }
 
@@ -126,9 +132,9 @@ export function useInput({
     }
 
     return { onBlur, onChange, onClick, onFocus, onKeyDown }
-  }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, manager])
+  }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, managerRef])
 
-  const { activeOption, isExpanded, value } = manager.state
+  const { activeOption, isExpanded, value } = managerRef.current.state
 
   return {
     ...DisableAutoCompleteAttrs,

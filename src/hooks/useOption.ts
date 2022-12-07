@@ -7,29 +7,29 @@ import type { TagOption } from '../sharedTypes'
 export type UseOptionState = { option: TagOption; optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
-  const { id, inputRef, manager } = useContext(GlobalContext)
+  const { id, inputRef, managerRef } = useContext(GlobalContext)
   const optionRef = useRef<HTMLDivElement>(null)
-  const option = manager.state.options[index]
-  const active = index === manager.state.activeIndex
+  const option = managerRef.current.state.options[index]
+  const active = index === managerRef.current.state.activeIndex
   const disabled = option.disabled ?? false
-  const selected = findTagIndex(option, manager.state.selected) > -1
+  const selected = findTagIndex(option, managerRef.current.state.selected) > -1
 
   const onClick = useCallback(() => {
-    manager.selectTag()
+    managerRef.current.selectTag()
     inputRef.current?.focus() // TODO
-  }, [inputRef, manager])
+  }, [inputRef, managerRef])
 
   const onMouseDown = useCallback(() => {
-    if (index !== manager.state.activeIndex) {
-      manager.updateActiveIndex(index)
+    if (index !== managerRef.current.state.activeIndex) {
+      managerRef.current.updateActiveIndex(index)
     }
-  }, [index, manager])
+  }, [index, managerRef])
 
   useEffect(() => {
     if (active) {
       optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
     }
-  }, [active, manager.state.options])
+  }, [active, managerRef.current.state.options])
 
   return {
     option: {
@@ -43,7 +43,7 @@ export function useOption(index: number): UseOptionState {
       'aria-disabled': disabled,
       'aria-posinset': index + 1,
       'aria-selected': disabled ? undefined : selected,
-      'aria-setsize': manager.state.options.length,
+      'aria-setsize': managerRef.current.state.options.length,
       id: optionId(id, option),
       onClick,
       onMouseDown,

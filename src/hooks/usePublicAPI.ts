@@ -4,10 +4,10 @@ import type { UseManagerState } from './useManagerTwo'
 
 export type UsePublicAPIArgs = {
   inputRef: React.MutableRefObject<HTMLInputElement | null>
-  manager: UseManagerState
+  managerRef: React.MutableRefObject<UseManagerState>
 }
 
-export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI {
+export function usePublicAPI({ inputRef, managerRef }: UsePublicAPIArgs): PublicAPI {
   const api = useRef<PublicAPI>({
     input: {
       blur() {
@@ -17,28 +17,28 @@ export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI
         inputRef.current?.focus()
       },
       get value() {
-        return manager.state.value
+        return managerRef.current.state.value
       },
       set value(value: string) {
-        manager.updateInputValue(value)
+        managerRef.current.updateInputValue(value)
       },
     },
     listBox: {
       collapse() {
-        manager.listBoxCollapse()
+        managerRef.current.listBoxCollapse()
       },
       expand() {
-        manager.listBoxExpand()
+        managerRef.current.listBoxExpand()
       },
       get activeOption() {
-        return manager.state.activeOption
+        return managerRef.current.state.activeOption
       },
       get isExpanded() {
-        return manager.state.isExpanded
+        return managerRef.current.state.isExpanded
       },
     },
     select(tag?: Tag) {
-      manager.selectTag(tag)
+      managerRef.current.selectTag(tag)
     },
   })
 
