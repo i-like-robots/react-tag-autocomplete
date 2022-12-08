@@ -573,6 +573,13 @@ describe('React Tags Autocomplete', () => {
         expect(harness.activeOption.textContent).toBe('Australia')
       })
 
+      it('selects the first option after typing', async () => {
+        await userEvent.type(harness.input, 'p{enter}')
+        expect(harness.props.onAdd).toHaveBeenCalledWith(
+          expect.objectContaining({ label: 'Cape Verde' })
+        )
+      })
+
       it('wraps the active option from first to last and vice-versa', async () => {
         await userEvent.type(harness.input, 'aus')
 
