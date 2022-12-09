@@ -90,7 +90,7 @@ export function useManagerTwo({
 }: ManagerProps): React.MutableRefObject<UseManagerState> {
   const ref = useRef<UseManagerState>()
 
-  const [activeOption, setActiveOption] = useState<TagSuggestion>(null)
+  const [lastActiveOption, setLastActiveOption] = useState<TagSuggestion>(null)
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
   const [value, setValue] = useState<string>('')
 
@@ -118,13 +118,9 @@ export function useManagerTwo({
     return opts
   }, [allowNew, newOptionText, noOptionsText, onValidate, suggestions, suggestionsTransform, value])
 
-  const optionIndex = activeOption ? findTagIndex(activeOption, options) : -1
+  const optionIndex = lastActiveOption ? findTagIndex(lastActiveOption, options) : -1
   const activeIndex = startWithFirstOption ? Math.max(optionIndex, 0) : optionIndex
-
-  const flags: ManagerFlags = {
-    tagsAdded: ref.current ? arrayDiff(selected, ref.current.state.selected) : [],
-    tagsDeleted: ref.current ? arrayDiff(ref.current.state.selected, selected) : [],
-  }
+  const activeOption = options[activeIndex]
 
   const state: ManagerState = {
     activeIndex,
@@ -135,24 +131,29 @@ export function useManagerTwo({
     value,
   }
 
+  const flags: ManagerFlags = {
+    tagsAdded: ref.current ? arrayDiff(selected, ref.current.state.selected) : [],
+    tagsDeleted: ref.current ? arrayDiff(ref.current.state.selected, selected) : [],
+  }
+
   const api: ManagerAPI = {
     listBoxCollapse() {
       if (isExpanded) {
         setIsExpanded(false)
-        setActiveOption(null)
+        setLastActiveOption(null)
         onCollapse?.()
       }
     },
     listBoxExpand() {
       if (!isExpanded) {
         setIsExpanded(true)
-        setActiveOption(options[activeIndex])
+        setLastActiveOption(options[activeIndex])
         onExpand?.()
       }
     },
     updateActiveIndex(index: number) {
       const activeIndex = loop(index, options.length, startWithFirstOption ? 0 : -1)
-      setActiveOption(options[activeIndex])
+      setLastActiveOption(options[activeIndex])
     },
     updateInputValue(newValue: string) {
       if (value !== newValue) {
