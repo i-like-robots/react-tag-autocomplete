@@ -1,9 +1,10 @@
-import { useMemo, useRef, useState } from 'react'
-import { findTagIndex } from '../lib'
-import { arrayDiff } from '../lib/arrayDiff'
+import React, { useMemo, useRef, useState } from 'react'
+import { arrayDiff, findSelectedOption, findTagIndex } from '../lib'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type {
+  OnAdd,
   OnCollapse,
+  OnDelete,
   OnExpand,
   OnInput,
   OnValidate,
@@ -18,6 +19,7 @@ export type ManagerAPI = {
   listBoxExpand(): void
   updateActiveIndex(index: number): void
   updateInputValue(value: string): void
+  selectTag(tag?: Tag): void
 }
 
 export type ManagerState = {
@@ -36,8 +38,11 @@ export type ManagerFlags = {
 
 export type ManagerProps = {
   allowNew: boolean
+  closeOnSelect: boolean
   newOptionText: string
   noOptionsText: string
+  onAdd: OnAdd
+  onDelete: OnDelete
   onCollapse?: OnCollapse
   onExpand?: OnExpand
   onInput?: OnInput
@@ -69,8 +74,11 @@ function loop(next: number, size: number, min: number): number {
 
 export function useManagerTwo({
   allowNew,
+  closeOnSelect,
   newOptionText,
   noOptionsText,
+  onAdd,
+  onDelete,
   onCollapse,
   onExpand,
   onInput,
@@ -79,7 +87,7 @@ export function useManagerTwo({
   startWithFirstOption,
   suggestions,
   suggestionsTransform,
-}: ManagerProps) {
+}: ManagerProps): React.MutableRefObject<UseManagerState> {
   const ref = useRef<UseManagerState>()
 
   const [lastActiveOption, setLastActiveOption] = useState<TagSuggestion>(null)
@@ -123,6 +131,11 @@ export function useManagerTwo({
     value,
   }
 
+  const flags: ManagerFlags = {
+    tagsAdded: ref.current ? arrayDiff(selected, ref.current.state.selected) : [],
+    tagsDeleted: ref.current ? arrayDiff(ref.current.state.selected, selected) : [],
+  }
+
   const api: ManagerAPI = {
     listBoxCollapse() {
       if (isExpanded) {
@@ -148,14 +161,28 @@ export function useManagerTwo({
         onInput?.(newValue)
       }
     },
+    selectTag(tag?: Tag) {
+      tag ??= findSelectedOption(state)
+
+      if (tag) {
+        const tagIndex = findTagIndex(tag, state.selected)
+
+        if (tagIndex > -1) {
+          onDelete(tagIndex)
+        } else {
+          onAdd(tag)
+        }
+
+        if (closeOnSelect) {
+          this.listBoxCollapse()
+        }
+
+        this.updateInputValue('')
+      }
+    },
   }
 
-  const flags: ManagerFlags = {
-    tagsAdded: ref.current ? arrayDiff(selected, ref.current.state.selected) : [],
-    tagsDeleted: ref.current ? arrayDiff(ref.current.state.selected, selected) : [],
-  }
+  ref.current = { ...api, flags, state }
 
-  ref.current = Object.assign(ref.current || {}, { ...api, flags, state })
-
-  return ref.current
+  return ref
 }

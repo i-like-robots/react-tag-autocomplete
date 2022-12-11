@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
-import { useManagerTwo, useOnSelect, usePublicAPI } from '../hooks'
+import { useManagerTwo, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -50,7 +50,7 @@ type ReactTagsProps = {
   ariaErrorMessage?: string
   ariaDeletedText?: string
   classNames?: ClassNames
-  closeOnSelect?: boolean
+  closeOnSelect?: boolean // TODO: rename collapseOnSelect
   deleteButtonText?: string
   delimiterKeys?: string[]
   id?: string
@@ -61,18 +61,18 @@ type ReactTagsProps = {
   noOptionsText?: string
   onAdd: OnAdd
   onBlur?: OnBlur
-  onCollapse?: OnCollapse
+  onCollapse?: OnCollapse // TODO: rename onListBoxCollapse
   onDelete: OnDelete
-  onExpand?: OnExpand
+  onExpand?: OnExpand // TODO: rename onListBoxExpand
   onFocus?: OnFocus
-  onInput?: OnInput
-  onValidate?: OnValidate
+  onInput?: OnInput // TODO: rename onInputChange
+  onValidate?: OnValidate // TODO: rename onInputValidate
   placeholderText?: string
   renderLabel?: LabelRenderer
   renderOption?: OptionRenderer
   renderTag?: TagRenderer
   selected: TagSelected[]
-  startWithFirstOption?: boolean
+  startWithFirstOption?: boolean // TODO: rename
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
@@ -123,10 +123,13 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
   const tagListRef = useRef<HTMLUListElement>(null)
 
-  const manager = useManagerTwo({
+  const managerRef = useManagerTwo({
     allowNew,
+    closeOnSelect,
     newOptionText,
     noOptionsText,
+    onAdd,
+    onDelete,
     onCollapse,
     onExpand,
     onInput,
@@ -137,9 +140,7 @@ function ReactTags(
     suggestionsTransform,
   })
 
-  const onSelect = useOnSelect({ closeOnSelect, manager, onAdd, onDelete })
-
-  const publicAPI = usePublicAPI({ inputRef, manager })
+  const publicAPI = usePublicAPI({ inputRef, managerRef })
 
   if (ref) {
     if (typeof ref === 'function') {
@@ -159,8 +160,7 @@ function ReactTags(
         isDisabled,
         isInvalid,
         listBoxRef,
-        manager,
-        onSelect,
+        managerRef,
         rootRef,
         tagListRef,
       }}
@@ -168,7 +168,7 @@ function ReactTags(
       <Root onBlur={onBlur} onFocus={onFocus}>
         <Label render={renderLabel}>{labelText}</Label>
         <TagList label={tagListLabelText}>
-          {manager.state.selected.map((tag, index) => (
+          {managerRef.current.state.selected.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
           ))}
         </TagList>
@@ -182,7 +182,7 @@ function ReactTags(
             ariaErrorMessage={ariaErrorMessage}
           />
           <ListBox>
-            {manager.state.options.map((tag, index) => (
+            {managerRef.current.state.options.map((tag, index) => (
               <Option key={tagToKey(tag)} index={index} render={renderOption} />
             ))}
           </ListBox>

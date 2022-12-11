@@ -30,10 +30,10 @@ export type OptionProps = {
 }
 
 export function Option({ index, render = DefaultOption }: OptionProps): JSX.Element {
-  const { classNames, manager } = useContext(GlobalContext)
+  const { classNames, managerRef } = useContext(GlobalContext)
   const { option, optionProps } = useOption(index)
 
-  const children = <OptionText option={option} query={manager.state.value} />
+  const children = <OptionText option={option} query={managerRef.current.state.value} />
 
   return render({ classNames, children, option, ...optionProps })
 }

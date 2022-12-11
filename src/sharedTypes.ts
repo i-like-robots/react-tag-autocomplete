@@ -53,13 +53,11 @@ export type OnInput = (value: string) => void
 
 export type OnValidate = (value: string) => boolean
 
-export type OnSelect = (tag?: Tag) => void
-
 export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[]) => TagSuggestion[]
 
 export type PublicAPI = {
   input: {
-    clear(): void
+    blur(): void
     focus(): void
     get value(): string
     set value(value: string)
@@ -67,7 +65,8 @@ export type PublicAPI = {
   listBox: {
     collapse(): void
     expand(): void
-    get activeOption(): TagSuggestion
+    get activeOption(): TagSuggestion | null
     get isExpanded(): boolean
   }
+  select(tag?: Tag): void
 }

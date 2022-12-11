@@ -1,41 +1,44 @@
 import React, { useRef } from 'react'
-import type { PublicAPI } from '../sharedTypes'
-import type { UseManagerState } from '.'
+import type { PublicAPI, Tag } from '../sharedTypes'
+import type { UseManagerState } from './useManagerTwo'
 
 export type UsePublicAPIArgs = {
   inputRef: React.MutableRefObject<HTMLInputElement | null>
-  manager: UseManagerState
+  managerRef: React.MutableRefObject<UseManagerState>
 }
 
-export function usePublicAPI({ inputRef, manager }: UsePublicAPIArgs): PublicAPI {
+export function usePublicAPI({ inputRef, managerRef }: UsePublicAPIArgs): PublicAPI {
   const api = useRef<PublicAPI>({
     input: {
-      clear() {
-        manager.updateInputValue('')
+      blur() {
+        inputRef.current?.blur()
       },
       focus() {
         inputRef.current?.focus()
       },
       get value() {
-        return manager.state.value
+        return managerRef.current.state.value
       },
       set value(value: string) {
-        manager.updateInputValue(value)
+        managerRef.current.updateInputValue(value)
       },
     },
     listBox: {
       collapse() {
-        manager.listBoxCollapse()
+        managerRef.current.listBoxCollapse()
       },
       expand() {
-        manager.listBoxExpand()
+        managerRef.current.listBoxExpand()
       },
       get activeOption() {
-        return manager.state.activeOption
+        return managerRef.current.state.activeOption
       },
       get isExpanded() {
-        return manager.state.isExpanded
+        return managerRef.current.state.isExpanded
       },
+    },
+    select(tag?: Tag) {
+      managerRef.current.selectTag(tag)
     },
   })
 
