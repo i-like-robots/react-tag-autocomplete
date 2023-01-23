@@ -12,7 +12,7 @@ export function useCaptureFocus(): void {
       const isFocusInListNow = tagListRef.current?.contains(document.activeElement)
 
       if (isFocusInList && !isFocusInListNow) {
-        inputRef.current?.focus()
+        inputRef.current?.focus({ preventScroll: true })
       }
     }
   }, [inputRef, isFocusInList, tagListRef, tagDeleted])

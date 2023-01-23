@@ -45,7 +45,7 @@ export function useInput({
 
     const onBlur = (e: React.FocusEvent) => {
       if (comboBoxRef.current?.contains(e.relatedTarget)) {
-        inputRef.current.focus()
+        inputRef.current.focus({ preventScroll: true })
       } else {
         managerRef.current.listBoxCollapse()
       }
