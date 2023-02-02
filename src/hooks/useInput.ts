@@ -27,7 +27,7 @@ export function useInput({
   ariaErrorMessage,
   delimiterKeys,
 }: UseInputArgs): UseInputState {
-  const { id, comboBoxRef, inputRef, isDisabled, isInvalid, managerRef } = useContext(GlobalContext)
+  const { id, rootRef, inputRef, isDisabled, isInvalid, managerRef } = useContext(GlobalContext)
 
   const events = useMemo(() => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,7 @@ export function useInput({
     }
 
     const onBlur = (e: React.FocusEvent) => {
-      if (comboBoxRef.current?.contains(e.relatedTarget)) {
+      if (rootRef.current?.contains(e.relatedTarget)) {
         inputRef.current.focus({ preventScroll: true })
       } else {
         managerRef.current.listBoxCollapse()
@@ -132,7 +132,7 @@ export function useInput({
     }
 
     return { onBlur, onChange, onClick, onFocus, onKeyDown }
-  }, [allowBackspace, comboBoxRef, delimiterKeys, inputRef, managerRef])
+  }, [allowBackspace, rootRef, delimiterKeys, inputRef, managerRef])
 
   const { activeOption, isExpanded, value } = managerRef.current.state
 
