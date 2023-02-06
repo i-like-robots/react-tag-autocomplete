@@ -20,6 +20,10 @@ export function usePublicAPI({ inputRef, managerRef }: UsePublicAPIArgs): Public
         return managerRef.current.state.value
       },
       set value(value: string) {
+        if (typeof value !== 'string') {
+          value = String(value)
+        }
+
         managerRef.current.updateInputValue(value)
       },
     },

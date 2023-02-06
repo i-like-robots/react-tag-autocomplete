@@ -8,6 +8,13 @@ React Tag Autocomplete is a simple, accessible, tagging component ready to drop 
   <img width="765" alt="Screenshot showing React Tag Autocomplete used as a country selector" src="https://user-images.githubusercontent.com/271645/150850388-d75bba59-0642-4722-a56f-6c8ae22c9814.png">
 </p>
 
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Props](#props)
+  - [API](#api)
+  - [Styling](#styling)
+- [Development](#development)
+
 _Please note:_ This repository is for version 7 of the component which is under development. To view the current stable version of React Tag Autocomplete see the [old repository](https://github.com/i-like-robots/react-tags).
 
 ## Installation
@@ -256,7 +263,6 @@ The placeholder text shown in the input when it is empty. Defaults to `"Add a ta
 
 A custom label component to render. Receives the label text as children, required label element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
-
 ```js
 function CustomLabel({ children, classNames, ...labelProps }) {
   return (
@@ -276,7 +282,7 @@ function CustomOption({ children, classNames, option, ...optionProps }) {
   const classes = [
     classNames.option,
     option.active ? 'is-active' : '',
-    option.selected ? 'is-selected' : ''
+    option.selected ? 'is-selected' : '',
   ]
 
   return (
@@ -360,6 +366,52 @@ function suggestionsTransform(value, suggestions) {
 #### tagListLabelText (optional)
 
 The ARIA label text added to the selected tags list. Defaults to `"Selected tags"`.
+
+### API
+
+By adding a `ref` to any instances of this component you can access its API methods.
+
+```js
+const api = useRef(null)
+
+<ReactTags ref={api} />
+
+<button type="button" onClick={() => api.current.input.focus()}>
+  Focus input
+</button>
+```
+
+#### `input.blur(tag)`
+
+Removes cursor focus from the input.
+
+#### `input.focus()`
+
+Moves cursor focus to the input.
+
+#### `input.value`
+
+A getter/setter for the input value. If attempting to set a non-string value it will be stringified.
+
+#### `listBox.collapse()`
+
+Collapses the listbox if currently expanded.
+
+#### `listBox.expand()`
+
+Expands the listbox if currently collapsed.
+
+#### `listBox.activeOption`
+
+A getter for the currently active option.
+
+#### `listBox.isExpanded`
+
+A getter for the current listbox state. Returns a suggested option or `null`.
+
+### Styling
+
+It is possible to customize the appearance of the component using CSS, the included styles found in `/example/styles.css` are only an example. Custom class names can be provided to the component via the [`classNames`](#classnames-optional) prop.
 
 ## Development
 
