@@ -1,6 +1,9 @@
 .react-tags {
   position: relative;
-  padding: 0.25rem 0 0 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.25rem;
   border: 2px solid #afb8c1;
   border-radius: 6px;
 
@@ -39,9 +42,7 @@
 }
 
 .react-tags__list {
-  /* Do not use display: contents, it's too buggy */
-  display: inline;
-  padding: 0;
+  display: contents;
 }
 
 .react-tags__list-item {
@@ -51,7 +52,7 @@
 
 .react-tags__tag {
   box-sizing: border-box;
-  margin: 0 0.25rem 0.25rem 0;
+  margin: 0;
   padding: 0.375rem 0.5rem;
   border: 0;
   border-radius: 3px;
@@ -78,11 +79,8 @@
 }
 
 .react-tags__combobox {
-  display: inline-block;
-
-  /* match tag layout */
-  padding: 0.375rem 0.25rem;
-  margin-bottom: 0.25rem;
+  /* match tag vertical layout */
+  padding: 0.375rem 0;
 
   /* prevents autoresize overflowing the container */
   max-width: 100%;
