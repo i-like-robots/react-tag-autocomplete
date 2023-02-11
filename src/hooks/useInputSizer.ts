@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { GlobalContext } from '../contexts'
 
 const SizerStyles: React.CSSProperties = {
@@ -45,7 +45,7 @@ export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): 
     }
   }, [inputRef, sizerRef])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (allowResize) {
       // scrollWidth is designed to be fast not accurate.
       // +2 is completely arbitrary but does the job.
