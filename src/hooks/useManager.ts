@@ -58,7 +58,7 @@ export type UseManagerState = ManagerAPI & {
   state: ManagerState
 }
 
-export function useManagerTwo({
+export function useManager({
   allowNew,
   closeOnSelect,
   newOptionText,
@@ -85,10 +85,8 @@ export function useManagerTwo({
 
     if (value) {
       if (allowNew) {
-        const disabled = typeof onValidate === 'function' ? !onValidate(value) : false
-
         opts.push({
-          disabled,
+          disabled: typeof onValidate === 'function' ? !onValidate(value) : false,
           label: newOptionText,
           value: NewOptionValue,
         })

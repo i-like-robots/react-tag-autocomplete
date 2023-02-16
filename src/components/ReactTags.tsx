@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
-import { useManagerTwo, usePublicAPI } from '../hooks'
+import { useManager, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
@@ -123,7 +123,7 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
   const tagListRef = useRef<HTMLUListElement>(null)
 
-  const managerRef = useManagerTwo({
+  const managerRef = useManager({
     allowNew,
     closeOnSelect,
     newOptionText,

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import type { PublicAPI, Tag } from '../sharedTypes'
-import type { UseManagerState } from './useManagerTwo'
+import type { UseManagerState } from './useManager'
 
 export type UsePublicAPIArgs = {
   inputRef: React.MutableRefObject<HTMLInputElement | null>
