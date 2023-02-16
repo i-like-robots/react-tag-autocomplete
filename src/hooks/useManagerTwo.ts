@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react'
-import { arrayDiff, findSelectedOption, findTagIndex } from '../lib'
+import { arrayDiff, findSelectedOption, findTagIndex, loopOptionsIndex } from '../lib'
 import { NewOptionValue, NoOptionsValue } from '../constants'
 import type {
   OnAdd,
@@ -58,20 +58,6 @@ export type UseManagerState = ManagerAPI & {
   state: ManagerState
 }
 
-function loop(next: number, size: number, min: number): number {
-  const max = size - 1
-
-  if (next > max) {
-    return min
-  }
-
-  if (next < min) {
-    return max
-  }
-
-  return next
-}
-
 export function useManagerTwo({
   allowNew,
   closeOnSelect,
@@ -97,22 +83,24 @@ export function useManagerTwo({
   const options: TagSuggestion[] = useMemo(() => {
     const opts = suggestionsTransform(value, suggestions)
 
-    if (allowNew && value) {
-      const isValid = typeof onValidate === 'function' ? onValidate(value) : true
+    if (value) {
+      if (allowNew) {
+        const disabled = typeof onValidate === 'function' ? !onValidate(value) : false
 
-      opts.push({
-        disabled: !isValid,
-        label: newOptionText,
-        value: NewOptionValue,
-      })
-    }
+        opts.push({
+          disabled,
+          label: newOptionText,
+          value: NewOptionValue,
+        })
+      }
 
-    if (opts.length === 0 && value) {
-      opts.push({
-        disabled: true,
-        label: noOptionsText,
-        value: NoOptionsValue,
-      })
+      if (opts.length === 0) {
+        opts.push({
+          disabled: true,
+          label: noOptionsText,
+          value: NoOptionsValue,
+        })
+      }
     }
 
     return opts
@@ -152,7 +140,7 @@ export function useManagerTwo({
       }
     },
     updateActiveIndex(index: number) {
-      const activeIndex = loop(index, options.length, startWithFirstOption ? 0 : -1)
+      const activeIndex = loopOptionsIndex(index, options.length, startWithFirstOption ? 0 : -1)
       setLastActiveOption(options[activeIndex])
     },
     updateInputValue(newValue: string) {

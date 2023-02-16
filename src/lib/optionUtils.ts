@@ -17,3 +17,17 @@ export function findSelectedOption(state: ManagerState): TagSuggestion | undefin
 
   return tag && !tag.disabled ? tag : undefined
 }
+
+export function loopOptionsIndex(next: number, size: number, min: number): number {
+  const max = size - 1
+
+  if (next > max) {
+    return min
+  }
+
+  if (next < min) {
+    return max
+  }
+
+  return next
+}
