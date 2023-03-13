@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
-import { useCaptureFocus, useRoot } from '../hooks'
+import { useRoot } from '../hooks'
 import type { OnBlur, OnFocus } from '../sharedTypes'
 
 export type RootProps = {
@@ -10,8 +10,6 @@ export type RootProps = {
 }
 
 export function Root({ children, onBlur, onFocus }: RootProps): JSX.Element {
-  useCaptureFocus()
-
   const { classNames, isDisabled, isInvalid } = useContext(GlobalContext)
   const { isActive, rootProps } = useRoot({ onBlur, onFocus })
 

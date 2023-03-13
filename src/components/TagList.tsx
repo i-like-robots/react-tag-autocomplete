@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useTagList } from '../hooks'
 import { GlobalContext } from '../contexts'
 import type { TagProps } from './'
 
@@ -8,10 +9,11 @@ export type TagListProps = {
 }
 
 export function TagList({ children, label }: TagListProps): JSX.Element {
-  const { classNames, tagListRef } = useContext(GlobalContext)
+  const { classNames } = useContext(GlobalContext)
+  const { listRef } = useTagList()
 
   return (
-    <ul className={classNames.tagList} aria-label={label} ref={tagListRef} role="list">
+    <ul className={classNames.tagList} aria-label={label} ref={listRef} role="list">
       {children.map((child) => (
         <li className={classNames.tagListItem} key={child.key} role="listitem">
           {child}

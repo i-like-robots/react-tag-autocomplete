@@ -123,7 +123,6 @@ function ReactTags(
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLDivElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
-  const tagListRef = useRef<HTMLUListElement>(null)
 
   const managerRef = useManager({
     allowNew,
@@ -164,7 +163,6 @@ function ReactTags(
         listBoxRef,
         managerRef,
         rootRef,
-        tagListRef,
       }}
     >
       <Root onBlur={onBlur} onFocus={onFocus}>
