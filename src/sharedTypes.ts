@@ -11,7 +11,6 @@ export type ClassNames = {
   comboBox: string
   input: string
   listBox: string
-  noOptions: string
   option: string
   optionIsActive: string
 }

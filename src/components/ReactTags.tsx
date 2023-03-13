@@ -34,7 +34,6 @@ const DefaultClassNames: ClassNames = {
   comboBox: 'react-tags__combobox',
   input: 'react-tags__combobox-input',
   listBox: 'react-tags__listbox',
-  noOptions: 'react-tags__listbox-no-options',
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
 }
