@@ -96,6 +96,7 @@ function CountrySelector() {
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
+- [`renderInput`](#renderInput-optional)
 - [`renderLabel`](#renderLabel-optional)
 - [`renderOption`](#renderOption-optional)
 - [`renderTag`](#renderTag-optional)
@@ -259,11 +260,21 @@ function onValidate(value) {
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.
 
+#### renderInput (optional)
+
+A custom text input component to render. Receives required input element attributes, input width (if `allowResize` prop is enabled) and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```jsx
+function CustomInput({ classNames, inputWidth, ...inputProps }) {
+  return <input className={classNames.input} style={{ width: inputWidth }} {...inputProps} />
+}
+```
+
 #### renderLabel (optional)
 
 A custom label component to render. Receives the label text as children, required label element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
-```js
+```jsx
 function CustomLabel({ children, classNames, ...labelProps }) {
   return (
     <div className={classNames.label} {...labelProps}>
@@ -277,7 +288,7 @@ function CustomLabel({ children, classNames, ...labelProps }) {
 
 A custom option component to render. Receives the pre-rendered text as children, option object, required option element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
-```js
+```jsx
 function CustomOption({ children, classNames, option, ...optionProps }) {
   const classes = [
     classNames.option,
@@ -297,7 +308,7 @@ function CustomOption({ children, classNames, option, ...optionProps }) {
 
 A custom selected tag component to render. Receives the selected tag object, required tag element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
-```js
+```jsx
 function CustomTag({ classNames, tag, ...tagProps }) {
   return (
     <button type="button" className={classNames.tag} {...tagProps}>

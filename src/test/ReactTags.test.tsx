@@ -831,6 +831,24 @@ describe('React Tags Autocomplete', () => {
   })
 
   describe('render props', () => {
+    it('renders a custom input component when provided', () => {
+      const renderer: Harness['props']['renderInput'] = ({
+        classNames,
+        inputWidth,
+        ...inputProps
+      }) => {
+        const style = { width: inputWidth }
+        return (
+          <input className={classNames.input} style={style} {...inputProps} title="Custom input" />
+        )
+      }
+
+      harness = new Harness({ renderInput: renderer })
+
+      expect(harness.input.id).toBe('react-tags-input')
+      expect(harness.input.title).toBe('Custom input')
+    })
+
     it('renders a custom label component when provided', () => {
       const renderer: Harness['props']['renderLabel'] = ({ children, classNames, id }) => (
         <p id={id} className={classNames.label}>

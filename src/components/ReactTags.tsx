@@ -4,7 +4,7 @@ import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { useManager, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
-import type { LabelRenderer, OptionRenderer, TagRenderer } from '.'
+import type { InputRenderer, LabelRenderer, OptionRenderer, TagRenderer } from '.'
 import type {
   ClassNames,
   OnAdd,
@@ -68,6 +68,7 @@ type ReactTagsProps = {
   onInput?: OnInput // TODO: rename onInputChange
   onValidate?: OnValidate // TODO: rename onInputValidate
   placeholderText?: string
+  renderInput?: InputRenderer
   renderLabel?: LabelRenderer
   renderOption?: OptionRenderer
   renderTag?: TagRenderer
@@ -106,6 +107,7 @@ function ReactTags(
     onInput,
     onValidate,
     placeholderText = 'Add a tag',
+    renderInput,
     renderLabel,
     renderOption,
     renderTag,
@@ -176,10 +178,11 @@ function ReactTags(
           <Input
             allowBackspace={allowBackspace}
             allowResize={allowResize}
-            delimiterKeys={delimiterKeys}
-            placeholderText={placeholderText}
             ariaDescribedBy={ariaDescribedBy}
             ariaErrorMessage={ariaErrorMessage}
+            delimiterKeys={delimiterKeys}
+            placeholderText={placeholderText}
+            render={renderInput}
           />
           <ListBox>
             {managerRef.current.state.options.map((tag, index) => (

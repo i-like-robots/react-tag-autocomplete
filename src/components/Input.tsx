@@ -1,6 +1,18 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
 import { useInput, useInputSizer } from '../hooks'
+import type { ClassNames } from '../sharedTypes'
+
+type InputRendererProps = React.ComponentPropsWithoutRef<'input'> & {
+  classNames: ClassNames
+  inputWidth: number
+}
+
+export type InputRenderer = (props: InputRendererProps) => JSX.Element
+
+const DefaultInput: InputRenderer = ({ classNames, inputWidth, ...inputProps }) => {
+  return <input className={classNames.input} style={{ width: inputWidth }} {...inputProps} />
+}
 
 export type InputProps = {
   allowBackspace?: boolean
@@ -9,6 +21,7 @@ export type InputProps = {
   ariaErrorMessage?: string
   delimiterKeys: string[]
   placeholderText: string
+  render?: InputRenderer
 }
 
 export function Input({
@@ -18,6 +31,7 @@ export function Input({
   ariaErrorMessage,
   delimiterKeys,
   placeholderText,
+  render = DefaultInput,
 }: InputProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
   const { value, ...inputProps } = useInput({
@@ -27,17 +41,17 @@ export function Input({
     delimiterKeys,
   })
   const text = value.length < placeholderText.length ? placeholderText : value
-  const { sizerProps, width } = useInputSizer({ allowResize, text })
+  const { width, sizerProps } = useInputSizer({ allowResize, text })
 
   return (
     <>
-      <input
-        className={classNames.input}
-        placeholder={placeholderText}
-        style={{ width }}
-        value={value}
-        {...inputProps}
-      />
+      {render({
+        classNames,
+        inputWidth: width,
+        placeholder: placeholderText,
+        value,
+        ...inputProps,
+      })}
       {allowResize ? <div {...sizerProps}>{text}</div> : null}
     </>
   )
