@@ -96,6 +96,7 @@ function CountrySelector() {
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
+- [`renderInput`](#renderInput-optional)
 - [`renderLabel`](#renderLabel-optional)
 - [`renderOption`](#renderOption-optional)
 - [`renderTag`](#renderTag-optional)
@@ -258,6 +259,16 @@ function onValidate(value) {
 #### placeholderText (optional)
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.
+
+#### renderInput (optional)
+
+A custom text input component to render. Receives required input element attributes, input width (if `allowResize` prop is enabled) and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```js
+function CustomInput({ classNames, inputWidth, ...inputProps }) {
+  return <input className={classNames.input} style={{ width: inputWidth }} {...inputProps} />
+}
+```
 
 #### renderLabel (optional)
 
