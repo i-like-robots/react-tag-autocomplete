@@ -1,6 +1,6 @@
 {
   "name": "react-tag-autocomplete",
-  "version": "7.0.0-rc.4",
+  "version": "7.0.0-rc.5",
   "description": "A simple, accessible, tagging component ready to drop into your React projects.",
   "main": "dist/ReactTags.cjs.js",
   "module": "dist/ReactTags.es.js",
