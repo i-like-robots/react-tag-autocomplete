@@ -1,10 +1,10 @@
 # Migration Guide from v6 to v7
 
-Version 7 is a complete rewrite of the `react-tag-autocomplete` package, begun from scratch with aim of improving accessibility and embracing a modern toolchain. Many changes have also been made in an effort to improve clarity and consistency across the code base for contributors and implementors.
+Version 7 is a complete rewrite of the `react-tag-autocomplete` package, begun from scratch with the aims of hugely improving accessibility and embracing a modern toolchain. Many changes have also been made in an effort to improve clarity and consistency across the code base for both contributors and implementors.
 
 ## Prerequisites
 
-This version is for use with React v18 and above only. If you are using an older version of React please continue to use [the previous version of this component](https://github.com/i-like-robots/react-tags).
+This version is for use with React v18 and above _only_. If you are using an older version of React please continue to use [the previous version of this component](https://github.com/i-like-robots/react-tags).
 
 ## Prop name changes
 
@@ -44,11 +44,11 @@ The structure of suggested and selected tags has been updated. The `id` property
 
 ## Changes to render props
 
-All render props now receive the `classNames` object and a collection of required props. Some render props now receive children. Please refer to [the readme](readme.md#props) for more details and examples on how to use each render prop.
+All render props (used to provide custom components) now receive the `classNames` object and a collection of required props. Some render props now also receive children. Please refer to [the readme](readme.md#props) for more details and examples on how to use each render prop.
 
 ## Class name and styling changes
 
-There have been many changes to the HTML structure of the component and some property names have also been changed. The component supports more states than it did before and more components now have class names defined than before.
+There are a number changes to the HTML structure of the component and some property names have also been changed. The component supports more states and more sub-components have class names defined for them than before.
 
 Please refer to the [new example styles](example/src/styles.css) for more details.
 
@@ -58,7 +58,7 @@ Please refer to the [new example styles](example/src/styles.css) for more detail
 | `rootFocused`        | `rootIsActive`   |                                            |
 | -                    | `rootIsDisabled` | New state                                  |
 | -                    | `rootIsInvalid`  | New state                                  |
-| -                    | `label`          | New component                              |
+| -                    | `label`          | New sub-component                          |
 | `selected`           | `tagList         |                                            |
 | -                    | `tagListItem`    | Added class name for tag list items        |
 | `selectedTag`        | `tag`            |                                            |
