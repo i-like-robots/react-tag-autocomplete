@@ -12,10 +12,11 @@ Breaking changes:
 - Renamed `suggestionComponent` to `renderOption`
 - Renamed `tags` prop to `selected`
 - Renamed `tagComponent` to `renderTag`
-- Removed `addOnBlur` prop
-- Removed `inputAttributes` prop
-- Removed `maxSuggestionsLength` prop, use `suggestionsTransform` instead
-- Removed `suggestionsFilter` prop, use `suggestionsTransform` instead
+- Removed `addOnBlur` prop, can be implemented manually
+- Removed `inputAttributes` prop, use `renderInput` prop instead
+- Removed `maxSuggestionsLength` prop, use `suggestionsTransform` prop instead
+- Removed `minQueryLength` prop
+- Removed `suggestionsFilter` prop, use `suggestionsTransform` prop instead
 
 New features and improvements:
 
@@ -31,12 +32,16 @@ New features and improvements:
 - Added support for related descriptive text using `ariaDescribedBy` prop
 - Added support for related error status text using `ariaErrorMessage` prop
 - Added support for controlling the listbox when selecting options using `closeOnSelect` prop
+- Added support for highlighting the first option in the listbox using `startWithFirstOption` prop
 - Added support for rendering a custom label component using `renderLabel`  prop
+- Added support for rendering a custom input component using `renderInput`  prop
 
 Other changes:
 
-- When the `allowNew` prop is enabled a new tag can only be created when selecting the new tag option from the listbox
-- Tags can no longer be selected multiple times, choosing an already selected tag will now trigger a deletion
+- When the `allowNew` prop is enabled a new tag can _only_ be created when selecting the new tag option from the listbox.
+- Tags can no longer be selected multiple times. Choosing a previously selected tag will now trigger a deletion.
+
+Please refer to [the migration guide](migration-guide.md) if upgrading from v6 to v7.
 
 ## Older versions
 
