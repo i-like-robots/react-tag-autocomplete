@@ -38,13 +38,13 @@
   overflow: hidden;
 }
 
-.react-tags__tag-list {
+.react-tags__list {
   /* Do not use display: contents, it's too buggy */
   display: inline;
   padding: 0;
 }
 
-.react-tags__tag-list-item {
+.react-tags__list-item {
   display: inline;
   list-style: none;
 }
