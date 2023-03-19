@@ -73,10 +73,6 @@
   font-size: 0.875rem;
 }
 
-.react-tags__tag:not(:hover)::after {
-  color: #7c7d86;
-}
-
 .react-tags__combobox {
   display: inline-block;
 
