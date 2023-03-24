@@ -12,8 +12,8 @@ export default {
     rollupOptions: {
       output: {
         manualChunks: null,
-        entryFileNames: '[name].js',
-        assetFileNames: '[name][extname]',
+        entryFileNames: '[name]-[hash].js',
+        assetFileNames: '[name]-[hash][extname]',
       },
     },
   },
