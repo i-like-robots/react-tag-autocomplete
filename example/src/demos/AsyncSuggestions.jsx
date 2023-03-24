@@ -13,7 +13,6 @@ function debounce(fn, delay = 100) {
 async function fetchData(value) {
   try {
     const query = encodeURIComponent(value)
-
     const response = await fetch(`https://swapi.dev/api/people/?search=${query}`)
 
     if (response.ok) {
@@ -29,44 +28,44 @@ async function fetchData(value) {
 }
 
 export function AsyncSuggestions() {
-  const [state, setState] = useState({
-    isBusy: false,
-    selected: [],
-    suggestions: [],
-  })
+  const [isBusy, setIsBusy] = useState(false)
+  const [selected, setSelected] = useState([])
+  const [suggestions, setSuggestions] = useState([])
 
   const onAdd = useCallback(
     (newTag) => {
-      setState({ ...state, selected: [...state.selected, newTag], suggestions: [] })
+      setSelected([...selected, newTag])
+      setSuggestions([])
     },
-    [state]
+    [selected]
   )
 
   const onDelete = useCallback(
     (index) => {
-      setState({ ...state, selected: state.selected.filter((_, i) => i !== index) })
+      setSelected(selected.filter((_, i) => i !== index))
     },
-    [state]
+    [selected]
   )
 
   const onInput = useCallback(
     debounce(async (value) => {
-      if (state.isBusy) return
+      if (isBusy) return
 
-      setState({ ...state, isBusy: true })
+      setIsBusy(true)
 
       try {
         const suggestions = await fetchData(value)
-        setState({ ...state, suggestions, isBusy: false })
+        setSuggestions(suggestions)
       } catch (error) {
-        setState({ ...state, isBusy: false })
+        console.error(error)
+      } finally {
+        setIsBusy(false)
       }
     }),
-    [state]
+    [isBusy]
   )
 
-  const noOptionsText =
-    state.isBusy && !state.suggestions.length ? 'Loading...' : 'No characters found'
+  const noOptionsText = isBusy && !suggestions.length ? 'Loading...' : 'No characters found'
 
   return (
     <>
@@ -80,8 +79,8 @@ export function AsyncSuggestions() {
         onDelete={onDelete}
         onInput={onInput}
         placeholderText="Start typing..."
-        selected={state.selected}
-        suggestions={state.suggestions}
+        selected={selected}
+        suggestions={suggestions}
       />
       <p>
         Demo powered by the <a href="https://swapi.dev/">The Star Wars API</a>
