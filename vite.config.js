@@ -24,10 +24,6 @@ export default {
   },
   test: {
     environment: 'jsdom',
-    // HACK: <https://github.com/testing-library/user-event/issues/813>
-    deps: {
-      inline: ['@testing-library/user-event'],
-    },
     coverage: {
       reporter: ['text', 'lcov'],
       exclude: ['src/test/**', 'example/src/**'],
