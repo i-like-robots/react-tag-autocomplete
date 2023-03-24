@@ -71,26 +71,26 @@
         display: block;
         padding: 0.5rem;
         font-size: 0.9375rem;
-        font-family: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+        font-family: Consolas, Menlo, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
       }
 
       fieldset {
-        border: 2px solid #7F7FD3;
+        border: 2px solid #7f7fd3;
         border-radius: 6px;
         margin: 1rem 0;
         padding: 0.5rem;
       }
 
       fieldset legend {
-        color: #7F7FD3;
+        color: #7f7fd3;
       }
 
       fieldset label {
         display: block;
         margin: 0 0 0.375rem;
       }
-      
-      fieldset input[type=checkbox] {
+
+      fieldset input[type='checkbox'] {
         margin-right: 0.5rem;
         accent-color: #4f46e5;
       }
@@ -109,29 +109,49 @@
     <link rel="stylesheet" type="text/css" href="./styles.css" />
   </head>
   <body>
-    <div class="container">
+    <main class="container">
       <h1>React Tags</h1>
       <p>
-        A fantastically simple tagging component for your React projects. View
-        <a href="https://github.com/i-like-robots/react-tags#readme">the readme on GitHub</a> for
-        full installation and usage instructions and available options.
+        React Tag Autocomplete is a simple, accessible, tagging component ready to drop into your
+        React projects.
       </p>
       <h2>Demos</h2>
-      <h3>Country selector</h3>
-      <div id="demo-1"></div>
+      <section>
+        <h3>Country selector</h3>
+        <div id="demo-1"></div>
+      </section>
       <hr />
-      <h3>Custom tags</h3>
-      <div id="demo-2"></div>
+      <section>
+        <h3>Custom tags</h3>
+        <div id="demo-2"></div>
+      </section>
       <hr />
-      <h3>Custom validity</h3>
-      <div id="demo-3"></div>
+      <section>
+        <h3>Custom validity</h3>
+        <div id="demo-3"></div>
+      </section>
       <hr />
-      <h3>Async suggestions</h3>
-      <div id="demo-4"></div>
+      <section>
+        <h3>Async suggestions</h3>
+        <div id="demo-4"></div>
+      </section>
       <hr />
-      <h3>Using the API</h3>
-      <div id="demo-5"></div>
-    </div>
+      <section>
+        <h3>Using the API</h3>
+        <div id="demo-5"></div>
+      </section>
+      <hr />
+      <section>
+        <h2>Documentation</h2>
+        <p>
+          Please refer to
+          <a href="https://github.com/i-like-robots/react-tag-autocomplete#readme"
+            >the project readme</a
+          >
+          for detailed usage information.
+        </p>
+      </section>
+    </main>
 
     <script src="./main.jsx" type="module"></script>
   </body>
