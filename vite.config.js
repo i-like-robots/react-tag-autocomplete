@@ -21,6 +21,7 @@ export default {
         },
       },
     },
+    minify: false,
   },
   test: {
     environment: 'jsdom',
