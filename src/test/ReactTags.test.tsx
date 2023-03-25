@@ -558,9 +558,9 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onCollapse).toHaveBeenCalledOnce()
     })
 
-    describe('with startWithFirstOption enabled', () => {
+    describe('with activateFirstOption enabled', () => {
       beforeEach(() => {
-        harness.rerender({ startWithFirstOption: true })
+        harness.rerender({ activateFirstOption: true })
       })
 
       it('sets the first option to active when expanded', async () => {

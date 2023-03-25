@@ -41,6 +41,7 @@ const DefaultClassNames: ClassNames = {
 const DefaultDelimiterKeys = [KeyNames.Enter]
 
 type ReactTagsProps = {
+  activateFirstOption?: boolean
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
@@ -72,7 +73,6 @@ type ReactTagsProps = {
   renderOption?: OptionRenderer
   renderTag?: TagRenderer
   selected: TagSelected[]
-  startWithFirstOption?: boolean // TODO: rename
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
@@ -80,6 +80,7 @@ type ReactTagsProps = {
 
 function ReactTags(
   {
+    activateFirstOption = false,
     allowBackspace = true,
     allowNew = false,
     allowResize = true,
@@ -111,7 +112,6 @@ function ReactTags(
     renderOption,
     renderTag,
     selected = [],
-    startWithFirstOption = false,
     suggestions = [],
     suggestionsTransform = matchSuggestionsPartial,
     tagListLabelText = 'Selected tags',
@@ -124,6 +124,7 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
 
   const managerRef = useManager({
+    activateFirstOption,
     allowNew,
     closeOnSelect,
     newOptionText,
@@ -135,7 +136,6 @@ function ReactTags(
     onInput,
     onValidate,
     selected,
-    startWithFirstOption,
     suggestions,
     suggestionsTransform,
   })

@@ -70,6 +70,7 @@ function CountrySelector() {
 
 ### Props
 
+- [`activateFirstOption`](#activateFirstOption-optional)
 - [`allowBackspace`](#allowBackspace-optional)
 - [`allowNew`](#allowNew-optional)
 - [`allowResize`](#allowResize-optional)
@@ -101,10 +102,13 @@ function CountrySelector() {
 - [`renderOption`](#renderOption-optional)
 - [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
-- [`startWithFirstOption`](#startWithFirstOption-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
 - [`tagListLabelText`](#tagListLabelText-optional)
+
+#### activateFirstOption (optional)
+
+Automatically activate the first option when the listbox expands and switch the active option directly from first to last/last to first when the selection wraps. Defaults to `false`.
 
 #### allowBackspace (optional)
 
@@ -335,10 +339,6 @@ import type { TagSelected } from 'react-tag-autocomplete'
 type CustomTagSelected = TagSelected & { myProperty: string }
 const [selected, setSelected] = useState<CustomTagSelected[]>([])
 ```
-
-#### startWithFirstOption (optional)
-
-Automatically activate the first option when the listbox is expanded and switch the active option directly from first to last/last to first when the selection wraps. Defaults to `false`.
 
 #### suggestions (optional)
 
