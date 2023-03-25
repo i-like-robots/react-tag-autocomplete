@@ -7,9 +7,9 @@
   "browser": "dist/ReactTags.umd.js",
   "types": "dist/types.d.ts",
   "scripts": {
-    "build": "npm run build-bundle && npm run build-types",
-    "build-bundle": "vite build -c vite.config.js",
-    "build-types": "dts-bundle-generator -o dist/types.d.ts src/index.ts",
+    "build": "npm run build:dist && npm run build:types",
+    "build:dist": "vite build -c vite.config.js",
+    "build:types": "dts-bundle-generator -o dist/types.d.ts src/index.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint . --ext ts,tsx,js,jsx",
     "format": "prettier --write '**/*.{ts,tsx,js,jsx,json,yml}'",
@@ -64,9 +64,5 @@
   },
   "engines": {
     "node": ">= 16.12.0"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": "eslint --cache --fix",
-    "*.{ts,tsx,js,jsx,json,yml}": "prettier --write"
   }
 }
