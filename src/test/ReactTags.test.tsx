@@ -1,7 +1,7 @@
 import React from 'react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { cleanup, fireEvent, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, fireEvent, screen, waitFor } from '@testing-library/react'
 import { Harness, MockedOnAdd } from './Harness'
 import { suggestions } from '../../example/src/countries'
 import type { MockedOnDelete, MockedOnInput, MockedOnValidate } from './Harness'
@@ -900,11 +900,53 @@ describe('React Tags Autocomplete', () => {
 
   describe('public API', () => {
     beforeEach(() => {
-      harness = new Harness()
+      harness = new Harness({ suggestions })
     })
 
     it('assigns the API to a ref if provided', () => {
-      expect(harness.props.ref.current).not.toBeUndefined()
+      expect(harness.props.ref.current?.input).toBeDefined()
+      expect(harness.props.ref.current?.listBox).toBeDefined()
+    })
+
+    it('provides control of the input focus', () => {
+      harness.props.ref.current.input.focus()
+      expect(document.activeElement).toBe(harness.input)
+
+      harness.props.ref.current.input.blur()
+      expect(document.activeElement).toBe(document.body)
+    })
+
+    it('provides control of the input value', () => {
+      act(() => {
+        harness.props.ref.current.input.value = 'aus'
+      })
+
+      expect(harness.props.ref.current.input.value).toBe('aus')
+    })
+
+    it('provides control of the listbox state', () => {
+      act(() => {
+        harness.props.ref.current.listBox.expand()
+      })
+
+      expect(harness.props.ref.current.listBox.isExpanded).toBe(true)
+
+      act(() => {
+        harness.props.ref.current.listBox.collapse()
+      })
+
+      expect(harness.props.ref.current.listBox.isExpanded).toBe(false)
+    })
+
+    it('provides access to the active listbox option', async () => {
+      expect(harness.props.ref.current.listBox.activeOption).toBeUndefined()
+
+      await userEvent.type(harness.input, '{arrowdown}')
+
+      expect(harness.props.ref.current.listBox.activeOption).toEqual({
+        value: 0,
+        label: 'Afghanistan',
+      })
     })
   })
 })
