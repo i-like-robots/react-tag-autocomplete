@@ -391,7 +391,7 @@ const api = useRef(null)
 </button>
 ```
 
-#### `input.blur(tag)`
+#### `input.blur()`
 
 Removes cursor focus from the input.
 
