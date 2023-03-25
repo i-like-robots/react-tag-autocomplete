@@ -6,11 +6,11 @@ export function CountrySelector() {
   const [selected, setSelected] = useState([suggestions[10], suggestions[121]])
 
   const [options, setOptions] = useState({
+    activateFirstOption: false,
     allowBackspace: false,
-    closeOnSelect: false,
+    collapseOnSelect: false,
     isDisabled: false,
     isInvalid: false,
-    startWithFirstOption: false,
   })
 
   const onAdd = useCallback(
@@ -78,20 +78,20 @@ export function CountrySelector() {
         <label>
           <input
             type="checkbox"
-            name="closeOnSelect"
-            checked={options.closeOnSelect}
+            name="collapseOnSelect"
+            checked={options.collapseOnSelect}
             onChange={onOptionChange}
           />
-          Close the listbox on select
+          Automatically collapse the listbox on select
         </label>
         <label>
           <input
             type="checkbox"
-            name="startWithFirstOption"
-            checked={options.startWithFirstOption}
+            name="activateFirstOption"
+            checked={options.activateFirstOption}
             onChange={onOptionChange}
           />
-          Automatically activate the first option
+          Automatically activate the first option when listbox expands
         </label>
       </fieldset>
       <details>

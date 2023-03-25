@@ -31,8 +31,8 @@ New features and improvements:
 - Added support for displaying invalid state using `isInvalid` prop
 - Added support for related descriptive text using `ariaDescribedBy` prop
 - Added support for related error status text using `ariaErrorMessage` prop
-- Added support for controlling the listbox when selecting options using `closeOnSelect` prop
-- Added support for highlighting the first option in the listbox using `startWithFirstOption` prop
+- Added support for controlling the listbox when selecting a tag using `collapseOnSelect` prop
+- Added support for activating the first option when the listbox expands using `activateFirstOption` prop
 - Added support for rendering a custom label component using `renderLabel`  prop
 - Added support for rendering a custom input component using `renderInput`  prop
 

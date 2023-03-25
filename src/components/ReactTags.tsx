@@ -41,6 +41,7 @@ const DefaultClassNames: ClassNames = {
 const DefaultDelimiterKeys = [KeyNames.Enter]
 
 type ReactTagsProps = {
+  activateFirstOption?: boolean
   allowBackspace?: boolean
   allowNew?: boolean
   allowResize?: boolean
@@ -49,7 +50,7 @@ type ReactTagsProps = {
   ariaErrorMessage?: string
   ariaDeletedText?: string
   classNames?: ClassNames
-  closeOnSelect?: boolean // TODO: rename collapseOnSelect
+  collapseOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
   id?: string
@@ -72,7 +73,6 @@ type ReactTagsProps = {
   renderOption?: OptionRenderer
   renderTag?: TagRenderer
   selected: TagSelected[]
-  startWithFirstOption?: boolean // TODO: rename
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
@@ -80,6 +80,7 @@ type ReactTagsProps = {
 
 function ReactTags(
   {
+    activateFirstOption = false,
     allowBackspace = true,
     allowNew = false,
     allowResize = true,
@@ -88,7 +89,7 @@ function ReactTags(
     ariaErrorMessage,
     ariaDeletedText = 'Removed tag %value%',
     classNames = DefaultClassNames,
-    closeOnSelect = false,
+    collapseOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
     delimiterKeys = DefaultDelimiterKeys,
     id = 'react-tags',
@@ -111,7 +112,6 @@ function ReactTags(
     renderOption,
     renderTag,
     selected = [],
-    startWithFirstOption = false,
     suggestions = [],
     suggestionsTransform = matchSuggestionsPartial,
     tagListLabelText = 'Selected tags',
@@ -124,8 +124,9 @@ function ReactTags(
   const rootRef = useRef<HTMLDivElement>(null)
 
   const managerRef = useManager({
+    activateFirstOption,
     allowNew,
-    closeOnSelect,
+    collapseOnSelect,
     newOptionText,
     noOptionsText,
     onAdd,
@@ -135,7 +136,6 @@ function ReactTags(
     onInput,
     onValidate,
     selected,
-    startWithFirstOption,
     suggestions,
     suggestionsTransform,
   })

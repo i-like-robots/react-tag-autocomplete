@@ -70,6 +70,7 @@ function CountrySelector() {
 
 ### Props
 
+- [`activateFirstOption`](#activateFirstOption-optional)
 - [`allowBackspace`](#allowBackspace-optional)
 - [`allowNew`](#allowNew-optional)
 - [`allowResize`](#allowResize-optional)
@@ -78,7 +79,7 @@ function CountrySelector() {
 - [`ariaDescribedBy`](#ariaDescribedBy-optional)
 - [`ariaErrorMessage`](#ariaErrorMessage-optional)
 - [`classNames`](#classNames-optional)
-- [`closeOnSelect`](#closeOnSelect-optional)
+- [`collapseOnSelect`](#collapseOnSelect-optional)
 - [`deleteButtonText`](#deleteButtontext-optional)
 - [`delimiterKeys`](#delimiterKeys-optional)
 - [`id`](#id-optional)
@@ -101,10 +102,13 @@ function CountrySelector() {
 - [`renderOption`](#renderOption-optional)
 - [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
-- [`startWithFirstOption`](#startWithFirstOption-optional)
 - [`suggestions`](#suggestions-optional)
 - [`suggestionsTransform`](#suggestionsTransform-optional)
 - [`tagListLabelText`](#tagListLabelText-optional)
+
+#### activateFirstOption (optional)
+
+Automatically activate the first option when the listbox expands and switch the active option directly from first to last/last to first when the selection wraps. Defaults to `false`.
 
 #### allowBackspace (optional)
 
@@ -157,9 +161,9 @@ Override the default class names used by the component. Defaults to:
 }
 ```
 
-#### closeOnSelect (optional)
+#### collapseOnSelect (optional)
 
-Controls whether the listbox should be collapsed and active option reset when a tag is selected. Defaults to `false`.
+Controls whether the listbox should automatically collapse when a tag is selected. Defaults to `false`.
 
 #### deleteButtonText (optional)
 
@@ -335,10 +339,6 @@ import type { TagSelected } from 'react-tag-autocomplete'
 type CustomTagSelected = TagSelected & { myProperty: string }
 const [selected, setSelected] = useState<CustomTagSelected[]>([])
 ```
-
-#### startWithFirstOption (optional)
-
-Automatically activate the first option when the listbox is expanded and switch the active option directly from first to last/last to first when the selection wraps. Defaults to `false`.
 
 #### suggestions (optional)
 

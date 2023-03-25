@@ -524,15 +524,15 @@ describe('React Tags Autocomplete', () => {
       expect(document.activeElement).toBe(harness.input)
     })
 
-    it('remains expanded when an option is selected and closeOnSelect is disabled', async () => {
+    it('remains expanded when an option is selected and collapseOnSelect is disabled', async () => {
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
 
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('collapses when an option is selected and closeOnSelect is enabled', async () => {
-      harness.rerender({ closeOnSelect: true })
+    it('collapses when an option is selected and collapseOnSelect is enabled', async () => {
+      harness.rerender({ collapseOnSelect: true })
 
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
@@ -558,9 +558,9 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onCollapse).toHaveBeenCalledOnce()
     })
 
-    describe('with startWithFirstOption enabled', () => {
+    describe('with activateFirstOption enabled', () => {
       beforeEach(() => {
-        harness.rerender({ startWithFirstOption: true })
+        harness.rerender({ activateFirstOption: true })
       })
 
       it('sets the first option to active when expanded', async () => {

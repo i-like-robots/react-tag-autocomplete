@@ -37,8 +37,9 @@ export type ManagerFlags = {
 }
 
 export type ManagerProps = {
+  activateFirstOption: boolean
   allowNew: boolean
-  closeOnSelect: boolean
+  collapseOnSelect: boolean
   newOptionText: string
   noOptionsText: string
   onAdd: OnAdd
@@ -48,7 +49,6 @@ export type ManagerProps = {
   onInput?: OnInput
   onValidate?: OnValidate
   selected: TagSelected[]
-  startWithFirstOption: boolean
   suggestions: TagSuggestion[]
   suggestionsTransform: SuggestionsTransform
 }
@@ -59,8 +59,9 @@ export type UseManagerState = ManagerAPI & {
 }
 
 export function useManager({
+  activateFirstOption,
   allowNew,
-  closeOnSelect,
+  collapseOnSelect,
   newOptionText,
   noOptionsText,
   onAdd,
@@ -70,7 +71,6 @@ export function useManager({
   onInput,
   onValidate,
   selected,
-  startWithFirstOption,
   suggestions,
   suggestionsTransform,
 }: ManagerProps): React.MutableRefObject<UseManagerState> {
@@ -105,7 +105,7 @@ export function useManager({
   }, [allowNew, newOptionText, noOptionsText, onValidate, suggestions, suggestionsTransform, value])
 
   const optionIndex = lastActiveOption ? findTagIndex(lastActiveOption, options) : -1
-  const activeIndex = startWithFirstOption ? Math.max(optionIndex, 0) : optionIndex
+  const activeIndex = activateFirstOption ? Math.max(optionIndex, 0) : optionIndex
   const activeOption = options[activeIndex]
 
   const state: ManagerState = {
@@ -138,7 +138,7 @@ export function useManager({
       }
     },
     updateActiveIndex(index: number) {
-      const activeIndex = loopOptionsIndex(index, options.length, startWithFirstOption ? 0 : -1)
+      const activeIndex = loopOptionsIndex(index, options.length, activateFirstOption ? 0 : -1)
       setLastActiveOption(options[activeIndex])
     },
     updateInputValue(newValue: string) {
@@ -159,7 +159,7 @@ export function useManager({
           onAdd(tag)
         }
 
-        if (closeOnSelect) {
+        if (collapseOnSelect) {
           this.listBoxCollapse()
         }
 
