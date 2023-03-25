@@ -228,7 +228,7 @@ describe('React Tags Autocomplete', () => {
       expect(callback).toHaveBeenNthCalledWith(3, 'fra')
     })
 
-    it('collapses the listbox if open when the escape key is pressed', async () => {
+    it('collapses the listbox if expanded when the escape key is pressed', async () => {
       await userEvent.type(harness.input, 'uni')
       expect(harness.isExpanded()).toBe(true)
 
@@ -236,7 +236,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.isExpanded()).toBe(false)
     })
 
-    it('clears the input value when the listbox is closed when the escape key is pressed', async () => {
+    it('clears the input value when the listbox is collapsed when the escape key is pressed', async () => {
       await userEvent.type(harness.input, 'uni{Escape}')
       expect(harness.input.value).toBe('uni')
 
@@ -323,7 +323,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.isExpanded()).toBe(false)
     })
 
-    it('does nothing when the enter key is pressed and the listbox is closed', async () => {
+    it('does nothing when the enter key is pressed and the listbox is collapsed', async () => {
       await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{enter}')
 
       expect(harness.isExpanded()).toBe(false)
@@ -331,7 +331,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onDelete as MockedOnDelete).not.toHaveBeenCalled()
     })
 
-    it('does nothing when another delimiter key is pressed and the listbox is closed', async () => {
+    it('does nothing when another delimiter key is pressed and the listbox is collapsed', async () => {
       harness.rerender({ delimiterKeys: ['Enter', 'Tab'] })
 
       await userEvent.type(harness.input, 'uni{arrowdown}{Escape}{Tab}')
@@ -524,14 +524,14 @@ describe('React Tags Autocomplete', () => {
       expect(document.activeElement).toBe(harness.input)
     })
 
-    it('remains open when an option is selected and closeOnSelect is disabled', async () => {
+    it('remains expanded when an option is selected and closeOnSelect is disabled', async () => {
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
 
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('closes when an option is selected and closeOnSelect is enabled', async () => {
+    it('collapses when an option is selected and closeOnSelect is enabled', async () => {
       harness.rerender({ closeOnSelect: true })
 
       await userEvent.type(harness.input, 'aus')
