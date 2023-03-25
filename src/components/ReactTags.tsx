@@ -50,7 +50,7 @@ type ReactTagsProps = {
   ariaErrorMessage?: string
   ariaDeletedText?: string
   classNames?: ClassNames
-  closeOnSelect?: boolean // TODO: rename collapseOnSelect
+  collapseOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
   id?: string
@@ -89,7 +89,7 @@ function ReactTags(
     ariaErrorMessage,
     ariaDeletedText = 'Removed tag %value%',
     classNames = DefaultClassNames,
-    closeOnSelect = false,
+    collapseOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
     delimiterKeys = DefaultDelimiterKeys,
     id = 'react-tags',
@@ -126,7 +126,7 @@ function ReactTags(
   const managerRef = useManager({
     activateFirstOption,
     allowNew,
-    closeOnSelect,
+    collapseOnSelect,
     newOptionText,
     noOptionsText,
     onAdd,

@@ -8,7 +8,7 @@ export function CountrySelector() {
   const [options, setOptions] = useState({
     activateFirstOption: false,
     allowBackspace: false,
-    closeOnSelect: false,
+    collapseOnSelect: false,
     isDisabled: false,
     isInvalid: false,
   })
@@ -78,11 +78,11 @@ export function CountrySelector() {
         <label>
           <input
             type="checkbox"
-            name="closeOnSelect"
-            checked={options.closeOnSelect}
+            name="collapseOnSelect"
+            checked={options.collapseOnSelect}
             onChange={onOptionChange}
           />
-          Close the listbox on select
+          Automatically collapse the listbox on select
         </label>
         <label>
           <input

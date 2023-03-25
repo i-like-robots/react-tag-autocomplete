@@ -30,7 +30,7 @@ export function CustomTags() {
       <ReactTags
         allowNew
         ariaDescribedBy="custom-tags-description"
-        closeOnSelect
+        collapseOnSelect
         id="custom-tags-demo"
         labelText="Enter new tags"
         onAdd={onAdd}

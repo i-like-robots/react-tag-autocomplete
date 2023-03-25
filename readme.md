@@ -79,7 +79,7 @@ function CountrySelector() {
 - [`ariaDescribedBy`](#ariaDescribedBy-optional)
 - [`ariaErrorMessage`](#ariaErrorMessage-optional)
 - [`classNames`](#classNames-optional)
-- [`closeOnSelect`](#closeOnSelect-optional)
+- [`collapseOnSelect`](#collapseOnSelect-optional)
 - [`deleteButtonText`](#deleteButtontext-optional)
 - [`delimiterKeys`](#delimiterKeys-optional)
 - [`id`](#id-optional)
@@ -161,9 +161,9 @@ Override the default class names used by the component. Defaults to:
 }
 ```
 
-#### closeOnSelect (optional)
+#### collapseOnSelect (optional)
 
-Controls whether the listbox should be collapsed and active option reset when a tag is selected. Defaults to `false`.
+Controls whether the listbox should automatically collapse when a tag is selected. Defaults to `false`.
 
 #### deleteButtonText (optional)
 

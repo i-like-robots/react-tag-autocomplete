@@ -39,7 +39,7 @@ export type ManagerFlags = {
 export type ManagerProps = {
   activateFirstOption: boolean
   allowNew: boolean
-  closeOnSelect: boolean
+  collapseOnSelect: boolean
   newOptionText: string
   noOptionsText: string
   onAdd: OnAdd
@@ -61,7 +61,7 @@ export type UseManagerState = ManagerAPI & {
 export function useManager({
   activateFirstOption,
   allowNew,
-  closeOnSelect,
+  collapseOnSelect,
   newOptionText,
   noOptionsText,
   onAdd,
@@ -159,7 +159,7 @@ export function useManager({
           onAdd(tag)
         }
 
-        if (closeOnSelect) {
+        if (collapseOnSelect) {
           this.listBoxCollapse()
         }
 

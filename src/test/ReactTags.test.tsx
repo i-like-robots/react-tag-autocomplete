@@ -524,15 +524,15 @@ describe('React Tags Autocomplete', () => {
       expect(document.activeElement).toBe(harness.input)
     })
 
-    it('remains expanded when an option is selected and closeOnSelect is disabled', async () => {
+    it('remains expanded when an option is selected and collapseOnSelect is disabled', async () => {
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
 
       expect(harness.isExpanded()).toBe(true)
     })
 
-    it('collapses when an option is selected and closeOnSelect is enabled', async () => {
-      harness.rerender({ closeOnSelect: true })
+    it('collapses when an option is selected and collapseOnSelect is enabled', async () => {
+      harness.rerender({ collapseOnSelect: true })
 
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
