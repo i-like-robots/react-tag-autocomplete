@@ -123,7 +123,6 @@ function ReactTags(
   const comboBoxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLDivElement>(null)
-  const rootRef = useRef<HTMLDivElement>(null)
 
   const managerRef = useManager({
     activateFirstOption,
@@ -163,7 +162,6 @@ function ReactTags(
         isInvalid,
         listBoxRef,
         managerRef,
-        rootRef,
       }}
     >
       <Root onBlur={onBlur} onFocus={onFocus} render={renderRoot}>
