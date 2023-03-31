@@ -100,6 +100,7 @@ function CountrySelector() {
 - [`renderInput`](#renderInput-optional)
 - [`renderLabel`](#renderLabel-optional)
 - [`renderOption`](#renderOption-optional)
+- [`renderRoot`](#renderRoot-optional)
 - [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
 - [`suggestions`](#suggestions-optional)
@@ -301,6 +302,26 @@ function CustomOption({ children, classNames, option, ...optionProps }) {
 
   return (
     <div className={classes.join(' ')} {...optionProps}>
+      {children}
+    </div>
+  )
+}
+```
+
+#### renderRoot (optional)
+
+A custom root component to render. Receives the selected tag list and combobox as children, component states, required root element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```jsx
+function CustomRoot({ children, classNames, isActive, isDisabled, isInvalid, ...rootProps }) {
+  const classes = [classNames.root]
+
+  if (isActive) classes.push(classNames.rootIsActive)
+  if (isDisabled) classes.push(classNames.rootIsDisabled)
+  if (isInvalid) classes.push(classNames.rootIsInvalid)
+
+  return (
+    <div className={classes.join(' ')} {...rootProps}>
       {children}
     </div>
   )

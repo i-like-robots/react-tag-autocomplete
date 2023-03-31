@@ -4,7 +4,7 @@ import { GlobalContext } from '../contexts'
 import { matchSuggestionsPartial, tagToKey } from '../lib'
 import { useManager, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
-import type { InputRenderer, LabelRenderer, OptionRenderer, TagRenderer } from '.'
+import type { InputRenderer, LabelRenderer, OptionRenderer, RootRenderer, TagRenderer } from '.'
 import type {
   ClassNames,
   OnAdd,
@@ -71,6 +71,7 @@ type ReactTagsProps = {
   renderInput?: InputRenderer
   renderLabel?: LabelRenderer
   renderOption?: OptionRenderer
+  renderRoot?: RootRenderer
   renderTag?: TagRenderer
   selected: TagSelected[]
   suggestions: TagSuggestion[]
@@ -110,6 +111,7 @@ function ReactTags(
     renderInput,
     renderLabel,
     renderOption,
+    renderRoot,
     renderTag,
     selected = [],
     suggestions = [],
@@ -164,7 +166,7 @@ function ReactTags(
         rootRef,
       }}
     >
-      <Root onBlur={onBlur} onFocus={onFocus}>
+      <Root onBlur={onBlur} onFocus={onFocus} render={renderRoot}>
         <Label render={renderLabel}>{labelText}</Label>
         <TagList label={tagListLabelText}>
           {managerRef.current.state.selected.map((tag, index) => (

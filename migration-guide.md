@@ -59,7 +59,7 @@ Please refer to the [new example styles](example/src/styles.css) for more detail
 | -                    | `rootIsDisabled` | New state                                  |
 | -                    | `rootIsInvalid`  | New state                                  |
 | -                    | `label`          | New sub-component                          |
-| `selected`           | `tagList         |                                            |
+| `selected`           | `tagList`        |                                            |
 | -                    | `tagListItem`    | Added class name for tag list items        |
 | `selectedTag`        | `tag`            |                                            |
 | `selectedTagName`    | `tagName`        |                                            |

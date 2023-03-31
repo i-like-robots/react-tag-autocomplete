@@ -831,23 +831,34 @@ describe('React Tags Autocomplete', () => {
   })
 
   describe('render props', () => {
-    it('renders a custom input component when provided', () => {
-      const renderer: Harness['props']['renderInput'] = ({
-        classNames,
-        inputWidth,
-        ...inputProps
-      }) => {
-        const style = { width: inputWidth }
-        return (
-          <input className={classNames.input} style={style} {...inputProps} title="Custom input" />
-        )
-      }
+    // it('renders a custom root component when provided', () => {
+    //   const renderer: Harness['props']['renderRoot'] = ({
+    //     children,
+    //     classNames,
+    //     isActive,
+    //     isDisabled,
+    //     isInvalid,
+    //     ...rootProps
+    //   }) => {
+    //     return (
+    //       <div
+    //         className={classNames.root}
+    //         {...rootProps}
+    //         title="Custom root"
+    //         data-is-active={isActive}
+    //         data-is-disabled={isDisabled}
+    //         data-is-invalid={isInvalid}
+    //       >
+    //         {children}
+    //       </div>
+    //     )
+    //   }
 
-      harness = new Harness({ renderInput: renderer })
+    //   harness = new Harness({ renderRoot: renderer })
 
-      expect(harness.input.id).toBe('react-tags-input')
-      expect(harness.input.title).toBe('Custom input')
-    })
+    //   expect(harness.root.id).toBe('react-tags')
+    //   expect(harness.root.title).toBe('Custom root')
+    // })
 
     it('renders a custom label component when provided', () => {
       const renderer: Harness['props']['renderLabel'] = ({ children, classNames, id }) => (
@@ -895,6 +906,24 @@ describe('React Tags Autocomplete', () => {
       harness.selectedTags.forEach((option) => {
         expect(option.textContent).toMatch(/Custom [\w\s]+/)
       })
+    })
+
+    it('renders a custom input component when provided', () => {
+      const renderer: Harness['props']['renderInput'] = ({
+        classNames,
+        inputWidth,
+        ...inputProps
+      }) => {
+        const style = { width: inputWidth }
+        return (
+          <input className={classNames.input} style={style} {...inputProps} title="Custom input" />
+        )
+      }
+
+      harness = new Harness({ renderInput: renderer })
+
+      expect(harness.input.id).toBe('react-tags-input')
+      expect(harness.input.title).toBe('Custom input')
     })
   })
 

@@ -33,6 +33,7 @@ New features and improvements:
 - Added support for related error status text using `ariaErrorMessage` prop
 - Added support for controlling the listbox when selecting a tag using `collapseOnSelect` prop
 - Added support for activating the first option when the listbox expands using `activateFirstOption` prop
+- Added support for rendering a custom root component using `renderRoot`  prop
 - Added support for rendering a custom label component using `renderLabel`  prop
 - Added support for rendering a custom input component using `renderInput`  prop
 
