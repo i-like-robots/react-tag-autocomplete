@@ -120,7 +120,7 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('associates the input with the list box', () => {
-      expect(harness.input.getAttribute('aria-owns')).toBe('react-tags-listbox')
+      expect(harness.input.getAttribute('aria-controls')).toBe('react-tags-listbox')
     })
 
     it('associates the input with the active list box option', async () => {
