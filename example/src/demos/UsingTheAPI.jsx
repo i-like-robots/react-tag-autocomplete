@@ -26,7 +26,7 @@ export function UsingTheAPI() {
   }, [api])
 
   const clear = useCallback(() => {
-    api.current.input.clear()
+    api.current.input.value = ''
   }, [api])
 
   const toggle = useCallback(() => {
