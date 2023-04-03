@@ -29,9 +29,26 @@ export function UsingTheAPI() {
     api.current.input.value = ''
   }, [api])
 
+  // NOTE: if focus moves from the component input to this button then the listbox will be
+  // closed immediately so this avoids toggling it instantly back to its previous state
+  const skipToggle = useRef(false)
+
   const toggle = useCallback(() => {
-    api.current.listBox.isExpanded ? api.current.listBox.collapse() : api.current.listBox.expand()
+    if (skipToggle.current) {
+      skipToggle.current = false
+    } else {
+      api.current.listBox.isExpanded ? api.current.listBox.collapse() : api.current.listBox.expand()
+    }
   }, [api])
+
+  const toggleCapture = useCallback(
+    (e) => {
+      if (api.current.listBox.isExpanded && e.target !== document.activeElement) {
+        skipToggle.current = true
+      }
+    },
+    [api]
+  )
 
   return (
     <>
@@ -43,8 +60,8 @@ export function UsingTheAPI() {
         <button type="button" onClick={clear}>
           Clear input value
         </button>
-        <button type="button" onClick={toggle}>
-          Toggle options list
+        <button type="button" onClick={toggle} onMouseDown={toggleCapture}>
+          Toggle listbox
         </button>
       </p>
       <ReactTags
