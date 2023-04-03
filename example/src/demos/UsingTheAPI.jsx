@@ -53,7 +53,7 @@ export function UsingTheAPI() {
   return (
     <>
       <p>Use the buttons below to control the component:</p>
-      <p>
+      <p style={{ display: 'flex', gap: '0.5rem' }}>
         <button type="button" onClick={focus}>
           Focus input
         </button>
