@@ -831,34 +831,34 @@ describe('React Tags Autocomplete', () => {
   })
 
   describe('render props', () => {
-    // it('renders a custom root component when provided', () => {
-    //   const renderer: Harness['props']['renderRoot'] = ({
-    //     children,
-    //     classNames,
-    //     isActive,
-    //     isDisabled,
-    //     isInvalid,
-    //     ...rootProps
-    //   }) => {
-    //     return (
-    //       <div
-    //         className={classNames.root}
-    //         {...rootProps}
-    //         title="Custom root"
-    //         data-is-active={isActive}
-    //         data-is-disabled={isDisabled}
-    //         data-is-invalid={isInvalid}
-    //       >
-    //         {children}
-    //       </div>
-    //     )
-    //   }
+    it('renders a custom root component when provided', () => {
+      const renderer: Harness['props']['renderRoot'] = ({
+        children,
+        classNames,
+        isActive,
+        isDisabled,
+        isInvalid,
+        ...rootProps
+      }) => {
+        return (
+          <div
+            className={classNames.root}
+            {...rootProps}
+            title="Custom root"
+            data-is-active={isActive}
+            data-is-disabled={isDisabled}
+            data-is-invalid={isInvalid}
+          >
+            {children}
+          </div>
+        )
+      }
 
-    //   harness = new Harness({ renderRoot: renderer })
+      harness = new Harness({ renderRoot: renderer })
 
-    //   expect(harness.root.id).toBe('react-tags')
-    //   expect(harness.root.title).toBe('Custom root')
-    // })
+      expect(harness.root.id).toBe('react-tags')
+      expect(harness.root.title).toBe('Custom root')
+    })
 
     it('renders a custom label component when provided', () => {
       const renderer: Harness['props']['renderLabel'] = ({ children, classNames, id }) => (
