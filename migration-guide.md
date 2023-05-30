@@ -4,7 +4,7 @@ Version 7 is a complete rewrite of the `react-tag-autocomplete` package, begun f
 
 ## Prerequisites
 
-This version is for use with React v18 and above _only_. If you are using an older version of React please continue to use [the previous version of this component](https://github.com/i-like-robots/react-tags).
+This version is for use with React v18 and above _only_. If you are using an older version of React please continue to use [the previous version of this component](https://github.com/i-like-robots/react-tags) which will remain supported for at least 12 months.
 
 ## Prop name changes
 
@@ -35,7 +35,7 @@ The following props have been removed from v7:
 
 ## Changes to tags
 
-The structure of suggested and selected tags has been updated. The `id` property has been renamed `value` and the `name` property has been renamed `label`.
+The structure of suggested and selected tags has been updated. The `id` property has been renamed `value` and the `name` property has been renamed `label`. This change was made for consistency with the [`HTMLOptionElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement) interface used by native listbox components.
 
 ```diff
 - { id: 1, name: "Apples" }
@@ -48,7 +48,7 @@ All render props (used to provide custom components) now receive the `classNames
 
 ## Class name and styling changes
 
-There are a number changes to the HTML structure of the component and some property names have also been changed. The component supports more states and more sub-components have class names defined for them than before.
+There are a number changes to the HTML structure of the component and some property names have also been changed. The component supports more states and more sub-components have class names applied to them than before. This results in less stylesheet specificity and better support for using tools such as [`@emotion/css`](https://emotion.sh/docs/@emotion/css).
 
 Please refer to the [new example styles](example/src/styles.css) for more details.
 
