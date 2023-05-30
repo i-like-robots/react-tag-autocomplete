@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
-import { matchSuggestionsPartial, tagToKey } from '../lib'
+import { matchTagsPartial, tagToKey } from '../lib'
 import { useManager, usePublicAPI } from '../hooks'
 import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
 import type { InputRenderer, LabelRenderer, OptionRenderer, RootRenderer, TagRenderer } from '.'
@@ -115,7 +115,7 @@ function ReactTags(
     renderTag,
     selected = [],
     suggestions = [],
-    suggestionsTransform = matchSuggestionsPartial,
+    suggestionsTransform = matchTagsPartial,
     tagListLabelText = 'Selected tags',
   }: ReactTagsProps,
   ref?: React.ForwardedRef<PublicAPI>

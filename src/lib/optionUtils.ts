@@ -1,5 +1,5 @@
 import { NewOptionValue } from '../constants'
-import { findSuggestionExact } from '.'
+import { matchTagExact } from '.'
 import type { ManagerState } from '../hooks'
 import type { TagSuggestion } from '../sharedTypes'
 
@@ -13,7 +13,7 @@ export function findSelectedOption(state: ManagerState): TagSuggestion | undefin
   const tag =
     getNewTag(state.activeOption, state.value) ||
     state.activeOption ||
-    findSuggestionExact(state.value, state.options)
+    matchTagExact(state.value, state.options)
 
   return tag && !tag.disabled ? tag : undefined
 }
