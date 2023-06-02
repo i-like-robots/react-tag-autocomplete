@@ -423,7 +423,7 @@ describe('React Tags Autocomplete', () => {
       const options = screen.queryAllByRole('option')
 
       options.forEach((option) => {
-        expect(option.innerHTML).toMatch(/<mark>uni<\/mark>/i)
+        expect(option.innerHTML).toMatch(/<mark class="[^"]+">uni<\/mark>/i)
       })
     })
 
