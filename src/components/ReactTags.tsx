@@ -53,6 +53,7 @@ type ReactTagsProps = {
   collapseOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
+  // highlightTagName?: keyof JSX.IntrinsicElements
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -93,6 +94,7 @@ function ReactTags(
     collapseOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
     delimiterKeys = DefaultDelimiterKeys,
+    // highlightTagName = 'mark',
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
