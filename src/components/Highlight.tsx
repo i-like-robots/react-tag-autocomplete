@@ -11,21 +11,17 @@ type HighlightRendererProps = {
 
 export type HighlightRenderer = React.FunctionComponent<HighlightRendererProps>
 
-const DefaultHighlightText: HighlightRenderer = ({ classNames, text }) => {
-  return <mark className={classNames.optionTextMark}>{text}</mark>
+const DefaultHighlight: HighlightRenderer = ({ classNames, text }) => {
+  return <mark className={classNames.highlight}>{text}</mark>
 }
 
-export type HighlightTextProps = {
+export type HighlightProps = {
   option: Tag
   query: string
   render?: HighlightRenderer
 }
 
-function HighlightText({
-  option,
-  query,
-  render = DefaultHighlightText,
-}: HighlightTextProps): JSX.Element {
+function Highlight({ option, query, render = DefaultHighlight }: HighlightProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
 
   let contents: React.ReactNode = option.label
@@ -43,9 +39,9 @@ function HighlightText({
     }
   }
 
-  return <span className={classNames.optionText}>{contents}</span>
+  return <>{contents}</>
 }
 
-const MemoizedHighlightText = React.memo(HighlightText)
+const MemoizedHighlight = React.memo(Highlight)
 
-export { MemoizedHighlightText as HighlightText }
+export { MemoizedHighlight as Highlight }

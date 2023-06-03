@@ -155,8 +155,6 @@
   color: #4f46e5;
 }
 
-.react-tags__listbox-option-text {}
-
-.react-tags__listbox-option-mark {
+.react-tags__listbox-option-highlight {
   background-color: #FFFF33;
 }

@@ -6,7 +6,7 @@ import { useManager, usePublicAPI } from '../hooks'
 import {
   Announcements,
   ComboBox,
-  HighlightText,
+  Highlight,
   Input,
   Label,
   ListBox,
@@ -54,8 +54,7 @@ const DefaultClassNames: ClassNames = {
   listBox: 'react-tags__listbox',
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
-  optionText: 'react-tags__listbox-option-text',
-  optionTextMark: 'react-tags__listbox-option-mark',
+  highlight: 'react-tags__listbox-option-highlight',
 }
 
 const DefaultDelimiterKeys = [KeyNames.Enter]
@@ -73,7 +72,6 @@ type ReactTagsProps = {
   collapseOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
-  highlightTagName?: keyof JSX.IntrinsicElements
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -205,10 +203,10 @@ function ReactTags(
             render={renderInput}
           />
           <ListBox>
-            {managerRef.current.state.options.map((tag, index) => (
-              <Option key={tagToKey(tag)} index={index} render={renderOption}>
-                <HighlightText
-                  option={tag}
+            {managerRef.current.state.options.map((option, index) => (
+              <Option key={tagToKey(option)} index={index} render={renderOption}>
+                <Highlight
+                  option={option}
                   query={managerRef.current.state.value}
                   render={renderHighlight}
                 />
