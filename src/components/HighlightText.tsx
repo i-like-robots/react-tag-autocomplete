@@ -21,7 +21,7 @@ export type HighlightTextProps = {
   render?: HighlightRenderer
 }
 
-export function HighlightText({
+function HighlightText({
   option,
   query,
   render = DefaultHighlightText,
@@ -45,3 +45,7 @@ export function HighlightText({
 
   return <>{contents}</>
 }
+
+const MemoizedHighlightText = React.memo(HighlightText)
+
+export { MemoizedHighlightText as HighlightText }
