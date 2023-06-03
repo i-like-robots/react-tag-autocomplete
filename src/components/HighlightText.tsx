@@ -1,24 +1,8 @@
 import React, { useContext } from 'react'
-import { partialRegExp, replacePlaceholder } from '../lib'
+import { highlightText, replacePlaceholder } from '../lib'
 import { NewOptionValue, NoOptionsValue } from '../constants'
-import type { ClassNames, Tag } from '../sharedTypes'
 import { GlobalContext } from '../contexts'
-
-function sliceText(text: string, query: string): string[] {
-  const regexp = partialRegExp(query)
-  const matches = text.match(regexp)
-
-  if (matches) {
-    const match = matches[0]
-    const lastIndex = matches.index + match.length
-
-    return [
-      text.slice(0, matches.index),
-      text.slice(matches.index, lastIndex),
-      text.slice(lastIndex),
-    ]
-  }
-}
+import type { ClassNames, Tag } from '../sharedTypes'
 
 type HighlightRendererProps = {
   text: string
@@ -44,17 +28,20 @@ export function HighlightText({
 }: HighlightTextProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
 
+  let contents: React.ReactNode = option.label
+
   if (option.value === NewOptionValue || option.value === NoOptionsValue) {
-    return <>{replacePlaceholder(option.label, query)}</>
+    contents = replacePlaceholder(option.label, query)
   }
 
   if (query) {
-    const result = sliceText(option.label, query)
+    const result = highlightText(option.label, query)
 
     if (result) {
-      return <>{[result[0], render({ text: result[1], classNames }), result[2]]}</>
+      const highlighted = render({ text: result[1], classNames })
+      contents = [result[0], highlighted, result[2]]
     }
   }
 
-  return <>{option.label}</>
+  return <>{contents}</>
 }
