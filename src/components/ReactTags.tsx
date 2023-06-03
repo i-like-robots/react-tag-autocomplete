@@ -15,7 +15,14 @@ import {
   Tag,
   TagList,
 } from '.'
-import type { InputRenderer, LabelRenderer, OptionRenderer, RootRenderer, TagRenderer } from '.'
+import type {
+  HighlightRenderer,
+  InputRenderer,
+  LabelRenderer,
+  OptionRenderer,
+  RootRenderer,
+  TagRenderer,
+} from '.'
 import type {
   ClassNames,
   OnAdd,
@@ -80,6 +87,7 @@ type ReactTagsProps = {
   onInput?: OnInput // TODO: rename onInputChange
   onValidate?: OnValidate // TODO: rename onInputValidate
   placeholderText?: string
+  renderHighlight?: HighlightRenderer
   renderInput?: InputRenderer
   renderLabel?: LabelRenderer
   renderOption?: OptionRenderer
@@ -120,6 +128,7 @@ function ReactTags(
     onInput,
     onValidate,
     placeholderText = 'Add a tag',
+    renderHighlight,
     renderInput,
     renderLabel,
     renderOption,
@@ -196,7 +205,11 @@ function ReactTags(
           <ListBox>
             {managerRef.current.state.options.map((tag, index) => (
               <Option key={tagToKey(tag)} index={index} render={renderOption}>
-                <HighlightText option={tag} query={managerRef.current.state.value} />
+                <HighlightText
+                  option={tag}
+                  query={managerRef.current.state.value}
+                  render={renderHighlight}
+                />
               </Option>
             ))}
           </ListBox>

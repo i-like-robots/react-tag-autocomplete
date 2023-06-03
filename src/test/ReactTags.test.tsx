@@ -892,6 +892,20 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
+    it('renders custom highlight components when provided', async () => {
+      const renderer: Harness['props']['renderHighlight'] = ({ text }) => <b>Custom {text}</b>
+
+      harness = new Harness({ renderHighlight: renderer, suggestions })
+
+      await userEvent.type(harness.input, 'uni')
+
+      expect(harness.options.length).toBeGreaterThan(0)
+
+      harness.options.forEach((option) => {
+        expect(option.innerHTML).toMatch(/<b>Custom uni<\/b>/i)
+      })
+    })
+
     it('renders custom selected tag components when provided', () => {
       const renderer: Harness['props']['renderTag'] = ({ classNames, tag, ...props }) => (
         <button className={classNames.tag} {...props}>
