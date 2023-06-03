@@ -71,3 +71,4 @@ Please refer to the [new example styles](example/src/styles.css) for more detail
 | `suggestionActive`   | `optionIsActive` |                                            |
 | `suggestionDisabled` | -                | Removed class name, use attribute selector |
 | `suggestionPrefix`   | -                | Removed component                          |
+| -                    | `highlight`      | New sub-component                          |

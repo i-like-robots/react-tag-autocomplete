@@ -97,6 +97,7 @@ function CountrySelector() {
 - [`onInput`](#oninput-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
+- [`renderHighlight`](#renderHighlight-optional)
 - [`renderInput`](#renderInput-optional)
 - [`renderLabel`](#renderLabel-optional)
 - [`renderOption`](#renderOption-optional)
@@ -159,6 +160,7 @@ Override the default class names used by the component. Defaults to:
   listBox: 'react-tags__listbox',
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
+  highlight: 'react-tags__listbox-option-highlight',
 }
 ```
 
@@ -263,6 +265,16 @@ function onValidate(value) {
 #### placeholderText (optional)
 
 The placeholder text shown in the input when it is empty. Defaults to `"Add a tag"`.
+
+#### renderHighlight (optional)
+
+A custom option text highlight component to render. Receives the highlighted text and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```jsx
+function CustomHighlight({ classNames, text }) {
+  return <span className={classNames.highlight}>{text}</span>
+}
+```
 
 #### renderInput (optional)
 
