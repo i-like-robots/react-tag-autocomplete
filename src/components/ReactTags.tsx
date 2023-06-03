@@ -3,7 +3,18 @@ import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchTagsPartial, tagToKey } from '../lib'
 import { useManager, usePublicAPI } from '../hooks'
-import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
+import {
+  Announcements,
+  ComboBox,
+  HighlightText,
+  Input,
+  Label,
+  ListBox,
+  Option,
+  Root,
+  Tag,
+  TagList,
+} from '.'
 import type { InputRenderer, LabelRenderer, OptionRenderer, RootRenderer, TagRenderer } from '.'
 import type {
   ClassNames,
@@ -53,7 +64,7 @@ type ReactTagsProps = {
   collapseOnSelect?: boolean
   deleteButtonText?: string
   delimiterKeys?: string[]
-  // highlightTagName?: keyof JSX.IntrinsicElements
+  highlightTagName?: keyof JSX.IntrinsicElements
   id?: string
   isDisabled?: boolean
   isInvalid?: boolean
@@ -94,7 +105,6 @@ function ReactTags(
     collapseOnSelect = false,
     deleteButtonText = 'Remove %value% from the list',
     delimiterKeys = DefaultDelimiterKeys,
-    // highlightTagName = 'mark',
     id = 'react-tags',
     isDisabled = false,
     isInvalid = false,
@@ -185,7 +195,9 @@ function ReactTags(
           />
           <ListBox>
             {managerRef.current.state.options.map((tag, index) => (
-              <Option key={tagToKey(tag)} index={index} render={renderOption} />
+              <Option key={tagToKey(tag)} index={index} render={renderOption}>
+                <HighlightText option={tag} query={managerRef.current.state.value} />
+              </Option>
             ))}
           </ListBox>
         </ComboBox>

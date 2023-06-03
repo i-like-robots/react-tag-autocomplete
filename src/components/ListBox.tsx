@@ -1,8 +1,11 @@
 import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
 import { useListBox } from '../hooks'
+import { OptionProps } from './Option'
 
-export type ListBoxProps = React.PropsWithChildren<Record<string, unknown>>
+export type ListBoxProps = {
+  children: React.ReactElement<OptionProps>[]
+}
 
 export function ListBox({ children }: ListBoxProps): JSX.Element | null {
   const { classNames, managerRef } = useContext(GlobalContext)

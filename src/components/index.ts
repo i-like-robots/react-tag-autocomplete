@@ -1,5 +1,6 @@
 export * from './Announcements'
 export * from './ComboBox'
+export * from './HighlightText'
 export * from './Input'
 export * from './Label'
 export * from './ListBox'

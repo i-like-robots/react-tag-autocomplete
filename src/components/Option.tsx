@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { GlobalContext } from '../contexts'
 import { useOption } from '../hooks'
 import type { ClassNames, TagOption } from '../sharedTypes'
-import { useOptionText } from '../hooks/useOptionText'
 
 type OptionRendererProps = React.ComponentPropsWithRef<'div'> & {
   children: React.ReactNode
@@ -24,21 +23,14 @@ const DefaultOption: OptionRenderer = ({ children, classNames, option, ...option
   )
 }
 
-export type OptionProps = {
+export type OptionProps = React.PropsWithChildren & {
   index: number
   render?: OptionRenderer
 }
 
-export function Option({ index, render = DefaultOption }: OptionProps): JSX.Element {
-  const { classNames, managerRef } = useContext(GlobalContext)
+export function Option({ children, index, render = DefaultOption }: OptionProps): JSX.Element {
+  const { classNames } = useContext(GlobalContext)
   const { option, optionProps } = useOption(index)
-  const text = useOptionText({
-    option,
-    query: managerRef.current.state.value,
-    highlightTagName: 'mark' as unknown as JSX.IntrinsicElements,
-    highlightClassName: 'highlight',
-  })
-  const children = <span dangerouslySetInnerHTML={{ __html: text }} />
 
   return render({ classNames, children, option, ...optionProps })
 }
