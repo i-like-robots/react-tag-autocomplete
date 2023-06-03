@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { OptionText } from '.'
 import { GlobalContext } from '../contexts'
 import { useOption } from '../hooks'
 import type { ClassNames, TagOption } from '../sharedTypes'
@@ -24,16 +23,14 @@ const DefaultOption: OptionRenderer = ({ children, classNames, option, ...option
   )
 }
 
-export type OptionProps = {
+export type OptionProps = React.PropsWithChildren & {
   index: number
   render?: OptionRenderer
 }
 
-export function Option({ index, render = DefaultOption }: OptionProps): JSX.Element {
-  const { classNames, managerRef } = useContext(GlobalContext)
+export function Option({ children, index, render = DefaultOption }: OptionProps): JSX.Element {
+  const { classNames } = useContext(GlobalContext)
   const { option, optionProps } = useOption(index)
-
-  const children = <OptionText option={option} query={managerRef.current.state.value} />
 
   return render({ classNames, children, option, ...optionProps })
 }

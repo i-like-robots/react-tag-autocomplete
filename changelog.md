@@ -36,6 +36,7 @@ New features and improvements:
 - Added support for rendering a custom root component using `renderRoot`  prop
 - Added support for rendering a custom label component using `renderLabel`  prop
 - Added support for rendering a custom input component using `renderInput`  prop
+- Added support for rendering a custom text highlight component using `renderHighlight`  prop
 
 Other changes:
 

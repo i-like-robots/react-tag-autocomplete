@@ -3,8 +3,26 @@ import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchTagsPartial, tagToKey } from '../lib'
 import { useManager, usePublicAPI } from '../hooks'
-import { Announcements, ComboBox, Input, Label, ListBox, Option, Root, Tag, TagList } from '.'
-import type { InputRenderer, LabelRenderer, OptionRenderer, RootRenderer, TagRenderer } from '.'
+import {
+  Announcements,
+  ComboBox,
+  Highlight,
+  Input,
+  Label,
+  ListBox,
+  Option,
+  Root,
+  Tag,
+  TagList,
+} from '.'
+import type {
+  HighlightRenderer,
+  InputRenderer,
+  LabelRenderer,
+  OptionRenderer,
+  RootRenderer,
+  TagRenderer,
+} from '.'
 import type {
   ClassNames,
   OnAdd,
@@ -36,6 +54,7 @@ const DefaultClassNames: ClassNames = {
   listBox: 'react-tags__listbox',
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
+  highlight: 'react-tags__listbox-option-highlight',
 }
 
 const DefaultDelimiterKeys = [KeyNames.Enter]
@@ -68,6 +87,7 @@ type ReactTagsProps = {
   onInput?: OnInput // TODO: rename onInputChange
   onValidate?: OnValidate // TODO: rename onInputValidate
   placeholderText?: string
+  renderHighlight?: HighlightRenderer
   renderInput?: InputRenderer
   renderLabel?: LabelRenderer
   renderOption?: OptionRenderer
@@ -108,6 +128,7 @@ function ReactTags(
     onInput,
     onValidate,
     placeholderText = 'Add a tag',
+    renderHighlight,
     renderInput,
     renderLabel,
     renderOption,
@@ -182,8 +203,14 @@ function ReactTags(
             render={renderInput}
           />
           <ListBox>
-            {managerRef.current.state.options.map((tag, index) => (
-              <Option key={tagToKey(tag)} index={index} render={renderOption} />
+            {managerRef.current.state.options.map((option, index) => (
+              <Option key={tagToKey(option)} index={index} render={renderOption}>
+                <Highlight
+                  option={option}
+                  query={managerRef.current.state.value}
+                  render={renderHighlight}
+                />
+              </Option>
             ))}
           </ListBox>
         </ComboBox>

@@ -423,7 +423,7 @@ describe('React Tags Autocomplete', () => {
       const options = screen.queryAllByRole('option')
 
       options.forEach((option) => {
-        expect(option.innerHTML).toMatch(/<mark>uni<\/mark>/i)
+        expect(option.innerHTML).toMatch(/<mark class="[^"]+">uni<\/mark>/i)
       })
     })
 
@@ -889,6 +889,20 @@ describe('React Tags Autocomplete', () => {
       harness.options.forEach((option) => {
         expect(option.id).toMatch(/^react-tags-option-/)
         expect(option.textContent).toMatch(/Custom [\w\s]+/)
+      })
+    })
+
+    it('renders custom highlight components when provided', async () => {
+      const renderer: Harness['props']['renderHighlight'] = ({ text }) => <b>Custom {text}</b>
+
+      harness = new Harness({ renderHighlight: renderer, suggestions })
+
+      await userEvent.type(harness.input, 'uni')
+
+      expect(harness.options.length).toBeGreaterThan(0)
+
+      harness.options.forEach((option) => {
+        expect(option.innerHTML).toMatch(/<b>Custom uni<\/b>/i)
       })
     })
 

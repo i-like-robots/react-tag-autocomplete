@@ -13,6 +13,7 @@ export type ClassNames = {
   listBox: string
   option: string
   optionIsActive: string
+  highlight: string
 }
 
 export type Tag = {

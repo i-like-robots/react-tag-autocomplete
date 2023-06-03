@@ -7,7 +7,7 @@ function escapeForRegExp(string: string): string {
 }
 
 export function partialRegExp(query: string): RegExp {
-  return new RegExp(`${escapeForRegExp(query)}`, 'i')
+  return new RegExp(escapeForRegExp(query), 'i')
 }
 
 export function exactRegExp(query: string): RegExp {
@@ -15,11 +15,11 @@ export function exactRegExp(query: string): RegExp {
 }
 
 export function matchTagsPartial(query: string, suggestions: TagSuggestion[]): TagSuggestion[] {
-  if (query === '') {
-    return [].concat(suggestions)
-  } else {
+  if (query) {
     const regexp = partialRegExp(query)
     return suggestions.filter((item) => regexp.test(item.label))
+  } else {
+    return [].concat(suggestions)
   }
 }
 
