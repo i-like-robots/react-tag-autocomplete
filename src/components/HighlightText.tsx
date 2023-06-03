@@ -11,8 +11,8 @@ type HighlightRendererProps = {
 
 export type HighlightRenderer = React.FunctionComponent<HighlightRendererProps>
 
-const DefaultHighlightText: HighlightRenderer = ({ text }) => {
-  return <mark className="highlight">{text}</mark>
+const DefaultHighlightText: HighlightRenderer = ({ classNames, text }) => {
+  return <mark className={classNames.optionTextMark}>{text}</mark>
 }
 
 export type HighlightTextProps = {
@@ -43,7 +43,7 @@ function HighlightText({
     }
   }
 
-  return <>{contents}</>
+  return <span className={classNames.optionText}>{contents}</span>
 }
 
 const MemoizedHighlightText = React.memo(HighlightText)

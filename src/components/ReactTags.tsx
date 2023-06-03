@@ -54,6 +54,8 @@ const DefaultClassNames: ClassNames = {
   listBox: 'react-tags__listbox',
   option: 'react-tags__listbox-option',
   optionIsActive: 'is-active',
+  optionText: 'react-tags__listbox-option-text',
+  optionTextMark: 'react-tags__listbox-option-mark',
 }
 
 const DefaultDelimiterKeys = [KeyNames.Enter]

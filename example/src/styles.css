@@ -154,3 +154,9 @@
 .react-tags__listbox-option[aria-selected='true']:not(.is-active)::after {
   color: #4f46e5;
 }
+
+.react-tags__listbox-option-text {}
+
+.react-tags__listbox-option-mark {
+  background-color: #FFFF33;
+}
