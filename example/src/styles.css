@@ -3,11 +3,9 @@
   padding: 0.25rem 0 0 0.25rem;
   border: 2px solid #afb8c1;
   border-radius: 6px;
-
   /* shared font styles */
   font-size: 1em;
   line-height: 1.2;
-
   /* clicking anywhere will focus the input */
   cursor: text;
 }
@@ -55,7 +53,6 @@
   border: 0;
   border-radius: 3px;
   background: #eaeef2;
-
   /* match the font styles */
   font-size: inherit;
   line-height: inherit;
@@ -83,11 +80,9 @@
 
 .react-tags__combobox {
   display: inline-block;
-
   /* match tag layout */
   padding: 0.375rem 0.25rem;
   margin-bottom: 0.25rem;
-
   /* prevents autoresize overflowing the container */
   max-width: 100%;
 }
@@ -95,14 +90,12 @@
 .react-tags__combobox-input {
   /* prevent autoresize overflowing the container */
   max-width: 100%;
-
   /* remove styles and layout from this element */
   margin: 0;
   padding: 0;
   border: 0;
   outline: none;
   background: none;
-
   /* match the font styles */
   font-size: inherit;
   line-height: inherit;
@@ -117,11 +110,9 @@
   position: absolute;
   z-index: 1;
   top: calc(100% + 5px);
-
   /* Negate the border width on the container */
   left: -2px;
   right: -2px;
-
   max-height: 12.5rem;
   overflow-y: auto;
   background: #ffffff;
