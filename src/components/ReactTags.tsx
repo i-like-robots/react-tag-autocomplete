@@ -80,12 +80,12 @@ type ReactTagsProps = {
   noOptionsText?: string
   onAdd: OnAdd
   onBlur?: OnBlur
-  onCollapse?: OnCollapse // TODO: rename onListBoxCollapse
+  onCollapse?: OnCollapse
   onDelete: OnDelete
-  onExpand?: OnExpand // TODO: rename onListBoxExpand
+  onExpand?: OnExpand
   onFocus?: OnFocus
-  onInput?: OnInput // TODO: rename onInputChange
-  onValidate?: OnValidate // TODO: rename onInputValidate
+  onInput?: OnInput
+  onValidate?: OnValidate
   placeholderText?: string
   renderHighlight?: HighlightRenderer
   renderInput?: InputRenderer
