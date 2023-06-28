@@ -558,6 +558,22 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onCollapse).toHaveBeenCalledOnce()
     })
 
+    it('calls the onShouldExpand callback before being expanded', () => {
+      harness.rerender({ onShouldExpand: () => false })
+
+      harness.listBoxExpand()
+      expect(harness.isCollapsed()).toBe(true)
+    })
+
+    it('calls the onShouldCollapse callback before being collapsed', () => {
+      harness.rerender({ onShouldCollapse: () => false })
+
+      harness.listBoxExpand()
+      harness.listBoxCollapse()
+
+      expect(harness.isExpanded()).toBe(true)
+    })
+
     describe('with activateFirstOption enabled', () => {
       beforeEach(() => {
         harness.rerender({ activateFirstOption: true })
