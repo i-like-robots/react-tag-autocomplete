@@ -15,7 +15,7 @@ Breaking changes:
 - Removed `addOnBlur` prop, can be implemented manually
 - Removed `inputAttributes` prop, use `renderInput` prop instead
 - Removed `maxSuggestionsLength` prop, use `suggestionsTransform` prop instead
-- Removed `minQueryLength` prop
+- Removed `minQueryLength` prop, use `onShouldExpand` prop instead
 - Removed `suggestionsFilter` prop, use `suggestionsTransform` prop instead
 
 New features and improvements:
@@ -32,11 +32,12 @@ New features and improvements:
 - Added support for related descriptive text using `ariaDescribedBy` prop
 - Added support for related error status text using `ariaErrorMessage` prop
 - Added support for controlling the listbox when selecting a tag using `collapseOnSelect` prop
+- Added support for controlling the listbox using `onShouldExpand` and `onShouldCollapse` props
 - Added support for activating the first option when the listbox expands using `activateFirstOption` prop
-- Added support for rendering a custom root component using `renderRoot`  prop
-- Added support for rendering a custom label component using `renderLabel`  prop
-- Added support for rendering a custom input component using `renderInput`  prop
-- Added support for rendering a custom text highlight component using `renderHighlight`  prop
+- Added support for rendering a custom root component using `renderRoot` prop
+- Added support for rendering a custom label component using `renderLabel` prop
+- Added support for rendering a custom input component using `renderInput` prop
+- Added support for rendering a custom text highlight component using `renderHighlight` prop
 
 Other changes:
 
