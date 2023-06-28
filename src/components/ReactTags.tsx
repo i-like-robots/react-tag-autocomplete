@@ -32,6 +32,8 @@ import type {
   OnExpand,
   OnFocus,
   OnInput,
+  OnShouldCollapse,
+  OnShouldExpand,
   OnValidate,
   PublicAPI,
   SuggestionsTransform,
@@ -85,6 +87,8 @@ type ReactTagsProps = {
   onExpand?: OnExpand
   onFocus?: OnFocus
   onInput?: OnInput
+  onShouldCollapse?: OnShouldCollapse
+  onShouldExpand?: OnShouldExpand
   onValidate?: OnValidate
   placeholderText?: string
   renderHighlight?: HighlightRenderer
@@ -126,6 +130,8 @@ function ReactTags(
     onExpand,
     onFocus,
     onInput,
+    onShouldCollapse,
+    onShouldExpand,
     onValidate,
     placeholderText = 'Add a tag',
     renderHighlight,
@@ -156,6 +162,8 @@ function ReactTags(
     onCollapse,
     onExpand,
     onInput,
+    onShouldCollapse,
+    onShouldExpand,
     onValidate,
     selected,
     suggestions,
