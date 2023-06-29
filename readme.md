@@ -256,7 +256,7 @@ function onInput(value) {
 
 #### onShouldCollapse (optional)
 
-Optional callback function called before the listbox collapses and is used to override whether it should collapse. Receives the input value and should return a boolean. Example:
+Optional callback function called before the listbox collapses and can be used to override the behavior and force the listbox to remain expanded. Receives the input value and should return a boolean. Example:
 
 ```js
 function onShouldCollapse(value) {
@@ -266,7 +266,7 @@ function onShouldCollapse(value) {
 
 #### onShouldExpand (optional)
 
-Optional callback function called before the listbox expands and is used to override whether it should expand. Receives the input value and should return a boolean. Example:
+Optional callback function called before the listbox expands and can be used to override the behavior and force the listbox to remain collapsed. Receives the input value and should return a boolean. Example:
 
 ```js
 function onShouldExpand(value) {
