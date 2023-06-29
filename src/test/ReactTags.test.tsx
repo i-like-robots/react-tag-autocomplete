@@ -560,6 +560,7 @@ describe('React Tags Autocomplete', () => {
 
     it('calls the onShouldExpand callback before being expanded', () => {
       harness.rerender({ onShouldExpand: () => false })
+      expect(harness.isCollapsed()).toBe(true)
 
       harness.listBoxExpand()
       expect(harness.isCollapsed()).toBe(true)
@@ -569,8 +570,9 @@ describe('React Tags Autocomplete', () => {
       harness.rerender({ onShouldCollapse: () => false })
 
       harness.listBoxExpand()
-      harness.listBoxCollapse()
+      expect(harness.isExpanded()).toBe(true)
 
+      harness.listBoxCollapse()
       expect(harness.isExpanded()).toBe(true)
     })
 
