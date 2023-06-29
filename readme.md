@@ -95,6 +95,8 @@ function CountrySelector() {
 - [`onExpand`](#onExpand-optional)
 - [`onFocus`](#onFocus-optional)
 - [`onInput`](#oninput-optional)
+- [`onShouldCollapse`](#onShouldCollapse-optional)
+- [`onShouldExpand`](#onShouldExpand-optional)
 - [`onValidate`](#onValidate-optional)
 - [`placeholderText`](#placeholderText-optional)
 - [`renderHighlight`](#renderHighlight-optional)
@@ -249,6 +251,26 @@ const [value, setValue] = useState('')
 
 function onInput(value) {
   setValue(value)
+}
+```
+
+#### onShouldCollapse (optional)
+
+Optional callback function called before the listbox collapses and can be used to override the behavior and force the listbox to remain expanded. Receives the input value and should return a boolean. Example:
+
+```js
+function onShouldCollapse(value) {
+  return value.length === 0
+}
+```
+
+#### onShouldExpand (optional)
+
+Optional callback function called before the listbox expands and can be used to override the behavior and force the listbox to remain collapsed. Receives the input value and should return a boolean. Example:
+
+```js
+function onShouldExpand(value) {
+  return value.length > 1
 }
 ```
 

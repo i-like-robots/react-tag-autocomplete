@@ -7,6 +7,8 @@ import type {
   OnDelete,
   OnExpand,
   OnInput,
+  OnShouldCollapse,
+  OnShouldExpand,
   OnValidate,
   SuggestionsTransform,
   Tag,
@@ -47,6 +49,8 @@ export type ManagerProps = {
   onCollapse?: OnCollapse
   onExpand?: OnExpand
   onInput?: OnInput
+  onShouldCollapse?: OnShouldCollapse
+  onShouldExpand?: OnShouldExpand
   onValidate?: OnValidate
   selected: TagSelected[]
   suggestions: TagSuggestion[]
@@ -69,6 +73,8 @@ export function useManager({
   onCollapse,
   onExpand,
   onInput,
+  onShouldCollapse,
+  onShouldExpand,
   onValidate,
   selected,
   suggestions,
@@ -124,14 +130,18 @@ export function useManager({
 
   const api: ManagerAPI = {
     listBoxCollapse() {
-      if (isExpanded) {
+      const shouldCollapse = isExpanded && (onShouldCollapse?.(state.value) ?? true)
+
+      if (shouldCollapse) {
         setIsExpanded(false)
         setLastActiveOption(null)
         onCollapse?.()
       }
     },
     listBoxExpand() {
-      if (!isExpanded) {
+      const shouldExpand = !isExpanded && (onShouldExpand?.(state.value) ?? true)
+
+      if (shouldExpand) {
         setIsExpanded(true)
         setLastActiveOption(options[activeIndex])
         onExpand?.()

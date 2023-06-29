@@ -32,6 +32,8 @@ import type {
   OnExpand,
   OnFocus,
   OnInput,
+  OnShouldCollapse,
+  OnShouldExpand,
   OnValidate,
   PublicAPI,
   SuggestionsTransform,
@@ -80,12 +82,14 @@ type ReactTagsProps = {
   noOptionsText?: string
   onAdd: OnAdd
   onBlur?: OnBlur
-  onCollapse?: OnCollapse // TODO: rename onListBoxCollapse
+  onCollapse?: OnCollapse
   onDelete: OnDelete
-  onExpand?: OnExpand // TODO: rename onListBoxExpand
+  onExpand?: OnExpand
   onFocus?: OnFocus
-  onInput?: OnInput // TODO: rename onInputChange
-  onValidate?: OnValidate // TODO: rename onInputValidate
+  onInput?: OnInput
+  onShouldCollapse?: OnShouldCollapse
+  onShouldExpand?: OnShouldExpand
+  onValidate?: OnValidate
   placeholderText?: string
   renderHighlight?: HighlightRenderer
   renderInput?: InputRenderer
@@ -126,6 +130,8 @@ function ReactTags(
     onExpand,
     onFocus,
     onInput,
+    onShouldCollapse,
+    onShouldExpand,
     onValidate,
     placeholderText = 'Add a tag',
     renderHighlight,
@@ -156,6 +162,8 @@ function ReactTags(
     onCollapse,
     onExpand,
     onInput,
+    onShouldCollapse,
+    onShouldExpand,
     onValidate,
     selected,
     suggestions,

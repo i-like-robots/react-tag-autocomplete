@@ -30,7 +30,7 @@ The following props have been removed from v7:
 | `addOnBlur`            | None but can be implemented manually                 |
 | `inputAttributes`      | Use `renderInput` prop to provide a custom component |
 | `maxSuggestionsLength` | Use `suggestionsTransform` prop instead              |
-| `minQueryLength`       | None                                                 |
+| `minQueryLength`       | Use `onShouldExpand` prop instead                    |
 | `suggestionsFilter`    | Use `suggestionsTransform` prop instead              |
 
 ## Changes to tags

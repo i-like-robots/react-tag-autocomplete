@@ -51,6 +51,10 @@ export type OnExpand = () => void
 
 export type OnInput = (value: string) => void
 
+export type OnShouldCollapse = (value: string) => boolean
+
+export type OnShouldExpand = (value: string) => boolean
+
 export type OnValidate = (value: string) => boolean
 
 export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[]) => TagSuggestion[]
