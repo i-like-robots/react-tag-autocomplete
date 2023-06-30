@@ -6,49 +6,64 @@
 
     <title>React Tags</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
       body {
         margin: 0;
         font-size: 16px;
         line-height: 1.618;
-        font-family: -apple-system, BlinkMacSystemFont, 'Avenir Next', Avenir, 'Nimbus Sans L',
-          Roboto, Noto, 'Segoe UI', Arial, Helvetica, 'Helvetica Neue', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, Helvetica, 'Helvetica Neue', sans-serif;
         font-kerning: normal;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
         color: #212121;
+        background: #f0f0f4;
       }
 
       hr {
-        margin: 2.5rem 0;
+        margin: 3rem 0;
         border-width: 0;
         border-top: 2px solid #afb8c1;
       }
 
+      h1, h2, h3 {
+        margin: 0;
+        font-family: 'Lora';
+        text-shadow: 1px 1px 0 white;
+      }
+
       h1 {
-        margin: 0 0 2rem;
+        font-weight: 700;
         font-size: 3rem;
         line-height: 3.75rem;
       }
 
       h2 {
-        margin: 0 0 1rem;
+        font-weight: 500;
         font-size: 2rem;
-        line-height: 2.25rem;
+        line-height: 2.75rem;
       }
 
       h3 {
-        margin: 0 0 0.5rem;
-        font-size: 1.2rem;
+        font-weight: 500;
+        font-size: 1.625rem;
       }
 
       a {
         color: #4f46e5;
+        text-decoration-thickness: 2px;
+      }
+
+      a:hover {
+        color: #0b0c0c;
+        background: #ffdd00;
       }
 
       p,
       summary {
-        margin: 1.5rem 0;
+        margin: 0.5rem 0 1.5rem 0;
       }
 
       pre {
@@ -66,14 +81,14 @@
       }
 
       fieldset {
-        border: 2px solid #7f7fd3;
+        border: 2px solid #4f46e5;
         border-radius: 6px;
         margin: 1rem 0;
         padding: 0.5rem;
       }
 
       fieldset legend {
-        color: #7f7fd3;
+        color: #4f46e5;
       }
 
       fieldset label {
@@ -89,7 +104,7 @@
       .container {
         margin: 0 auto;
         max-width: 45rem;
-        padding: 4rem 0;
+        padding: 4rem 1rem;
       }
 
       .react-tags + p {
@@ -98,19 +113,19 @@
     </style>
 
     
-    <script type="module" crossorigin src="./index-b716203b.js"></script>
-    <link rel="stylesheet" href="./index-9e5f5e64.css">
+    <script type="module" crossorigin src="./index-081f3a5a.js"></script>
+    <link rel="stylesheet" href="./index-4c8ecc0d.css">
   </head>
   <body>
     <main class="container">
       <h1>React Tags</h1>
       <p>
         React Tag Autocomplete is a simple, accessible, tagging component ready to drop into your
-        React projects.
+        React projects ⚛️
       </p>
-      <h2>Demos</h2>
+      <hr />
+      <h2>Examples</h2>
       <section>
-        <h3>Country selector</h3>
         <div id="demo-1"></div>
       </section>
       <hr />
