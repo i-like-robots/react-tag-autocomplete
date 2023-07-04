@@ -32,18 +32,18 @@ export type UseInputSizerState = {
 export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): UseInputSizerState {
   const sizerRef = useRef<HTMLDivElement>(null)
   const { inputRef } = useContext(GlobalContext)
-  const [width, setWidth] = useState<number>(0)
+  const [width, setWidth] = useState<number>(null)
 
   useEffect(() => {
-    if (inputRef.current) {
+    if (allowResize && inputRef.current && sizerRef.current && window.getComputedStyle) {
       const inputStyle = window.getComputedStyle(inputRef.current)
 
       StyleProps.forEach((prop) => {
         const value = inputStyle.getPropertyValue(prop)
-        sizerRef.current?.style.setProperty(prop, value)
+        sizerRef.current.style.setProperty(prop, value)
       })
     }
-  }, [inputRef, sizerRef])
+  }, [allowResize, inputRef, sizerRef])
 
   useLayoutEffect(() => {
     if (allowResize) {
