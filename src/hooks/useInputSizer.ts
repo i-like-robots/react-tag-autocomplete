@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useContext, useLayoutEffect, useRef, useState } from 'react'
 import { GlobalContext } from '../contexts'
 
 const SizerStyles: React.CSSProperties = {
@@ -34,7 +34,7 @@ export function useInputSizer({ allowResize = true, text }: UseInputSizerArgs): 
   const { inputRef } = useContext(GlobalContext)
   const [width, setWidth] = useState<number>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (allowResize && inputRef.current && sizerRef.current && window.getComputedStyle) {
       const inputStyle = window.getComputedStyle(inputRef.current)
 
