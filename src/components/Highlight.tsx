@@ -24,10 +24,8 @@ export type HighlightProps = {
 function Highlight({ option, query, render = DefaultHighlight }: HighlightProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
 
-  let contents: React.ReactNode = option.label
-
   if (option.value === NewOptionValue || option.value === NoOptionsValue) {
-    contents = replacePlaceholder(option.label, query)
+    return <>{replacePlaceholder(option.label, query)}</>
   }
 
   if (query) {
@@ -35,11 +33,17 @@ function Highlight({ option, query, render = DefaultHighlight }: HighlightProps)
 
     if (result) {
       const highlighted = render({ text: result[1], classNames })
-      contents = [result[0], highlighted, result[2]]
+      return (
+        <>
+          {result[0]}
+          {highlighted}
+          {result[2]}
+        </>
+      )
     }
   }
 
-  return <>{contents}</>
+  return <>{option.label}</>
 }
 
 const MemoizedHighlight = React.memo(Highlight)
