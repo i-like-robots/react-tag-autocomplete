@@ -474,6 +474,10 @@ A getter for the currently active option.
 
 A getter for the current listbox state. Returns a suggested option or `null`.
 
+#### `select()`
+
+Triggers the select function to add or remove the currently highlighted option.
+
 ### Styling
 
 It is possible to customize the appearance of the component using CSS, the included styles found in `/example/styles.css` are only an example. Custom class names can be provided to the component via the [`classNames`](#classnames-optional) prop.
