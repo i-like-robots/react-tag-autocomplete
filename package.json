@@ -50,7 +50,7 @@
     "eslint": "^8.36.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.0",
-    "jsdom": "^21.1.0",
+    "jsdom": "^22.1.0",
     "lint-staged": "^13.2.0",
     "prettier": "^3.0.0",
     "react": "^18.2.0",
