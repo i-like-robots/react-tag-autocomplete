@@ -1009,5 +1009,13 @@ describe('React Tags Autocomplete', () => {
         label: 'Afghanistan',
       })
     })
+
+    it('provides access to select action', async () => {
+      await userEvent.type(harness.input, '{arrowdown}')
+
+      harness.props.ref.current.select()
+
+      expect(harness.props.onAdd).toHaveBeenCalledWith({ value: 0, label: 'Afghanistan' })
+    })
   })
 })
