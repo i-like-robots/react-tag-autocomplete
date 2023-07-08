@@ -840,7 +840,7 @@ describe('React Tags Autocomplete', () => {
     it('uses provided suggestionsTransform when input is cleared', async () => {
       await userEvent.type(harness.input, 'uni')
 
-      harness.props.ref.current.input.value = ''
+      harness.api.input.value = ''
 
       await waitFor(() => expect(harness.options.length).toBe(206))
 
@@ -965,46 +965,45 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('assigns the API to a ref if provided', () => {
-      expect(harness.props.ref.current?.input).toBeDefined()
-      expect(harness.props.ref.current?.listBox).toBeDefined()
+      expect(harness.api).toBeDefined()
     })
 
     it('provides control of the input focus', () => {
-      harness.props.ref.current.input.focus()
+      harness.api.input.focus()
       expect(document.activeElement).toBe(harness.input)
 
-      harness.props.ref.current.input.blur()
+      harness.api.input.blur()
       expect(document.activeElement).toBe(document.body)
     })
 
     it('provides control of the input value', () => {
       act(() => {
-        harness.props.ref.current.input.value = 'aus'
+        harness.api.input.value = 'aus'
       })
 
-      expect(harness.props.ref.current.input.value).toBe('aus')
+      expect(harness.api.input.value).toBe('aus')
     })
 
     it('provides control of the listbox state', () => {
       act(() => {
-        harness.props.ref.current.listBox.expand()
+        harness.api.listBox.expand()
       })
 
-      expect(harness.props.ref.current.listBox.isExpanded).toBe(true)
+      expect(harness.api.listBox.isExpanded).toBe(true)
 
       act(() => {
-        harness.props.ref.current.listBox.collapse()
+        harness.api.listBox.collapse()
       })
 
-      expect(harness.props.ref.current.listBox.isExpanded).toBe(false)
+      expect(harness.api.listBox.isExpanded).toBe(false)
     })
 
     it('provides access to the active listbox option', async () => {
-      expect(harness.props.ref.current.listBox.activeOption).toBeUndefined()
+      expect(harness.api.listBox.activeOption).toBeUndefined()
 
       await userEvent.type(harness.input, '{arrowdown}')
 
-      expect(harness.props.ref.current.listBox.activeOption).toEqual({
+      expect(harness.api.listBox.activeOption).toEqual({
         value: 0,
         label: 'Afghanistan',
       })
@@ -1013,7 +1012,7 @@ describe('React Tags Autocomplete', () => {
     it('provides access to select action', async () => {
       await userEvent.type(harness.input, '{arrowdown}')
 
-      harness.props.ref.current.select()
+      harness.api.select()
 
       expect(harness.props.onAdd).toHaveBeenCalledWith({ value: 0, label: 'Afghanistan' })
     })

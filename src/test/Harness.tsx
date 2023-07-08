@@ -5,7 +5,7 @@ import { ReactTags } from '..'
 import type { ReactTagsAPI, ReactTagsProps } from '..'
 import type { MockedFunction } from 'vitest'
 import type { RenderOptions, RenderResult } from '@testing-library/react'
-import type { OnAdd, OnDelete, OnInput, OnValidate } from '../sharedTypes'
+import type { OnAdd, OnDelete, OnInput, OnValidate, PublicAPI } from '../sharedTypes'
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
@@ -39,6 +39,10 @@ export class Harness {
 
     this.props = { ...defaultProps, ...props }
     this.result = render(this.component, options)
+  }
+
+  get api(): React.MutableRefObject<PublicAPI>['current'] {
+    return this.props.ref.current
   }
 
   get component(): React.ReactElement<HarnessProps> {
