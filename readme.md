@@ -1,6 +1,6 @@
 # React Tag Autocomplete
 
-[![GitHub license](https://img.shields.io/badge/license-ISC-blue.svg)](https://github.com/i-like-robots/react-tag-autocomplete/blob/master/LICENSE) ![build status](https://github.com/i-like-robots/react-tag-autocomplete/actions/workflows/test.yml/badge.svg?branch=main) [![Coverage Status](https://coveralls.io/repos/github/i-like-robots/react-tag-autocomplete/badge.svg?branch=main)](https://coveralls.io/github/i-like-robots/react-tag-autocomplete) [![npm version](https://img.shields.io/npm/v/react-tag-autocomplete/beta.svg?style=flat)](https://www.npmjs.com/package/react-tag-autocomplete)
+[![GitHub license](https://img.shields.io/badge/license-ISC-blue.svg)](https://github.com/i-like-robots/react-tag-autocomplete/blob/master/LICENSE) ![build status](https://github.com/i-like-robots/react-tag-autocomplete/actions/workflows/test.yml/badge.svg?branch=main) [![Coverage Status](https://coveralls.io/repos/github/i-like-robots/react-tag-autocomplete/badge.svg?branch=main)](https://coveralls.io/github/i-like-robots/react-tag-autocomplete) [![npm version](https://img.shields.io/npm/v/react-tag-autocomplete/latest.svg?style=flat)](https://www.npmjs.com/package/react-tag-autocomplete)
 
 React Tag Autocomplete is a simple, accessible, tagging component ready to drop into your React projects. [Try the examples here](http://i-like-robots.github.io/react-tag-autocomplete/).
 
