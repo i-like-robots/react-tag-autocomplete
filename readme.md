@@ -15,7 +15,7 @@ React Tag Autocomplete is a simple, accessible, tagging component ready to drop 
   - [Styling](#styling)
 - [Development](#development)
 
-_Please note:_ This repository is for v7 and above. To view the previous versions of React Tag Autocomplete see the [old repository](https://github.com/i-like-robots/react-tags). If you're upgrading to v7 from v6 please refer to [the migration guide](migration-guide.md)
+_Please note:_ This repository is for v7 and above. To view the previous versions of the `react-tag-autocomplete` package see the [old repository](https://github.com/i-like-robots/react-tags). If you're upgrading to v7 from v6 please refer to [the migration guide](migration-guide.md)
 
 ## Installation
 
