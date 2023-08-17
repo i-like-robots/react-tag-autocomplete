@@ -1,8 +1,8 @@
+import type React from 'react'
 import { useContext, useMemo } from 'react'
 import { KeyNames, VoidFn } from '../constants'
 import { GlobalContext } from '../contexts'
 import { inputId, isCaretAtEnd, isCaretAtStart, labelId, listBoxId, optionId } from '../lib'
-import type React from 'react'
 
 export type UseInputArgs = {
   allowBackspace: boolean
@@ -35,7 +35,7 @@ export function useInput({
       managerRef.current.updateInputValue(value)
 
       if (document.activeElement === inputRef.current) {
-        managerRef.current.listBoxExpand()
+        managerRef.current.listBoxExpand(value)
       }
     }
 
