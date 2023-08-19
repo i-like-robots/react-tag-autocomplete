@@ -17,8 +17,8 @@ import type {
 } from '../sharedTypes'
 
 export type ManagerAPI = {
-  listBoxCollapse(): void
-  listBoxExpand(): void
+  listBoxCollapse(value?: string): void
+  listBoxExpand(value?: string): void
   updateActiveIndex(index: number): void
   updateInputValue(value: string): void
   selectTag(tag?: Tag): void
@@ -92,7 +92,7 @@ export function useManager({
     if (value) {
       if (allowNew) {
         opts.push({
-          disabled: typeof onValidate === 'function' ? !onValidate(value) : false,
+          disabled: onValidate ? !onValidate(value) : false,
           label: newOptionText,
           value: NewOptionValue,
         })
@@ -129,19 +129,19 @@ export function useManager({
   }
 
   const api: ManagerAPI = {
-    listBoxCollapse() {
-      const shouldCollapse = isExpanded && (onShouldCollapse?.(state.value) ?? true)
+    listBoxCollapse(value?: string) {
+      if (!isExpanded) return
 
-      if (shouldCollapse) {
+      if (onShouldCollapse ? onShouldCollapse(value ?? state.value) : true) {
         setIsExpanded(false)
         setLastActiveOption(null)
         onCollapse?.()
       }
     },
-    listBoxExpand() {
-      const shouldExpand = !isExpanded && (onShouldExpand?.(state.value) ?? true)
+    listBoxExpand(value?: string) {
+      if (isExpanded) return
 
-      if (shouldExpand) {
+      if (onShouldExpand ? onShouldExpand(value ?? state.value) : true) {
         setIsExpanded(true)
         setLastActiveOption(options[activeIndex])
         onExpand?.()
