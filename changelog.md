@@ -1,5 +1,9 @@
 # Changelog
 
+## v7.0.1
+
+- Fixed an issue where the `onShouldExpand` and `onShouldCollapse` callbacks would receive the previous value on input.
+
 ## v7.0.0
 
 Breaking changes:
