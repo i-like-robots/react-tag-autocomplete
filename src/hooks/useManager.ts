@@ -92,7 +92,7 @@ export function useManager({
     if (value) {
       if (allowNew) {
         opts.push({
-          disabled: typeof onValidate === 'function' ? !onValidate(value) : false,
+          disabled: onValidate ? !onValidate(value) : false,
           label: newOptionText,
           value: NewOptionValue,
         })
@@ -129,23 +129,19 @@ export function useManager({
   }
 
   const api: ManagerAPI = {
-    listBoxCollapse(newValue?: string) {
+    listBoxCollapse(value?: string) {
       if (!isExpanded) return
 
-      const collapse = onShouldCollapse ? onShouldCollapse(newValue ?? state.value) : true
-
-      if (collapse) {
+      if (onShouldCollapse ? onShouldCollapse(value ?? state.value) : true) {
         setIsExpanded(false)
         setLastActiveOption(null)
         onCollapse?.()
       }
     },
-    listBoxExpand(newValue?: string) {
+    listBoxExpand(value?: string) {
       if (isExpanded) return
 
-      const expand = onShouldExpand ? onShouldExpand(newValue ?? state.value) : true
-
-      if (expand) {
+      if (onShouldExpand ? onShouldExpand(value ?? state.value) : true) {
         setIsExpanded(true)
         setLastActiveOption(options[activeIndex])
         onExpand?.()
