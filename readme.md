@@ -102,6 +102,7 @@ function CountrySelector() {
 - [`renderHighlight`](#renderHighlight-optional)
 - [`renderInput`](#renderInput-optional)
 - [`renderLabel`](#renderLabel-optional)
+- [`renderListBox`](#renderListBox-optional)
 - [`renderOption`](#renderOption-optional)
 - [`renderRoot`](#renderRoot-optional)
 - [`renderTag`](#renderTag-optional)
@@ -316,6 +317,20 @@ A custom label component to render. Receives the label text as children, require
 function CustomLabel({ children, classNames, ...labelProps }) {
   return (
     <div className={classNames.label} {...labelProps}>
+      {children}
+    </div>
+  )
+}
+```
+
+#### renderListBox (optional)
+
+A custom list box component to render. Receives the options as children, required list box element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```jsx
+function CustomListBox({ children, classNames, ...listBoxProps }) {
+  return (
+    <div className={classNames.listBox} {...listBoxProps}>
       {children}
     </div>
   )

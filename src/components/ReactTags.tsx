@@ -19,6 +19,7 @@ import type {
   HighlightRenderer,
   InputRenderer,
   LabelRenderer,
+  ListBoxRenderer,
   OptionRenderer,
   RootRenderer,
   TagRenderer,
@@ -94,6 +95,7 @@ type ReactTagsProps = {
   renderHighlight?: HighlightRenderer
   renderInput?: InputRenderer
   renderLabel?: LabelRenderer
+  renderListBox?: ListBoxRenderer
   renderOption?: OptionRenderer
   renderRoot?: RootRenderer
   renderTag?: TagRenderer
@@ -137,6 +139,7 @@ function ReactTags(
     renderHighlight,
     renderInput,
     renderLabel,
+    renderListBox,
     renderOption,
     renderRoot,
     renderTag,
@@ -210,7 +213,7 @@ function ReactTags(
             placeholderText={placeholderText}
             render={renderInput}
           />
-          <ListBox>
+          <ListBox render={renderListBox}>
             {managerRef.current.state.options.map((option, index) => (
               <Option key={tagToKey(option)} index={index} render={renderOption}>
                 <Highlight

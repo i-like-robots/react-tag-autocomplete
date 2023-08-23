@@ -856,21 +856,19 @@ describe('React Tags Autocomplete', () => {
         isActive,
         isDisabled,
         isInvalid,
-        ...rootProps
-      }) => {
-        return (
-          <div
-            className={classNames.root}
-            {...rootProps}
-            title="Custom root"
-            data-is-active={isActive}
-            data-is-disabled={isDisabled}
-            data-is-invalid={isInvalid}
-          >
-            {children}
-          </div>
-        )
-      }
+        ...props
+      }) => (
+        <div
+          className={classNames.root}
+          {...props}
+          title="Custom root"
+          data-is-active={isActive}
+          data-is-disabled={isDisabled}
+          data-is-invalid={isInvalid}
+        >
+          {children}
+        </div>
+      )
 
       harness = new Harness({ renderRoot: renderer })
 
@@ -911,7 +909,9 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('renders custom highlight components when provided', async () => {
-      const renderer: Harness['props']['renderHighlight'] = ({ text }) => <b>Custom {text}</b>
+      const renderer: Harness['props']['renderHighlight'] = ({ text }) => {
+        return <b>Custom {text}</b>
+      }
 
       harness = new Harness({ renderHighlight: renderer, suggestions })
 
@@ -941,21 +941,33 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('renders a custom input component when provided', () => {
-      const renderer: Harness['props']['renderInput'] = ({
-        classNames,
-        inputWidth,
-        ...inputProps
-      }) => {
-        const style = { width: inputWidth }
-        return (
-          <input className={classNames.input} style={style} {...inputProps} title="Custom input" />
-        )
-      }
+      const renderer: Harness['props']['renderInput'] = ({ classNames, inputWidth, ...props }) => (
+        <input
+          className={classNames.input}
+          style={{ width: inputWidth }}
+          title="Custom input"
+          {...props}
+        />
+      )
 
       harness = new Harness({ renderInput: renderer })
 
       expect(harness.input.id).toBe('react-tags-input')
       expect(harness.input.title).toBe('Custom input')
+    })
+
+    it('renders a custom list box component when provided', () => {
+      const renderer: Harness['props']['renderListBox'] = ({ children, classNames, ...props }) => (
+        <div className={classNames.listBox} {...props}>
+          Custom {children}
+        </div>
+      )
+
+      harness = new Harness({ renderListBox: renderer, suggestions })
+
+      harness.listBoxExpand()
+
+      expect(harness.listBox.textContent).toMatch(/Custom [\w\s]+/)
     })
   })
 
