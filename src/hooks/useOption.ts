@@ -7,7 +7,7 @@ import type { TagOption } from '../sharedTypes'
 export type UseOptionState = { option: TagOption; optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
-  const { id, inputRef, managerRef } = useContext(GlobalContext)
+  const { id, inputRef, listBoxRef, managerRef } = useContext(GlobalContext)
   const optionRef = useRef<HTMLDivElement>(null)
   const option = managerRef.current.state.options[index]
   const active = index === managerRef.current.state.activeIndex
@@ -27,9 +27,20 @@ export function useOption(index: number): UseOptionState {
 
   useEffect(() => {
     if (active) {
-      optionRef.current?.scrollIntoView({ block: 'nearest', inline: 'start' })
+      const optHeight = optionRef.current?.offsetHeight
+      const optOffsetTop = optionRef.current?.offsetTop
+      const listBoxHeight = listBoxRef.current?.offsetHeight
+      const listBoxScrollTop = listBoxRef.current?.scrollTop
+
+      if (optOffsetTop < listBoxScrollTop) {
+        listBoxRef.current.scrollTo(0, optOffsetTop)
+      }
+
+      if (optOffsetTop + optHeight > listBoxScrollTop + listBoxHeight) {
+        listBoxRef.current.scrollTo(0, optOffsetTop + optHeight - listBoxHeight)
+      }
     }
-  }, [active, managerRef.current.state.options])
+  }, [active, listBoxRef, optionRef, managerRef.current.state.options])
 
   return {
     option: {
