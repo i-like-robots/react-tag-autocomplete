@@ -8,7 +8,6 @@ import type { RenderOptions, RenderResult } from '@testing-library/react'
 import type { OnAdd, OnDelete, OnInput, OnValidate, PublicAPI } from '../sharedTypes'
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
-window.HTMLElement.prototype.scrollIntoView = vi.fn(() => null)
 window.HTMLElement.prototype.scrollTo = vi.fn(() => null)
 
 export type MockedOnAdd = MockedFunction<OnAdd>
