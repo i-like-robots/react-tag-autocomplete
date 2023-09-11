@@ -1,5 +1,6 @@
-import { useCallback, useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import { GlobalContext } from '../contexts'
+import { useScrollIntoView } from './'
 import { findTagIndex, optionId } from '../lib'
 import type React from 'react'
 import type { TagOption } from '../sharedTypes'
@@ -16,7 +17,7 @@ export function useOption(index: number): UseOptionState {
 
   const onClick = useCallback(() => {
     managerRef.current.selectTag()
-    inputRef.current?.focus() // TODO
+    inputRef.current?.focus()
   }, [inputRef, managerRef])
 
   const onMouseDown = useCallback(() => {
@@ -25,22 +26,7 @@ export function useOption(index: number): UseOptionState {
     }
   }, [index, managerRef])
 
-  useEffect(() => {
-    if (active) {
-      const optHeight = optionRef.current?.offsetHeight
-      const optOffsetTop = optionRef.current?.offsetTop
-      const listBoxHeight = listBoxRef.current?.offsetHeight
-      const listBoxScrollTop = listBoxRef.current?.scrollTop
-
-      if (optOffsetTop < listBoxScrollTop) {
-        listBoxRef.current.scrollTo(0, optOffsetTop)
-      }
-
-      if (optOffsetTop + optHeight > listBoxScrollTop + listBoxHeight) {
-        listBoxRef.current.scrollTo(0, optOffsetTop + optHeight - listBoxHeight)
-      }
-    }
-  }, [active, listBoxRef, optionRef, managerRef.current.state.options])
+  useScrollIntoView(optionRef, listBoxRef, active)
 
   return {
     option: {
