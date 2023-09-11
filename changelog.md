@@ -1,8 +1,13 @@
 # Changelog
 
-## v7.0.1
+## v7.1.0
 
-- Fixed an issue where the `onShouldExpand` and `onShouldCollapse` callbacks would receive the previous value on input.
+- Added support for rendering a custom list box component using `renderListBox` prop
+- Fixed an issue where auto scrolling to the active option in the list box could also scroll parent containers
+
+## v7.0.1 
+
+- Fixed an issue where the `onShouldExpand` and `onShouldCollapse` callbacks would receive the previous value on input
 
 ## v7.0.0
 
