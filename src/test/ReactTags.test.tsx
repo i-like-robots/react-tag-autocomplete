@@ -174,7 +174,7 @@ describe('React Tags Autocomplete', () => {
       await userEvent.type(harness.input, 'france{enter}')
 
       expect(harness.props.onAdd).toHaveBeenCalledWith({
-        value: 63,
+        value: 64,
         label: 'France',
       })
     })
@@ -546,7 +546,7 @@ describe('React Tags Autocomplete', () => {
       expect(harness.activeOption.textContent).toBe('Bahrain')
 
       await userEvent.click(harness.activeOption)
-      expect(harness.options.length).toBe(206)
+      expect(harness.options.length).toBe(207)
       expect(harness.activeOption.textContent).toBe('Bahrain')
     })
 
@@ -826,7 +826,7 @@ describe('React Tags Autocomplete', () => {
     it('uses provided suggestionsTransform callback when initialised', async () => {
       await harness.listBoxExpand()
 
-      expect(harness.options.length).toBe(206)
+      expect(harness.options.length).toBe(207)
       expect(harness.options[1].textContent).toMatch('##')
     })
 
@@ -842,7 +842,7 @@ describe('React Tags Autocomplete', () => {
 
       harness.api.input.value = ''
 
-      await waitFor(() => expect(harness.options.length).toBe(206))
+      await waitFor(() => expect(harness.options.length).toBe(207))
 
       expect(harness.options[1].textContent).toMatch('##')
     })
