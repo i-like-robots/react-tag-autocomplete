@@ -27,7 +27,7 @@ jobs:
           cache: 'npm'
 
       - name: Install
-        run: npm install
+        run: npm ci
 
       - name: Lint, format and type check
         run: npm run verify
