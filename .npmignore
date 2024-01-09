@@ -8,7 +8,6 @@ src/
 .eslintcache
 .eslintignore
 .eslintrc.js
-.huskyrc.js
 .lintstagedrc.js
 .prettierignore
 .prettierrc.json
