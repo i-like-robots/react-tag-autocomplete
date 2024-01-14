@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchTagsPartial, tagToKey } from '../lib'
@@ -103,6 +103,7 @@ type ReactTagsProps = {
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
+  focused?: boolean
 }
 
 function ReactTags(
@@ -147,6 +148,7 @@ function ReactTags(
     suggestions = [],
     suggestionsTransform = matchTagsPartial,
     tagListLabelText = 'Selected tags',
+    focused = false,
   }: ReactTagsProps,
   ref?: React.ForwardedRef<PublicAPI>
 ): JSX.Element {
@@ -182,7 +184,12 @@ function ReactTags(
       ref.current = publicAPI
     }
   }
-
+  useEffect(() => {
+    if (focused) {
+      inputRef.current?.focus()
+      managerRef.current.listBoxExpand()
+    }
+  }, [])
   return (
     <GlobalContext.Provider
       value={{
