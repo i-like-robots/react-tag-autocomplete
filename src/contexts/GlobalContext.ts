@@ -11,6 +11,7 @@ export type GlobalContextValue = {
   isInvalid: boolean
   listBoxRef: React.MutableRefObject<HTMLDivElement | null>
   managerRef: React.MutableRefObject<UseManagerState>
+  rootRef: React.MutableRefObject<HTMLDivElement | null>
 }
 
 export const GlobalContext = React.createContext<GlobalContextValue | undefined>(undefined)

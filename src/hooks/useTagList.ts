@@ -8,11 +8,11 @@ export type UseTagListState = {
 }
 
 export function useTagList(): UseTagListState {
-  const { inputRef, managerRef } = useContext(GlobalContext)
+  const { rootRef, managerRef } = useContext(GlobalContext)
 
   const listRef = useRef<HTMLUListElement>()
 
-  const tagDeleted = managerRef.current.flags.tagsDeleted.length
+  const tagDeleted = managerRef.current.flags.tagsDeleted[0]
   const isFocusInList = listRef.current?.contains(document.activeElement)
 
   useLayoutEffect(() => {
@@ -20,10 +20,10 @@ export function useTagList(): UseTagListState {
       const isFocusInListNow = listRef.current?.contains(document.activeElement)
 
       if (isFocusInList && !isFocusInListNow) {
-        inputRef.current?.focus({ preventScroll: true })
+        rootRef.current?.focus({ preventScroll: true })
       }
     }
-  }, [inputRef, isFocusInList, listRef, tagDeleted])
+  }, [isFocusInList, listRef, rootRef, tagDeleted])
 
   return { listRef }
 }

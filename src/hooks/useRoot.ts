@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useRef, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { GlobalContext } from '../contexts'
 import { labelId, rootId } from '../lib'
 import type { OnBlur, OnFocus } from '../sharedTypes'
@@ -15,8 +15,7 @@ export type UseRootState = {
 
 export function useRoot({ onBlur, onFocus }: UseRootArgs): UseRootState {
   const [isActive, setIsActive] = useState<boolean>(false)
-  const { id, inputRef } = useContext(GlobalContext)
-  const rootRef = useRef<HTMLDivElement>(null)
+  const { id, inputRef, rootRef } = useContext(GlobalContext)
 
   const rootProps = useMemo(() => {
     return {
