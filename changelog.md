@@ -1,5 +1,10 @@
 # Changelog
 
+## v7.2.0
+
+- Fixed an issue where deleting multiple selected tags would fail to maintain cursor focus
+- Refactored focus trap to return focus to the component root instead of the input
+
 ## v7.1.0
 
 - Added support for rendering a custom list box component using `renderListBox` prop
