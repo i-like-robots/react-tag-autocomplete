@@ -12,7 +12,7 @@ export function useTagList(): UseTagListState {
 
   const listRef = useRef<HTMLUListElement>()
 
-  const tagDeleted = managerRef.current.flags.tagsDeleted.length
+  const tagDeleted = managerRef.current.flags.tagsDeleted[0]
   const isFocusInList = listRef.current?.contains(document.activeElement)
 
   useLayoutEffect(() => {
