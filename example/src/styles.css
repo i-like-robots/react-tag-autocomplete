@@ -69,7 +69,20 @@
   display: inline-block;
   width: 0.65rem;
   height: 0.65rem;
-  clip-path: polygon(10% 0, 0 10%, 40% 50%, 0 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0, 50% 40%);
+  clip-path: polygon(
+    10% 0,
+    0 10%,
+    40% 50%,
+    0 90%,
+    10% 100%,
+    50% 60%,
+    90% 100%,
+    100% 90%,
+    60% 50%,
+    100% 10%,
+    90% 0,
+    50% 40%
+  );
   margin-left: 0.5rem;
   font-size: 0.875rem;
   background-color: #7c7d86;
@@ -119,7 +132,9 @@
   background: #ffffff;
   border: 1px solid #afb8c1;
   border-radius: 6px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -4px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -4px,
+    rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
 }
 
 .react-tags__listbox-option {
@@ -153,4 +168,29 @@
 
 .react-tags__listbox-option-highlight {
   background-color: #ffdd00;
+}
+
+.tag-group {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 8px;
+  gap: 8px;
+  background-color: #00000003;
+  margin: 0.25rem 0.5rem 0.5rem 0.25rem;
+  justify-content: flex-start;
+  border: 1px solid #e2e2e2;
+  align-items: flex-start;
+  border-radius: 4px;
+}
+
+.tag-group ul {
+  margin: 0;
+}
+
+.tag-group > h2 {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #00000080;
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { CustomTags } from './demos/CustomTags'
+import { CustomTagList } from './demos/CustomTagList'
 import { CountrySelector } from './demos/CountrySelector'
 import { CustomValidity } from './demos/CustomValidity'
 import { UsingTheAPI } from './demos/UsingTheAPI'
@@ -9,6 +10,9 @@ import { AsyncSuggestions } from './demos/AsyncSuggestions'
 // HACK: Wait for onload to ensure styles are loaded due to a bug with Safari
 // <https://github.com/i-like-robots/react-tag-autocomplete/issues/44>
 window.onload = () => {
+  const container0 = ReactDOM.createRoot(document.getElementById('demo-0'))
+  container0.render(<CustomTagList />)
+
   const container1 = ReactDOM.createRoot(document.getElementById('demo-1'))
   container1.render(<CountrySelector />)
 
