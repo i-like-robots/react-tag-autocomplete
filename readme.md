@@ -105,6 +105,7 @@ function CountrySelector() {
 - [`renderListBox`](#renderListBox-optional)
 - [`renderOption`](#renderOption-optional)
 - [`renderRoot`](#renderRoot-optional)
+- [`renderTagList`](#renderTagList-optional)
 - [`renderTag`](#renderTag-optional)
 - [`selected`](#selected-optional)
 - [`suggestions`](#suggestions-optional)
@@ -373,6 +374,24 @@ function CustomRoot({ children, classNames, isActive, isDisabled, isInvalid, ...
     <div className={classes.join(' ')} {...rootProps}>
       {children}
     </div>
+  )
+}
+```
+
+#### renderTagList (optional)
+
+A custom tag list component to render. Receives the list object, required tag list element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+
+```jsx
+function CustomTagList({ children, label, classNames, listRef }) {
+  return (
+    <ul className={classNames.tagList} aria-label={label} ref={listRef} role="list">
+      {children.map((child) => (
+        <li className={classNames.tagListItem} key={child.key} role="listitem">
+          {child}
+        </li>
+      ))}
+    </ul>
   )
 }
 ```

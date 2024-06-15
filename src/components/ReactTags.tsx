@@ -23,6 +23,7 @@ import type {
   OptionRenderer,
   RootRenderer,
   TagRenderer,
+  TagListRenderer,
 } from '.'
 import type {
   ClassNames,
@@ -99,6 +100,7 @@ type ReactTagsProps = {
   renderOption?: OptionRenderer
   renderRoot?: RootRenderer
   renderTag?: TagRenderer
+  renderTagList?: TagListRenderer
   selected: TagSelected[]
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
@@ -143,6 +145,7 @@ function ReactTags(
     renderOption,
     renderRoot,
     renderTag,
+    renderTagList,
     selected = [],
     suggestions = [],
     suggestionsTransform = matchTagsPartial,
@@ -200,7 +203,7 @@ function ReactTags(
     >
       <Root onBlur={onBlur} onFocus={onFocus} render={renderRoot}>
         <Label render={renderLabel}>{labelText}</Label>
-        <TagList label={tagListLabelText}>
+        <TagList render={renderTagList} label={tagListLabelText}>
           {managerRef.current.state.selected.map((tag, index) => (
             <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
           ))}

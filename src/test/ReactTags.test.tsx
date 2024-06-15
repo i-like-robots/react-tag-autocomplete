@@ -924,6 +924,33 @@ describe('React Tags Autocomplete', () => {
       })
     })
 
+    it('renders a custom tag list component when provided', () => {
+      const renderer: Harness['props']['renderTagList'] = ({
+        children,
+        label,
+        classNames,
+        listRef,
+      }) => (
+        <ul
+          id={'custom-tag-list'}
+          className={classNames.tagList}
+          aria-label={label}
+          ref={listRef}
+          role="list"
+        >
+          {children.map((child) => (
+            <li className={classNames.tagListItem} key={child.key} role="listitem">
+              {child}
+            </li>
+          ))}
+        </ul>
+      )
+
+      harness = new Harness({ renderTagList: renderer, selected: [{ ...suggestions[10] }] })
+
+      expect(harness.selectedList.id).toBe('custom-tag-list')
+    })
+
     it('renders custom selected tag components when provided', () => {
       const renderer: Harness['props']['renderTag'] = ({ classNames, tag, ...props }) => (
         <button className={classNames.tag} {...props}>
