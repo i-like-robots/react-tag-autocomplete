@@ -380,14 +380,14 @@ function CustomRoot({ children, classNames, isActive, isDisabled, isInvalid, ...
 
 #### renderTagList (optional)
 
-A custom tag list component to render. Receives the list object, required tag list element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
+A custom selected tag list component to render. Receives the selected tags as children, required tag list element attributes, and [`classNames`](#classNames-optional) as props. Defaults to `null`.
 
 ```jsx
-function CustomTagList({ children, label, classNames, listRef }) {
+function CustomTagList({ children, classNames, ...tagListprops }) {
   return (
-    <ul className={classNames.tagList} aria-label={label} ref={listRef} role="list">
-      {children.map((child) => (
-        <li className={classNames.tagListItem} key={child.key} role="listitem">
+    <ul className={classNames.tagList} {...tagListprops}>
+      {React.Children.map(children, (child) => (
+        <li className={classNames.tagListItem} key={child.key}>
           {child}
         </li>
       ))}

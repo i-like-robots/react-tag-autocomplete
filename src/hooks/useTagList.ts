@@ -1,13 +1,13 @@
 import { useContext, useLayoutEffect, useRef } from 'react'
 import { GlobalContext } from '../contexts'
 
-// export type UseTagListArgs = {}
-
-export type UseTagListState = {
-  listRef: React.MutableRefObject<HTMLUListElement>
+export type UseTagListArgs = {
+  label: string
 }
 
-export function useTagList(): UseTagListState {
+export type UseTagListState = React.ComponentPropsWithRef<'ul'>
+
+export function useTagList({ label }: UseTagListArgs): UseTagListState {
   const { rootRef, managerRef } = useContext(GlobalContext)
 
   const listRef = useRef<HTMLUListElement>()
@@ -25,5 +25,5 @@ export function useTagList(): UseTagListState {
     }
   }, [isFocusInList, listRef, rootRef, tagDeleted])
 
-  return { listRef }
+  return { ref: listRef, 'aria-label': label }
 }

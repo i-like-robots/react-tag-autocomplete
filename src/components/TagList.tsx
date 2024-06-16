@@ -4,28 +4,28 @@ import { GlobalContext } from '../contexts'
 import type { TagProps } from './'
 import type { ClassNames } from '../sharedTypes'
 
-type TagListRendererProps = React.ComponentPropsWithoutRef<'ul'> & {
-  children: React.ReactElement<TagProps>[]
+type TagListRendererProps = React.ComponentPropsWithRef<'ul'> & {
   classNames: ClassNames
-  label: string
-  listRef: React.MutableRefObject<HTMLUListElement>
 }
 
 export type TagListRenderer = (props: TagListRendererProps) => JSX.Element
 
 const DefaultTagList: TagListRenderer = ({
   children,
-  label,
   classNames,
-  listRef,
+  ...tagListProps
 }: TagListRendererProps) => {
   return (
-    <ul className={classNames.tagList} aria-label={label} ref={listRef} role="list">
-      {children.map((child) => (
-        <li className={classNames.tagListItem} key={child.key} role="listitem">
-          {child}
-        </li>
-      ))}
+    <ul className={classNames.tagList} {...tagListProps} role="list">
+      {React.Children.map(children, (child) => {
+        if (React.isValidElement(child)) {
+          return (
+            <li className={classNames.tagListItem} key={child.key} role="listitem">
+              {child}
+            </li>
+          )
+        }
+      })}
     </ul>
   )
 }
@@ -38,7 +38,7 @@ export type TagListProps = {
 
 export function TagList({ children, label, render = DefaultTagList }: TagListProps): JSX.Element {
   const { classNames } = useContext(GlobalContext)
-  const { listRef } = useTagList()
+  const tagListProps = useTagList({ label })
 
-  return render({ classNames, children, label, listRef })
+  return render({ classNames, children, ...tagListProps })
 }

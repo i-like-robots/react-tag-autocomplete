@@ -925,24 +925,17 @@ describe('React Tags Autocomplete', () => {
     })
 
     it('renders a custom tag list component when provided', () => {
-      const renderer: Harness['props']['renderTagList'] = ({
-        children,
-        label,
-        classNames,
-        listRef,
-      }) => (
-        <ul
-          id={'custom-tag-list'}
-          className={classNames.tagList}
-          aria-label={label}
-          ref={listRef}
-          role="list"
-        >
-          {children.map((child) => (
-            <li className={classNames.tagListItem} key={child.key} role="listitem">
-              {child}
-            </li>
-          ))}
+      const renderer: Harness['props']['renderTagList'] = ({ children, classNames, ...props }) => (
+        <ul id="custom-tag-list" className={classNames.tagList} {...props}>
+          {React.Children.map(children, (child) => {
+            if (React.isValidElement(child)) {
+              return (
+                <li className={classNames.tagListItem} key={child.key}>
+                  {child}
+                </li>
+              )
+            }
+          })}
         </ul>
       )
 
