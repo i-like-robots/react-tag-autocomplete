@@ -9,6 +9,8 @@ import type { OnAdd, OnDelete, OnInput, OnValidate, PublicAPI } from '../sharedT
 
 // HACK: <https://github.com/jsdom/jsdom/issues/1695>
 window.HTMLElement.prototype.scrollTo = vi.fn(() => null)
+// HACK: <https://github.com/jsdom/jsdom/issues/1782>
+window.HTMLCanvasElement.prototype.getContext = vi.fn(() => null)
 
 export type MockedOnAdd = MockedFunction<OnAdd>
 export type MockedOnDelete = MockedFunction<OnDelete>
