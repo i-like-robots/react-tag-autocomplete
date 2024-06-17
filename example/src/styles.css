@@ -189,8 +189,9 @@
   margin: 0;
 }
 
-.tag-group > h2 {
-  font-size: 1rem;
+.tag-group > p {
+  margin: 0;
+  font-size: 0.8125rem;
   line-height: 1.5rem;
   color: #00000080;
 }
