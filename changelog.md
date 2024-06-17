@@ -1,5 +1,9 @@
 # Changelog
 
+## v7.3.0
+
+- Added support for rendering a custom selected tags list component using `renderTagList` prop
+
 ## v7.2.0
 
 - Fixed an issue where deleting multiple selected tags would fail to maintain cursor focus
