@@ -8,7 +8,7 @@ type InputRendererProps = React.ComponentPropsWithoutRef<'input'> & {
   inputWidth: number
 }
 
-export type InputRenderer = (props: InputRendererProps) => JSX.Element
+export type InputRenderer = (props: InputRendererProps) => React.JSX.Element
 
 const DefaultInput: InputRenderer = ({ classNames, inputWidth, ...inputProps }) => {
   return <input className={classNames.input} style={{ width: inputWidth }} {...inputProps} />
@@ -32,7 +32,7 @@ export function Input({
   delimiterKeys,
   placeholderText,
   render = DefaultInput,
-}: InputProps): JSX.Element {
+}: InputProps): React.JSX.Element {
   const { classNames } = useContext(GlobalContext)
   const { value, ...inputProps } = useInput({
     allowBackspace,

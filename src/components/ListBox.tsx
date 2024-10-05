@@ -9,7 +9,7 @@ type ListBoxRendererProps = React.ComponentPropsWithRef<'div'> & {
   classNames: ClassNames
 }
 
-export type ListBoxRenderer = (props: ListBoxRendererProps) => JSX.Element
+export type ListBoxRenderer = (props: ListBoxRendererProps) => React.JSX.Element
 
 const DefaultListBox: ListBoxRenderer = ({ children, classNames, ...listBoxProps }) => {
   return (
@@ -24,7 +24,10 @@ export type ListBoxProps = {
   render?: ListBoxRenderer
 }
 
-export function ListBox({ children, render = DefaultListBox }: ListBoxProps): JSX.Element | null {
+export function ListBox({
+  children,
+  render = DefaultListBox,
+}: ListBoxProps): React.JSX.Element | null {
   const { classNames, managerRef } = useContext(GlobalContext)
   const listBoxProps = useListBox()
 

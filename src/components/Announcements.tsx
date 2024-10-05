@@ -16,7 +16,10 @@ export type AnnouncementsProps = {
   ariaDeletedText: string
 }
 
-export function Announcements({ ariaAddedText, ariaDeletedText }: AnnouncementsProps): JSX.Element {
+export function Announcements({
+  ariaAddedText,
+  ariaDeletedText,
+}: AnnouncementsProps): React.JSX.Element {
   const { managerRef } = useContext(GlobalContext)
 
   const logsRef = useRef<string[]>([])

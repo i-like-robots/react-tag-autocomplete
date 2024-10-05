@@ -4,7 +4,7 @@ import { comboBoxId } from '../lib'
 
 export type ComboBoxProps = React.PropsWithChildren<Record<string, unknown>>
 
-export function ComboBox({ children }: ComboBoxProps): JSX.Element {
+export function ComboBox({ children }: ComboBoxProps): React.JSX.Element {
   const { classNames, comboBoxRef, id } = useContext(GlobalContext)
 
   return (
