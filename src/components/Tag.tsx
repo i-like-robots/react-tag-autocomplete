@@ -8,7 +8,7 @@ type TagRendererProps = React.ComponentPropsWithoutRef<'button'> & {
   tag: TagSelected
 }
 
-export type TagRenderer = (props: TagRendererProps) => JSX.Element
+export type TagRenderer = (props: TagRendererProps) => React.JSX.Element
 
 const DefaultTag: TagRenderer = ({ classNames, tag, ...tagProps }) => {
   return (
@@ -24,7 +24,7 @@ export type TagProps = {
   title: string
 }
 
-export function Tag({ render = DefaultTag, index, title }: TagProps): JSX.Element {
+export function Tag({ render = DefaultTag, index, title }: TagProps): React.JSX.Element {
   const { classNames } = useContext(GlobalContext)
   const { tag, tagProps } = useSelectedTag(index, title)
 

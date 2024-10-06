@@ -9,7 +9,7 @@ type LabelRendererProps = {
   id: string
 }
 
-export type LabelRenderer = (props: LabelRendererProps) => JSX.Element
+export type LabelRenderer = (props: LabelRendererProps) => React.JSX.Element
 
 const DefaultLabel: LabelRenderer = ({ children, classNames, id }) => {
   return (
@@ -24,7 +24,7 @@ export type LabelProps = {
   render?: LabelRenderer
 }
 
-export function Label({ children, render = DefaultLabel }: LabelProps): JSX.Element {
+export function Label({ children, render = DefaultLabel }: LabelProps): React.JSX.Element {
   const { classNames, id } = useContext(GlobalContext)
   return render({ children, classNames, id: labelId(id) })
 }

@@ -9,7 +9,7 @@ type OptionRendererProps = React.ComponentPropsWithRef<'div'> & {
   option: TagOption
 }
 
-export type OptionRenderer = (props: OptionRendererProps) => JSX.Element
+export type OptionRenderer = (props: OptionRendererProps) => React.JSX.Element
 
 const DefaultOption: OptionRenderer = ({ children, classNames, option, ...optionProps }) => {
   const classes = [classNames.option]
@@ -28,7 +28,11 @@ export type OptionProps = React.PropsWithChildren & {
   render?: OptionRenderer
 }
 
-export function Option({ children, index, render = DefaultOption }: OptionProps): JSX.Element {
+export function Option({
+  children,
+  index,
+  render = DefaultOption,
+}: OptionProps): React.JSX.Element {
   const { classNames } = useContext(GlobalContext)
   const { option, optionProps } = useOption(index)
 

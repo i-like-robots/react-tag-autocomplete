@@ -21,7 +21,11 @@ export type HighlightProps = {
   render?: HighlightRenderer
 }
 
-function Highlight({ option, query, render = DefaultHighlight }: HighlightProps): JSX.Element {
+function Highlight({
+  option,
+  query,
+  render = DefaultHighlight,
+}: HighlightProps): React.JSX.Element {
   const { classNames } = useContext(GlobalContext)
 
   if (option.value === NewOptionValue || option.value === NoOptionsValue) {

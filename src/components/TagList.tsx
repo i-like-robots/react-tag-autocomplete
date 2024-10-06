@@ -8,7 +8,7 @@ type TagListRendererProps = React.ComponentPropsWithRef<'ul'> & {
   classNames: ClassNames
 }
 
-export type TagListRenderer = (props: TagListRendererProps) => JSX.Element
+export type TagListRenderer = (props: TagListRendererProps) => React.JSX.Element
 
 const DefaultTagList: TagListRenderer = ({
   children,
@@ -36,7 +36,11 @@ export type TagListProps = {
   render?: TagListRenderer
 }
 
-export function TagList({ children, label, render = DefaultTagList }: TagListProps): JSX.Element {
+export function TagList({
+  children,
+  label,
+  render = DefaultTagList,
+}: TagListProps): React.JSX.Element {
   const { classNames } = useContext(GlobalContext)
   const tagListProps = useTagList({ label })
 

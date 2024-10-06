@@ -152,7 +152,7 @@ function ReactTags(
     tagListLabelText = 'Selected tags',
   }: ReactTagsProps,
   ref?: React.ForwardedRef<PublicAPI>
-): JSX.Element {
+): React.JSX.Element {
   const comboBoxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLDivElement>(null)
