@@ -27,7 +27,8 @@ export default {
     environment: 'jsdom',
     coverage: {
       reporter: ['text', 'lcov'],
-      exclude: ['src/test/**', 'example/src/**'],
+      include: ['src/'],
+      exclude: ['src/test/**'],
     },
   },
 }
