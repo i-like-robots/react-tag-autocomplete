@@ -11,7 +11,7 @@ type RootRendererProps = React.ComponentPropsWithRef<'div'> & {
   isInvalid: boolean
 }
 
-export type RootRenderer = (props: RootRendererProps) => JSX.Element
+export type RootRenderer = (props: RootRendererProps) => React.JSX.Element
 
 const DefaultRoot: RootRenderer = ({
   children,
@@ -41,7 +41,12 @@ export type RootProps = {
   render?: RootRenderer
 }
 
-export function Root({ children, onBlur, onFocus, render = DefaultRoot }: RootProps): JSX.Element {
+export function Root({
+  children,
+  onBlur,
+  onFocus,
+  render = DefaultRoot,
+}: RootProps): React.JSX.Element {
   const { classNames, isDisabled, isInvalid } = useContext(GlobalContext)
   const { isActive, rootProps } = useRoot({ onBlur, onFocus })
 
