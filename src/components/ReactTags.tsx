@@ -80,6 +80,7 @@ type ReactTagsProps = {
   isDisabled?: boolean
   isInvalid?: boolean
   labelText?: string
+  newOptionPosition?: 'first' | 'last'
   newOptionText?: string
   noOptionsText?: string
   onAdd: OnAdd
@@ -125,6 +126,7 @@ function ReactTags(
     isDisabled = false,
     isInvalid = false,
     labelText = 'Select tags',
+    newOptionPosition = 'last',
     newOptionText = 'Add %value%',
     noOptionsText = 'No options found for %value%',
     onAdd,
@@ -162,6 +164,7 @@ function ReactTags(
     activateFirstOption,
     allowNew,
     collapseOnSelect,
+    newOptionPosition,
     newOptionText,
     noOptionsText,
     onAdd,

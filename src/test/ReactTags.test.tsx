@@ -760,7 +760,25 @@ describe('React Tags Autocomplete', () => {
 
     it('displays the new tag option', async () => {
       await userEvent.type(harness.input, 'blah')
-      expect(screen.queryByText('Add blah'))
+      expect(harness.options[0].textContent).toBe('Add blah')
+    })
+
+    it('displays new tag option text with configured text', async () => {
+      harness.rerender({ newOptionText: 'Create "%value%"' })
+      await userEvent.type(harness.input, 'blah')
+      expect(harness.options[0].textContent).toBe('Create "blah"')
+    })
+
+    it('displays the new tag option first in the option list', async () => {
+      harness.rerender({ newOptionPosition: 'first', suggestions })
+      await userEvent.type(harness.input, 'En')
+      expect(harness.options[0].textContent).toBe('Add En')
+    })
+
+    it('displays the new tag option last in the option list', async () => {
+      harness.rerender({ newOptionPosition: 'last', suggestions })
+      await userEvent.type(harness.input, 'En')
+      expect(harness.options[harness.options.length - 1].textContent).toBe('Add En')
     })
 
     it('does not highlight the new tag option text', async () => {

@@ -42,6 +42,7 @@ export type ManagerProps = {
   activateFirstOption: boolean
   allowNew: boolean
   collapseOnSelect: boolean
+  newOptionPosition: 'first' | 'last'
   newOptionText: string
   noOptionsText: string
   onAdd: OnAdd
@@ -66,6 +67,7 @@ export function useManager({
   activateFirstOption,
   allowNew,
   collapseOnSelect,
+  newOptionPosition,
   newOptionText,
   noOptionsText,
   onAdd,
@@ -91,7 +93,9 @@ export function useManager({
 
     if (value) {
       if (allowNew) {
-        opts.push({
+        const method = newOptionPosition === 'first' ? 'unshift' : 'push'
+
+        opts[method]({
           disabled: onValidate ? !onValidate(value) : false,
           label: newOptionText,
           value: NewOptionValue,
@@ -108,7 +112,16 @@ export function useManager({
     }
 
     return opts
-  }, [allowNew, newOptionText, noOptionsText, onValidate, suggestions, suggestionsTransform, value])
+  }, [
+    allowNew,
+    newOptionPosition,
+    newOptionText,
+    noOptionsText,
+    onValidate,
+    suggestions,
+    suggestionsTransform,
+    value,
+  ])
 
   const optionIndex = lastActiveOption ? findTagIndex(lastActiveOption, options) : -1
   const activeIndex = activateFirstOption ? Math.max(optionIndex, 0) : optionIndex

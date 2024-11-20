@@ -86,6 +86,7 @@ function CountrySelector() {
 - [`isDisabled`](#isDisabled-optional)
 - [`isInvalid`](#isInvalid-optional)
 - [`labelText`](#labelText-optional)
+- [`newOptionPosition`](#newOptionPosition-optional)
 - [`newOptionText`](#newOptionText-optional)
 - [`noOptionsText`](#noOptionsText-optional)
 - [`onAdd`](#onAdd-required)
@@ -195,6 +196,10 @@ Marks the input as invalid. When true this should be used along with the `ariaEr
 #### labelText (optional)
 
 The label text used to describe the component and input. _Please note_ that the label is visually hidden with CSS in the example code. Defaults to: `"Select tags"`.
+
+#### newOptionPosition (optional)
+
+The position of the option shown when the `allowNew` prop is enabled, either `"first"` or `"last"`. Defaults to `"last"`.
 
 #### newOptionText (optional)
 
