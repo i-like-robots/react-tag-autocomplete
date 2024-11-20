@@ -199,11 +199,11 @@ The label text used to describe the component and input. _Please note_ that the 
 
 #### newOptionPosition (optional)
 
-The position of the option shown when the `allowNew` prop is enabled, either `"first"` or `"last"`. Defaults to `"last"`.
+The position of the new tag option shown when the `allowNew` prop is enabled, either `"first"` or `"last"`. Defaults to `"last"`.
 
 #### newOptionText (optional)
 
-The option text shown when the `allowNew` prop is enabled. The placeholder `%value%` will be replaced by the current input value. Defaults to `"Add %value%"`.
+The text displayed in the new tag option shown when the `allowNew` prop is enabled. The placeholder `%value%` will be replaced by the current input value. Defaults to `"Add %value%"`.
 
 #### noOptionsText (optional)
 

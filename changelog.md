@@ -1,5 +1,10 @@
 # Changelog
 
+## v7.4.0
+
+- Added support for configuring position of new tag option using `newOptionPosition` prop
+- Refactored typings to use `React.JSX` instead of global `JSX`, contributed by @memark
+
 ## v7.3.0
 
 - Added support for rendering a custom selected tags list component using `renderTagList` prop
