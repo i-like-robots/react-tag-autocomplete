@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Install react
-        run: npm install react@${{ matrix.react-version }}
+        run: npm install react@${{ matrix.react-version }} react-dom@${{ matrix.react-version }}
 
       - name: Lint, format and type check
         run: npm run verify
