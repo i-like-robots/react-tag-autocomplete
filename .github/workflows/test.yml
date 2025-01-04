@@ -16,6 +16,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 22.x]
+        react-version: [18.0, 18.1, 18.2, 18.3, 19.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -28,6 +29,9 @@ jobs:
 
       - name: Install
         run: npm ci
+
+      - name: Install react
+        run: npm install react@${{ matrix.react-version }}
 
       - name: Lint, format and type check
         run: npm run verify
