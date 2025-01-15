@@ -1,5 +1,9 @@
 # Changelog
 
+## v7.5.0
+
+- Added support for React v19
+
 ## v7.4.0
 
 - Added support for configuring position of new tag option using `newOptionPosition` prop
