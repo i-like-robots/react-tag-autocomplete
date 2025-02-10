@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
+import { DndContext } from 'react-dnd'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchTagsPartial, tagToKey } from '../lib'
@@ -13,6 +14,7 @@ import {
   Option,
   Root,
   Tag,
+  TagDnd,
   TagList,
 } from '.'
 import type {
@@ -37,6 +39,7 @@ import type {
   OnShouldCollapse,
   OnShouldExpand,
   OnValidate,
+  HandleDrag,
   PublicAPI,
   SuggestionsTransform,
   TagSelected,
@@ -93,6 +96,7 @@ type ReactTagsProps = {
   onShouldCollapse?: OnShouldCollapse
   onShouldExpand?: OnShouldExpand
   onValidate?: OnValidate
+  handleDrag?: HandleDrag
   placeholderText?: string
   renderHighlight?: HighlightRenderer
   renderInput?: InputRenderer
@@ -139,6 +143,7 @@ function ReactTags(
     onShouldCollapse,
     onShouldExpand,
     onValidate,
+    handleDrag,
     placeholderText = 'Add a tag',
     renderHighlight,
     renderInput,
@@ -159,6 +164,7 @@ function ReactTags(
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLDivElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
+  const { dragDropManager } = useContext(DndContext)
 
   const managerRef = useManager({
     activateFirstOption,
@@ -190,6 +196,10 @@ function ReactTags(
     }
   }
 
+  const moveTag = (dragIndex: number, hoverIndex: number) => {
+    handleDrag?.(dragIndex, hoverIndex);
+  }
+
   return (
     <GlobalContext.Provider
       value={{
@@ -207,9 +217,11 @@ function ReactTags(
       <Root onBlur={onBlur} onFocus={onFocus} render={renderRoot}>
         <Label render={renderLabel}>{labelText}</Label>
         <TagList render={renderTagList} label={tagListLabelText}>
-          {managerRef.current.state.selected.map((tag, index) => (
-            <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
-          ))}
+          {managerRef.current.state.selected.map((tag, index) => {
+            return (dragDropManager != null)
+              ? <TagDnd key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} moveTag={moveTag} />
+              : <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
+          })}
         </TagList>
         <ComboBox>
           <Input

@@ -34,6 +34,23 @@ export function CountrySelector() {
     [options]
   )
 
+  const handleDrag = useCallback(
+    (dragIndex, hoverIndex) => {
+      setSelected(prevSelected => {
+        let newSelected = [...prevSelected];
+      
+        // Move item
+        newSelected.splice(dragIndex, 1);
+        newSelected.splice(hoverIndex, 0, prevSelected[dragIndex]);
+      
+        // re-render
+        return newSelected;
+      })
+      
+    },
+    [selected]
+  )
+
   return (
     <>
       <p>Select the countries you have visited below:</p>
@@ -44,6 +61,7 @@ export function CountrySelector() {
         onDelete={onDelete}
         selected={selected}
         suggestions={suggestions}
+        handleDrag={handleDrag}
         {...options}
       />
       <fieldset>

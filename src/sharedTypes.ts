@@ -57,6 +57,8 @@ export type OnShouldExpand = (value: string) => boolean
 
 export type OnValidate = (value: string) => boolean
 
+export type HandleDrag = (dragIndex: number, hoverIndex: number) => void
+
 export type SuggestionsTransform = (value: string, suggestions: TagSuggestion[]) => TagSuggestion[]
 
 export type PublicAPI = {
