@@ -69,9 +69,13 @@
   background-color: #4f46e5;
 }
 
-span.react-tags__tag button.react-tags__tag {
+div.react-tags__tag {
+  touch-action: none;
+}
+span.react-tags__tag, div.react-tags__tag {
   padding-left: 0.4rem;
   padding-right: 0;
+  cursor: grab;
 }
 
 button.react-tags__tag::after {

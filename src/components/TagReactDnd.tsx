@@ -4,21 +4,21 @@ import { useSelectedTag } from '../hooks'
 import type { ClassNames, TagSelected } from '../sharedTypes'
 import { useDrag, useDrop } from 'react-dnd'
 
-type TagDndRendererProps = React.ComponentPropsWithoutRef<'button'> & {
-  tagRef: React.RefObject<HTMLElement>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handlerId: any
+type TagReactDndRendererProps = React.ComponentPropsWithoutRef<'button'> & {
   classNames: ClassNames
   tag: TagSelected
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  handlerId: any
+  tagRef: React.RefObject<HTMLElement>
   isDragging: boolean
 }
 
-export type TagDndRenderer = (props: TagDndRendererProps) => React.JSX.Element
+export type TagReactDndRenderer = (props: TagReactDndRendererProps) => React.JSX.Element
 export type MoveTag = (dragIndex: number, hoverIndex: number) => void
 
 const ItemTypes = { TAG: 'tag' }
 
-const DefaultTag: TagDndRenderer = ({
+const DefaultTag: TagReactDndRenderer = ({
   tagRef,
   handlerId,
   classNames,
@@ -39,9 +39,9 @@ const DefaultTag: TagDndRenderer = ({
   )
 }
 
-export type TagDndProps = {
+export type TagReactDndProps = {
   index: number
-  render?: TagDndRenderer
+  render?: TagReactDndRenderer
   title: string
   moveTag: MoveTag
 }
@@ -50,12 +50,12 @@ interface DragItem {
   index: number
 }
 
-export function TagDnd({
+export function TagReactDnd({
   render = DefaultTag,
   index,
   title,
   moveTag,
-}: TagDndProps): React.JSX.Element {
+}: TagReactDndProps): React.JSX.Element {
   const { id, classNames } = useContext(GlobalContext)
   const { tag, tagProps } = useSelectedTag(index, title)
   const tagRef = useRef(null)

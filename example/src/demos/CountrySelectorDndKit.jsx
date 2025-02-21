@@ -1,8 +1,11 @@
 import React, { useCallback, useState } from 'react'
+import { closestCenter, DndContext } from '@dnd-kit/core'
 import { ReactTags } from '../../../src'
 import { suggestions } from '../countries'
+import { arrayMove } from '@dnd-kit/sortable'
+import { tagToKey } from '../../../src/lib'
 
-export function CountrySelector() {
+export function CountrySelectorDndKit() {
   const [selected, setSelected] = useState([suggestions[10], suggestions[121]])
 
   const [options, setOptions] = useState({
@@ -34,11 +37,24 @@ export function CountrySelector() {
     [options]
   )
 
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+
+    if (active.id !== over.id) {
+      setSelected((selected) => {
+        const oldIndex = selected.findIndex((s) => tagToKey(s) === active.id)
+        const newIndex = selected.findIndex((s) => tagToKey(s) === over.id)
+        return arrayMove(selected, oldIndex, newIndex)
+      })
+    }
+  }
+
   return (
-    <>
+    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <p>Select the countries you have visited below:</p>
       <ReactTags
-        id="country-selector"
+        id="country-selector-dnd-kit"
+        dndProvider="dnd-kit"
         labelText="Select countries"
         onAdd={onAdd}
         onDelete={onDelete}
@@ -100,6 +116,6 @@ export function CountrySelector() {
           <code>{JSON.stringify(selected, null, 2)}</code>
         </pre>
       </details>
-    </>
+    </DndContext>
   )
 }

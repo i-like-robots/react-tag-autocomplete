@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { ReactTags } from '../../../src'
 import { suggestions } from '../countries'
 
-export function CountrySelector() {
+export function CountrySelectorReactDnd() {
   const [selected, setSelected] = useState([suggestions[10], suggestions[121]])
 
   const [options, setOptions] = useState({
@@ -34,16 +36,34 @@ export function CountrySelector() {
     [options]
   )
 
+  const handleDrag = useCallback(
+    (dragIndex, hoverIndex) => {
+      setSelected((prevSelected) => {
+        let newSelected = [...prevSelected]
+
+        // Move item
+        newSelected.splice(dragIndex, 1)
+        newSelected.splice(hoverIndex, 0, prevSelected[dragIndex])
+
+        // re-render
+        return newSelected
+      })
+    },
+    [selected]
+  )
+
   return (
-    <>
+    <DndProvider backend={HTML5Backend}>
       <p>Select the countries you have visited below:</p>
       <ReactTags
-        id="country-selector"
+        id="country-selector-react-dnd"
+        dndProvider="react-dnd"
         labelText="Select countries"
         onAdd={onAdd}
         onDelete={onDelete}
         selected={selected}
         suggestions={suggestions}
+        handleDrag={handleDrag}
         {...options}
       />
       <fieldset>
@@ -100,6 +120,6 @@ export function CountrySelector() {
           <code>{JSON.stringify(selected, null, 2)}</code>
         </pre>
       </details>
-    </>
+    </DndProvider>
   )
 }

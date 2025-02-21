@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from 'react'
-import { DndContext } from 'react-dnd'
+import React, { useRef } from 'react'
+import { SortableContext } from '@dnd-kit/sortable'
 import { KeyNames } from '../constants'
 import { GlobalContext } from '../contexts'
 import { matchTagsPartial, tagToKey } from '../lib'
@@ -14,7 +14,8 @@ import {
   Option,
   Root,
   Tag,
-  TagDnd,
+  TagReactDnd,
+  TagDndKit,
   TagList,
 } from '.'
 import type {
@@ -110,6 +111,7 @@ type ReactTagsProps = {
   suggestions: TagSuggestion[]
   suggestionsTransform?: SuggestionsTransform
   tagListLabelText?: string
+  dndProvider?: string
 }
 
 function ReactTags(
@@ -157,6 +159,7 @@ function ReactTags(
     suggestions = [],
     suggestionsTransform = matchTagsPartial,
     tagListLabelText = 'Selected tags',
+    dndProvider,
   }: ReactTagsProps,
   ref?: React.ForwardedRef<PublicAPI>
 ): React.JSX.Element {
@@ -164,7 +167,6 @@ function ReactTags(
   const inputRef = useRef<HTMLInputElement>(null)
   const listBoxRef = useRef<HTMLDivElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
-  const { dragDropManager } = useContext(DndContext)
 
   const managerRef = useManager({
     activateFirstOption,
@@ -196,10 +198,6 @@ function ReactTags(
     }
   }
 
-  const moveTag = (dragIndex: number, hoverIndex: number) => {
-    handleDrag?.(dragIndex, hoverIndex);
-  }
-
   return (
     <GlobalContext.Provider
       value={{
@@ -216,13 +214,35 @@ function ReactTags(
     >
       <Root onBlur={onBlur} onFocus={onFocus} render={renderRoot}>
         <Label render={renderLabel}>{labelText}</Label>
-        <TagList render={renderTagList} label={tagListLabelText}>
-          {managerRef.current.state.selected.map((tag, index) => {
-            return (dragDropManager != null)
-              ? <TagDnd key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} moveTag={moveTag} />
-              : <Tag key={tagToKey(tag)} index={index} render={renderTag} title={deleteButtonText} />
-          })}
-        </TagList>
+        <SortableContext items={managerRef.current.state.selected.map((tag) => tagToKey(tag))}>
+          <TagList render={renderTagList} label={tagListLabelText}>
+            {managerRef.current.state.selected.map((tag, index) => {
+              return dndProvider === 'react-dnd' ? (
+                <TagReactDnd
+                  key={tagToKey(tag)}
+                  index={index}
+                  render={renderTag}
+                  title={deleteButtonText}
+                  moveTag={handleDrag}
+                />
+              ) : dndProvider === 'dnd-kit' ? (
+                <TagDndKit
+                  key={tagToKey(tag)}
+                  index={index}
+                  render={renderTag}
+                  title={deleteButtonText}
+                />
+              ) : (
+                <Tag
+                  key={tagToKey(tag)}
+                  index={index}
+                  render={renderTag}
+                  title={deleteButtonText}
+                />
+              )
+            })}
+          </TagList>
+        </SortableContext>
         <ComboBox>
           <Input
             allowBackspace={allowBackspace}
