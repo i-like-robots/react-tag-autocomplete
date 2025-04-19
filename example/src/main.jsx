@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { CountrySelector } from './demos/CountrySelector'
+import { CountrySelectorDnD } from './demos/CountrySelectorDnD'
 import { CustomTags } from './demos/CustomTags'
 import { CustomValidity } from './demos/CustomValidity'
 import { AsyncSuggestions } from './demos/AsyncSuggestions'
@@ -27,4 +28,7 @@ window.onload = () => {
 
   const container6 = ReactDOM.createRoot(document.getElementById('demo-6'))
   container6.render(<CustomTagList />)
+
+  const container7 = ReactDOM.createRoot(document.getElementById('demo-7'))
+  container7.render(<CountrySelectorDnD />)
 }
