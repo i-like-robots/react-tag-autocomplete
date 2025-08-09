@@ -9,27 +9,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [22.x]
-
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.x
           cache: 'npm'
 
       - name: Install
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run example:build -- --base ./
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
