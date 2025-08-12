@@ -12,3 +12,4 @@ export type {
   TagSelected,
   TagSuggestion,
 } from './sharedTypes'
+export { NewOptionValue, NoOptionsValue } from './constants'

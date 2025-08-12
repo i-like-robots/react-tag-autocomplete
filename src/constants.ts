@@ -11,7 +11,7 @@ export const KeyNames = {
   PageUp: 'PageUp',
 }
 
-export const NewOptionValue = Symbol('Create new tag')
+export const NewOptionValue = Symbol('New option')
 
 export const NoOptionsValue = Symbol('No options')
 
