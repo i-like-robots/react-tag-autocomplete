@@ -195,3 +195,63 @@
   line-height: 1.5rem;
   color: #00000080;
 }
+
+.react-tags__dndtag {
+  margin: 0 0.25rem 0.25rem 0;
+  padding: 0.375rem 0.5rem;
+  border: 0;
+  border-radius: 3px;
+  background: #eaeef2;
+  /* match the font styles */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.react-tags__dndtag:hover {
+  color: #ffffff;
+  background-color: #4f46e5;
+}
+
+.react-tags__removeTag {
+  cursor: pointer;
+}
+
+.react-tags__handleTag {
+  margin-right: .25rem;
+  padding: .25rem 0.4rem;
+  border-radius: 5px;
+}
+
+.react-tags__handleTag:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, .1);
+}
+
+
+.react-tags__removeTag::after {
+  content: '';
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  clip-path: polygon(
+    10% 0,
+    0 10%,
+    40% 50%,
+    0 90%,
+    10% 100%,
+    50% 60%,
+    90% 100%,
+    100% 90%,
+    60% 50%,
+    100% 10%,
+    90% 0,
+    50% 40%
+  );
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  background-color: #7c7d86;
+}
+
+.react-tags__removeTag:hover::after {
+  background-color: #ffffff;
+}
