@@ -1,5 +1,9 @@
 # Changelog
 
+## v7.5.1
+
+- Added exports for `NewOptionValue` and `NoOptionsValue` symbols
+
 ## v7.5.0
 
 - Added support for React v19
