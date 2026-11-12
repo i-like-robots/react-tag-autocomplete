@@ -517,6 +517,20 @@ describe('React Tags Autocomplete', () => {
       expect(harness.props.onAdd).not.toHaveBeenCalled()
     })
 
+    it('ignores option clicks when disabled after the listbox opens', async () => {
+      harness.listBoxExpand()
+      harness.rerender({ isDisabled: true })
+
+      await userEvent.click(harness.options[10])
+      expect(harness.props.onAdd).not.toHaveBeenCalled()
+      expect(harness.options[10].getAttribute('aria-disabled')).toBe('true')
+
+      harness.rerender({ isDisabled: false })
+      harness.listBoxExpand()
+      await userEvent.click(harness.options[10])
+      expect(harness.props.onAdd).toHaveBeenCalledOnce()
+    })
+
     it('always moves the cursor focus back to the input', async () => {
       await userEvent.type(harness.input, 'aus')
       await userEvent.click(harness.options[0])
