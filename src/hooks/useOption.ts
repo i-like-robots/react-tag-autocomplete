@@ -8,11 +8,11 @@ import type { TagOption } from '../sharedTypes'
 export type UseOptionState = { option: TagOption; optionProps: React.ComponentPropsWithRef<'div'> }
 
 export function useOption(index: number): UseOptionState {
-  const { id, inputRef, listBoxRef, managerRef } = useContext(GlobalContext)
+  const { id, inputRef, isDisabled, listBoxRef, managerRef } = useContext(GlobalContext)
   const optionRef = useRef<HTMLDivElement>(null)
   const option = managerRef.current.state.options[index]
   const active = index === managerRef.current.state.activeIndex
-  const disabled = option.disabled ?? false
+  const disabled = isDisabled || (option.disabled ?? false)
   const selected = findTagIndex(option, managerRef.current.state.selected) > -1
 
   const onClick = useCallback(() => {
@@ -42,8 +42,8 @@ export function useOption(index: number): UseOptionState {
       'aria-selected': disabled ? undefined : selected,
       'aria-setsize': managerRef.current.state.options.length,
       id: optionId(id, option),
-      onClick,
-      onMouseDown,
+      onClick: isDisabled ? undefined : onClick,
+      onMouseDown: isDisabled ? undefined : onMouseDown,
       ref: optionRef,
       role: 'option',
       tabIndex: -1,
